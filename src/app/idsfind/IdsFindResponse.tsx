@@ -12,7 +12,11 @@ export default async function IdsFindResponse(
   const url = new URL('https://mojidata-api.vercel.app/api/v1/idsfind')
   ids.forEach((value) => url.searchParams.append('ids', value))
   whole.forEach((value) => url.searchParams.append('whole', value))
-  const res = await fetch(url)
+  const res = await fetch(url, {
+    next: {
+      revalidate: 10 * 60,
+    },
+  })
   if (!res.ok) {
     const { message } = await res.json()
     throw new Error(message)
