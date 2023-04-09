@@ -1,4 +1,4 @@
-import './globals.css'
+import IdsFinder from '../components/IdsFinder'
 
 export const metadata = {
   title: 'Create Next App',
@@ -11,8 +11,23 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="ja">
+      <body>
+        <nav>
+          <h1>Mojidata IDS Find</h1>
+          <p>Find the characters with the given IDS.</p>
+          <dl>
+            <dt>IDS Unary Operators</dt>
+            <dd>〾↔↷</dd>
+            <dt>IDS Binary Operators</dt>
+            <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
+            <dt>IDS Ternary Operators</dt>
+            <dd>⿲⿳</dd>
+          </dl>
+          <IdsFinder />
+        </nav>
+        {children}
+      </body>
     </html>
   )
 }
