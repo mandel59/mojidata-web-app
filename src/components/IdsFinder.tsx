@@ -15,6 +15,16 @@ export default function IdsFinder() {
   const [whole, setWhole] = useState<string>(initialWhole)
   return (
     <div className="ids-finder">
+      <h2>IDS Finder</h2>
+      <p>Find CJKV characters with the given IDS.</p>
+      <dl>
+        <dt>IDS Unary Operators</dt>
+        <dd>〾↔↷</dd>
+        <dt>IDS Binary Operators</dt>
+        <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
+        <dt>IDS Ternary Operators</dt>
+        <dd>⿲⿳</dd>
+      </dl>
       <GetForm action="/idsfind">
         <div key="ids">
           IDS:

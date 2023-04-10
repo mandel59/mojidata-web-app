@@ -1,3 +1,9 @@
+import IdsFinder from '@/components/IdsFinder'
+
 export default function Home() {
-  return <main></main>
+  return (
+    <main>
+      <IdsFinder />
+    </main>
+  )
 }
