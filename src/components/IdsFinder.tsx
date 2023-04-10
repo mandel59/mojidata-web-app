@@ -3,10 +3,17 @@
 import MultiInput from './MultiInput'
 import GetForm from './GetForm'
 import useSessionStorage from '@/hooks/useSessionStorage'
+import { useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 export default function IdsFinder() {
-  const [ids, setIds] = useSessionStorage<string[]>('idsfinder-ids', [])
-  const [whole, setWhole] = useSessionStorage<string>('idsfinder-whole', '')
+  const pathname = usePathname()
+  const pathIsIdsfind = pathname === '/idsfind'
+  const searchParams = useSearchParams()
+  const initialIds = pathIsIdsfind ? searchParams.getAll('ids') : []
+  const initialWhole = pathIsIdsfind ? searchParams.get('whole') ?? '' : ''
+  const [ids, setIds] = useState<string[]>(initialIds)
+  const [whole, setWhole] = useState<string>(initialWhole)
   return (
     <div className="ids-finder">
       <GetForm action="/idsfind">
