@@ -41,7 +41,10 @@ export default function License() {
       </ul>
       <hr />
       <ReactMarkdown transformLinkUri={customUriTransformer}>
-        {mojidataLicenseMd}
+        {
+          /* Replace <br> tag to Markdown line break */
+          mojidataLicenseMd.replace(/<br\s*\/?>\n?/g, '  \n')
+        }
       </ReactMarkdown>
     </main>
   )
