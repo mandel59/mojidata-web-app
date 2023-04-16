@@ -1,5 +1,6 @@
 import { ReactElement } from 'react'
 import './styles.css'
+import { getApiUrl } from '@/_config'
 
 interface IdsFindResponseParams {
   ids: string[]
@@ -9,7 +10,7 @@ export default async function IdsFindResponse(
   params: IdsFindResponseParams,
 ): Promise<ReactElement> {
   const { ids, whole } = params
-  const url = new URL('https://mojidata-api.vercel.app/api/v1/idsfind')
+  const url = new URL(getApiUrl('/api/v1/idsfind'))
   ids.forEach((value) => url.searchParams.append('ids', value))
   whole.forEach((value) => url.searchParams.append('whole', value))
   const res = await fetch(url, {
