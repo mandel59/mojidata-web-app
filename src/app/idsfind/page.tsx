@@ -1,5 +1,3 @@
-import { GetServerSidePropsContext } from 'next'
-
 import { Suspense } from 'react'
 import IdsFindResponse from './IdsFindResponse'
 import Loading from '@/components/Loading'
