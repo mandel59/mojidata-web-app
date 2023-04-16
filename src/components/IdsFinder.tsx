@@ -16,22 +16,23 @@ export default function IdsFinder() {
   return (
     <div className="ids-finder">
       <h2>IDS Finder</h2>
-      <p>Find CJKV characters with the given IDS.</p>
-      <dl>
-        <dt>IDS Unary Operators</dt>
-        <dd>〾↔↷</dd>
-        <dt>IDS Binary Operators</dt>
-        <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
-        <dt>IDS Ternary Operators</dt>
-        <dd>⿲⿳</dd>
-      </dl>
+      <details>
+        <summary>IDS Operators</summary>
+        <dl>
+          <dt>IDS Unary Operators</dt>
+          <dd>〾↔↷</dd>
+          <dt>IDS Binary Operators</dt>
+          <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
+          <dt>IDS Ternary Operators</dt>
+          <dd>⿲⿳</dd>
+        </dl>
+      </details>
       <GetForm action="/idsfind">
         <div key="ids">
-          IDS:
-          <MultiInput name="ids" values={ids} setValues={setIds} />
+          IDS: <MultiInput name="ids" values={ids} setValues={setIds} />
         </div>
         <div key="whole">
-          Whole IDS:
+          Whole IDS:{' '}
           <input
             name={whole === '' ? undefined : 'whole'}
             value={whole}

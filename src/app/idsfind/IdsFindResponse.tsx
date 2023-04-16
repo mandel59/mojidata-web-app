@@ -1,6 +1,7 @@
 import { ReactElement } from 'react'
 import './styles.css'
-import { getApiUrl } from '@/_config'
+import { getApiUrl, getRevalidateDuration } from '@/app/config'
+import Link from 'next/link'
 
 interface IdsFindResponseParams {
   ids: string[]
@@ -15,7 +16,7 @@ export default async function IdsFindResponse(
   whole.forEach((value) => url.searchParams.append('whole', value))
   const res = await fetch(url, {
     next: {
-      revalidate: 10 * 60,
+      revalidate: getRevalidateDuration(),
     },
   })
   if (!res.ok) {
@@ -29,7 +30,7 @@ export default async function IdsFindResponse(
       {results.map((char: string) => {
         return (
           <div className="ids-find-result-char" key={char}>
-            {char}
+            <Link href={`/mojidata/${char}`}>{char}</Link>
           </div>
         )
       })}

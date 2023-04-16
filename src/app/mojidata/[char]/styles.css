@@ -1,0 +1,29 @@
+.mojidata-chars-comparison {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mojidata-chars-comparison > figure {
+  margin: 5px;
+}
+
+.mojidata-char {
+  flex-shrink: 0;
+  margin: 10px 15px;
+  border: 1px solid #ccc;
+  font-size: 100px;
+  width: 120px;
+  height: 120px;
+  line-height: 110px;
+  text-align: center;
+  overflow: clip;
+}
+
+.mojidata-mojijoho {
+  font-family: 'IPAmj明朝', serif;
+}
+
+.mojidata-char.mojidata-mojijoho {
+  line-height: 120px;
+}

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import './styles.css'
 
 export const metadata = {
   title: 'Mojidata Web App',
@@ -12,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ja">
+    <html lang="en">
       <body>
         <header>
           <h1>{metadata.title}</h1>
