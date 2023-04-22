@@ -332,3 +332,19 @@ export function getKdpvVariants(results: MojidataResults) {
   }
   return m
 }
+
+export function getUnihanVariants(results: MojidataResults) {
+  const m = new Map<string, Set<UnihanPropertyName>>()
+  for (const [
+    unihanPropertyName,
+    _codePoint,
+    char,
+    _additionalData,
+  ] of results.unihan_variant) {
+    if (!m.has(char)) {
+      m.set(char, new Set())
+    }
+    m.get(char)!.add(unihanPropertyName)
+  }
+  return m
+}

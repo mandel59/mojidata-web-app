@@ -5,6 +5,7 @@ import {
   getCharNameOfKdpvChar,
   getCodePointOfKdpvChar,
   getKdpvVariants,
+  getUnihanVariants,
   kdpvCharIsIDS,
   kdpvCharIsNonStandardVariant,
   toCodePoint,
@@ -78,6 +79,11 @@ export default async function MojidataResponse(
   const { results }: { results: MojidataResults } = responseBody
 
   const kdpvVariants = getKdpvVariants(results)
+  const unihanVariants = getUnihanVariants(results)
+
+  const allVariantChars = Array.from(
+    new Set([...kdpvVariants.keys(), ...unihanVariants.keys()]),
+  ).sort((x, y) => compareString(x, y))
 
   const ivsAj1 = results.ivs.filter(
     (record) => record.collection === 'Adobe-Japan1',
@@ -162,45 +168,44 @@ export default async function MojidataResponse(
           </div>
         </>
       )}
-      {kdpvVariants.size > 0 && (
+      {allVariantChars.length > 0 && (
         <>
           <h3>Variants</h3>
-          {Array.from(kdpvVariants.entries())
-            .sort((x, y) => compareString(x[0], y[0]))
-            .map(([kdpvChar, relations], i) => {
-              const isIDS = kdpvCharIsIDS(kdpvChar)
-              const isNonStandardVariant =
-                kdpvCharIsNonStandardVariant(kdpvChar)
-              const charName = getCharNameOfKdpvChar(kdpvChar)
-              const codePoint = getCodePointOfKdpvChar(kdpvChar)
-              return (
-                <figure key={kdpvChar}>
-                  <figcaption>
-                    {charName}
-                    <br />
-                    <small>{[...relations].join(', ')}</small>
-                  </figcaption>
-                  <div
-                    className={[
-                      isIDS || isNonStandardVariant
-                        ? 'mojidata-kdpv-char'
-                        : 'mojidata-char',
-                      codePoint ? 'mojidata-char-link' : '',
-                    ].join(' ')}
+          {allVariantChars.map((char) => {
+            const kdpvRelations = kdpvVariants.get(char)
+            const unihanRelations = unihanVariants.get(char)
+            const isIDS = kdpvCharIsIDS(char)
+            const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
+            const charName = getCharNameOfKdpvChar(char)
+            const codePoint = getCodePointOfKdpvChar(char)
+            return (
+              <figure key={char}>
+                <figcaption>
+                  <div>{charName}</div>
+                  {unihanRelations && <div><small>unihan: {[...unihanRelations].join(', ')}</small></div>}
+                  {kdpvRelations && <div><small>kdpv: {[...kdpvRelations].join(', ')}</small></div>}
+                </figcaption>
+                <div
+                  className={[
+                    isIDS || isNonStandardVariant
+                      ? 'mojidata-kdpv-char'
+                      : 'mojidata-char',
+                    codePoint ? 'mojidata-char-link' : '',
+                  ].join(' ')}
+                >
+                  <ConditionalLink
+                    href={
+                      codePoint
+                        ? `/mojidata/${encodeURIComponent(codePoint)}`
+                        : undefined
+                    }
                   >
-                    <ConditionalLink
-                      href={
-                        codePoint
-                          ? `/mojidata/${encodeURIComponent(codePoint)}`
-                          : undefined
-                      }
-                    >
-                      {kdpvChar}
-                    </ConditionalLink>
-                  </div>
-                </figure>
-              )
-            })}
+                    {char}
+                  </ConditionalLink>
+                </div>
+              </figure>
+            )
+          })}
         </>
       )}
       <h3>External Links</h3>
