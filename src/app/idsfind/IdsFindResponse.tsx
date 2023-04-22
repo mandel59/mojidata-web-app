@@ -4,6 +4,11 @@ import { getApiUrl, getRevalidateDuration } from '@/app/config'
 import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 
+function normalize(s: string) {
+  const vsPattern = /[\uFE00-\uFE0F\u{E0100}-\u{E01EF}]/gu
+  return s.normalize('NFC').replace(vsPattern, '')
+}
+
 function getPrevAndNextPagePath(
   ids: string[],
   whole: string[],
@@ -44,8 +49,10 @@ export default async function IdsFindResponse(
   const pageNum = page ?? 1
   const offset = (pageNum - 1) * size
   const url = new URL(getApiUrl('/api/v1/idsfind'))
-  ids.forEach((value) => url.searchParams.append('ids', value))
-  whole.forEach((value) => url.searchParams.append('whole', value))
+  ids.map(normalize).forEach((value) => url.searchParams.append('ids', value))
+  whole
+    .map(normalize)
+    .forEach((value) => url.searchParams.append('whole', value))
   url.searchParams.set('limit', size.toString())
   url.searchParams.set('offset', offset.toString())
   const res = await fetch(url, {
