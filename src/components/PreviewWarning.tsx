@@ -5,8 +5,15 @@ import { ReactElement, useEffect, useState } from 'react'
 
 export default function PreviewWarning(): ReactElement {
   const [hostname, setHostname] = useState<string | undefined>(undefined)
+  const [productionPage, setProductionPage] = useState<string | undefined>(
+    undefined,
+  )
   useEffect(() => {
     setHostname(window.location.hostname)
+    const productionUrl = new URL(window.location.href)
+    productionUrl.protocol = 'https'
+    productionUrl.hostname = 'mojidata.ryusei.dev'
+    setProductionPage(productionUrl.href)
   }, [])
   switch (hostname) {
     case undefined:
@@ -20,7 +27,12 @@ export default function PreviewWarning(): ReactElement {
             <Link href="https://mojidata.ryusei.dev/">
               https://mojidata.ryusei.dev/
             </Link>
-            &gt;.
+            &gt;.{' '}
+            {productionPage && (
+              <Link href={productionPage}>
+                Go to the production version of this page
+              </Link>
+            )}
           </p>
         </div>
       )
