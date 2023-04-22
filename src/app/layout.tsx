@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import './styles.css'
+import PreviewWarning from '@/components/PreviewWarning'
 
 export const metadata = {
   title: 'Mojidata Web App',
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <header>
           <h1>{metadata.title}</h1>
+          <PreviewWarning />
           <nav>
             <Link href="/">App</Link> <Link href="/about">About</Link>
           </nav>
