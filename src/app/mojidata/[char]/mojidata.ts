@@ -348,3 +348,17 @@ export function getUnihanVariants(results: MojidataResults) {
   }
   return m
 }
+
+export function getMjsmVariants(results: MojidataResults) {
+  const m = new Map<string, Set<MjsmTableName>>()
+  for (const { 実装したUCS, mjsm } of results.mji) {
+    if (実装したUCS !== results.UCS) continue
+    for (const [table, _codePoint, char] of mjsm) {
+      if (!m.has(char)) {
+        m.set(char, new Set())
+      }
+      m.get(char)!.add(table)
+    }
+  }
+  return m
+}

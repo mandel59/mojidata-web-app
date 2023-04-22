@@ -5,6 +5,7 @@ import {
   getCharNameOfKdpvChar,
   getCodePointOfKdpvChar,
   getKdpvVariants,
+  getMjsmVariants,
   getUnihanVariants,
   kdpvCharIsIDS,
   kdpvCharIsNonStandardVariant,
@@ -80,9 +81,14 @@ export default async function MojidataResponse(
 
   const kdpvVariants = getKdpvVariants(results)
   const unihanVariants = getUnihanVariants(results)
+  const mjsmVariants = getMjsmVariants(results)
 
   const allVariantChars = Array.from(
-    new Set([...kdpvVariants.keys(), ...unihanVariants.keys()]),
+    new Set([
+      ...kdpvVariants.keys(),
+      ...unihanVariants.keys(),
+      ...mjsmVariants.keys(),
+    ]),
   ).sort((x, y) => compareString(x, y))
 
   const ivsAj1 = results.ivs.filter(
@@ -174,6 +180,7 @@ export default async function MojidataResponse(
           {allVariantChars.map((char) => {
             const kdpvRelations = kdpvVariants.get(char)
             const unihanRelations = unihanVariants.get(char)
+            const mjsmRelations = mjsmVariants.get(char)
             const isIDS = kdpvCharIsIDS(char)
             const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
             const charName = getCharNameOfKdpvChar(char)
@@ -190,6 +197,11 @@ export default async function MojidataResponse(
                   {kdpvRelations && (
                     <div>
                       <small>kdpv: {[...kdpvRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {mjsmRelations && (
+                    <div>
+                      <small>mjsm: {[...mjsmRelations].join(', ')}</small>
                     </div>
                   )}
                 </figcaption>
