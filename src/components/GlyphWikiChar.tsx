@@ -1,4 +1,4 @@
-// import { getRevalidateDuration } from '@/app/config'
+import { getRevalidateDuration } from '@/app/config'
 // import Image from 'next/image'
 // import { optimize } from 'svgo'
 
@@ -19,32 +19,34 @@ export function toGlyphWikiName(s: string) {
 
 export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
   const { name, alt, size } = props
-  // if (!name) {
-  //   throw new Error(`Invalid character name: ${name}`)
-  // }
-  // const svgImageResponse = await fetch(
-  //   `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`,
-  //   {
-  //     next: {
-  //       revalidate: getRevalidateDuration(),
-  //     },
-  //   },
-  // )
-  // if (!svgImageResponse.ok) {
+  if (!name) {
+    throw new Error(`Invalid character name: ${name}`)
+  }
+  const svgImageResponse = await fetch(
+    `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`,
+    {
+      next: {
+        revalidate: getRevalidateDuration(),
+      },
+    },
+  )
+  if (!svgImageResponse.ok) {
     // Failed to fetch SVG image. Fall back to the character.
     return <span data-name={name}>{alt}</span>
-  // }
-  // const svgImage = await svgImageResponse.text()
+  }
+  const svgImage = await svgImageResponse.text()
+  const svgImageDataUri = `data:image/svg+xml,${encodeURIComponent(svgImage)}`
   // const optimizedSvgImage = optimize(svgImage, {
   //   multipass: true,
   //   datauri: 'enc',
   // }).data
-  // return (
-  //   <Image
-  //     src={optimizedSvgImage}
-  //     alt={alt ?? name}
-  //     width={size}
-  //     height={size}
-  //   />
-  // )
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={svgImageDataUri}
+      alt={alt ?? name}
+      width={size}
+      height={size}
+    />
+  )
 }
