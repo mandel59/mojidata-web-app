@@ -13,6 +13,7 @@ export default function PreviewWarning(): ReactElement {
     const productionUrl = new URL(window.location.href)
     productionUrl.protocol = 'https'
     productionUrl.hostname = 'mojidata.ryusei.dev'
+    productionUrl.port = ''
     setProductionPage(productionUrl.href)
   }, [])
   switch (hostname) {
