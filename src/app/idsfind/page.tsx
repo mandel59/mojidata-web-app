@@ -8,7 +8,7 @@ function castToArray<T>(x: undefined | T | T[]): T[] {
 }
 
 export default function IdsFind({ searchParams }: { searchParams: unknown }) {
-  const { ids, whole } = searchParams as Partial<
+  const { ids, whole, page } = searchParams as Partial<
     Record<string, string | string[]>
   >
   return (
@@ -16,7 +16,11 @@ export default function IdsFind({ searchParams }: { searchParams: unknown }) {
       <IdsFinder />
       <Suspense fallback={<Loading />}>
         {/* @ts-expect-error Server Component */}
-        <IdsFindResponse ids={castToArray(ids)} whole={castToArray(whole)} />
+        <IdsFindResponse
+          ids={castToArray(ids)}
+          whole={castToArray(whole)}
+          page={page ? Number(page) : undefined}
+        />
       </Suspense>
     </main>
   )

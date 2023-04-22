@@ -47,3 +47,7 @@
   height: 120px;
   line-height: 110px;
 }
+
+.mojidata-char-glyphwiki img {
+  padding: 5px;
+}

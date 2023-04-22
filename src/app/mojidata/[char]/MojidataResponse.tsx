@@ -14,6 +14,7 @@ import {
 import './styles.css'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja', 'ko'] as const
 
@@ -79,6 +80,8 @@ export default async function MojidataResponse(
   const responseBody = await res.json()
   const { results }: { results: MojidataResults } = responseBody
 
+  const glyphWikiName = toGlyphWikiName(results.char)
+
   const kdpvVariants = getKdpvVariants(results)
   const unihanVariants = getUnihanVariants(results)
   const mjsmVariants = getMjsmVariants(results)
@@ -104,6 +107,18 @@ export default async function MojidataResponse(
       <figure>
         <figcaption>{results.UCS}</figcaption>
         <div className="mojidata-char">{results.char}</div>
+      </figure>
+      <h3>Images</h3>
+      <figure>
+        <figcaption>
+          <Link href={`https://glyphwiki.org/wiki/${glyphWikiName}`}>
+            GlyphWiki {glyphWikiName}
+          </Link>
+        </figcaption>
+        <div className="mojidata-char mojidata-char-glyphwiki">
+          {/* @ts-expect-error Server Component */}
+          <GlyphWikiChar name={glyphWikiName} alt={char} size={110} />
+        </div>
       </figure>
       <h3>IDS</h3>
       <table>
@@ -211,6 +226,7 @@ export default async function MojidataResponse(
                       ? 'mojidata-kdpv-char'
                       : 'mojidata-char',
                     codePoint ? 'mojidata-char-link' : '',
+                    codePoint ? 'mojidata-char-glyphwiki' : '',
                   ].join(' ')}
                 >
                   <ConditionalLink
@@ -220,7 +236,16 @@ export default async function MojidataResponse(
                         : undefined
                     }
                   >
-                    {char}
+                    {codePoint ? (
+                      /* @ts-expect-error Server Component */
+                      <GlyphWikiChar
+                        name={toGlyphWikiName(char)}
+                        alt={char}
+                        size={110}
+                      />
+                    ) : (
+                      char
+                    )}
                   </ConditionalLink>
                 </div>
               </figure>
