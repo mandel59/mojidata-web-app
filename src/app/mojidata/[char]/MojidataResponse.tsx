@@ -225,7 +225,7 @@ export default async function MojidataResponse(
                     isIDS || isNonStandardVariant
                       ? 'mojidata-kdpv-char'
                       : 'mojidata-char',
-                    codePoint ? 'mojidata-char-link' : '',
+                    isIDS || codePoint ? 'mojidata-char-link' : '',
                     codePoint ? 'mojidata-char-glyphwiki' : '',
                   ].join(' ')}
                 >
@@ -233,6 +233,8 @@ export default async function MojidataResponse(
                     href={
                       codePoint
                         ? `/mojidata/${encodeURIComponent(codePoint)}`
+                        : isIDS
+                        ? `/idsfind?whole=${char}`
                         : undefined
                     }
                   >
