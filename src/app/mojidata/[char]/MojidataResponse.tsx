@@ -129,7 +129,9 @@ export default async function MojidataResponse(
             {ivsAj1.map((record) => (
               <figure key={record.IVS}>
                 <figcaption>
-                  {record.code} ({toCodePoints(record.char)})
+                  {record.code}
+                  <br />
+                  <small>{toCodePoints(record.char)}</small>
                 </figcaption>
                 <div className="mojidata-char">{record.char}</div>
               </figure>
@@ -148,8 +150,9 @@ export default async function MojidataResponse(
                     href={`https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${record.code}`}
                   >
                     {record.code}
-                  </Link>{' '}
-                  ({toCodePoints(record.char)})
+                  </Link>
+                  <br />
+                  <small>{toCodePoints(record.char)}</small>
                 </figcaption>
                 <div className="mojidata-char mojidata-mojijoho">
                   {record.char}
@@ -173,7 +176,9 @@ export default async function MojidataResponse(
               return (
                 <figure key={kdpvChar}>
                   <figcaption>
-                    {charName} ({[...relations].join(', ')})
+                    {charName}
+                    <br />
+                    <small>{[...relations].join(', ')}</small>
                   </figcaption>
                   <div
                     className={[
