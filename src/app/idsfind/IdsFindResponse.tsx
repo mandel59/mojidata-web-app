@@ -77,7 +77,7 @@ export default async function IdsFindResponse(
               className="ids-find-result-char ids-find-char-glyphwiki"
               key={char}
             >
-              <Link href={`/mojidata/${char}`}>
+              <Link href={`/mojidata/${encodeURIComponent(char)}`}>
                 {/* @ts-expect-error Server Component */}
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
               </Link>
