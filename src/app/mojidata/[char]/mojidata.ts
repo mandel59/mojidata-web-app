@@ -210,7 +210,7 @@ const mjsmTables = [
   '法務省告示582号別表第四_二',
   '読み字形による類推',
   '辞書類等による関連字',
-]
+] as const
 
 export type MjsmTableName = typeof mjsmTables[number]
 
@@ -281,6 +281,54 @@ const kdpvRelations = [
   '~cjkvi/simplified',
   '~cjkvi/traditional',
   '~cjkvi/variant-simplified',
-]
+] as const
 
 export type KdpvRelation = typeof kdpvRelations[number]
+
+export function toCodePoint(c: string): string {
+  const codePoint = c.codePointAt(0)!
+  return 'U+' + codePoint.toString(16).toUpperCase().padStart(4, '0')
+}
+
+const idsOperatorPattern = /[〾↔↷⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻⿲⿳]/u
+
+export function getCharNameOfKdpvChar(kdpvChar: string): string {
+  if (kdpvCharIsIDS(kdpvChar) || kdpvCharIsNonStandardVariant(kdpvChar)) {
+    return kdpvChar
+  }
+  const chars = [...kdpvChar]
+  return chars.map((c) => toCodePoint(c)).join(' ')
+}
+
+export function getCodePointOfKdpvChar(kdpvChar: string): string | undefined {
+  const firstCodePoint = kdpvChar.codePointAt(0)
+  if (firstCodePoint == null) {
+    throw new Error('Invalid character')
+  }
+  if (kdpvCharIsIDS(kdpvChar)) {
+    return undefined
+  }
+  const firstChar = String.fromCodePoint(firstCodePoint)
+  return firstChar
+}
+
+export function kdpvCharIsIDS(kdpvChar: string): boolean {
+  return idsOperatorPattern.test(kdpvChar)
+}
+
+export function kdpvCharIsNonStandardVariant(kdpvChar: string): boolean {
+  return /[\[\]［］]/u.test(kdpvChar)
+}
+
+export function getKdpvVariants(results: MojidataResults) {
+  const m = new Map<string, Set<KdpvRelation>>()
+  for (const [relation, kdpvChars] of Object.entries(results.kdpv)) {
+    for (const kdpvChar of kdpvChars) {
+      if (!m.has(kdpvChar)) {
+        m.set(kdpvChar, new Set())
+      }
+      m.get(kdpvChar)!.add(relation as KdpvRelation)
+    }
+  }
+  return m
+}

@@ -27,3 +27,23 @@
 .mojidata-char.mojidata-mojijoho {
   line-height: 120px;
 }
+
+.mojidata-char a {
+  color: #000;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.mojidata-char.mojidata-char-link {
+  border: 1px solid #88f;
+}
+
+.mojidata-kdpv-char {
+  flex-shrink: 0;
+  margin: 10px 15px;
+  border: 1px solid #ccc;
+  font-size: 100px;
+  width: fit-content;
+  height: 120px;
+  line-height: 110px;
+}
