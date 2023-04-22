@@ -28,13 +28,14 @@
   line-height: 120px;
 }
 
-.mojidata-char a {
+.mojidata-char-link a {
   color: #000;
   text-decoration: none;
   width: fit-content;
 }
 
-.mojidata-char.mojidata-char-link {
+.mojidata-char.mojidata-char-link,
+.mojidata-kdpv-char.mojidata-char-link {
   border: 1px solid #88f;
 }
 
