@@ -7,6 +7,7 @@ import {
   getKdpvVariants,
   kdpvCharIsIDS,
   kdpvCharIsNonStandardVariant,
+  toCodePoint,
 } from './mojidata'
 import './styles.css'
 import Link from 'next/link'
@@ -22,6 +23,10 @@ function compareString(x: string, y: string): number {
     return -1
   }
   return 0
+}
+
+function toCodePoints(s: string) {
+  return [...s].map((c) => toCodePoint(c)).join(' ')
 }
 
 interface ConditionalLinkProps {
@@ -123,7 +128,9 @@ export default async function MojidataResponse(
           <div className="mojidata-chars-comparison">
             {ivsAj1.map((record) => (
               <figure key={record.IVS}>
-                <figcaption>{record.code}</figcaption>
+                <figcaption>
+                  {record.code} ({toCodePoints(record.char)})
+                </figcaption>
                 <div className="mojidata-char">{record.char}</div>
               </figure>
             ))}
@@ -141,7 +148,8 @@ export default async function MojidataResponse(
                     href={`https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${record.code}`}
                   >
                     {record.code}
-                  </Link>
+                  </Link>{' '}
+                  ({toCodePoints(record.char)})
                 </figcaption>
                 <div className="mojidata-char mojidata-mojijoho">
                   {record.char}
