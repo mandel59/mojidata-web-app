@@ -19,8 +19,9 @@ export default function License() {
     <main>
       <h2>About Mojidata</h2>
       <p>
-        Mojidata is an open-source collection of kanji information databases.
-        The license for each kanji database varies depending on the source.
+        The Mojidata Web App is a web application for Mojidata, an open-source
+        collection of kanji information databases. The license for each kanji
+        database varies depending on the source.
       </p>
       <ul>
         <li>
@@ -39,6 +40,17 @@ export default function License() {
           </Link>
         </li>
       </ul>
+      <hr />
+      <p>
+        The Mojidata Web App uses glyph images from GlyphWiki. GlyphWiki is an
+        online project that allows users to create, edit, and share glyphs of
+        Chinese characters. You can view the license information for
+        GlyphWiki&apos;s data on the{' '}
+        <Link href="http://en.glyphwiki.org/wiki/GlyphWiki:License">
+          GlyphWiki:License
+        </Link>{' '}
+        page.
+      </p>
       <hr />
       <ReactMarkdown transformLinkUri={customUriTransformer}>
         {
