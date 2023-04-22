@@ -108,18 +108,22 @@ export default async function MojidataResponse(
         <figcaption>{results.UCS}</figcaption>
         <div className="mojidata-char">{results.char}</div>
       </figure>
-      <h3>Images</h3>
-      <figure>
-        <figcaption>
-          <Link href={`https://glyphwiki.org/wiki/${glyphWikiName}`}>
-            GlyphWiki {glyphWikiName}
-          </Link>
-        </figcaption>
-        <div className="mojidata-char mojidata-char-glyphwiki">
-          {/* @ts-expect-error Server Component */}
-          <GlyphWikiChar name={glyphWikiName} alt={ucs} size={110} />
-        </div>
-      </figure>
+      {false && (
+        <section>
+          <h3>Images</h3>
+          <figure>
+            <figcaption>
+              <Link href={`https://glyphwiki.org/wiki/${glyphWikiName}`}>
+                GlyphWiki {glyphWikiName}
+              </Link>
+            </figcaption>
+            <div className="mojidata-char mojidata-char-glyphwiki">
+              {/* @ts-expect-error Server Component */}
+              <GlyphWikiChar name={glyphWikiName} alt={ucs} size={110} />
+            </div>
+          </figure>
+        </section>
+      )}
       <h3>IDS</h3>
       <table>
         <thead>
