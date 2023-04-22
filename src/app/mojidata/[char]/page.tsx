@@ -1,5 +1,3 @@
-import { GetServerSidePropsContext } from 'next'
-
 import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
 import Loading from '@/components/Loading'
