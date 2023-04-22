@@ -117,7 +117,7 @@ export default async function MojidataResponse(
         </figcaption>
         <div className="mojidata-char mojidata-char-glyphwiki">
           {/* @ts-expect-error Server Component */}
-          <GlyphWikiChar name={glyphWikiName} alt={char} size={110} />
+          <GlyphWikiChar name={glyphWikiName} alt={ucs} size={110} />
         </div>
       </figure>
       <h3>IDS</h3>
