@@ -31,11 +31,8 @@ export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
     },
   )
   if (!svgImageResponse.ok) {
-    if (svgImageResponse.status === 404) {
-      // GlyphWiki does not have the image. Fall back to the character.
-      return <span data-name={name}>{alt}</span>
-    }
-    throw new Error(`Failed to fetch SVG image: ${svgImageResponse.statusText}`)
+    // Failed to fetch SVG image. Fall back to the character.
+    return <span data-name={name}>{alt}</span>
   }
   const svgImage = await svgImageResponse.text()
   const optimizedSvgImage = optimize(svgImage, {
