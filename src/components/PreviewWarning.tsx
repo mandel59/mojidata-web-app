@@ -1,13 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 export default function PreviewWarning(): ReactElement {
-  const location = window.location
-  switch (location.hostname) {
-    case 'localhost':
-    case 'mojidata-web-app.vercel.app':
+  const [hostname, setHostname] = useState<string | undefined>(undefined)
+  useEffect(() => {
+    setHostname(window.location.hostname)
+  }, [])
+  switch (hostname) {
+    case undefined:
+    case 'mojidata.ryusei.dev':
+      return <></>
+    default:
       return (
         <div className="preview-warning">
           <p>
@@ -19,7 +24,5 @@ export default function PreviewWarning(): ReactElement {
           </p>
         </div>
       )
-    default:
-      return <></>
   }
 }
