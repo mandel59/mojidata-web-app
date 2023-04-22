@@ -182,8 +182,16 @@ export default async function MojidataResponse(
               <figure key={char}>
                 <figcaption>
                   <div>{charName}</div>
-                  {unihanRelations && <div><small>unihan: {[...unihanRelations].join(', ')}</small></div>}
-                  {kdpvRelations && <div><small>kdpv: {[...kdpvRelations].join(', ')}</small></div>}
+                  {unihanRelations && (
+                    <div>
+                      <small>unihan: {[...unihanRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {kdpvRelations && (
+                    <div>
+                      <small>kdpv: {[...kdpvRelations].join(', ')}</small>
+                    </div>
+                  )}
                 </figcaption>
                 <div
                   className={[
@@ -212,7 +220,7 @@ export default async function MojidataResponse(
       <ul>
         <li>
           <Link href={`https://www.chise.org/est/view/character/${char}`}>
-            CHISE EsT character
+            CHISE EsT character = {ucs}
           </Link>
         </li>
         <li>
@@ -222,7 +230,7 @@ export default async function MojidataResponse(
               .toString(16)
               .toUpperCase()}`}
           >
-            Unihan
+            Unihan data for {toCodePoint(ucs)}
           </Link>
         </li>
         <li>
@@ -232,9 +240,38 @@ export default async function MojidataResponse(
               .toString(16)
               .toLowerCase()}`}
           >
+            u{ucs.codePointAt(0)!.toString(16).toLowerCase()} ({ucs}) -
             GlyphWiki
           </Link>
         </li>
+        {results.mji.map((record) => {
+          function fromCodePoint(cp: string) {
+            return String.fromCodePoint(parseInt(cp.slice(2), 16))
+          }
+          function fromCodePoints(cps: string) {
+            return cps
+              .split('_')
+              .map((cp) => String.fromCodePoint(parseInt(cp, 16)))
+              .join('')
+          }
+          const {
+            MJ文字図形名,
+            実装したUCS,
+            実装したMoji_JohoコレクションIVS,
+          } = record
+          const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
+          const char =
+            (実装したUCS && fromCodePoint(実装したUCS)) ??
+            (実装したMoji_JohoコレクションIVS &&
+              fromCodePoints(実装したMoji_JohoコレクションIVS))
+          return (
+            <li key={MJ文字図形名}>
+              <Link href={href}>
+                文字情報基盤検索システム {MJ文字図形名} {char && ` (${char})`}
+              </Link>
+            </li>
+          )
+        })}
       </ul>
       <h3>JSON</h3>
       <pre>{JSON.stringify(results, null, 2)}</pre>
