@@ -1,6 +1,5 @@
 import { getRevalidateDuration } from '@/app/config'
 // import Image from 'next/image'
-import { optimize } from 'svgo'
 
 export interface GlyphWikiCharProps {
   name: string
@@ -36,17 +35,8 @@ export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
   }
   const svgImage = await svgImageResponse.text()
   const svgImageDataUri = `data:image/svg+xml,${encodeURIComponent(svgImage)}`
-  const optimizedSvgImage = optimize(svgImage, {
-    multipass: true,
-    datauri: 'enc',
-  }).data
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={optimizedSvgImage}
-      alt={alt ?? name}
-      width={size}
-      height={size}
-    />
+    <img src={svgImageDataUri} alt={alt ?? name} width={size} height={size} />
   )
 }
