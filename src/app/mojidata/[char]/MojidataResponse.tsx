@@ -70,12 +70,12 @@ export default async function MojidataResponse(
     next: {
       revalidate: getRevalidateDuration(),
     },
+    headers: {
+      Accept: 'application/json',
+    },
   })
   if (!res.ok) {
-    const responseBody = await res.json()
-    throw new Error(
-      responseBody?.error?.message ?? responseBody?.error ?? responseBody,
-    )
+    throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
   }
   const responseBody = await res.json()
   const { results }: { results: MojidataResults } = responseBody

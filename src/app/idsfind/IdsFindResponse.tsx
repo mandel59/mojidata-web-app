@@ -59,10 +59,12 @@ export default async function IdsFindResponse(
     next: {
       revalidate: getRevalidateDuration(),
     },
+    headers: {
+      Accept: 'application/json',
+    },
   })
   if (!res.ok) {
-    const { message } = await res.json()
-    throw new Error(message)
+    throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
   }
   const responseBody = await res.json()
   const { results, done } = responseBody
