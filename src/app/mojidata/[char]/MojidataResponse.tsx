@@ -98,7 +98,10 @@ export default async function MojidataResponse(
     new Set([
       ...kdpvVariants.keys(),
       ...unihanVariants.keys(),
+      ...unihanInverseVariants.keys(),
       ...mjsmVariants.keys(),
+      ...mjsmInverseVariants.keys(),
+      ...tghbVariants.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
 
