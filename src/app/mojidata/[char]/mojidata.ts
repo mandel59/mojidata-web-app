@@ -340,6 +340,9 @@ export function kdpvCharIsNonStandardVariant(kdpvChar: string): boolean {
 }
 
 function add<K, T>(m: Map<K, Set<T>>, key: K, value: T) {
+  if (key == null) {
+    throw new Error(`Invalid key: ${key}, value: ${value}`)
+  }
   if (!m.has(key)) {
     m.set(key, new Set())
   }
@@ -440,7 +443,9 @@ export function getNyukanInverseVariants(results: MojidataResults) {
   const char = results.char
   for (const { 正字の種類, 正字のUCS, 簡体字等のUCS } of results.nyukan) {
     if (正字のUCS === char) {
-      add(m, 簡体字等のUCS, 正字の種類)
+      if (簡体字等のUCS != null) {
+        add(m, 簡体字等のUCS, 正字の種類)
+      }
     }
   }
   return m
