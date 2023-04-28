@@ -46,7 +46,8 @@ interface ConditionalLinkProps {
 function ConditionalLink(props: ConditionalLinkProps): ReactElement {
   const { href, children } = props
   if (href) {
-    return <Link href={href}>{children}</Link>
+    // FIXME: Next.js bug? Navigation history is not recorded correctly when using Link.
+    return <a href={href}>{children}</a>
   } else {
     return <span>{children}</span>
   }
