@@ -405,16 +405,12 @@ export function getMjsmInverseVariants(results: MojidataResults) {
 
 export function getTghbVariants(results: MojidataResults) {
   const m = new Map<string, Set<string>>()
-  const ucs = results.UCS
+  const char = results.char
   for (const { 规范字, 异体字: variants } of results.tghb) {
-    if (ucs !== 规范字) {
-      add(m, 规范字, '规范字')
-    }
+    add(m, 规范字, '规范字')
     for (const { 繁体字, 异体字 } of variants) {
-      if (ucs !== 繁体字) {
-        add(m, 繁体字, '繁体字')
-      }
-      if (ucs !== 异体字 && 繁体字 !== 异体字) {
+      add(m, 繁体字, '繁体字')
+      if (char !== 异体字 && 繁体字 !== 异体字) {
         add(m, 异体字, '异体字')
       }
     }
