@@ -126,7 +126,9 @@ export default async function MojidataResponse(
     <div className="mojidata-response">
       <h2>Character Data</h2>
       <figure>
-        <figcaption>{results.UCS}</figcaption>
+        <figcaption>
+          {results.UCS} {results.char}
+        </figcaption>
         <div className="mojidata-char mojidata-char-glyphwiki">
           {/* @ts-expect-error Server Component */}
           <GlyphWikiChar name={glyphWikiName} alt={results.char} size={110} />
@@ -227,7 +229,13 @@ export default async function MojidataResponse(
             return (
               <figure key={char}>
                 <figcaption>
-                  <div>{charName}</div>
+                  {charName === char ? (
+                    <div>{charName}</div>
+                  ) : (
+                    <div>
+                      {charName} {char}
+                    </div>
+                  )}
                   {unihanRelations && (
                     <div>
                       <small>→unihan: {[...unihanRelations].join(', ')}</small>
