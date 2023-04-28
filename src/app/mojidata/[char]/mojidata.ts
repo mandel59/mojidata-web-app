@@ -30,12 +30,21 @@ export interface MojidataResults {
       additionalData?: string,
     ]
   >
+  unihan_variant_inverse: Array<
+    [
+      unihanProperty: UnihanPropertyName,
+      codePoint: string,
+      char: string,
+      additionalData?: string,
+    ]
+  >
   joyo: Array<{
     音訓: string
     例: string[]
     備考: string
   }>
   joyo_kangxi: string[]
+  joyo_kangxi_inverse: string[]
   doon: Array<{
     書きかえる漢語: string
     書きかえた漢語: string
@@ -62,6 +71,7 @@ export interface MojidataResults {
     }>
   }>
   mji: Array<{
+    文字: string
     MJ文字図形名: string
     対応するUCS: string | null
     実装したUCS: string | null
@@ -90,6 +100,15 @@ export interface MojidataResults {
     更新履歴: string[]
     備考: string | null
     mjsm: [table: MjsmTableName, codePoint: string, char: string][]
+  }>
+  mjsm_inverse: Array<{
+    表: MjsmTableName
+    文字: string
+    MJ文字図形名: string
+    対応するUCS: string | null
+    実装したUCS: string | null
+    実装したMoji_JohoコレクションIVS: string | null
+    実装したSVS: string | null
   }>
   kdpv: Partial<Record<KdpvRelation, string[]>>
 }
@@ -197,7 +216,7 @@ export const unihanProperties = [
   'kZVariant',
 ] as const
 
-export type UnihanPropertyName = typeof unihanProperties[number]
+export type UnihanPropertyName = (typeof unihanProperties)[number]
 
 const mjsmTables = [
   'JIS包摂規準UCS統合規則',
@@ -212,7 +231,7 @@ const mjsmTables = [
   '辞書類等による関連字',
 ] as const
 
-export type MjsmTableName = typeof mjsmTables[number]
+export type MjsmTableName = (typeof mjsmTables)[number]
 
 const kdpvRelations = [
   'cjkvi/duplicate',
@@ -283,7 +302,7 @@ const kdpvRelations = [
   '~cjkvi/variant-simplified',
 ] as const
 
-export type KdpvRelation = typeof kdpvRelations[number]
+export type KdpvRelation = (typeof kdpvRelations)[number]
 
 export function toCodePoint(c: string): string {
   const codePoint = c.codePointAt(0)!
@@ -320,14 +339,18 @@ export function kdpvCharIsNonStandardVariant(kdpvChar: string): boolean {
   return /[\[\]［］]/u.test(kdpvChar)
 }
 
+function add<K, T>(m: Map<K, Set<T>>, key: K, value: T) {
+  if (!m.has(key)) {
+    m.set(key, new Set())
+  }
+  m.get(key)!.add(value)
+}
+
 export function getKdpvVariants(results: MojidataResults) {
   const m = new Map<string, Set<KdpvRelation>>()
   for (const [relation, kdpvChars] of Object.entries(results.kdpv)) {
     for (const kdpvChar of kdpvChars) {
-      if (!m.has(kdpvChar)) {
-        m.set(kdpvChar, new Set())
-      }
-      m.get(kdpvChar)!.add(relation as KdpvRelation)
+      add(m, kdpvChar, relation as KdpvRelation)
     }
   }
   return m
@@ -341,10 +364,20 @@ export function getUnihanVariants(results: MojidataResults) {
     char,
     _additionalData,
   ] of results.unihan_variant) {
-    if (!m.has(char)) {
-      m.set(char, new Set())
-    }
-    m.get(char)!.add(unihanPropertyName)
+    add(m, char, unihanPropertyName)
+  }
+  return m
+}
+
+export function getUnihanInverseVariants(results: MojidataResults) {
+  const m = new Map<string, Set<UnihanPropertyName>>()
+  for (const [
+    unihanPropertyName,
+    _codePoint,
+    char,
+    _additionalData,
+  ] of results.unihan_variant_inverse) {
+    add(m, char, unihanPropertyName)
   }
   return m
 }
@@ -354,10 +387,36 @@ export function getMjsmVariants(results: MojidataResults) {
   for (const { 実装したUCS, mjsm } of results.mji) {
     if (実装したUCS !== results.UCS) continue
     for (const [table, _codePoint, char] of mjsm) {
-      if (!m.has(char)) {
-        m.set(char, new Set())
+      add(m, char, table)
+    }
+  }
+  return m
+}
+
+export function getMjsmInverseVariants(results: MojidataResults) {
+  const m = new Map<string, Set<MjsmTableName>>()
+  for (const { 表: table, 対応するUCS } of results.mjsm_inverse) {
+    if (対応するUCS == null) continue
+    const char = String.fromCodePoint(parseInt(対応するUCS.slice(2), 16))
+    add(m, char, table)
+  }
+  return m
+}
+
+export function getTghbVariants(results: MojidataResults) {
+  const m = new Map<string, Set<string>>()
+  const ucs = results.UCS
+  for (const { 规范字, 异体字: variants } of results.tghb) {
+    if (ucs !== 规范字) {
+      add(m, 规范字, '规范字')
+    }
+    for (const { 繁体字, 异体字 } of variants) {
+      if (ucs !== 繁体字) {
+        add(m, 繁体字, '繁体字')
       }
-      m.get(char)!.add(table)
+      if (ucs !== 异体字 && 繁体字 !== 异体字) {
+        add(m, 异体字, '异体字')
+      }
     }
   }
   return m

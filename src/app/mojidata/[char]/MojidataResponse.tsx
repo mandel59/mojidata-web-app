@@ -5,7 +5,10 @@ import {
   getCharNameOfKdpvChar,
   getCodePointOfKdpvChar,
   getKdpvVariants,
+  getMjsmInverseVariants,
   getMjsmVariants,
+  getTghbVariants,
+  getUnihanInverseVariants,
   getUnihanVariants,
   kdpvCharIsIDS,
   kdpvCharIsNonStandardVariant,
@@ -66,6 +69,8 @@ export default async function MojidataResponse(
 
   const url = new URL(getApiUrl('/api/v1/mojidata'))
   url.searchParams.set('char', ucs)
+  // dummy query to avoid cache for older versions
+  url.searchParams.set('_v', '1')
   const res = await fetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
@@ -84,7 +89,10 @@ export default async function MojidataResponse(
 
   const kdpvVariants = getKdpvVariants(results)
   const unihanVariants = getUnihanVariants(results)
+  const unihanInverseVariants = getUnihanInverseVariants(results)
   const mjsmVariants = getMjsmVariants(results)
+  const mjsmInverseVariants = getMjsmInverseVariants(results)
+  const tghbVariants = getTghbVariants(results)
 
   const allVariantChars = Array.from(
     new Set([
@@ -185,8 +193,17 @@ export default async function MojidataResponse(
           <h3>Variants</h3>
           {allVariantChars.map((char) => {
             const kdpvRelations = kdpvVariants.get(char)
+            const kdpvForwardRelations = kdpvRelations
+              ? [...kdpvRelations].filter((r) => !r.startsWith('~'))
+              : []
+            const kdpvBackwardRelations = kdpvRelations
+              ? [...kdpvRelations].filter((r) => r.startsWith('~'))
+              : []
             const unihanRelations = unihanVariants.get(char)
+            const unihanInverseRelations = unihanInverseVariants.get(char)
             const mjsmRelations = mjsmVariants.get(char)
+            const mjsmInverseRelations = mjsmInverseVariants.get(char)
+            const tghbRelations = tghbVariants.get(char)
             const isIDS = kdpvCharIsIDS(char)
             const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
             const charName = getCharNameOfKdpvChar(char)
@@ -197,17 +214,48 @@ export default async function MojidataResponse(
                   <div>{charName}</div>
                   {unihanRelations && (
                     <div>
-                      <small>unihan: {[...unihanRelations].join(', ')}</small>
+                      <small>→unihan: {[...unihanRelations].join(', ')}</small>
                     </div>
                   )}
-                  {kdpvRelations && (
+                  {unihanInverseRelations && (
                     <div>
-                      <small>kdpv: {[...kdpvRelations].join(', ')}</small>
+                      <small>
+                        ←unihan: {[...unihanInverseRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {kdpvForwardRelations.length > 0 && (
+                    <div>
+                      <small>→kdpv: {kdpvForwardRelations.join(', ')}</small>
+                    </div>
+                  )}
+                  {kdpvBackwardRelations.length > 0 && (
+                    <div>
+                      <small>
+                        ←kdpv:{' '}
+                        {kdpvBackwardRelations
+                          .map((r) => r.slice(1))
+                          .join(', ')}
+                      </small>
                     </div>
                   )}
                   {mjsmRelations && (
                     <div>
-                      <small>mjsm: {[...mjsmRelations].join(', ')}</small>
+                      <small>→mjsm: {[...mjsmRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {mjsmInverseRelations && (
+                    <div>
+                      <small>
+                        ←mjsm: {[...mjsmInverseRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {tghbRelations && (
+                    <div>
+                      <small>
+                        →tghb: {[...tghbRelations].join(', ')}
+                      </small>
                     </div>
                   )}
                 </figcaption>
