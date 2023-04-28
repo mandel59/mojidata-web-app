@@ -412,7 +412,11 @@ export function getTghbVariants(results: MojidataResults) {
       if (char === 规范字 || char === 繁体字 || char === 异体字) {
         add(m, 繁体字, '繁体字')
       }
-      if (char !== 异体字 && 繁体字 !== 异体字) {
+      if (
+        char !== 异体字 &&
+        繁体字 !== 异体字 &&
+        (char === 规范字 || char === 繁体字)
+      ) {
         add(m, 异体字, '异体字')
       }
     }
