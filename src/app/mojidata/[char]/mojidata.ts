@@ -450,3 +450,14 @@ export function getNyukanInverseVariants(results: MojidataResults) {
   }
   return m
 }
+
+export function getJoyoVariants(results: MojidataResults) {
+  const m = new Map<string, Set<string>>()
+  for (const kangxi of results.joyo_kangxi) {
+    add(m, kangxi, 'いわゆる康熙字典体')
+  }
+  for (const joyo of results.joyo_kangxi_inverse) {
+    add(m, joyo, '常用漢字')
+  }
+  return m
+}

@@ -4,6 +4,7 @@ import {
   MojidataResults,
   getCharNameOfKdpvChar,
   getCodePointOfKdpvChar,
+  getJoyoVariants,
   getKdpvVariants,
   getMjsmInverseVariants,
   getMjsmVariants,
@@ -92,6 +93,7 @@ export default async function MojidataResponse(
   const kdpvVariants = getKdpvVariants(results)
   const unihanVariants = getUnihanVariants(results)
   const unihanInverseVariants = getUnihanInverseVariants(results)
+  const joyoVariants = getJoyoVariants(results)
   const mjsmVariants = getMjsmVariants(results)
   const mjsmInverseVariants = getMjsmInverseVariants(results)
   const nyukanVariants = getNyukanVariants(results)
@@ -103,6 +105,7 @@ export default async function MojidataResponse(
       ...kdpvVariants.keys(),
       ...unihanVariants.keys(),
       ...unihanInverseVariants.keys(),
+      ...joyoVariants.keys(),
       ...mjsmVariants.keys(),
       ...mjsmInverseVariants.keys(),
       ...nyukanVariants.keys(),
@@ -210,6 +213,7 @@ export default async function MojidataResponse(
               : []
             const unihanRelations = unihanVariants.get(char)
             const unihanInverseRelations = unihanInverseVariants.get(char)
+            const joyoRelations = joyoVariants.get(char)
             const mjsmRelations = mjsmVariants.get(char)
             const mjsmInverseRelations = mjsmInverseVariants.get(char)
             const nyukanRelations = nyukanVariants.get(char)
@@ -233,6 +237,11 @@ export default async function MojidataResponse(
                       <small>
                         ←unihan: {[...unihanInverseRelations].join(', ')}
                       </small>
+                    </div>
+                  )}
+                  {joyoRelations && (
+                    <div>
+                      <small>→joyo: {[...joyoRelations].join(', ')}</small>
                     </div>
                   )}
                   {kdpvForwardRelations.length > 0 && (
@@ -264,9 +273,7 @@ export default async function MojidataResponse(
                   )}
                   {nyukanRelations && (
                     <div>
-                      <small>
-                        →nyukan: {[...nyukanRelations].join(', ')}
-                      </small>
+                      <small>→nyukan: {[...nyukanRelations].join(', ')}</small>
                     </div>
                   )}
                   {nyukanInverseRelations && (
