@@ -7,6 +7,8 @@ import {
   getKdpvVariants,
   getMjsmInverseVariants,
   getMjsmVariants,
+  getNyukanInverseVariants,
+  getNyukanVariants,
   getTghbVariants,
   getUnihanInverseVariants,
   getUnihanVariants,
@@ -92,6 +94,8 @@ export default async function MojidataResponse(
   const unihanInverseVariants = getUnihanInverseVariants(results)
   const mjsmVariants = getMjsmVariants(results)
   const mjsmInverseVariants = getMjsmInverseVariants(results)
+  const nyukanVariants = getNyukanVariants(results)
+  const nyukanInverseVariants = getNyukanInverseVariants(results)
   const tghbVariants = getTghbVariants(results)
 
   const allVariantChars = Array.from(
@@ -101,6 +105,8 @@ export default async function MojidataResponse(
       ...unihanInverseVariants.keys(),
       ...mjsmVariants.keys(),
       ...mjsmInverseVariants.keys(),
+      ...nyukanVariants.keys(),
+      ...nyukanInverseVariants.keys(),
       ...tghbVariants.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
@@ -206,6 +212,8 @@ export default async function MojidataResponse(
             const unihanInverseRelations = unihanInverseVariants.get(char)
             const mjsmRelations = mjsmVariants.get(char)
             const mjsmInverseRelations = mjsmInverseVariants.get(char)
+            const nyukanRelations = nyukanVariants.get(char)
+            const nyukanInverseRelations = nyukanInverseVariants.get(char)
             const tghbRelations = tghbVariants.get(char)
             const isIDS = kdpvCharIsIDS(char)
             const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
@@ -254,11 +262,23 @@ export default async function MojidataResponse(
                       </small>
                     </div>
                   )}
-                  {tghbRelations && (
+                  {nyukanRelations && (
                     <div>
                       <small>
-                        →tghb: {[...tghbRelations].join(', ')}
+                        →nyukan: {[...nyukanRelations].join(', ')}
                       </small>
+                    </div>
+                  )}
+                  {nyukanInverseRelations && (
+                    <div>
+                      <small>
+                        ←nyukan: {[...nyukanInverseRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {tghbRelations && (
+                    <div>
+                      <small>→tghb: {[...tghbRelations].join(', ')}</small>
                     </div>
                   )}
                 </figcaption>
