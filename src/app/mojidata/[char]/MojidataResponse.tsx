@@ -187,11 +187,7 @@ export default async function MojidataResponse(
             {ivsMj.map((record) => (
               <figure key={record.IVS}>
                 <figcaption>
-                  <Link
-                    href={`https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${record.code}`}
-                  >
-                    {record.code}
-                  </Link>
+                  {record.code}
                   <br />
                   <small>{toCodePoints(record.char)}</small>
                 </figcaption>
