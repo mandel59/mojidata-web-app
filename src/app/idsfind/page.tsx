@@ -3,6 +3,8 @@ import IdsFindResponse from './IdsFindResponse'
 import Loading from '@/components/Loading'
 import IdsFinder from '@/components/IdsFinder'
 
+export const runtime = 'experimental-edge'
+
 function castToArray<T>(x: undefined | T | T[]): T[] {
   return Array.isArray(x) ? x : x != null ? [x] : []
 }

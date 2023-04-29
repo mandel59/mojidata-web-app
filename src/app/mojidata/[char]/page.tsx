@@ -3,6 +3,8 @@ import MojidataResponse from './MojidataResponse'
 import Loading from '@/components/Loading'
 import IdsFinder from '@/components/IdsFinder'
 
+export const runtime = 'experimental-edge'
+
 export default function Mojidata({ params }: { params: { char: string } }) {
   const { char } = params
   return (

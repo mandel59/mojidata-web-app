@@ -2,6 +2,8 @@ import ReactMarkdown, { uriTransformer } from 'react-markdown'
 import mojidataLicenseMd from '@mandel59/mojidata/LICENSE.md'
 import Link from 'next/link'
 
+export const runtime = 'experimental-edge'
+
 export default function License() {
   const baseUrl =
     'https://github.com/mandel59/mojidata/blob/main/packages/mojidata'
