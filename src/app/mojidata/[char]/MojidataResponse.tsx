@@ -129,7 +129,7 @@ export default async function MojidataResponse(
         <figcaption>
           {results.UCS} {results.char}
         </figcaption>
-        <div className="mojidata-char mojidata-char-glyphwiki">
+        <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
           {/* @ts-expect-error Server Component */}
           <GlyphWikiChar name={glyphWikiName} alt={results.char} size={110} />
         </div>
@@ -174,7 +174,9 @@ export default async function MojidataResponse(
                   <br />
                   <small>{toCodePoints(record.char)}</small>
                 </figcaption>
-                <div className="mojidata-char">{record.char}</div>
+                <div className="mojidata-char" lang="ja">
+                  {record.char}
+                </div>
               </figure>
             ))}
           </div>
@@ -191,7 +193,7 @@ export default async function MojidataResponse(
                   <br />
                   <small>{toCodePoints(record.char)}</small>
                 </figcaption>
-                <div className="mojidata-char mojidata-mojijoho">
+                <div className="mojidata-char mojidata-mojijoho" lang="ja">
                   {record.char}
                 </div>
               </figure>

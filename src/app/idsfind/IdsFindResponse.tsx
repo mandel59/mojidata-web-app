@@ -77,6 +77,7 @@ export default async function IdsFindResponse(
           return (
             <div
               className="ids-find-result-char ids-find-char-glyphwiki"
+              lang="ja"
               key={char}
             >
               <Link href={`/mojidata/${encodeURIComponent(char)}`}>
