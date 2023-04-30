@@ -53,8 +53,6 @@ export default async function IdsFindResponse(
   whole
     .map(normalize)
     .forEach((value) => url.searchParams.append('whole', value))
-  url.searchParams.set('limit', size.toString())
-  url.searchParams.set('offset', offset.toString())
   const res = await fetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
@@ -67,12 +65,13 @@ export default async function IdsFindResponse(
     throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
   }
   const responseBody = await res.json()
-  const { results, done } = responseBody
+  const { results } = responseBody as { results: string[] }
+  const done = results.length <= offset + size
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
   return (
     <div>
       <div className="ids-find-response">
-        {results.map((char: string) => {
+        {results.slice(offset, offset + size).map((char: string) => {
           const glyphWikiName = toGlyphWikiName(char)
           return (
             <div
