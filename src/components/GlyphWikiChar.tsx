@@ -21,21 +21,31 @@ export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
   if (!name) {
     throw new Error(`Invalid character name: ${name}`)
   }
-  const svgImageResponse = await fetch(
-    `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`,
-    {
-      next: {
-        revalidate: getRevalidateDuration(),
+  try {
+    const svgImageResponse = await fetch(
+      `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`,
+      {
+        next: {
+          revalidate: getRevalidateDuration(),
+        },
       },
-    },
-  )
-  if (!svgImageResponse.ok) {
-    // Failed to fetch SVG image. Fall back to the character.
+    )
+    if (!svgImageResponse.ok) {
+      // Failed to fetch SVG image. Fall back to the character.
+      return <span data-name={name}>{alt}</span>
+    }
+    const svgImage = await svgImageResponse.text()
+    const svgImageDataUri = `data:image/svg+xml,${encodeURIComponent(svgImage)}`
+    return (
+      <Image
+        src={svgImageDataUri}
+        alt={alt ?? name}
+        width={size}
+        height={size}
+      />
+    )
+  } catch (error) {
+    console.error(error)
     return <span data-name={name}>{alt}</span>
   }
-  const svgImage = await svgImageResponse.text()
-  const svgImageDataUri = `data:image/svg+xml,${encodeURIComponent(svgImage)}`
-  return (
-    <Image src={svgImageDataUri} alt={alt ?? name} width={size} height={size} />
-  )
 }
