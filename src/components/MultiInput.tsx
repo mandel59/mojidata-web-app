@@ -7,6 +7,7 @@ interface MultiInputProps {
   values: string[]
   setValues: (values: string[]) => void
   name?: string
+  placeholder?: (index: number) => string
 }
 
 /**
@@ -16,7 +17,7 @@ interface MultiInputProps {
  * @param props
  */
 export default function MultiInput(props: MultiInputProps) {
-  const { values, setValues, name } = props
+  const { values, setValues, name, placeholder } = props
   const refMultiInput = useRef<HTMLDivElement>(null)
   function removeSpaces(values: string[]) {
     // remove empty input fields
@@ -43,6 +44,7 @@ export default function MultiInput(props: MultiInputProps) {
             key={index}
             name={value === '' ? undefined : name}
             value={value}
+            placeholder={placeholder?.(index)}
             onChange={(e) => {
               const newValues = [...values]
               newValues[index] = e.target.value

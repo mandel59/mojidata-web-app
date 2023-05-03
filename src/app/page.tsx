@@ -4,8 +4,8 @@ export const runtime = 'experimental-edge'
 
 export default function Home() {
   return (
-    <main>
+    <nav className="container">
       <IdsFinder />
-    </main>
+    </nav>
   )
 }

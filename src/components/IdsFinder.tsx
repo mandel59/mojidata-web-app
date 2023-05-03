@@ -4,6 +4,7 @@ import MultiInput from './MultiInput'
 import GetForm from './GetForm'
 import { useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import './IdsFinder.css'
 
 export default function IdsFinder() {
   const pathname = usePathname()
@@ -29,13 +30,20 @@ export default function IdsFinder() {
       </details>
       <GetForm action="/idsfind">
         <div key="ids">
-          IDS: <MultiInput name="ids" values={ids} setValues={setIds} />
+          IDS (Multiple sequences can be entered):{' '}
+          <MultiInput
+            name="ids"
+            values={ids}
+            placeholder={(i) => `IDS #${i + 1}`}
+            setValues={setIds}
+          />
         </div>
         <div key="whole">
           Whole IDS:{' '}
           <input
             name={whole === '' ? undefined : 'whole'}
             value={whole}
+            placeholder="Whole IDS"
             onChange={(e) => setWhole(e.target.value)}
           />
         </div>

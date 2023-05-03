@@ -9,13 +9,16 @@
 }
 
 .mojidata-char {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-shrink: 0;
   margin: 10px 15px;
   border: 1px solid #ccc;
   font-size: 100px;
   width: 120px;
   height: 120px;
-  line-height: 110px;
+  line-height: 100px;
   text-align: center;
   overflow: clip;
 }
@@ -29,6 +32,7 @@
 }
 
 .mojidata-char-link a {
+  display: block;
   color: #000;
   text-decoration: none;
   width: fit-content;
@@ -50,5 +54,6 @@
 }
 
 .mojidata-char-glyphwiki img {
+  display: block;
   padding: 5px;
 }

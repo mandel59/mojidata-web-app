@@ -87,20 +87,22 @@ export default async function IdsFindResponse(
           )
         })}
       </div>
-      {prev && (
+      <div className="pager">
         <div>
-          <Link rel="prev" href={prev}>
-            Prev
-          </Link>
+          {prev && (
+            <Link rel="prev" role="button" href={prev}>
+              Prev
+            </Link>
+          )}
         </div>
-      )}
-      {next && (
         <div>
-          <Link rel="next" href={next}>
-            Next
-          </Link>
+          {next && (
+            <Link rel="next" role="button" href={next}>
+              Next
+            </Link>
+          )}
         </div>
-      )}
+      </div>
     </div>
   )
 }

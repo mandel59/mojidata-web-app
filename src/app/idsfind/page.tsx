@@ -14,16 +14,20 @@ export default function IdsFind({ searchParams }: { searchParams: unknown }) {
     Record<string, string | string[]>
   >
   return (
-    <main>
-      <IdsFinder />
-      <Suspense fallback={<Loading />}>
-        {/* @ts-expect-error Server Component */}
-        <IdsFindResponse
-          ids={castToArray(ids)}
-          whole={castToArray(whole)}
-          page={page ? Number(page) : undefined}
-        />
-      </Suspense>
-    </main>
+    <div>
+      <main className="container">
+        <Suspense fallback={<Loading />}>
+          {/* @ts-expect-error Server Component */}
+          <IdsFindResponse
+            ids={castToArray(ids)}
+            whole={castToArray(whole)}
+            page={page ? Number(page) : undefined}
+          />
+        </Suspense>
+      </main>
+      <nav className="container">
+        <IdsFinder />
+      </nav>
+    </div>
   )
 }

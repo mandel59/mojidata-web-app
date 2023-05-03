@@ -8,12 +8,16 @@ export const runtime = 'experimental-edge'
 export default function Mojidata({ params }: { params: { char: string } }) {
   const { char } = params
   return (
-    <main>
-      <IdsFinder />
-      <Suspense fallback={<Loading />}>
-        {/* @ts-expect-error Server Component */}
-        <MojidataResponse char={char} />
-      </Suspense>
-    </main>
+    <div>
+      <main className="container">
+        <Suspense fallback={<Loading />}>
+          {/* @ts-expect-error Server Component */}
+          <MojidataResponse char={char} />
+        </Suspense>
+      </main>
+      <nav className="container">
+        <IdsFinder />
+      </nav>
+    </div>
   )
 }

@@ -5,6 +5,9 @@
 }
 
 .ids-find-result-char {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-shrink: 0;
   margin: 5px;
   border: 1px solid #ccc;
@@ -17,10 +20,21 @@
 }
 
 .ids-find-result-char > a {
+  display: block;
   color: #000;
   text-decoration: none;
 }
 
 .ids-find-char-glyphwiki img {
-  padding: 2.5px;
+  display: block;
+}
+
+.pager {
+  display: flex;
+  flex-direction: row;
+}
+
+.pager > div {
+  flex: 1;
+  text-align: center;
 }

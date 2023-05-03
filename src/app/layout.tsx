@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
+import '@picocss/pico/css/pico.min.css'
 
 export const metadata = {
   title: 'Mojidata Web App',
@@ -14,9 +15,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body>
-        <header>
+        <header className="container">
           <h1>{metadata.title}</h1>
           <PreviewWarning />
           <nav>
