@@ -54,7 +54,7 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: `${ucs} - ${siteName}`,
       description,
-      creator: '@mojidata',
+      creator: '@mandel59',
     },
   }
 }
