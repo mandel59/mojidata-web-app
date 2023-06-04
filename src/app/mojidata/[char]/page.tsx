@@ -50,5 +50,11 @@ export async function generateMetadata(
       description,
       siteName,
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${ucs} - ${siteName}`,
+      description,
+      creator: '@mojidata',
+    },
   }
 }
