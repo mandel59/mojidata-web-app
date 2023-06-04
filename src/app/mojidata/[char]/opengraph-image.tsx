@@ -1,10 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 import { ImageResponse } from 'next/server'
 
 import { Props } from './props'
+import {
+  fetchGlyphWikiSvg,
+  toGlyphWikiName,
+} from '@/glyphwiki/fetchGlyphWikiSvg'
+import { getRevalidateDuration } from '@/app/config'
 
 export const runtime = 'edge'
 
-export const revalidate = 10
+export const revalidate = getRevalidateDuration()
 
 export default async function og({ params }: Props) {
   const char = params.char
@@ -19,6 +26,7 @@ export default async function og({ params }: Props) {
     ?.toString(16)
     .toUpperCase()
     .padStart(4, '0')
+  const { svgImageDataUri } = await fetchGlyphWikiSvg(toGlyphWikiName(ucs))
   return new ImageResponse(
     (
       <div
@@ -28,11 +36,23 @@ export default async function og({ params }: Props) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          flexDirection: 'column',
+          flexDirection: 'row',
+          gap: '32px',
         }}
       >
-        <div style={{ display: 'flex', fontSize: '64px' }}>U+{codePoint}</div>
-        <div style={{ display: 'flex', fontSize: '256px' }}>{ucs}</div>
+        <div style={{ display: 'flex', fontSize: '128px' }}>U+{codePoint}</div>
+        {svgImageDataUri ? (
+          <img width={512} height={512} src={svgImageDataUri} />
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              fontSize: '512px',
+            }}
+          >
+            {ucs}
+          </div>
+        )}
       </div>
     ),
     {},

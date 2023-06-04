@@ -1,4 +1,5 @@
 import { getRevalidateDuration } from '@/app/config'
+import { fetchGlyphWikiSvg } from '@/glyphwiki/fetchGlyphWikiSvg'
 import Image from 'next/image'
 
 export interface GlyphWikiCharProps {
@@ -21,21 +22,8 @@ export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
   if (!name) {
     throw new Error(`Invalid character name: ${name}`)
   }
-  try {
-    const svgImageResponse = await fetch(
-      `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`,
-      {
-        next: {
-          revalidate: getRevalidateDuration(),
-        },
-      },
-    )
-    if (!svgImageResponse.ok) {
-      // Failed to fetch SVG image. Fall back to the character.
-      return <span data-name={name}>{alt}</span>
-    }
-    const svgImage = await svgImageResponse.text()
-    const svgImageDataUri = `data:image/svg+xml,${encodeURIComponent(svgImage)}`
+  const { svgImageDataUri } = await fetchGlyphWikiSvg(name)
+  if (svgImageDataUri) {
     return (
       <Image
         src={svgImageDataUri}
@@ -44,8 +32,7 @@ export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
         height={size}
       />
     )
-  } catch (error) {
-    console.error(error)
+  } else {
     return <span data-name={name}>{alt}</span>
   }
 }
