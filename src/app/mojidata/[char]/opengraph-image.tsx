@@ -31,6 +31,7 @@ export default async function og({ params }: Props) {
     (
       <div
         style={{
+          backgroundColor: 'white',
           width: '100%',
           height: '100%',
           display: 'flex',
