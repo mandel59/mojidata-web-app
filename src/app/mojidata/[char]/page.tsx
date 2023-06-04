@@ -1,3 +1,4 @@
+import { Metadata, ResolvingMetadata } from 'next'
 import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
 import Loading from '@/components/Loading'
@@ -5,7 +6,12 @@ import IdsFinder from '@/components/IdsFinder'
 
 export const runtime = 'experimental-edge'
 
-export default function Mojidata({ params }: { params: { char: string } }) {
+type Props = {
+  params: { char: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export default function Mojidata({ params }: Props) {
   const { char } = params
   return (
     <div>
@@ -20,4 +26,16 @@ export default function Mojidata({ params }: { params: { char: string } }) {
       </nav>
     </div>
   )
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { char } = params
+  return {
+    alternates: {
+      canonical: `/mojidata/${char}`,
+    },
+  }
 }

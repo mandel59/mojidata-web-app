@@ -9,3 +9,9 @@ export default function Home() {
     </nav>
   )
 }
+
+export const metadata = {
+  alternates: {
+    canonical: '/',
+  },
+}
