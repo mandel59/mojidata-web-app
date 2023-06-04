@@ -34,6 +34,16 @@ function compareString(x: string, y: string): number {
   return 0
 }
 
+function fromMJCodePoint(cp: string) {
+  return String.fromCodePoint(parseInt(cp.slice(2), 16))
+}
+function fromMJCodePoints(cps: string) {
+  return cps
+    .split('_')
+    .map((cp) => String.fromCodePoint(parseInt(cp, 16)))
+    .join('')
+}
+
 function toCodePoints(s: string) {
   return [...s].map((c) => toCodePoint(c)).join(' ')
 }
@@ -118,9 +128,34 @@ export default async function MojidataResponse(
   const ivsAj1 = results.ivs.filter(
     (record) => record.collection === 'Adobe-Japan1',
   )
-  const ivsMj = results.ivs.filter(
-    (record) => record.collection === 'Moji_Joho',
-  )
+
+  const mji = results.mji
+    .map((record) => {
+      const { MJ文字図形名, 実装したUCS, 実装したMoji_JohoコレクションIVS } =
+        record
+      const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
+      const ivs =
+        実装したMoji_JohoコレクションIVS &&
+        fromMJCodePoints(実装したMoji_JohoコレクションIVS)
+      const ucs = 実装したUCS && fromMJCodePoint(実装したUCS)
+
+      return {
+        code: MJ文字図形名,
+        char: ivs ?? ucs,
+        ucs: ucs,
+        href,
+      }
+    })
+    .filter(
+      (
+        record,
+      ): record is {
+        code: string
+        char: string
+        ucs: string | null
+        href: string
+      } => record.char != null,
+    )
 
   return (
     <div className="mojidata-response">
@@ -182,14 +217,15 @@ export default async function MojidataResponse(
           </div>
         </>
       )}
-      {ivsMj.length > 0 && (
+      {mji.length > 0 && (
         <>
           <h4>Moji_Joho</h4>
           <div className="mojidata-chars-comparison">
-            {ivsMj.map((record) => (
-              <figure key={record.IVS}>
+            {mji.map((record) => (
+              <figure key={record.code}>
                 <figcaption>
-                  {record.code}
+                  <Link href={record.href}>{record.code}</Link>
+                  {record.ucs && <span title="default glyph">*</span>}
                   <br />
                   <small>{toCodePoints(record.char)}</small>
                 </figcaption>
@@ -360,15 +396,6 @@ export default async function MojidataResponse(
           </Link>
         </li>
         {results.mji.map((record) => {
-          function fromCodePoint(cp: string) {
-            return String.fromCodePoint(parseInt(cp.slice(2), 16))
-          }
-          function fromCodePoints(cps: string) {
-            return cps
-              .split('_')
-              .map((cp) => String.fromCodePoint(parseInt(cp, 16)))
-              .join('')
-          }
           const {
             MJ文字図形名,
             実装したUCS,
@@ -376,13 +403,16 @@ export default async function MojidataResponse(
           } = record
           const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
           const char =
-            (実装したUCS && fromCodePoint(実装したUCS)) ??
+            (実装したUCS && fromMJCodePoint(実装したUCS)) ??
             (実装したMoji_JohoコレクションIVS &&
-              fromCodePoints(実装したMoji_JohoコレクションIVS))
+              fromMJCodePoints(実装したMoji_JohoコレクションIVS))
           return (
             <li key={MJ文字図形名}>
               <Link href={href}>
-                文字情報基盤検索システム {MJ文字図形名} {char && ` (${char})`}
+                文字情報基盤検索システム {MJ文字図形名}{' '}
+                <span className="mojidata-mojijoho">
+                  {char && ` (${char})`}
+                </span>
               </Link>
             </li>
           )
