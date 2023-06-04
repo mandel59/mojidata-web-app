@@ -33,9 +33,22 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { char } = params
+  const ucs = String.fromCodePoint(
+    decodeURIComponent(char).codePointAt(0) ?? 0x20,
+  )
+  const codePoint = ucs.codePointAt(0)?.toString(16).padStart(4, '0') ?? 0x20
+  const siteName = 'Mojidata Web App'
+  const title = `${ucs}`
+  const description = `Character data of U+${codePoint} ${ucs}`
   return {
+    title,
     alternates: {
       canonical: `/mojidata/${char}`,
+    },
+    openGraph: {
+      title,
+      description,
+      siteName,
     },
   }
 }

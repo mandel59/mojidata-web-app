@@ -2,12 +2,22 @@ import Link from 'next/link'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import '@picocss/pico/css/pico.min.css'
+import { canonicalUrlBase, description, siteName } from '@/settings'
 
 export const metadata = {
-  title: 'Mojidata Web App',
-  description:
-    'Mojidata is an open-source collection of kanji information databases.',
-  metadataBase: new URL('https://mojidata.ryusei.dev/'),
+  title: {
+    default: siteName,
+    template: `%s - ${siteName}`,
+  },
+  description,
+  openGraph: {
+    title: siteName,
+    description,
+    url: canonicalUrlBase,
+    siteName,
+    type: 'website',
+  },
+  metadataBase: new URL(canonicalUrlBase),
 }
 
 export default function RootLayout({
@@ -19,7 +29,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <body>
         <header className="container">
-          <h1>{metadata.title}</h1>
+          <h1>{siteName}</h1>
           <PreviewWarning />
           <nav>
             <a href="/">App</a> <a href="/about">About</a>
