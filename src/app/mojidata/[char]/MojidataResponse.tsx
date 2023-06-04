@@ -224,7 +224,7 @@ export default async function MojidataResponse(
             {mji.map((record) => (
               <figure key={record.code}>
                 <figcaption>
-                  <Link href={record.href}>{record.code}</Link>
+                  <a href={record.href}>{record.code}</a>
                   {record.ucs && <span title="default glyph">*</span>}
                   <br />
                   <small>{toCodePoints(record.char)}</small>
@@ -370,22 +370,22 @@ export default async function MojidataResponse(
       <h3>External Links</h3>
       <ul>
         <li>
-          <Link href={`https://www.chise.org/est/view/character/${char}`}>
+          <a href={`https://www.chise.org/est/view/character/${char}`}>
             CHISE EsT character = {ucs}
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
+          <a
             href={`http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=${ucs
               .codePointAt(0)!
               .toString(16)
               .toUpperCase()}`}
           >
             Unihan data for {toCodePoint(ucs)}
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
+          <a
             href={`https://glyphwiki.org/wiki/u${ucs
               .codePointAt(0)!
               .toString(16)
@@ -393,7 +393,7 @@ export default async function MojidataResponse(
           >
             u{ucs.codePointAt(0)!.toString(16).toLowerCase()} ({ucs}) -
             GlyphWiki
-          </Link>
+          </a>
         </li>
         {results.mji.map((record) => {
           const {
@@ -408,12 +408,12 @@ export default async function MojidataResponse(
               fromMJCodePoints(実装したMoji_JohoコレクションIVS))
           return (
             <li key={MJ文字図形名}>
-              <Link href={href}>
+              <a href={href}>
                 文字情報基盤検索システム {MJ文字図形名}{' '}
                 <span className="mojidata-mojijoho">
                   {char && ` (${char})`}
                 </span>
-              </Link>
+              </a>
             </li>
           )
         })}

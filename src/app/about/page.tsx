@@ -27,19 +27,19 @@ export default function License() {
       </p>
       <ul>
         <li>
-          <Link href="https://github.com/mandel59/mojidata">
+          <a href="https://github.com/mandel59/mojidata">
             GitHub mandel59/mojidata
-          </Link>
+          </a>
         </li>
         <li>
-          <Link href="https://github.com/mandel59/mojidata-api">
+          <a href="https://github.com/mandel59/mojidata-api">
             GitHub mandel59/mojidata-api
-          </Link>
+          </a>
         </li>
         <li>
-          <Link href="https://github.com/mandel59/mojidata-web-app">
+          <a href="https://github.com/mandel59/mojidata-web-app">
             GitHub mandel59/mojidata-web-app
-          </Link>
+          </a>
         </li>
       </ul>
       <hr />
@@ -48,9 +48,9 @@ export default function License() {
         online project that allows users to create, edit, and share glyphs of
         Chinese characters. You can view the license information for
         GlyphWiki&apos;s data on the{' '}
-        <Link href="http://en.glyphwiki.org/wiki/GlyphWiki:License">
+        <a href="http://en.glyphwiki.org/wiki/GlyphWiki:License">
           GlyphWiki:License
-        </Link>{' '}
+        </a>{' '}
         page.
       </p>
       <hr />

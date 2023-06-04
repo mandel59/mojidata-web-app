@@ -22,7 +22,7 @@ export default function RootLayout({
           <h1>{metadata.title}</h1>
           <PreviewWarning />
           <nav>
-            <Link href="/">App</Link> <Link href="/about">About</Link>
+            <a href="/">App</a> <a href="/about">About</a>
           </nav>
         </header>
         {children}
