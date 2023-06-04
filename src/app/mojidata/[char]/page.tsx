@@ -40,7 +40,7 @@ export async function generateMetadata(
     ucs.codePointAt(0)?.toString(16).toUpperCase().padStart(4, '0') ?? 0x20
   const siteName = 'Mojidata Web App'
   const title = `${ucs}`
-  const description = `Character data of U+${codePoint} ${ucs}`
+  const description = `Character data for U+${codePoint} ${ucs}`
   return {
     title,
     alternates: {
