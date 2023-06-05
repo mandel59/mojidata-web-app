@@ -63,16 +63,9 @@ function ConditionalLink(props: ConditionalLinkProps): ReactElement {
   }
 }
 
-interface MojidataResponseParams {
-  ucs: string
-}
-export default async function MojidataResponse(
-  params: MojidataResponseParams,
-): Promise<ReactElement> {
-  const { ucs } = params
-
+async function fetchMojidata(char: string) {
   const url = new URL(getApiUrl('/api/v1/mojidata'))
-  url.searchParams.set('char', ucs)
+  url.searchParams.set('char', char)
   // dummy query to avoid cache for older versions
   url.searchParams.set('_v', '1')
   const res = await fetch(url, {
@@ -88,6 +81,24 @@ export default async function MojidataResponse(
   }
   const responseBody = await res.json()
   const { results }: { results: MojidataResults } = responseBody
+  return results
+}
+
+interface MojidataResponseParams {
+  ucs: string
+}
+export default async function MojidataResponse(
+  params: MojidataResponseParams,
+): Promise<ReactElement> {
+  const { ucs } = params
+
+  const results = await fetchMojidata(ucs)
+
+  const cjkci = results.svs_cjkci.map((record) => record.CJKCI_char)
+  const isCompatibilityCharacter = cjkci.length > 0 && cjkci[0] === ucs
+  const compatibilityCharacters = !isCompatibilityCharacter
+    ? await Promise.all(cjkci.map((char) => fetchMojidata(char)))
+    : undefined
 
   const glyphWikiName = toGlyphWikiName(results.char)
 
@@ -114,6 +125,20 @@ export default async function MojidataResponse(
       ...tghbVariants.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
+
+  const unihanAj1 = results.unihan['kRSAdobe_Japan1_6']
+  const unihanAj1DefaultCidMatch = unihanAj1?.match(/^C\+(\d+)/)
+  const unihanAj1DefaultCid =
+    unihanAj1DefaultCidMatch && `CID+${unihanAj1DefaultCidMatch[1]}`
+
+  const unihanAj1CompatibilityCid = compatibilityCharacters
+    ? compatibilityCharacters.map((results) => {
+        const unihanAj1 = results.unihan['kRSAdobe_Japan1_6']
+        const m = unihanAj1?.match(/^C\+(\d+)/) ?? undefined
+        const cid = m && `CID+${m[1]}`
+        return { ucs: results.UCS, cid }
+      })
+    : undefined
 
   const ivsAj1 = results.ivs.filter(
     (record) => record.collection === 'Adobe-Japan1',
@@ -197,18 +222,29 @@ export default async function MojidataResponse(
       <h4 id="Adobe-Japan1">Adobe-Japan1</h4>
       {ivsAj1.length > 0 && (
         <div className="mojidata-chars-comparison">
-          {ivsAj1.map((record) => (
-            <figure key={record.IVS}>
-              <figcaption>
-                {record.code}
-                <br />
-                <small>{toCodePoints(record.char)}</small>
-              </figcaption>
-              <div className="mojidata-char" lang="ja">
-                {record.char}
-              </div>
-            </figure>
-          ))}
+          {ivsAj1.map((record) => {
+            const compat = unihanAj1CompatibilityCid?.find(
+              ({ cid }) => record.code === cid,
+            )
+            return (
+              <figure key={record.IVS}>
+                <figcaption>
+                  {record.code}
+                  {record.code === unihanAj1DefaultCid && (
+                    <span title="default glyph">*</span>
+                  )}
+                  {compat && (
+                    <span title={`compatibility variant ${compat.ucs}`}>†</span>
+                  )}
+                  <br />
+                  <small>{toCodePoints(record.char)}</small>
+                </figcaption>
+                <div className="mojidata-char" lang="ja">
+                  {record.char}
+                </div>
+              </figure>
+            )
+          })}
         </div>
       )}
       <h4 id="Moji_Joho">Moji_Joho</h4>
