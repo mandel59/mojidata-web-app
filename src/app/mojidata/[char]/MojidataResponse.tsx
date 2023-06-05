@@ -64,22 +64,12 @@ function ConditionalLink(props: ConditionalLinkProps): ReactElement {
 }
 
 interface MojidataResponseParams {
-  char: string
+  ucs: string
 }
 export default async function MojidataResponse(
   params: MojidataResponseParams,
 ): Promise<ReactElement> {
-  const { char } = params
-
-  const ucs = decodeURIComponent(char)
-
-  if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
-    notFound()
-  }
-
-  if ([...ucs].length !== 1) {
-    notFound()
-  }
+  const { ucs } = params
 
   const url = new URL(getApiUrl('/api/v1/mojidata'))
   url.searchParams.set('char', ucs)
@@ -370,7 +360,7 @@ export default async function MojidataResponse(
       <h3>External Links</h3>
       <ul>
         <li>
-          <a href={`https://www.chise.org/est/view/character/${char}`}>
+          <a href={`https://www.chise.org/est/view/character/${encodeURIComponent(ucs)}`}>
             CHISE EsT character = {ucs}
           </a>
         </li>

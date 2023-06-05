@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
 import Loading from '@/components/Loading'
 import IdsFinder from '@/components/IdsFinder'
+import { notFound } from 'next/navigation'
 
 export const runtime = 'experimental-edge'
 
@@ -13,12 +14,20 @@ type Props = {
 
 export default function Mojidata({ params }: Props) {
   const { char } = params
+  const ucs = decodeURIComponent(char)
+  if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
+    notFound()
+  }
+  if ([...ucs].length !== 1) {
+    notFound()
+  }
+
   return (
     <div>
       <main className="container">
         <Suspense fallback={<Loading />}>
           {/* @ts-expect-error Server Component */}
-          <MojidataResponse char={char} />
+          <MojidataResponse ucs={ucs} />
         </Suspense>
       </main>
       <nav className="container">
