@@ -121,8 +121,12 @@ export default async function MojidataResponse(
 
   const mji = results.mji
     .map((record) => {
-      const { MJ文字図形名, 実装したUCS, 実装したMoji_JohoコレクションIVS } =
-        record
+      const {
+        MJ文字図形名,
+        実装したUCS,
+        実装したSVS,
+        実装したMoji_JohoコレクションIVS,
+      } = record
       const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
       const ivs =
         実装したMoji_JohoコレクションIVS &&
@@ -133,6 +137,8 @@ export default async function MojidataResponse(
         code: MJ文字図形名,
         char: ivs ?? ucs,
         ucs: ucs,
+        svs: 実装したSVS && fromMJCodePoint(実装したSVS),
+        compat: 実装したSVS ? true : false,
         href,
       }
     })
@@ -143,6 +149,8 @@ export default async function MojidataResponse(
         code: string
         char: string
         ucs: string | null
+        svs: string | null
+        compat: boolean
         href: string
       } => record.char != null,
     )
@@ -212,7 +220,12 @@ export default async function MojidataResponse(
             <figure key={record.code}>
               <figcaption>
                 <a href={record.href}>{record.code}</a>
-                {record.ucs && <span title="default glyph">*</span>}
+                {record.ucs === ucs && !record.compat && (
+                  <span title="default glyph">*</span>
+                )}
+                {record.compat && (
+                  <span title="compatibility variant">†</span>
+                )}
                 <br />
                 <small>{toCodePoints(record.char)}</small>
               </figcaption>
