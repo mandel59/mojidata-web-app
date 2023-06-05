@@ -137,7 +137,6 @@ export default async function MojidataResponse(
         code: MJ文字図形名,
         char: ivs ?? ucs,
         ucs: ucs,
-        svs: 実装したSVS && fromMJCodePoint(実装したSVS),
         compat: 実装したSVS ? true : false,
         href,
       }
@@ -149,7 +148,6 @@ export default async function MojidataResponse(
         code: string
         char: string
         ucs: string | null
-        svs: string | null
         compat: boolean
         href: string
       } => record.char != null,
@@ -224,7 +222,11 @@ export default async function MojidataResponse(
                   <span title="default glyph">*</span>
                 )}
                 {record.compat && (
-                  <span title="compatibility variant">†</span>
+                  <span
+                    title={`compatibility variant ${toCodePoint(record.ucs!)}`}
+                  >
+                    †
+                  </span>
                 )}
                 <br />
                 <small>{toCodePoints(record.char)}</small>
