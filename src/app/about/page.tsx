@@ -18,7 +18,7 @@ export default function License() {
     return `${baseUrl}/${uri1}`
   }
   return (
-    <main>
+    <main className="container">
       <h2>About Mojidata</h2>
       <p>
         The Mojidata Web App is a web application for Mojidata, an open-source
