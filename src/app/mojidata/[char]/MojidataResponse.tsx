@@ -3,6 +3,7 @@ import { getApiUrl, getRevalidateDuration } from '@/app/config'
 import {
   MojidataResults,
   getCharNameOfKdpvChar,
+  getCns11643Search,
   getCodePointOfKdpvChar,
   getJoyoVariants,
   getKdpvVariants,
@@ -177,6 +178,8 @@ export default async function MojidataResponse(
         href: string
       } => record.char != null,
     )
+
+  const cns11643Search = getCns11643Search(results)
 
   return (
     <div className="mojidata-response">
@@ -451,6 +454,11 @@ export default async function MojidataResponse(
             </li>
           )
         })}
+        {cns11643Search && (
+          <li>
+            <a href={cns11643Search.href}>{cns11643Search.title}</a>
+          </li>
+        )}
       </ul>
       <h3 id="JSON">JSON</h3>
       <pre>{JSON.stringify(results, null, 2)}</pre>
