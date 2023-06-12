@@ -189,7 +189,6 @@ export default async function MojidataResponse(
           {results.UCS} {results.char}
         </figcaption>
         <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-          {/* @ts-expect-error Server Component */}
           <GlyphWikiChar name={glyphWikiName} alt={results.char} size={110} />
         </div>
       </figure>
@@ -386,7 +385,6 @@ export default async function MojidataResponse(
                   }
                 >
                   {codePoint ? (
-                    /* @ts-expect-error Server Component */
                     <GlyphWikiChar
                       name={toGlyphWikiName(char)}
                       alt={char}

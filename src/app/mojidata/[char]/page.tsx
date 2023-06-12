@@ -26,7 +26,6 @@ export default function Mojidata({ params }: Props) {
     <div>
       <main className="container">
         <Suspense fallback={<Loading />}>
-          {/* @ts-expect-error Server Component */}
           <MojidataResponse ucs={ucs} />
         </Suspense>
       </main>

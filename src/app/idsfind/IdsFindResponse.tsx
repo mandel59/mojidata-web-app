@@ -80,7 +80,6 @@ export default async function IdsFindResponse(
               key={char}
             >
               <Link  href={`/mojidata/${encodeURIComponent(char)}`}>
-                {/* @ts-expect-error Server Component */}
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
               </Link >
             </div>

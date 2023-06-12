@@ -1,6 +1,7 @@
 import { getRevalidateDuration } from '@/app/config'
 import { fetchGlyphWikiSvg } from '@/glyphwiki/fetchGlyphWikiSvg'
 import Image from 'next/image'
+import { Suspense } from 'react'
 
 export interface GlyphWikiCharProps {
   name: string
@@ -17,7 +18,12 @@ export function toGlyphWikiName(s: string) {
     .join('-')
 }
 
-export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
+function LoadingImage(props: GlyphWikiCharProps) {
+  const { name, alt } = props
+  return <span data-name={name} style={{ color: 'gray' }}>{alt}</span>
+}
+
+async function GlyphWikiImage(props: GlyphWikiCharProps) {
   const { name, alt, size } = props
   if (!name) {
     throw new Error(`Invalid character name: ${name}`)
@@ -35,4 +41,12 @@ export default async function GlyphWikiChar(props: GlyphWikiCharProps) {
   } else {
     return <span data-name={name}>{alt}</span>
   }
+}
+
+export default function GlyphWikiChar(props: GlyphWikiCharProps) {
+  return (
+    <Suspense fallback={<LoadingImage {...props} />}>
+      <GlyphWikiImage {...props} />
+    </Suspense>
+  )
 }

@@ -21,7 +21,6 @@ export default function IdsFind({ searchParams }: Props) {
     <div>
       <main className="container">
         <Suspense fallback={<Loading />}>
-          {/* @ts-expect-error Server Component */}
           <IdsFindResponse
             ids={castToArray(ids)}
             whole={castToArray(whole)}
