@@ -79,7 +79,7 @@ export default async function IdsFindResponse(
               lang="ja"
               key={char}
             >
-              <Link  href={`/mojidata/${encodeURIComponent(char)}`}>
+              <Link prefetch={false} href={`/mojidata/${encodeURIComponent(char)}`}>
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
               </Link >
             </div>
