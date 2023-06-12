@@ -81,7 +81,7 @@ export default async function IdsFindResponse(
             >
               <Link prefetch={false} href={`/mojidata/${encodeURIComponent(char)}`}>
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
-              </Link >
+              </Link>
             </div>
           )
         })}
@@ -91,14 +91,14 @@ export default async function IdsFindResponse(
           {prev && (
             <Link  rel="prev" role="button" href={prev}>
               Prev
-            </Link >
+            </Link>
           )}
         </div>
         <div>
           {next && (
             <Link  rel="next" role="button" href={next}>
               Next
-            </Link >
+            </Link>
           )}
         </div>
       </div>

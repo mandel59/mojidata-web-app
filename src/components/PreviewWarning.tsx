@@ -25,14 +25,14 @@ export default function PreviewWarning(): ReactElement {
         <div className="preview-warning">
           <p>
             This is a preview of the site. The production site is at &lt;
-            <Link  href="https://mojidata.ryusei.dev/">
+            <Link href="https://mojidata.ryusei.dev/">
               https://mojidata.ryusei.dev/
-            </Link >
+            </Link>
             &gt;.{' '}
             {productionPage && (
-              <Link  href={productionPage}>
+              <Link href={productionPage}>
                 Go to the production version of this page
-              </Link >
+              </Link>
             )}
           </p>
         </div>

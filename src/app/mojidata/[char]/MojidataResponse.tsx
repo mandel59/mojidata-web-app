@@ -58,7 +58,7 @@ function ConditionalLink(props: ConditionalLinkProps): ReactElement {
   const { href, children } = props
   if (href) {
     // FIXME: Next.js bug? Navigation history is not recorded correctly when using Link.
-    return <Link  href={href}>{children}</Link >
+    return <Link href={href}>{children}</Link>
   } else {
     return <span>{children}</span>
   }
@@ -255,7 +255,7 @@ export default async function MojidataResponse(
           {mji.map((record) => (
             <figure key={record.code}>
               <figcaption>
-                <Link  href={record.href}>{record.code}</Link >
+                <Link href={record.href}>{record.code}</Link>
                 {record.ucs === ucs && !record.compat && (
                   <span title="default glyph">*</span>
                 )}
@@ -407,7 +407,7 @@ export default async function MojidataResponse(
             )}`}
           >
             CHISE EsT character = {ucs}
-          </Link >
+          </Link>
         </li>
         <li>
           <Link 
@@ -417,7 +417,7 @@ export default async function MojidataResponse(
               .toUpperCase()}`}
           >
             Unihan data for {toCodePoint(ucs)}
-          </Link >
+          </Link>
         </li>
         <li>
           <Link 
@@ -428,7 +428,7 @@ export default async function MojidataResponse(
           >
             u{ucs.codePointAt(0)!.toString(16).toLowerCase()} ({ucs}) -
             GlyphWiki
-          </Link >
+          </Link>
         </li>
         {results.mji.map((record) => {
           const {
@@ -443,18 +443,18 @@ export default async function MojidataResponse(
               fromMJCodePoints(実装したMoji_JohoコレクションIVS))
           return (
             <li key={MJ文字図形名}>
-              <Link  href={href}>
+              <Link href={href}>
                 文字情報基盤検索システム {MJ文字図形名}{' '}
                 <span className="mojidata-mojijoho">
                   {char && ` (${char})`}
                 </span>
-              </Link >
+              </Link>
             </li>
           )
         })}
         {cns11643Search && (
           <li>
-            <Link  href={cns11643Search.href}>{cns11643Search.title}</Link >
+            <Link href={cns11643Search.href}>{cns11643Search.title}</Link>
           </li>
         )}
       </ul>
