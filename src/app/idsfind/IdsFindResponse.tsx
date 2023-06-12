@@ -79,7 +79,10 @@ export default async function IdsFindResponse(
               lang="ja"
               key={char}
             >
-              <Link prefetch={false} href={`/mojidata/${encodeURIComponent(char)}`}>
+              <Link
+                prefetch={false}
+                href={`/mojidata/${encodeURIComponent(char)}`}
+              >
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
               </Link>
             </div>
@@ -89,14 +92,15 @@ export default async function IdsFindResponse(
       <div className="pager">
         <div>
           {prev && (
-            <Link  rel="prev" role="button" href={prev}>
+            <Link rel="prev" role="button" href={prev}>
               Prev
             </Link>
           )}
         </div>
+        <div>page {pageNum}</div>
         <div>
           {next && (
-            <Link  rel="next" role="button" href={next}>
+            <Link rel="next" role="button" href={next}>
               Next
             </Link>
           )}
