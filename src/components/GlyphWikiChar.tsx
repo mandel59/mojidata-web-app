@@ -20,7 +20,11 @@ export function toGlyphWikiName(s: string) {
 
 function LoadingImage(props: GlyphWikiCharProps) {
   const { name, alt } = props
-  return <span data-name={name} style={{ color: 'gray' }}>{alt}</span>
+  return (
+    <span data-name={name} style={{ color: 'gray' }}>
+      {alt}
+    </span>
+  )
 }
 
 async function GlyphWikiImage(props: GlyphWikiCharProps) {
@@ -31,12 +35,14 @@ async function GlyphWikiImage(props: GlyphWikiCharProps) {
   const { svgImageDataUri } = await fetchGlyphWikiSvg(name)
   if (svgImageDataUri) {
     return (
-      <Image
-        src={svgImageDataUri}
-        alt={alt ?? name}
-        width={size}
-        height={size}
-      />
+      <span data-name={name}>
+        <Image
+          src={svgImageDataUri}
+          alt={alt ?? name}
+          width={size}
+          height={size}
+        />
+      </span>
     )
   } else {
     return <span data-name={name}>{alt}</span>
