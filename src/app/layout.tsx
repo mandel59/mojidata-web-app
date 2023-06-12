@@ -32,7 +32,7 @@ export default function RootLayout({
           <h1>{siteName}</h1>
           <PreviewWarning />
           <nav>
-            <a href="/">App</a> <a href="/about">About</a>
+            <Link  href="/">App</Link > <Link  href="/about">About</Link >
           </nav>
         </header>
         {children}
