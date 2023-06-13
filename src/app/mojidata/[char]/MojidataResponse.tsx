@@ -96,7 +96,11 @@ export default async function MojidataResponse(
   const results = await fetchMojidata(ucs)
 
   const cjkci = results.svs_cjkci.map((record) => record.CJKCI_char)
-  const isCompatibilityCharacter = cjkci.length > 0 && cjkci[0] === ucs
+  const isCompatibilityCharacter =
+    results.svs_cjkci.length > 0 && cjkci[0] === ucs
+  const canonicalCharacter = isCompatibilityCharacter
+    ? await fetchMojidata([...results.svs_cjkci[0].SVS_char][0])
+    : results
   const compatibilityCharacters = !isCompatibilityCharacter
     ? await Promise.all(cjkci.map((char) => fetchMojidata(char)))
     : undefined
@@ -126,6 +130,8 @@ export default async function MojidataResponse(
       ...tghbVariants.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
+
+  const aj1Cid = results.aj1?.CID && `CID+${results.aj1?.CID}`
 
   const unihanAj1 = results.unihan['kRSAdobe_Japan1_6']
   const unihanAj1DefaultCidMatch = unihanAj1?.match(/^C\+(\d+)/)
@@ -229,7 +235,7 @@ export default async function MojidataResponse(
               ({ cid }) => record.code === cid,
             )
             return (
-              <figure key={record.IVS}>
+              <figure key={record.code}>
                 <figcaption>
                   {record.code}
                   {record.code === unihanAj1DefaultCid && (
@@ -247,6 +253,25 @@ export default async function MojidataResponse(
               </figure>
             )
           })}
+        </div>
+      )}
+      {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
+        <div className="mojidata-chars-comparison">
+          <figure key={aj1Cid}>
+            <figcaption>
+              {aj1Cid}
+              <span
+                title={`compatibility variant of ${canonicalCharacter.UCS}`}
+              >
+                †
+              </span>
+              <br />
+              <small>{results.UCS}</small>
+            </figcaption>
+            <div className="mojidata-char" lang="ja">
+              {results.char}
+            </div>
+          </figure>
         </div>
       )}
       <h4 id="Moji_Joho">Moji_Joho</h4>
@@ -401,7 +426,7 @@ export default async function MojidataResponse(
       <h3 id="External_Links">External Links</h3>
       <ul>
         <li>
-          <Link 
+          <Link
             href={`https://www.chise.org/est/view/character/${encodeURIComponent(
               ucs,
             )}`}
@@ -410,7 +435,7 @@ export default async function MojidataResponse(
           </Link>
         </li>
         <li>
-          <Link 
+          <Link
             href={`http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=${ucs
               .codePointAt(0)!
               .toString(16)
@@ -420,7 +445,7 @@ export default async function MojidataResponse(
           </Link>
         </li>
         <li>
-          <Link 
+          <Link
             href={`https://glyphwiki.org/wiki/u${ucs
               .codePointAt(0)!
               .toString(16)

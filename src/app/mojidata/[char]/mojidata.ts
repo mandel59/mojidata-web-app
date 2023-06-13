@@ -3,7 +3,7 @@ export interface MojidataResults {
   UCS: string
   aj1: {
     CID: number
-  }
+  } | null
   ids: Array<{
     IDS: string
     source: string
