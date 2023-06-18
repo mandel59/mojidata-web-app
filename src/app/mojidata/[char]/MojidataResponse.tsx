@@ -105,6 +105,10 @@ export default async function MojidataResponse(
     ? await Promise.all(cjkci.map((char) => fetchMojidata(char)))
     : undefined
 
+  const svs = results.svs_cjkci.find(
+    (record) => record.CJKCI_char === results.char,
+  )
+
   const glyphWikiName = toGlyphWikiName(results.char)
 
   const kdpvVariants = getKdpvVariants(results)
@@ -193,11 +197,49 @@ export default async function MojidataResponse(
       <figure>
         <figcaption>
           {results.UCS} {results.char}
+          {svs && (
+            <>
+              <br />
+              <small>
+                {toCodePoints(svs.SVS_char)} {svs.SVS_char}
+              </small>
+            </>
+          )}
         </figcaption>
         <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
           <GlyphWikiChar name={glyphWikiName} alt={results.char} size={110} />
         </div>
       </figure>
+      {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
+        <>
+          <h3 id="Compatibility_Ideographs">Compatibility Ideographs</h3>
+          <div className="mojidata-chars-comparison">
+            {results.svs_cjkci.map((record) => {
+              return (
+                <figure key={record.SVS}>
+                  <figcaption>
+                    {record.CJKCI}
+                    <br />
+                    <small>{toCodePoints(record.SVS_char)}</small>
+                  </figcaption>
+                  <div
+                    className="mojidata-char mojidata-char-link mojidata-char-glyphwiki"
+                    lang="ja"
+                  >
+                    <Link href={`/mojidata/${record.CJKCI_char}`}>
+                      <GlyphWikiChar
+                        name={toGlyphWikiName(record.CJKCI_char)}
+                        alt={record.CJKCI}
+                        size={110}
+                      />
+                    </Link>
+                  </div>
+                </figure>
+              )
+            })}
+          </div>
+        </>
+      )}
       <h3 id="IDS">IDS</h3>
       <table>
         <thead>
