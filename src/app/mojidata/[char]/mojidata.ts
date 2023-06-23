@@ -1,4 +1,4 @@
-import { getApiUrl, getRevalidateDuration } from "@/app/config"
+import { getApiUrl, getRevalidateDuration } from '@/app/config'
 
 export interface MojidataResults {
   char: string
@@ -24,6 +24,12 @@ export interface MojidataResults {
     CJKCI: string
   }>
   unihan: Partial<Record<UnihanPropertyName, string>>
+  unihan_fts: [
+    codePoint: string,
+    char: string,
+    unihanProperty: UnihanPropertyName,
+    value: string,
+  ][]
   unihan_variant: Array<
     [
       unihanProperty: UnihanPropertyName,
@@ -384,32 +390,53 @@ export function getKdpvVariants(results: MojidataResults) {
 
 export function getUnihanVariants(results: MojidataResults) {
   const m = new Map<string, Set<string>>()
+  const s = new Map<string, Set<string>>()
   for (const [
-    unihanPropertyName,
+    unihanProperty,
     _codePoint,
     char,
     additionalData,
   ] of results.unihan_variant) {
     const rel = additionalData
-      ? `${unihanPropertyName}[${additionalData}]`
-      : unihanPropertyName
+      ? `${unihanProperty}[${additionalData}]`
+      : unihanProperty
     add(m, char, rel)
+    add(s, char, unihanProperty)
+  }
+  for (const [unihanProperty, value] of Object.entries(results.unihan)) {
+    for (let [char] of value.matchAll(
+      /U\+[0-9A-F]+|[\p{sc=Han}\u{20000}-\u{3FFFF}]/gu,
+    )) {
+      if (char.startsWith('U+')) {
+        char = String.fromCodePoint(parseInt(char.slice(2), 16))
+      }
+      if (char === results.char) continue
+      if (s.get(char)?.has(unihanProperty)) continue
+      add(m, char, `${unihanProperty}[${value}]`)
+    }
   }
   return m
 }
 
 export function getUnihanInverseVariants(results: MojidataResults) {
-  const m = new Map<string, Set<UnihanPropertyName>>()
+  const m = new Map<string, Set<string>>()
+  const s = new Map<string, Set<string>>()
   for (const [
-    unihanPropertyName,
+    unihanProperty,
     _codePoint,
     char,
     additionalData,
   ] of results.unihan_variant_inverse) {
     const rel = additionalData
-      ? `${unihanPropertyName}[${additionalData}]`
-      : unihanPropertyName
+      ? `${unihanProperty}[${additionalData}]`
+      : unihanProperty
     add(m, char, rel)
+    add(s, char, unihanProperty)
+  }
+  for (const [_codePoint, char, unihanProperty, value] of results.unihan_fts) {
+    if (char === results.char) continue
+    if (s.get(char)?.has(unihanProperty)) continue
+    add(m, char, `${unihanProperty}[${value}]`)
   }
   return m
 }
