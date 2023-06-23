@@ -10,6 +10,11 @@ export interface MojidataResults {
     IDS: string
     source: string
   }>
+  ids_similar: Array<{
+    UCS: string
+    IDS: string
+    source: string
+  }>
   ids_comment: string[]
   ivs: Array<{
     char: string
@@ -316,7 +321,7 @@ export async function fetchMojidata(char: string) {
   const url = new URL(getApiUrl('/api/v1/mojidata'))
   url.searchParams.set('char', char)
   // dummy query to avoid cache for older versions
-  url.searchParams.set('_v', '2')
+  url.searchParams.set('_v', '3')
   const res = await fetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
@@ -547,6 +552,19 @@ export function getBabelStoneIdsVariants(results: MojidataResults) {
       if (char === results.char) continue
       add(m, char, comment)
     }
+  }
+  for (const { IDS } of results.ids) {
+    if (/^[〾↔↷].$/u.test(IDS)) {
+      add(m, String.fromCodePoint(IDS.codePointAt(1)!), IDS)
+    }
+  }
+  return m
+}
+
+export function getBabelStoneIdsInverseVariants(results: MojidataResults) {
+  const m = new Map<string, Set<string>>()
+  for (const { UCS, IDS } of results.ids_similar) {
+    add(m, UCS, IDS)
   }
   return m
 }

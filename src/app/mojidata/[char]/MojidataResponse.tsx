@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from 'react'
 import {
   fetchMojidata,
+  getBabelStoneIdsInverseVariants,
   getBabelStoneIdsVariants,
   getCharNameOfKdpvChar,
   getCns11643Search,
@@ -99,6 +100,7 @@ export default async function MojidataResponse(
   const nyukanInverseVariants = getNyukanInverseVariants(results)
   const tghbVariants = getTghbVariants(results)
   const babelStoneIdsVariants = getBabelStoneIdsVariants(results)
+  const idsInverseVariants = getBabelStoneIdsInverseVariants(results)
 
   const allVariantChars = Array.from(
     new Set([
@@ -112,6 +114,7 @@ export default async function MojidataResponse(
       ...nyukanInverseVariants.keys(),
       ...tghbVariants.keys(),
       ...babelStoneIdsVariants.keys(),
+      ...idsInverseVariants.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
 
@@ -356,6 +359,7 @@ export default async function MojidataResponse(
           const nyukanInverseRelations = nyukanInverseVariants.get(char)
           const tghbRelations = tghbVariants.get(char)
           const babelStoneIdsRelations = babelStoneIdsVariants.get(char)
+          const idsInverseRelations = idsInverseVariants.get(char)
           const isIDS = kdpvCharIsIDS(char)
           const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
           const charName = getCharNameOfKdpvChar(char)
@@ -430,8 +434,13 @@ export default async function MojidataResponse(
                 {babelStoneIdsRelations && (
                   <div>
                     <small>
-                      →ids: {[...babelStoneIdsRelations].join('; ')}
+                      →ids: {[...babelStoneIdsRelations].join(', ')}
                     </small>
+                  </div>
+                )}
+                {idsInverseRelations && (
+                  <div>
+                    <small>←ids: {[...idsInverseRelations].join(', ')}</small>
                   </div>
                 )}
               </figcaption>
