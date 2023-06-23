@@ -8,6 +8,51 @@
 }
 
 @font-face {
+  font-family: Mojidata-SourceHanSerifSC;
+  src: local('Source Han Serif SC'), local('Noto Serif CJK SC');
+  /* override to ideographic baseline */
+  /* ascent=800, descent=200, height=1000, baseline.ideo=-120 */
+  ascent-override: calc(100% - 100% * 120 / 1000);
+  descent-override: calc(100% * 120 / 1000);
+}
+
+@font-face {
+  font-family: Mojidata-SourceHanSerifTC;
+  src: local('Source Han Serif TC'), local('Noto Serif CJK TC');
+  /* override to ideographic baseline */
+  /* ascent=800, descent=200, height=1000, baseline.ideo=-120 */
+  ascent-override: calc(100% - 100% * 120 / 1000);
+  descent-override: calc(100% * 120 / 1000);
+}
+
+@font-face {
+  font-family: Mojidata-SourceHanSerifHK;
+  src: local('Source Han Serif HK'), local('Noto Serif CJK HK');
+  /* override to ideographic baseline */
+  /* ascent=800, descent=200, height=1000, baseline.ideo=-120 */
+  ascent-override: calc(100% - 100% * 120 / 1000);
+  descent-override: calc(100% * 120 / 1000);
+}
+
+@font-face {
+  font-family: Mojidata-SourceHanSerifJP;
+  src: local('Source Han Serif JP'), local('Noto Serif CJK JP');
+  /* override to ideographic baseline */
+  /* ascent=800, descent=200, height=1000, baseline.ideo=-120 */
+  ascent-override: calc(100% - 100% * 120 / 1000);
+  descent-override: calc(100% * 120 / 1000);
+}
+
+@font-face {
+  font-family: Mojidata-SourceHanSerifKR;
+  src: local('Source Han Serif KR'), local('Noto Serif CJK KR');
+  /* override to ideographic baseline */
+  /* ascent=800, descent=200, height=1000, baseline.ideo=-120 */
+  ascent-override: calc(100% - 100% * 120 / 1000);
+  descent-override: calc(100% * 120 / 1000);
+}
+
+@font-face {
   font-family: Mojidata-IPAmjMincho;
   src: local('IPAmjMincho');
   /* override to ideographic baseline */
@@ -17,5 +62,8 @@
 }
 
 body {
-  font-family: Mojidata-SourceHanSerif, serif;
+  /* TODO: consider font preference */
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
+    Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
+    Mojidata-SourceHanSerifKR, serif;
 }

@@ -24,7 +24,30 @@
 }
 
 .mojidata-source-han-serif {
-  font-family: 'Mojidata-SourceHanSerif', serif;
+  /* TODO: consider font preference */
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
+    Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
+    Mojidata-SourceHanSerifKR, serif;
+}
+
+.mojidata-source-han-serif:lang(ja) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP, serif;
+}
+
+.mojidata-source-han-serif:lang(ko) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifKR, serif;
+}
+
+.mojidata-source-han-serif:lang(zh-CN) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifSC, serif;
+}
+
+.mojidata-source-han-serif:lang(zh-TW) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifTC, serif;
+}
+
+.mojidata-source-han-serif:lang(zh-HK) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifHK, serif;
 }
 
 .mojidata-mojijoho {

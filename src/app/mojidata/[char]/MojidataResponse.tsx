@@ -243,8 +243,11 @@ export default async function MojidataResponse(
         {langTags.map((lang) => (
           <figure key={lang}>
             <figcaption>{lang}</figcaption>
-            <div className="mojidata-char" lang={lang}>
-              <span className="mojidata-raw-char mojidata-source-han-serif">
+            <div className="mojidata-char">
+              <span
+                lang={lang}
+                className="mojidata-raw-char mojidata-source-han-serif"
+              >
                 {results.char}
               </span>
             </div>
@@ -271,8 +274,11 @@ export default async function MojidataResponse(
                   <br />
                   <small>{toCodePoints(record.char)}</small>
                 </figcaption>
-                <div className="mojidata-char" lang="ja">
-                  <span className="mojidata-raw-char mojidata-source-han-serif">
+                <div className="mojidata-char">
+                  <span
+                    lang="ja"
+                    className="mojidata-raw-char mojidata-source-han-serif"
+                  >
                     {record.char}
                   </span>
                 </div>
