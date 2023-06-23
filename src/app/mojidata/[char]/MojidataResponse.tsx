@@ -2,6 +2,7 @@ import { ReactElement, ReactNode } from 'react'
 import { getApiUrl, getRevalidateDuration } from '@/app/config'
 import {
   MojidataResults,
+  getBabelStoneIdsVariants,
   getCharNameOfKdpvChar,
   getCns11643Search,
   getCodePointOfKdpvChar,
@@ -120,6 +121,7 @@ export default async function MojidataResponse(
   const nyukanVariants = getNyukanVariants(results)
   const nyukanInverseVariants = getNyukanInverseVariants(results)
   const tghbVariants = getTghbVariants(results)
+  const babelStoneIdsVariants = getBabelStoneIdsVariants(results)
 
   const allVariantChars = Array.from(
     new Set([
@@ -132,6 +134,7 @@ export default async function MojidataResponse(
       ...nyukanVariants.keys(),
       ...nyukanInverseVariants.keys(),
       ...tghbVariants.keys(),
+      ...babelStoneIdsVariants.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
 
@@ -361,6 +364,7 @@ export default async function MojidataResponse(
           const nyukanRelations = nyukanVariants.get(char)
           const nyukanInverseRelations = nyukanInverseVariants.get(char)
           const tghbRelations = tghbVariants.get(char)
+          const babelStoneIdsRelations = babelStoneIdsVariants.get(char)
           const isIDS = kdpvCharIsIDS(char)
           const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
           const charName = getCharNameOfKdpvChar(char)
@@ -430,6 +434,13 @@ export default async function MojidataResponse(
                 {tghbRelations && (
                   <div>
                     <small>→tghb: {[...tghbRelations].join(', ')}</small>
+                  </div>
+                )}
+                {babelStoneIdsRelations && (
+                  <div>
+                    <small>
+                      →ids: {[...babelStoneIdsRelations].join('; ')}
+                    </small>
                   </div>
                 )}
               </figcaption>

@@ -488,3 +488,15 @@ export function getCns11643Search(results: MojidataResults) {
     }
   }
 }
+
+export function getBabelStoneIdsVariants(results: MojidataResults) {
+  const m = new Map<string, Set<string>>()
+  for (const comment of results.ids_comment) {
+    for (const [_codePoint, hex] of comment.matchAll(/U\+([0-9A-F]+)/g)) {
+      const char = String.fromCodePoint(parseInt(hex, 16))
+      if (char === results.char) continue
+      add(m, char, comment)
+    }
+  }
+  return m
+}
