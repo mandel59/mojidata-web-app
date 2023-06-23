@@ -19,17 +19,16 @@
   font-size: 100px;
   width: 120px;
   height: 120px;
-  line-height: 100px;
   text-align: center;
   overflow: clip;
 }
 
-.mojidata-mojijoho {
-  font-family: 'IPAmj明朝', serif;
+.mojidata-source-han-serif {
+  font-family: 'Mojidata-SourceHanSerif', serif;
 }
 
-.mojidata-char.mojidata-mojijoho {
-  line-height: 120px;
+.mojidata-mojijoho {
+  font-family: 'Mojidata-IPAmjMincho', serif;
 }
 
 .mojidata-char-link a {
@@ -42,6 +41,12 @@
 .mojidata-char.mojidata-char-link,
 .mojidata-kdpv-char.mojidata-char-link {
   border: 1px solid #88f;
+}
+
+.mojidata-raw-char {
+  display: inline-block;
+  height: 100px;
+  line-height: 100px;
 }
 
 .mojidata-kdpv-char {

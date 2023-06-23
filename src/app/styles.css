@@ -1,3 +1,21 @@
+@font-face {
+  font-family: Mojidata-SourceHanSerif;
+  src: local('Source Han Serif'), local('Noto Serif CJK');
+  /* override to ideographic baseline */
+  /* ascent=800, descent=200, height=1000, baseline.ideo=-120 */
+  ascent-override: calc(100% - 100% * 120 / 1000);
+  descent-override: calc(100% * 120 / 1000);
+}
+
+@font-face {
+  font-family: Mojidata-IPAmjMincho;
+  src: local('IPAmjMincho');
+  /* override to ideographic baseline */
+  /* ascent=1802, descent=246, height=2048, baseline.ideo=-246 */
+  ascent-override: calc(100% - 100% * 246 / 2048);
+  descent-override: calc(100% * 246 / 2048);
+}
+
 body {
-  font-family: 'Source Han Serif', 'Noto Serif CJK', serif;
+  font-family: Mojidata-SourceHanSerif, serif;
 }

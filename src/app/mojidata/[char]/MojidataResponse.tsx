@@ -244,7 +244,9 @@ export default async function MojidataResponse(
           <figure key={lang}>
             <figcaption>{lang}</figcaption>
             <div className="mojidata-char" lang={lang}>
-              {results.char}
+              <span className="mojidata-raw-char mojidata-source-han-serif">
+                {results.char}
+              </span>
             </div>
           </figure>
         ))}
@@ -270,7 +272,9 @@ export default async function MojidataResponse(
                   <small>{toCodePoints(record.char)}</small>
                 </figcaption>
                 <div className="mojidata-char" lang="ja">
-                  {record.char}
+                  <span className="mojidata-raw-char mojidata-source-han-serif">
+                    {record.char}
+                  </span>
                 </div>
               </figure>
             )
@@ -291,7 +295,9 @@ export default async function MojidataResponse(
               <small>{results.UCS}</small>
             </figcaption>
             <div className="mojidata-char" lang="ja">
-              {results.char}
+              <span className="mojidata-raw-char mojidata-source-han-serif">
+                {results.char}
+              </span>
             </div>
           </figure>
         </div>
@@ -316,8 +322,10 @@ export default async function MojidataResponse(
                 <br />
                 <small>{toCodePoints(record.char)}</small>
               </figcaption>
-              <div className="mojidata-char mojidata-mojijoho" lang="ja">
-                {record.char}
+              <div className="mojidata-char" lang="ja">
+                <span className="mojidata-raw-char mojidata-mojijoho">
+                  {record.char}
+                </span>
               </div>
             </figure>
           ))}
