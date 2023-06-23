@@ -360,14 +360,17 @@ export function getKdpvVariants(results: MojidataResults) {
 }
 
 export function getUnihanVariants(results: MojidataResults) {
-  const m = new Map<string, Set<UnihanPropertyName>>()
+  const m = new Map<string, Set<string>>()
   for (const [
     unihanPropertyName,
     _codePoint,
     char,
-    _additionalData,
+    additionalData,
   ] of results.unihan_variant) {
-    add(m, char, unihanPropertyName)
+    const rel = additionalData
+      ? `${unihanPropertyName}[${additionalData}]`
+      : unihanPropertyName
+    add(m, char, rel)
   }
   return m
 }
@@ -378,9 +381,12 @@ export function getUnihanInverseVariants(results: MojidataResults) {
     unihanPropertyName,
     _codePoint,
     char,
-    _additionalData,
+    additionalData,
   ] of results.unihan_variant_inverse) {
-    add(m, char, unihanPropertyName)
+    const rel = additionalData
+      ? `${unihanPropertyName}[${additionalData}]`
+      : unihanPropertyName
+    add(m, char, rel)
   }
   return m
 }
