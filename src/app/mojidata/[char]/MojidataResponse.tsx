@@ -488,6 +488,11 @@ export default async function MojidataResponse(
           </a>
         </li>
         <li>
+          <a href={`https://zi.tools/zi/${encodeURIComponent(ucs)}`}>
+            {ucs}: zi.tools
+          </a>
+        </li>
+        <li>
           <a
             href={`http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=${ucs
               .codePointAt(0)!
