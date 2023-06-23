@@ -3,11 +3,7 @@ import './styles.css'
 import { getApiUrl, getRevalidateDuration } from '@/app/config'
 import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
-
-function normalize(s: string) {
-  const vsPattern = /[\uFE00-\uFE0F\u{E0100}-\u{E01EF}]/gu
-  return s.normalize('NFC').replace(vsPattern, '')
-}
+import { fetchIdsFind } from './idsfind'
 
 function getPrevAndNextPagePath(
   ids: string[],
@@ -47,26 +43,12 @@ export default async function IdsFindResponse(
   const { ids, whole, page } = params
   const size = 120
   const pageNum = page ?? 1
-  const offset = (pageNum - 1) * size
-  const url = new URL(getApiUrl('/api/v1/idsfind'))
-  ids.map(normalize).forEach((value) => url.searchParams.append('ids', value))
-  whole
-    .map(normalize)
-    .forEach((value) => url.searchParams.append('whole', value))
-  const res = await fetch(url, {
-    next: {
-      revalidate: getRevalidateDuration(),
-    },
-    headers: {
-      Accept: 'application/json',
-    },
+  const { results, done, offset } = await fetchIdsFind({
+    ids,
+    whole,
+    page,
+    size,
   })
-  if (!res.ok) {
-    throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
-  }
-  const responseBody = await res.json()
-  const { results } = responseBody as { results: string[] }
-  const done = results.length <= offset + size
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
   return (
     <div>
