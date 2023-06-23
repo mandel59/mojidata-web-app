@@ -1,3 +1,5 @@
+import { getApiUrl, getRevalidateDuration } from "@/app/config"
+
 export interface MojidataResults {
   char: string
   UCS: string
@@ -303,6 +305,27 @@ const kdpvRelations = [
 ] as const
 
 export type KdpvRelation = (typeof kdpvRelations)[number]
+
+export async function fetchMojidata(char: string) {
+  const url = new URL(getApiUrl('/api/v1/mojidata'))
+  url.searchParams.set('char', char)
+  // dummy query to avoid cache for older versions
+  url.searchParams.set('_v', '2')
+  const res = await fetch(url, {
+    next: {
+      revalidate: getRevalidateDuration(),
+    },
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+  if (!res.ok) {
+    throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
+  }
+  const responseBody = await res.json()
+  const { results }: { results: MojidataResults } = responseBody
+  return results
+}
 
 export function toCodePoint(c: string): string {
   const codePoint = c.codePointAt(0)!

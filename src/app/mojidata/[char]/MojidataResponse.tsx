@@ -1,7 +1,6 @@
 import { ReactElement, ReactNode } from 'react'
-import { getApiUrl, getRevalidateDuration } from '@/app/config'
 import {
-  MojidataResults,
+  fetchMojidata,
   getBabelStoneIdsVariants,
   getCharNameOfKdpvChar,
   getCns11643Search,
@@ -21,7 +20,6 @@ import {
 } from './mojidata'
 import './styles.css'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja', 'ko'] as const
@@ -63,27 +61,6 @@ function ConditionalLink(props: ConditionalLinkProps): ReactElement {
   } else {
     return <span>{children}</span>
   }
-}
-
-async function fetchMojidata(char: string) {
-  const url = new URL(getApiUrl('/api/v1/mojidata'))
-  url.searchParams.set('char', char)
-  // dummy query to avoid cache for older versions
-  url.searchParams.set('_v', '1')
-  const res = await fetch(url, {
-    next: {
-      revalidate: getRevalidateDuration(),
-    },
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-  if (!res.ok) {
-    throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
-  }
-  const responseBody = await res.json()
-  const { results }: { results: MojidataResults } = responseBody
-  return results
 }
 
 interface MojidataResponseParams {
