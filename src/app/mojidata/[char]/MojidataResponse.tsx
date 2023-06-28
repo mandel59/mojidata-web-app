@@ -150,6 +150,8 @@ export default async function MojidataResponse(
         実装したUCS,
         実装したSVS,
         実装したMoji_JohoコレクションIVS,
+        X0213_包摂区分,
+        X0212,
       } = record
       const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
       const ivs =
@@ -162,6 +164,8 @@ export default async function MojidataResponse(
         char: ivs ?? ucs,
         ucs: ucs,
         compat: 実装したSVS ? true : false,
+        x0213: X0213_包摂区分 === 0,
+        x0212: X0212 != null,
         href,
       }
     })
@@ -173,9 +177,13 @@ export default async function MojidataResponse(
         char: string
         ucs: string | null
         compat: boolean
+        x0213: boolean
+        x0212: boolean
         href: string
       } => record.char != null,
     )
+
+  const isJISX0213char = mji.some((record) => record.x0213)
 
   const cns11643Search = getCns11643Search(results)
 
@@ -334,6 +342,18 @@ export default async function MojidataResponse(
                 <a href={record.href}>{record.code}</a>
                 {record.ucs === ucs && !record.compat && (
                   <span title="default glyph">*</span>
+                )}
+                {isJISX0213char &&
+                  !record.x0213 &&
+                  record.ucs === ucs &&
+                  !record.compat && (
+                    <span title="not JIS X 0213:2004 glyph">!</span>
+                  )}
+                {record.x0213 && !(record.ucs === ucs && !record.compat) && (
+                  <span title="JIS X 0213:2004 glyph">⁑</span>
+                )}
+                {!(record.ucs === ucs && !record.compat) && record.x0212 && (
+                  <span title="JIS X 0212 glyph">‡</span>
                 )}
                 {record.compat && (
                   <span
