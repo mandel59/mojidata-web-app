@@ -118,7 +118,12 @@ export default async function MojidataResponse(
     ]),
   ).sort((x, y) => compareString(x, y))
 
-  const aj1Cid = results.aj1?.CID && `CID+${results.aj1?.CID}`
+  const aj1Cid =
+    results.aj1?.CID != null ? `CID+${results.aj1?.CID}` : undefined
+  const aj1Jp90 =
+    results.aj1?.jp90 != null ? `CID+${results.aj1?.jp90}` : undefined
+  const aj1Jp04 =
+    results.aj1?.jp04 != null ? `CID+${results.aj1?.jp04}` : undefined
 
   const unihanAj1 = results.unihan['kRSAdobe_Japan1_6']
   const unihanAj1DefaultCidMatch = unihanAj1?.match(/^C\+(\d+)/)
@@ -268,8 +273,17 @@ export default async function MojidataResponse(
               <figure key={record.code}>
                 <figcaption>
                   {record.code}
-                  {record.code === unihanAj1DefaultCid && (
-                    <span title="default glyph">*</span>
+                  {record.code === aj1Jp04 && (
+                    <span
+                      title={
+                        record.code !== aj1Jp90 ? 'jp04 glyph' : 'default glyph'
+                      }
+                    >
+                      *
+                    </span>
+                  )}
+                  {record.code === aj1Jp90 && record.code !== aj1Jp04 && (
+                    <span title="jp90 glyph">⁑</span>
                   )}
                   {compat && (
                     <span title={`compatibility variant ${compat.ucs}`}>†</span>
