@@ -5,6 +5,14 @@ export interface MojidataResults {
   UCS: string
   aj1: {
     CID: number
+    jp90: number
+    jp90_V: number | null
+    jp04: number
+    jp04_V: number | null
+    mac_jp90: number
+    mac_jp90_V: number | null
+    mac_jp04: number
+    mac_jp04_V: number | null
   } | null
   ids: Array<{
     IDS: string
@@ -321,7 +329,7 @@ export async function fetchMojidata(char: string) {
   const url = new URL(getApiUrl('/api/v1/mojidata'))
   url.searchParams.set('char', char)
   // dummy query to avoid cache for older versions
-  url.searchParams.set('_v', '3')
+  url.searchParams.set('_v', '4')
   const res = await fetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
