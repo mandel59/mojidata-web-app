@@ -33,8 +33,17 @@ function getPrevAndNextPagePath(
   }
 }
 
-function getRefName(ref: string) {
-  return ref.slice(1, ref.length - 1)
+function toRefName(char: string) {
+  const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
+  if (charIsRef) {
+    return char.slice(1, char.length - 1)
+  } else {
+    return `U+${char
+      .codePointAt(0)
+      ?.toString(16)
+      .padStart(4, '0')
+      .toUpperCase()}`
+  }
 }
 
 interface IdsFindResponseParams {
@@ -70,7 +79,7 @@ export default async function IdsFindResponse(
               className="ids-find-result-char ids-find-char-glyphwiki"
               lang="ja"
               key={char}
-              title={charIsRef ? getRefName(char) : char}
+              title={toRefName(char)}
             >
               <ConditionalLink prefetch={false} href={href}>
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
