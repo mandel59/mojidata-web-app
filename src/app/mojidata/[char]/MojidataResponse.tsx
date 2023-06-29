@@ -78,6 +78,11 @@ export default async function MojidataResponse(
   const charIsHan =
     /[\p{Script=Han}\u{20000}-\u{2FFFD}\u{30000}-\u{3FFFD}]/u.test(results.char)
 
+  const charIsHentaigana = results.mjih[0]?.文字 === results.char
+  const 学術用変体仮名番号 = charIsHentaigana
+    ? results.mjih[0]?.学術用変体仮名番号 ?? undefined
+    : undefined
+
   const cjkci = results.svs_cjkci.map((record) => record.CJKCI_char)
   const isCompatibilityCharacter =
     results.svs_cjkci.length > 0 && cjkci[0] === ucs
@@ -585,10 +590,20 @@ export default async function MojidataResponse(
             })}
             {cns11643Search && (
               <li>
-                <Link href={cns11643Search.href}>{cns11643Search.title}</Link>
+                <a href={cns11643Search.href}>{cns11643Search.title}</a>
               </li>
             )}
           </>
+        )}
+        {学術用変体仮名番号 && (
+          <li>
+            <a
+              href={`https://cid.ninjal.ac.jp/kana/detail/${学術用変体仮名番号}/`}
+            >
+              変体仮名 {学術用変体仮名番号} - 学術情報交換用変体仮名 |
+              国立国語研究所
+            </a>
+          </li>
         )}
       </ul>
       <h3 id="JSON">JSON</h3>
