@@ -33,6 +33,10 @@ function getPrevAndNextPagePath(
   }
 }
 
+function getRefName(ref: string) {
+  return ref.slice(1, ref.length - 1)
+}
+
 interface IdsFindResponseParams {
   ids: string[]
   whole: string[]
@@ -56,7 +60,7 @@ export default async function IdsFindResponse(
       <div className="ids-find-response">
         {results.slice(offset, offset + size).map((char: string) => {
           const glyphWikiName = toGlyphWikiName(char)
-          const charIsRef = char[0] === '&'
+          const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
           // TODO: Make pages for reference characters
           const href = charIsRef
             ? `https://glyphwiki.org/wiki/${glyphWikiName}`
@@ -66,7 +70,7 @@ export default async function IdsFindResponse(
               className="ids-find-result-char ids-find-char-glyphwiki"
               lang="ja"
               key={char}
-              title={glyphWikiName}
+              title={charIsRef ? getRefName(char) : char}
             >
               <ConditionalLink prefetch={false} href={href}>
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />

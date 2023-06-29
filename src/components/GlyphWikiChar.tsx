@@ -10,8 +10,11 @@ export interface GlyphWikiCharProps {
 }
 
 export function toGlyphWikiName(s: string) {
-  if (s.startsWith('&UTC-')) {
-    return s.slice(1, s.length - 1).toLowerCase()
+  if (s[0] === '&' && s[s.length - 1] === ';') {
+    return s
+      .slice(1, s.length - 1)
+      .toLowerCase()
+      .replace(/^uk-/, 'utc-')
   }
   return [...s]
     .map(
