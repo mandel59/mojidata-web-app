@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { ReactNode, ReactElement } from "react"
+import Link from 'next/link'
+import { ReactNode, ReactElement } from 'react'
 
 export interface ConditionalLinkProps {
   href: string | undefined
@@ -7,11 +7,20 @@ export interface ConditionalLinkProps {
   children: ReactNode | ReactNode[]
 }
 
-export default function ConditionalLink(props: ConditionalLinkProps): ReactElement {
+export default function ConditionalLink(
+  props: ConditionalLinkProps,
+): ReactElement {
   const { href, prefetch, children } = props
   if (href) {
     // FIXME: Next.js bug? Navigation history is not recorded correctly when using Link.
-    return <Link prefetch={prefetch} href={href}>{children}</Link>
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      return <a href={href}>{children}</a>
+    }
+    return (
+      <Link prefetch={prefetch} href={href}>
+        {children}
+      </Link>
+    )
   } else {
     return <span>{children}</span>
   }
