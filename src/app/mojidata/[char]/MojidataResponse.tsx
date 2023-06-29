@@ -6,6 +6,7 @@ import {
   getCharNameOfKdpvChar,
   getCns11643Search,
   getCodePointOfKdpvChar,
+  getHentaigana,
   getJoyoVariants,
   getKdpvVariants,
   getMjsmInverseVariants,
@@ -74,6 +75,9 @@ export default async function MojidataResponse(
 
   const results = await fetchMojidata(ucs)
 
+  const charIsHan =
+    /[\p{Script=Han}\u{20000}-\u{2FFFD}\u{30000}-\u{3FFFD}]/u.test(results.char)
+
   const cjkci = results.svs_cjkci.map((record) => record.CJKCI_char)
   const isCompatibilityCharacter =
     results.svs_cjkci.length > 0 && cjkci[0] === ucs
@@ -101,6 +105,7 @@ export default async function MojidataResponse(
   const tghbVariants = getTghbVariants(results)
   const babelStoneIdsVariants = getBabelStoneIdsVariants(results)
   const idsInverseVariants = getBabelStoneIdsInverseVariants(results)
+  const hentaigana = getHentaigana(results)
 
   const allVariantChars = Array.from(
     new Set([
@@ -115,6 +120,7 @@ export default async function MojidataResponse(
       ...tghbVariants.keys(),
       ...babelStoneIdsVariants.keys(),
       ...idsInverseVariants.keys(),
+      ...hentaigana.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
 
@@ -398,6 +404,7 @@ export default async function MojidataResponse(
           const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
           const charName = getCharNameOfKdpvChar(char)
           const codePoint = getCodePointOfKdpvChar(char)
+          const hentaiganaRelations = hentaigana.get(char)
           return (
             <figure key={char}>
               <figcaption>
@@ -477,6 +484,11 @@ export default async function MojidataResponse(
                     <small>←ids: {[...idsInverseRelations].join(', ')}</small>
                   </div>
                 )}
+                {hentaiganaRelations && (
+                  <div>
+                    <small>→mjih: {[...hentaiganaRelations].join(', ')}</small>
+                  </div>
+                )}
               </figcaption>
               <div
                 className={[
@@ -514,30 +526,6 @@ export default async function MojidataResponse(
       <ul>
         <li>
           <a
-            href={`https://www.chise.org/est/view/character/${encodeURIComponent(
-              ucs,
-            )}`}
-          >
-            CHISE EsT character = {ucs}
-          </a>
-        </li>
-        <li>
-          <a href={`https://zi.tools/zi/${encodeURIComponent(ucs)}`}>
-            {ucs}: zi.tools
-          </a>
-        </li>
-        <li>
-          <a
-            href={`http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=${ucs
-              .codePointAt(0)!
-              .toString(16)
-              .toUpperCase()}`}
-          >
-            Unihan data for {toCodePoint(ucs)}
-          </a>
-        </li>
-        <li>
-          <a
             href={`https://glyphwiki.org/wiki/u${ucs
               .codePointAt(0)!
               .toString(16)
@@ -547,32 +535,60 @@ export default async function MojidataResponse(
             GlyphWiki
           </a>
         </li>
-        {results.mji.map((record) => {
-          const {
-            MJ文字図形名,
-            実装したUCS,
-            実装したMoji_JohoコレクションIVS,
-          } = record
-          const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
-          const char =
-            (実装したUCS && fromMJCodePoint(実装したUCS)) ??
-            (実装したMoji_JohoコレクションIVS &&
-              fromMJCodePoints(実装したMoji_JohoコレクションIVS))
-          return (
-            <li key={MJ文字図形名}>
-              <a href={href}>
-                文字情報基盤検索システム {MJ文字図形名}{' '}
-                <span className="mojidata-mojijoho">
-                  {char && ` (${char})`}
-                </span>
+        {charIsHan && (
+          <>
+            <li>
+              <a
+                href={`https://www.chise.org/est/view/character/${encodeURIComponent(
+                  ucs,
+                )}`}
+              >
+                CHISE EsT character = {ucs}
               </a>
             </li>
-          )
-        })}
-        {cns11643Search && (
-          <li>
-            <Link href={cns11643Search.href}>{cns11643Search.title}</Link>
-          </li>
+            <li>
+              <a href={`https://zi.tools/zi/${encodeURIComponent(ucs)}`}>
+                {ucs}: zi.tools
+              </a>
+            </li>
+            <li>
+              <a
+                href={`http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=${ucs
+                  .codePointAt(0)!
+                  .toString(16)
+                  .toUpperCase()}`}
+              >
+                Unihan data for {toCodePoint(ucs)}
+              </a>
+            </li>
+            {results.mji.map((record) => {
+              const {
+                MJ文字図形名,
+                実装したUCS,
+                実装したMoji_JohoコレクションIVS,
+              } = record
+              const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
+              const char =
+                (実装したUCS && fromMJCodePoint(実装したUCS)) ??
+                (実装したMoji_JohoコレクションIVS &&
+                  fromMJCodePoints(実装したMoji_JohoコレクションIVS))
+              return (
+                <li key={MJ文字図形名}>
+                  <a href={href}>
+                    文字情報基盤検索システム {MJ文字図形名}{' '}
+                    <span className="mojidata-mojijoho">
+                      {char && ` (${char})`}
+                    </span>
+                  </a>
+                </li>
+              )
+            })}
+            {cns11643Search && (
+              <li>
+                <Link href={cns11643Search.href}>{cns11643Search.title}</Link>
+              </li>
+            )}
+          </>
         )}
       </ul>
       <h3 id="JSON">JSON</h3>

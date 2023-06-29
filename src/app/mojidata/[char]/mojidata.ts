@@ -131,6 +131,19 @@ export interface MojidataResults {
     実装したMoji_JohoコレクションIVS: string | null
     実装したSVS: string | null
   }>
+  mjih: Array<{
+    MJ文字図形名: string
+    文字: string | null
+    CharacterName: string | null
+    UCS符号位置: string | null
+    字母: string
+    字母のUCS符号位置: string
+    音価: string[]
+    戸籍統一文字番号: string | null
+    学術用変体仮名番号: string | null
+    国語研URL: string | null
+    備考: string | null
+  }>
   kdpv: Partial<Record<KdpvRelation, string[]>>
 }
 
@@ -573,6 +586,24 @@ export function getBabelStoneIdsInverseVariants(results: MojidataResults) {
   const m = new Map<string, Set<string>>()
   for (const { UCS, IDS } of results.ids_similar) {
     add(m, UCS, IDS)
+  }
+  return m
+}
+
+export function getHentaigana(results: MojidataResults) {
+  const m = new Map<string, Set<string>>()
+  for (const { 文字, 字母, 音価 } of results.mjih) {
+    if (文字 == null) continue
+    if (results.char === 字母) {
+      add(m, 文字, `変体仮名[音価:${音価}]`)
+    } else if (results.char === 文字) {
+      add(m, 字母, `字母`)
+      for (const p of 音価) {
+        add(m, p, `音価`)
+      }
+    } else {
+      add(m, 文字, `変体仮名[字母:${字母}]`)
+    }
   }
   return m
 }
