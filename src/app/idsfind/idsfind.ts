@@ -21,6 +21,7 @@ export async function fetchIdsFind(params: IdsFindParams) {
   whole
     .map(normalize)
     .forEach((value) => url.searchParams.append('whole', value))
+  url.searchParams.set('all_results', '1')
   const res = await fetch(url, {
     next: {
       revalidate: getRevalidateDuration(),

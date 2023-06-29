@@ -4,6 +4,7 @@ import { getApiUrl, getRevalidateDuration } from '@/app/config'
 import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchIdsFind } from './idsfind'
+import ConditionalLink from '@/components/ConditionalLink'
 
 function getPrevAndNextPagePath(
   ids: string[],
@@ -55,18 +56,21 @@ export default async function IdsFindResponse(
       <div className="ids-find-response">
         {results.slice(offset, offset + size).map((char: string) => {
           const glyphWikiName = toGlyphWikiName(char)
+          const charIsRef = char[0] === '&'
+          // TODO: Make pages for reference characters
+          const href = charIsRef
+            ? `https://glyphwiki.org/wiki/${glyphWikiName}`
+            : `/mojidata/${encodeURIComponent(char)}`
           return (
             <div
               className="ids-find-result-char ids-find-char-glyphwiki"
               lang="ja"
               key={char}
+              title={glyphWikiName}
             >
-              <Link
-                prefetch={false}
-                href={`/mojidata/${encodeURIComponent(char)}`}
-              >
+              <ConditionalLink prefetch={false} href={href}>
                 <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
-              </Link>
+              </ConditionalLink>
             </div>
           )
         })}

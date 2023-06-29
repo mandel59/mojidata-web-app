@@ -10,6 +10,9 @@ export interface GlyphWikiCharProps {
 }
 
 export function toGlyphWikiName(s: string) {
+  if (s.startsWith('&UTC-')) {
+    return s.slice(1, s.length - 1).toLowerCase()
+  }
   return [...s]
     .map(
       (c) =>
