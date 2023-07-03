@@ -7,6 +7,7 @@ import {
   getCns11643Search,
   getCodePointOfKdpvChar,
   getHentaigana,
+  getIvsDuplicates,
   getJoyoVariants,
   getKdpvVariants,
   getMjsmInverseVariants,
@@ -111,6 +112,7 @@ export default async function MojidataResponse(
   const babelStoneIdsVariants = getBabelStoneIdsVariants(results)
   const idsInverseVariants = getBabelStoneIdsInverseVariants(results)
   const hentaigana = getHentaigana(results)
+  const ivsDuplicates = getIvsDuplicates(results)
 
   const allVariantChars = Array.from(
     new Set([
@@ -126,6 +128,7 @@ export default async function MojidataResponse(
       ...babelStoneIdsVariants.keys(),
       ...idsInverseVariants.keys(),
       ...hentaigana.keys(),
+      ...ivsDuplicates.keys(),
     ]),
   ).sort((x, y) => compareString(x, y))
 
@@ -410,6 +413,7 @@ export default async function MojidataResponse(
           const charName = getCharNameOfKdpvChar(char)
           const codePoint = getCodePointOfKdpvChar(char)
           const hentaiganaRelations = hentaigana.get(char)
+          const ivsDuplicateRelations = ivsDuplicates.get(char)
           return (
             <figure key={char}>
               <figcaption>
@@ -492,6 +496,11 @@ export default async function MojidataResponse(
                 {hentaiganaRelations && (
                   <div>
                     <small>→mjih: {[...hentaiganaRelations].join(', ')}</small>
+                  </div>
+                )}
+                {ivsDuplicateRelations && (
+                  <div>
+                    <small>→ivs: {[...ivsDuplicateRelations].join(', ')}</small>
                   </div>
                 )}
               </figcaption>

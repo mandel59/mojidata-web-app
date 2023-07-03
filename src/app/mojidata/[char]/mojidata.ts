@@ -30,6 +30,14 @@ export interface MojidataResults {
     collection: string
     code: string
   }>
+  ivs_duplicate: Array<[
+    ivs1: string,
+    char1: string,
+    ivs2: string,
+    char2: string,
+    collection: string,
+    code: string,
+  ]>
   svs_cjkci: Array<{
     SVS_char: string
     SVS: string
@@ -604,6 +612,14 @@ export function getHentaigana(results: MojidataResults) {
     } else {
       add(m, 文字, `変体仮名[字母:${字母}]`)
     }
+  }
+  return m
+}
+
+export function getIvsDuplicates(results: MojidataResults) {
+  const m = new Map<string, Set<string>>()
+  for (const [ivs1, _char1, ivs2, char2, collection, code] of results.ivs_duplicate) {
+    add(m, char2, `duplicate[${collection},${code},${ivs1}=${ivs2}]`)
   }
   return m
 }
