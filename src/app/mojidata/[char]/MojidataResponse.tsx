@@ -363,10 +363,10 @@ export default async function MojidataResponse(
                   !record.compat && (
                     <span title="not JIS X 0213:2004 glyph">!</span>
                   )}
-                {record.x0213 && !(record.ucs === ucs && !record.compat) && (
+                {record.x0213 && !(record.ucs === ucs) && !record.compat && (
                   <span title="JIS X 0213:2004 glyph">⁑</span>
                 )}
-                {!(record.ucs === ucs && !record.compat) && record.x0212 && (
+                {!(record.ucs === ucs) && !record.compat && record.x0212 && (
                   <span title="JIS X 0212 glyph">‡</span>
                 )}
                 {record.compat && (
