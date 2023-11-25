@@ -25,7 +25,14 @@ import './styles.css'
 import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 
-const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja', 'ko'] as const
+const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
+const irgKeys = {
+  'zh-CN': 'kIRG_GSource',
+  'zh-TW': 'kIRG_TSource',
+  'zh-HK': 'kIRG_HSource',
+  'ja-JP': 'kIRG_JSource',
+  'ko-KR': 'kIRG_KSource',
+} as const
 
 function compareString(x: string, y: string): number {
   if (x > y) {
@@ -272,7 +279,11 @@ export default async function MojidataResponse(
       <div className="mojidata-chars-comparison">
         {langTags.map((lang) => (
           <figure key={lang}>
-            <figcaption>{lang}</figcaption>
+            <figcaption>
+              {lang}
+              <br />
+              <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
+            </figcaption>
             <div className="mojidata-char">
               <span
                 lang={lang}
