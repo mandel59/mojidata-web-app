@@ -30,14 +30,14 @@ export interface MojidataResults {
     collection: string
     code: string
   }>
-  ivs_duplicate: Array<[
+  ivs_duplicate: [
     ivs1: string,
     char1: string,
     ivs2: string,
     char2: string,
     collection: string,
     code: string,
-  ]>
+  ][]
   svs_cjkci: Array<{
     SVS_char: string
     SVS: string
@@ -45,6 +45,21 @@ export interface MojidataResults {
     CJKCI: string
   }>
   unihan: Partial<Record<UnihanPropertyName, string>>
+  unihan_rs?: {
+    kRSAdobe_Japan1_6: [
+      radical: number,
+      strokes: number,
+      radicalChar: string,
+      radicalStrokes: number,
+      CID: string,
+    ][]
+    kRSUnicode: [
+      radical: number,
+      strokes: number,
+      radicalChar: string,
+      rawRadical: string,
+    ][]
+  }
   unihan_fts: [
     codePoint: string,
     char: string,
@@ -118,7 +133,11 @@ export interface MojidataResults {
     X0212: string | null
     MJ文字図形バージョン: string
     登記統一文字番号: string | null
-    '部首・内画数': Array<[radical: number, strokes: number]>
+    '部首・内画数': [
+      radical: number,
+      strokes: number | '-',
+      radicalChar?: string,
+    ][]
     総画数: number
     読み: string[]
     大漢和: number | null
@@ -422,6 +441,8 @@ export function getKdpvVariants(results: MojidataResults) {
   return m
 }
 
+const excludedProperties = ['kJapanese', 'kSMSZD2003Readings']
+
 export function getUnihanVariants(results: MojidataResults) {
   const m = new Map<string, Set<string>>()
   const s = new Map<string, Set<string>>()
@@ -438,6 +459,7 @@ export function getUnihanVariants(results: MojidataResults) {
     add(s, char, unihanProperty)
   }
   for (const [unihanProperty, value] of Object.entries(results.unihan)) {
+    if (excludedProperties.includes(unihanProperty)) continue
     for (let [char] of value.matchAll(
       /U\+[0-9A-F]+|[\p{sc=Han}\u{20000}-\u{3FFFF}]/gu,
     )) {
@@ -618,7 +640,14 @@ export function getHentaigana(results: MojidataResults) {
 
 export function getIvsDuplicates(results: MojidataResults) {
   const m = new Map<string, Set<string>>()
-  for (const [ivs1, _char1, ivs2, char2, collection, code] of results.ivs_duplicate) {
+  for (const [
+    ivs1,
+    _char1,
+    ivs2,
+    char2,
+    collection,
+    code,
+  ] of results.ivs_duplicate) {
     add(m, char2, `duplicate[${collection},${code},${ivs1}=${ivs2}]`)
   }
   return m
