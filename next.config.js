@@ -7,6 +7,15 @@ const nextConfig = {
     })
     return config
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/idsfind',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
