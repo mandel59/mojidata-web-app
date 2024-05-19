@@ -209,425 +209,441 @@ export default async function MojidataResponse(
   const cns11643Search = getCns11643Search(results)
 
   return (
-    <div className="mojidata-response">
-      <h2 id="Character_Data">Character Data</h2>
-      <figure>
-        <figcaption>
-          {results.UCS} {results.char}
-          {svs && (
-            <>
-              <br />
-              <small>
-                {toCodePoints(svs.SVS_char)} {svs.SVS_char}
-              </small>
-            </>
-          )}
-        </figcaption>
-        <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-          <GlyphWikiChar name={glyphWikiName} alt={results.char} size={110} />
-        </div>
-      </figure>
-      {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
-        <>
-          <h3 id="Compatibility_Ideographs">Compatibility Ideographs</h3>
-          <div className="mojidata-chars-comparison">
-            {results.svs_cjkci.map((record) => {
-              return (
-                <figure key={record.SVS}>
-                  <figcaption>
-                    {record.CJKCI}
-                    <br />
-                    <small>{toCodePoints(record.SVS_char)}</small>
-                  </figcaption>
-                  <div
-                    className="mojidata-char mojidata-char-link mojidata-char-glyphwiki"
-                    lang="ja"
-                  >
-                    <Link href={`/mojidata/${record.CJKCI_char}`}>
-                      <GlyphWikiChar
-                        name={toGlyphWikiName(record.CJKCI_char)}
-                        alt={record.CJKCI}
-                        size={110}
-                      />
-                    </Link>
-                  </div>
-                </figure>
-              )
-            })}
-          </div>
-        </>
-      )}
-      <h3 id="IDS">IDS</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>IDS</th>
-            <th>Source</th>
-          </tr>
-        </thead>
-        <tbody>
-          {results.ids.map((record) => (
-            <tr key={record.source}>
-              <td>{record.IDS}</td>
-              <td>{record.source}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h3 id="Glyph_Comparison">Glyph Comparison</h3>
-      <h4 id="Regional_Differences">Regional Differences</h4>
-      <div className="mojidata-chars-comparison">
-        {langTags.map((lang) => (
-          <figure key={lang}>
-            <figcaption>
-              {lang}
-              <br />
-              <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
-            </figcaption>
-            <div className="mojidata-char">
-              <span
-                lang={lang}
-                className="mojidata-raw-char mojidata-source-han-serif"
-              >
-                {results.char}
-              </span>
-            </div>
-          </figure>
-        ))}
-      </div>
-      <h4 id="Adobe-Japan1">Adobe-Japan1</h4>
-      {ivsAj1.length > 0 && (
-        <div className="mojidata-chars-comparison">
-          {ivsAj1.map((record) => {
-            const compat = unihanAj1CompatibilityCid?.find(
-              ({ cid }) => record.code === cid,
-            )
-            return (
-              <figure key={record.code}>
-                <figcaption>
-                  {record.code}
-                  {record.code === aj1Jp04 && (
-                    <span
-                      title={
-                        record.code !== aj1Jp90 ? 'jp04 glyph' : 'default glyph'
-                      }
-                    >
-                      *
-                    </span>
-                  )}
-                  {record.code === aj1Jp90 && record.code !== aj1Jp04 && (
-                    <span title="jp90 glyph">⁑</span>
-                  )}
-                  {compat && (
-                    <span title={`compatibility variant ${compat.ucs}`}>†</span>
-                  )}
-                  <br />
-                  <small>{toCodePoints(record.char)}</small>
-                </figcaption>
-                <div className="mojidata-char">
-                  <span
-                    lang="ja"
-                    className="mojidata-raw-char mojidata-source-han-serif"
-                  >
-                    {record.char}
-                  </span>
-                </div>
-              </figure>
-            )
-          })}
-        </div>
-      )}
-      {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
-        <div className="mojidata-chars-comparison">
-          <figure key={aj1Cid}>
-            <figcaption>
-              {aj1Cid}
-              <span
-                title={`compatibility variant of ${canonicalCharacter.UCS}`}
-              >
-                †
-              </span>
-              <br />
-              <small>{results.UCS}</small>
-            </figcaption>
-            <div className="mojidata-char" lang="ja">
-              <span className="mojidata-raw-char mojidata-source-han-serif">
-                {results.char}
-              </span>
-            </div>
-          </figure>
-        </div>
-      )}
-      <h4 id="Moji_Joho">Moji_Joho</h4>
-      {mji.length > 0 && (
-        <div className="mojidata-chars-comparison">
-          {mji.map((record) => (
-            <figure key={record.code}>
-              <figcaption>
-                <a href={record.href}>{record.code}</a>
-                {record.ucs === ucs && !record.compat && (
-                  <span title="default glyph">*</span>
-                )}
-                {isJISX0213char &&
-                  !record.x0213 &&
-                  record.ucs === ucs &&
-                  !record.compat && (
-                    <span title="not JIS X 0213:2004 glyph">!</span>
-                  )}
-                {record.x0213 && !(record.ucs === ucs) && !record.compat && (
-                  <span title="JIS X 0213:2004 glyph">⁑</span>
-                )}
-                {!(record.ucs === ucs) && !record.compat && record.x0212 && (
-                  <span title="JIS X 0212 glyph">‡</span>
-                )}
-                {record.compat && (
-                  <span
-                    title={`compatibility variant ${toCodePoint(record.ucs!)}`}
-                  >
-                    †
-                  </span>
-                )}
+    <article>
+      <div className="mojidata-response">
+        <h2 id="Character_Data">Character Data</h2>
+        <figure>
+          <figcaption>
+            {results.UCS} {results.char}
+            {svs && (
+              <>
                 <br />
-                <small>{toCodePoints(record.char)}</small>
+                <small>
+                  {toCodePoints(svs.SVS_char)} {svs.SVS_char}
+                </small>
+              </>
+            )}
+          </figcaption>
+          <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
+            <GlyphWikiChar name={glyphWikiName} alt={results.char} size={110} />
+          </div>
+        </figure>
+        {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
+          <>
+            <h3 id="Compatibility_Ideographs">Compatibility Ideographs</h3>
+            <div className="mojidata-chars-comparison">
+              {results.svs_cjkci.map((record) => {
+                return (
+                  <figure key={record.SVS}>
+                    <figcaption>
+                      {record.CJKCI}
+                      <br />
+                      <small>{toCodePoints(record.SVS_char)}</small>
+                    </figcaption>
+                    <div
+                      className="mojidata-char mojidata-char-link mojidata-char-glyphwiki"
+                      lang="ja"
+                    >
+                      <Link href={`/mojidata/${record.CJKCI_char}`}>
+                        <GlyphWikiChar
+                          name={toGlyphWikiName(record.CJKCI_char)}
+                          alt={record.CJKCI}
+                          size={110}
+                        />
+                      </Link>
+                    </div>
+                  </figure>
+                )
+              })}
+            </div>
+          </>
+        )}
+        <h3 id="IDS">IDS</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>IDS</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.ids.map((record) => (
+              <tr key={record.source}>
+                <td>{record.IDS}</td>
+                <td>{record.source}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <h3 id="Glyph_Comparison">Glyph Comparison</h3>
+        <h4 id="Regional_Differences">Regional Differences</h4>
+        <div className="mojidata-chars-comparison">
+          {langTags.map((lang) => (
+            <figure key={lang}>
+              <figcaption>
+                {lang}
+                <br />
+                <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
               </figcaption>
-              <div className="mojidata-char" lang="ja">
-                <span className="mojidata-raw-char mojidata-mojijoho">
-                  {record.char}
+              <div className="mojidata-char">
+                <span
+                  lang={lang}
+                  className="mojidata-raw-char mojidata-source-han-serif"
+                >
+                  {results.char}
                 </span>
               </div>
             </figure>
           ))}
         </div>
-      )}
-      <h3 id="Variants">Variants</h3>
-      {allVariantChars.length > 0 &&
-        allVariantChars.map((char) => {
-          const kdpvRelations = kdpvVariants.get(char)
-          const kdpvForwardRelations = kdpvRelations
-            ? [...kdpvRelations].filter((r) => !r.startsWith('~'))
-            : []
-          const kdpvBackwardRelations = kdpvRelations
-            ? [...kdpvRelations].filter((r) => r.startsWith('~'))
-            : []
-          const unihanRelations = unihanVariants.get(char)
-          const unihanInverseRelations = unihanInverseVariants.get(char)
-          const joyoRelations = joyoVariants.get(char)
-          const mjsmRelations = mjsmVariants.get(char)
-          const mjsmInverseRelations = mjsmInverseVariants.get(char)
-          const nyukanRelations = nyukanVariants.get(char)
-          const nyukanInverseRelations = nyukanInverseVariants.get(char)
-          const tghbRelations = tghbVariants.get(char)
-          const babelStoneIdsRelations = babelStoneIdsVariants.get(char)
-          const idsInverseRelations = idsInverseVariants.get(char)
-          const isIDS = kdpvCharIsIDS(char)
-          const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
-          const charName = getCharNameOfKdpvChar(char)
-          const codePoint = getCodePointOfKdpvChar(char)
-          const hentaiganaRelations = hentaigana.get(char)
-          const ivsDuplicateRelations = ivsDuplicates.get(char)
-          return (
-            <figure key={char}>
-              <figcaption>
-                {charName === char ? (
-                  <div>{charName}</div>
-                ) : (
-                  <div>
-                    {charName} {char}
-                  </div>
-                )}
-                {unihanRelations && (
-                  <div>
-                    <small>→unihan: {[...unihanRelations].join(', ')}</small>
-                  </div>
-                )}
-                {unihanInverseRelations && (
-                  <div>
-                    <small>
-                      ←unihan: {[...unihanInverseRelations].join(', ')}
-                    </small>
-                  </div>
-                )}
-                {joyoRelations && (
-                  <div>
-                    <small>→joyo: {[...joyoRelations].join(', ')}</small>
-                  </div>
-                )}
-                {kdpvForwardRelations.length > 0 && (
-                  <div>
-                    <small>→kdpv: {kdpvForwardRelations.join(', ')}</small>
-                  </div>
-                )}
-                {kdpvBackwardRelations.length > 0 && (
-                  <div>
-                    <small>
-                      ←kdpv:{' '}
-                      {kdpvBackwardRelations.map((r) => r.slice(1)).join(', ')}
-                    </small>
-                  </div>
-                )}
-                {mjsmRelations && (
-                  <div>
-                    <small>→mjsm: {[...mjsmRelations].join(', ')}</small>
-                  </div>
-                )}
-                {mjsmInverseRelations && (
-                  <div>
-                    <small>←mjsm: {[...mjsmInverseRelations].join(', ')}</small>
-                  </div>
-                )}
-                {nyukanRelations && (
-                  <div>
-                    <small>→nyukan: {[...nyukanRelations].join(', ')}</small>
-                  </div>
-                )}
-                {nyukanInverseRelations && (
-                  <div>
-                    <small>
-                      ←nyukan: {[...nyukanInverseRelations].join(', ')}
-                    </small>
-                  </div>
-                )}
-                {tghbRelations && (
-                  <div>
-                    <small>→tghb: {[...tghbRelations].join(', ')}</small>
-                  </div>
-                )}
-                {babelStoneIdsRelations && (
-                  <div>
-                    <small>
-                      →ids: {[...babelStoneIdsRelations].join(', ')}
-                    </small>
-                  </div>
-                )}
-                {idsInverseRelations && (
-                  <div>
-                    <small>←ids: {[...idsInverseRelations].join(', ')}</small>
-                  </div>
-                )}
-                {hentaiganaRelations && (
-                  <div>
-                    <small>→mjih: {[...hentaiganaRelations].join(', ')}</small>
-                  </div>
-                )}
-                {ivsDuplicateRelations && (
-                  <div>
-                    <small>→ivs: {[...ivsDuplicateRelations].join(', ')}</small>
-                  </div>
-                )}
-              </figcaption>
-              <div
-                className={[
-                  isIDS || isNonStandardVariant
-                    ? 'mojidata-kdpv-char'
-                    : 'mojidata-char',
-                  isIDS || codePoint ? 'mojidata-char-link' : '',
-                  codePoint ? 'mojidata-char-glyphwiki' : '',
-                ].join(' ')}
-              >
-                <ConditionalLink
-                  href={
-                    codePoint
-                      ? `/mojidata/${encodeURIComponent(codePoint)}`
-                      : isIDS
-                      ? `/idsfind?whole=${char}`
-                      : undefined
-                  }
-                >
-                  {codePoint ? (
-                    <GlyphWikiChar
-                      name={toGlyphWikiName(char)}
-                      alt={char}
-                      size={110}
-                    />
-                  ) : (
-                    char
-                  )}
-                </ConditionalLink>
-              </div>
-            </figure>
-          )
-        })}
-      <h3 id="External_Links">External Links</h3>
-      <ul>
-        <li>
-          <a
-            href={`https://glyphwiki.org/wiki/u${ucs
-              .codePointAt(0)!
-              .toString(16)
-              .toLowerCase()}`}
-          >
-            u{ucs.codePointAt(0)!.toString(16).toLowerCase()} ({ucs}) -
-            GlyphWiki
-          </a>
-        </li>
-        {charIsHan && (
-          <>
-            <li>
-              <a
-                href={`https://www.chise.org/est/view/character/${encodeURIComponent(
-                  ucs,
-                )}`}
-              >
-                CHISE EsT character = {ucs}
-              </a>
-            </li>
-            <li>
-              <a href={`https://zi.tools/zi/${encodeURIComponent(ucs)}`}>
-                {ucs}: zi.tools
-              </a>
-            </li>
-            <li>
-              <a
-                href={`http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=${ucs
-                  .codePointAt(0)!
-                  .toString(16)
-                  .toUpperCase()}`}
-              >
-                Unihan data for {toCodePoint(ucs)}
-              </a>
-            </li>
-            {results.mji.map((record) => {
-              const {
-                MJ文字図形名,
-                実装したUCS,
-                実装したMoji_JohoコレクションIVS,
-              } = record
-              const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
-              const char =
-                (実装したUCS && fromMJCodePoint(実装したUCS)) ??
-                (実装したMoji_JohoコレクションIVS &&
-                  fromMJCodePoints(実装したMoji_JohoコレクションIVS))
+        <h4 id="Adobe-Japan1">Adobe-Japan1</h4>
+        {ivsAj1.length > 0 && (
+          <div className="mojidata-chars-comparison">
+            {ivsAj1.map((record) => {
+              const compat = unihanAj1CompatibilityCid?.find(
+                ({ cid }) => record.code === cid,
+              )
               return (
-                <li key={MJ文字図形名}>
-                  <a href={href}>
-                    文字情報基盤検索システム {MJ文字図形名}{' '}
-                    <span className="mojidata-mojijoho">
-                      {char && ` (${char})`}
+                <figure key={record.code}>
+                  <figcaption>
+                    {record.code}
+                    {record.code === aj1Jp04 && (
+                      <span
+                        title={
+                          record.code !== aj1Jp90
+                            ? 'jp04 glyph'
+                            : 'default glyph'
+                        }
+                      >
+                        *
+                      </span>
+                    )}
+                    {record.code === aj1Jp90 && record.code !== aj1Jp04 && (
+                      <span title="jp90 glyph">⁑</span>
+                    )}
+                    {compat && (
+                      <span title={`compatibility variant ${compat.ucs}`}>
+                        †
+                      </span>
+                    )}
+                    <br />
+                    <small>{toCodePoints(record.char)}</small>
+                  </figcaption>
+                  <div className="mojidata-char">
+                    <span
+                      lang="ja"
+                      className="mojidata-raw-char mojidata-source-han-serif"
+                    >
+                      {record.char}
                     </span>
-                  </a>
-                </li>
+                  </div>
+                </figure>
               )
             })}
-            {cns11643Search && (
-              <li>
-                <a href={cns11643Search.href}>{cns11643Search.title}</a>
-              </li>
-            )}
-          </>
+          </div>
         )}
-        {学術用変体仮名番号 && (
+        {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
+          <div className="mojidata-chars-comparison">
+            <figure key={aj1Cid}>
+              <figcaption>
+                {aj1Cid}
+                <span
+                  title={`compatibility variant of ${canonicalCharacter.UCS}`}
+                >
+                  †
+                </span>
+                <br />
+                <small>{results.UCS}</small>
+              </figcaption>
+              <div className="mojidata-char" lang="ja">
+                <span className="mojidata-raw-char mojidata-source-han-serif">
+                  {results.char}
+                </span>
+              </div>
+            </figure>
+          </div>
+        )}
+        <h4 id="Moji_Joho">Moji_Joho</h4>
+        {mji.length > 0 && (
+          <div className="mojidata-chars-comparison">
+            {mji.map((record) => (
+              <figure key={record.code}>
+                <figcaption>
+                  <a href={record.href}>{record.code}</a>
+                  {record.ucs === ucs && !record.compat && (
+                    <span title="default glyph">*</span>
+                  )}
+                  {isJISX0213char &&
+                    !record.x0213 &&
+                    record.ucs === ucs &&
+                    !record.compat && (
+                      <span title="not JIS X 0213:2004 glyph">!</span>
+                    )}
+                  {record.x0213 && !(record.ucs === ucs) && !record.compat && (
+                    <span title="JIS X 0213:2004 glyph">⁑</span>
+                  )}
+                  {!(record.ucs === ucs) && !record.compat && record.x0212 && (
+                    <span title="JIS X 0212 glyph">‡</span>
+                  )}
+                  {record.compat && (
+                    <span
+                      title={`compatibility variant ${toCodePoint(
+                        record.ucs!,
+                      )}`}
+                    >
+                      †
+                    </span>
+                  )}
+                  <br />
+                  <small>{toCodePoints(record.char)}</small>
+                </figcaption>
+                <div className="mojidata-char" lang="ja">
+                  <span className="mojidata-raw-char mojidata-mojijoho">
+                    {record.char}
+                  </span>
+                </div>
+              </figure>
+            ))}
+          </div>
+        )}
+        <h3 id="Variants">Variants</h3>
+        {allVariantChars.length > 0 &&
+          allVariantChars.map((char) => {
+            const kdpvRelations = kdpvVariants.get(char)
+            const kdpvForwardRelations = kdpvRelations
+              ? [...kdpvRelations].filter((r) => !r.startsWith('~'))
+              : []
+            const kdpvBackwardRelations = kdpvRelations
+              ? [...kdpvRelations].filter((r) => r.startsWith('~'))
+              : []
+            const unihanRelations = unihanVariants.get(char)
+            const unihanInverseRelations = unihanInverseVariants.get(char)
+            const joyoRelations = joyoVariants.get(char)
+            const mjsmRelations = mjsmVariants.get(char)
+            const mjsmInverseRelations = mjsmInverseVariants.get(char)
+            const nyukanRelations = nyukanVariants.get(char)
+            const nyukanInverseRelations = nyukanInverseVariants.get(char)
+            const tghbRelations = tghbVariants.get(char)
+            const babelStoneIdsRelations = babelStoneIdsVariants.get(char)
+            const idsInverseRelations = idsInverseVariants.get(char)
+            const isIDS = kdpvCharIsIDS(char)
+            const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
+            const charName = getCharNameOfKdpvChar(char)
+            const codePoint = getCodePointOfKdpvChar(char)
+            const hentaiganaRelations = hentaigana.get(char)
+            const ivsDuplicateRelations = ivsDuplicates.get(char)
+            return (
+              <figure key={char}>
+                <figcaption>
+                  {charName === char ? (
+                    <div>{charName}</div>
+                  ) : (
+                    <div>
+                      {charName} {char}
+                    </div>
+                  )}
+                  {unihanRelations && (
+                    <div>
+                      <small>→unihan: {[...unihanRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {unihanInverseRelations && (
+                    <div>
+                      <small>
+                        ←unihan: {[...unihanInverseRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {joyoRelations && (
+                    <div>
+                      <small>→joyo: {[...joyoRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {kdpvForwardRelations.length > 0 && (
+                    <div>
+                      <small>→kdpv: {kdpvForwardRelations.join(', ')}</small>
+                    </div>
+                  )}
+                  {kdpvBackwardRelations.length > 0 && (
+                    <div>
+                      <small>
+                        ←kdpv:{' '}
+                        {kdpvBackwardRelations
+                          .map((r) => r.slice(1))
+                          .join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {mjsmRelations && (
+                    <div>
+                      <small>→mjsm: {[...mjsmRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {mjsmInverseRelations && (
+                    <div>
+                      <small>
+                        ←mjsm: {[...mjsmInverseRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {nyukanRelations && (
+                    <div>
+                      <small>→nyukan: {[...nyukanRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {nyukanInverseRelations && (
+                    <div>
+                      <small>
+                        ←nyukan: {[...nyukanInverseRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {tghbRelations && (
+                    <div>
+                      <small>→tghb: {[...tghbRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {babelStoneIdsRelations && (
+                    <div>
+                      <small>
+                        →ids: {[...babelStoneIdsRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {idsInverseRelations && (
+                    <div>
+                      <small>←ids: {[...idsInverseRelations].join(', ')}</small>
+                    </div>
+                  )}
+                  {hentaiganaRelations && (
+                    <div>
+                      <small>
+                        →mjih: {[...hentaiganaRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                  {ivsDuplicateRelations && (
+                    <div>
+                      <small>
+                        →ivs: {[...ivsDuplicateRelations].join(', ')}
+                      </small>
+                    </div>
+                  )}
+                </figcaption>
+                <div
+                  className={[
+                    isIDS || isNonStandardVariant
+                      ? 'mojidata-kdpv-char'
+                      : 'mojidata-char',
+                    isIDS || codePoint ? 'mojidata-char-link' : '',
+                    codePoint ? 'mojidata-char-glyphwiki' : '',
+                  ].join(' ')}
+                >
+                  <ConditionalLink
+                    href={
+                      codePoint
+                        ? `/mojidata/${encodeURIComponent(codePoint)}`
+                        : isIDS
+                        ? `/idsfind?whole=${char}`
+                        : undefined
+                    }
+                  >
+                    {codePoint ? (
+                      <GlyphWikiChar
+                        name={toGlyphWikiName(char)}
+                        alt={char}
+                        size={110}
+                      />
+                    ) : (
+                      char
+                    )}
+                  </ConditionalLink>
+                </div>
+              </figure>
+            )
+          })}
+        <h3 id="External_Links">External Links</h3>
+        <ul>
           <li>
             <a
-              href={`https://cid.ninjal.ac.jp/kana/detail/${学術用変体仮名番号}/`}
+              href={`https://glyphwiki.org/wiki/u${ucs
+                .codePointAt(0)!
+                .toString(16)
+                .toLowerCase()}`}
             >
-              変体仮名 {学術用変体仮名番号} - 学術情報交換用変体仮名 |
-              国立国語研究所
+              u{ucs.codePointAt(0)!.toString(16).toLowerCase()} ({ucs}) -
+              GlyphWiki
             </a>
           </li>
-        )}
-      </ul>
-      <h3 id="JSON">JSON</h3>
-      <pre>{JSON.stringify(results, null, 2)}</pre>
-    </div>
+          {charIsHan && (
+            <>
+              <li>
+                <a
+                  href={`https://www.chise.org/est/view/character/${encodeURIComponent(
+                    ucs,
+                  )}`}
+                >
+                  CHISE EsT character = {ucs}
+                </a>
+              </li>
+              <li>
+                <a href={`https://zi.tools/zi/${encodeURIComponent(ucs)}`}>
+                  {ucs}: zi.tools
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=${ucs
+                    .codePointAt(0)!
+                    .toString(16)
+                    .toUpperCase()}`}
+                >
+                  Unihan data for {toCodePoint(ucs)}
+                </a>
+              </li>
+              {results.mji.map((record) => {
+                const {
+                  MJ文字図形名,
+                  実装したUCS,
+                  実装したMoji_JohoコレクションIVS,
+                } = record
+                const href = `https://moji.or.jp/mojikibansearch/info?MJ%E6%96%87%E5%AD%97%E5%9B%B3%E5%BD%A2%E5%90%8D=${MJ文字図形名}`
+                const char =
+                  (実装したUCS && fromMJCodePoint(実装したUCS)) ??
+                  (実装したMoji_JohoコレクションIVS &&
+                    fromMJCodePoints(実装したMoji_JohoコレクションIVS))
+                return (
+                  <li key={MJ文字図形名}>
+                    <a href={href}>
+                      文字情報基盤検索システム {MJ文字図形名}{' '}
+                      <span className="mojidata-mojijoho">
+                        {char && ` (${char})`}
+                      </span>
+                    </a>
+                  </li>
+                )
+              })}
+              {cns11643Search && (
+                <li>
+                  <a href={cns11643Search.href}>{cns11643Search.title}</a>
+                </li>
+              )}
+            </>
+          )}
+          {学術用変体仮名番号 && (
+            <li>
+              <a
+                href={`https://cid.ninjal.ac.jp/kana/detail/${学術用変体仮名番号}/`}
+              >
+                変体仮名 {学術用変体仮名番号} - 学術情報交換用変体仮名 |
+                国立国語研究所
+              </a>
+            </li>
+          )}
+        </ul>
+        <h3 id="JSON">JSON</h3>
+        <pre>{JSON.stringify(results, null, 2)}</pre>
+      </div>
+    </article>
   )
 }

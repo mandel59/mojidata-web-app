@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
-import Loading from '@/components/Loading'
+import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
 import { notFound } from 'next/navigation'
 
@@ -25,7 +25,7 @@ export default function Mojidata({ params }: Props) {
   return (
     <div>
       <main className="container">
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<LoadingArticle />}>
           <MojidataResponse ucs={ucs} />
         </Suspense>
       </main>

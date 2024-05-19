@@ -65,7 +65,7 @@ export default async function IdsFindResponse(
   })
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
   return (
-    <div>
+    <article>
       <div className="ids-find-response">
         {results.slice(offset, offset + size).map((char: string) => {
           const glyphWikiName = toGlyphWikiName(char)
@@ -88,23 +88,25 @@ export default async function IdsFindResponse(
           )
         })}
       </div>
-      <div className="pager">
-        <div>
-          {prev && (
-            <Link rel="prev" role="button" href={prev}>
-              Prev
-            </Link>
-          )}
+      <footer>
+        <div className="pager">
+          <div>
+            {prev && (
+              <Link rel="prev" role="button" href={prev}>
+                Prev
+              </Link>
+            )}
+          </div>
+          <div>page {pageNum}</div>
+          <div>
+            {next && (
+              <Link rel="next" role="button" href={next}>
+                Next
+              </Link>
+            )}
+          </div>
         </div>
-        <div>page {pageNum}</div>
-        <div>
-          {next && (
-            <Link rel="next" role="button" href={next}>
-              Next
-            </Link>
-          )}
-        </div>
-      </div>
-    </div>
+      </footer>
+    </article>
   )
 }

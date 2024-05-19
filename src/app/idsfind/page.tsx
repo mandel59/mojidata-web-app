@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { Suspense } from 'react'
 import IdsFindResponse from './IdsFindResponse'
-import Loading from '@/components/Loading'
+import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
 
 export const runtime = 'experimental-edge'
@@ -17,13 +17,24 @@ function castToArray<T>(x: undefined | T | T[]): T[] {
 
 export default function IdsFind({ searchParams }: Props) {
   const { ids, whole, page } = searchParams
+  const idsArray = castToArray(ids)
+  const wholeArray = castToArray(whole)
+  if (idsArray.length === 0 && wholeArray.length === 0) {
+    return (
+      <div>
+        <nav className="container">
+          <IdsFinder />
+        </nav>
+      </div>
+    )
+  }
   return (
     <div>
       <main className="container">
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<LoadingArticle />}>
           <IdsFindResponse
-            ids={castToArray(ids)}
-            whole={castToArray(whole)}
+            ids={idsArray}
+            whole={wholeArray}
             page={page ? Number(page) : undefined}
           />
         </Suspense>

@@ -16,40 +16,42 @@ export default function IdsFinder() {
   const [whole, setWhole] = useState<string>(initialWhole)
   return (
     <div className="ids-finder">
-      <h2>IDS Finder</h2>
-      <details>
-        <summary>IDS Operators</summary>
-        <dl>
-          <dt>IDS Unary Operators</dt>
-          <dd>〾↔↷</dd>
-          <dt>IDS Binary Operators</dt>
-          <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
-          <dt>IDS Ternary Operators</dt>
-          <dd>⿲⿳</dd>
-        </dl>
-      </details>
       <GetForm action="/idsfind">
-        <div key="ids">
-          IDS (Multiple sequences can be entered):{' '}
-          <MultiInput
-            name="ids"
-            values={ids}
-            placeholder={(i) => `IDS #${i + 1}`}
-            setValues={setIds}
-          />
-        </div>
-        <div key="whole">
-          Whole IDS:{' '}
-          <input
-            name={whole === '' ? undefined : 'whole'}
-            value={whole}
-            placeholder="Whole IDS"
-            onChange={(e) => setWhole(e.target.value)}
-          />
-        </div>
-        <button disabled={ids.every((x) => x === '') && whole === ''}>
-          Search
-        </button>
+        <article>
+          <h2>IDS Finder</h2>
+          <details>
+            <summary>IDS Operators</summary>
+            <dl>
+              <dt>IDS Unary Operators</dt>
+              <dd>〾↔↷</dd>
+              <dt>IDS Binary Operators</dt>
+              <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
+              <dt>IDS Ternary Operators</dt>
+              <dd>⿲⿳</dd>
+            </dl>
+          </details>
+          <div key="ids">
+            IDS (Multiple sequences can be entered):{' '}
+            <MultiInput
+              name="ids"
+              values={ids}
+              placeholder={(i) => `IDS #${i + 1}`}
+              setValues={setIds}
+            />
+          </div>
+          <div key="whole">
+            Whole IDS:{' '}
+            <input
+              name={whole === '' ? undefined : 'whole'}
+              value={whole}
+              placeholder="Whole IDS"
+              onChange={(e) => setWhole(e.target.value)}
+            />
+          </div>
+          <footer>
+            <button>Search</button>
+          </footer>
+        </article>
       </GetForm>
     </div>
   )

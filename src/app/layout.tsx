@@ -32,7 +32,7 @@ export default function RootLayout({
           <h1>{siteName}</h1>
           <PreviewWarning />
           <nav>
-            <Link href="/">App</Link> <Link href="/about">About</Link>
+            <Link href="/">IDS Finder</Link> <Link href="/about">About</Link>
           </nav>
         </header>
         {children}
