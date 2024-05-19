@@ -56,12 +56,14 @@ export default async function IdsFindResponse(
   const { ids, whole, page } = params
   const size = 120
   const pageNum = page ?? 1
-  const { results, done, offset } = await fetchIdsFind({
+  const { results, done, offset, total } = await fetchIdsFind({
     ids,
     whole,
     page,
     size,
   })
+  const wholeSearch =
+    ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
   return (
     <article>
@@ -87,6 +89,14 @@ export default async function IdsFindResponse(
           )
         })}
       </div>
+      {total === 0 && <p>No results found. </p>}
+      {total === 0 && wholeSearch && (
+        <p>
+          <a href={`https://zi.tools/zi/${encodeURIComponent(whole[0])}`}>
+            Search zi.tools for {whole[0]}
+          </a>
+        </p>
+      )}
       <footer>
         <div className="pager">
           <div>

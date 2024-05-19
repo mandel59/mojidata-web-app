@@ -34,7 +34,10 @@ export async function fetchIdsFind(params: IdsFindParams) {
     throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
   }
   const responseBody = await res.json()
-  const { results } = responseBody as { results: string[] }
+  const { results, total } = responseBody as {
+    results: string[]
+    total?: number
+  }
   const done = size ? results.length <= offset + size : true
-  return { results, done, offset, size }
+  return { results, done, offset, size, total }
 }
