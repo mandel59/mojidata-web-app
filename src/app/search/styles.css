@@ -1,0 +1,43 @@
+.search-response {
+  margin: 5px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.search-result-char {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 5px;
+  border: 1px solid #ccc;
+  font-size: 50px;
+  width: 60px;
+  height: 60px;
+  line-height: 55px;
+  text-align: center;
+  overflow: clip;
+}
+
+.search-result-char > a {
+  display: block;
+  color: #000;
+  text-decoration: none;
+}
+
+.search-char-glyphwiki img {
+  display: block;
+}
+
+.pager {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.pager > div {
+  width: 5em;
+  text-align: center;
+}

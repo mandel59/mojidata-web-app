@@ -34,16 +34,15 @@ export default function RootLayout({
           <nav>
             <ul>
               <li>
-                <Link href="/idsfind">IDS Finder</Link>
+                <a href="/idsfind">IDS Finder</a>
               </li>
-              {/* TODO: Implement search */}
-              {/* <li>
-                <Link href="/">Search</Link>
-              </li> */}
+              <li>
+                <a href="/search">Search</a>
+              </li>
             </ul>
             <ul>
               <li>
-                <Link href="/about">About</Link>
+                <a href="/about">About</a>
               </li>
             </ul>
           </nav>
