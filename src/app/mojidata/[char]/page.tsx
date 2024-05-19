@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
 import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 export const runtime = 'experimental-edge'
 
@@ -18,8 +18,20 @@ export default function Mojidata({ params }: Props) {
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
     notFound()
   }
-  if ([...ucs].length !== 1) {
-    notFound()
+  const ucsList = [...ucs]
+  if (ucsList.length !== 1) {
+    if (ucsList.length === 2) {
+      if (
+        /^\p{sc=Han}$/u.test(ucsList[0]) &&
+        /^[\uFE00-\uFE0F\u{E0100}-\u{E01EF}]$/u.test(ucsList[1])
+      ) {
+        // character with variation selector
+        // redirect to the base character
+        redirect(`/mojidata/${encodeURIComponent(ucsList[0])}`)
+      } else {
+        notFound()
+      }
+    }
   }
 
   return (
