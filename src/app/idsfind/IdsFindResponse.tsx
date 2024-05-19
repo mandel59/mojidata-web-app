@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import './styles.css'
-import { getApiUrl, getRevalidateDuration } from '@/app/config'
 import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchIdsFind } from './idsfind'
