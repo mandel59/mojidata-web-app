@@ -32,7 +32,20 @@ export default function RootLayout({
           <h1>{siteName}</h1>
           <PreviewWarning />
           <nav>
-            <Link href="/">IDS Finder</Link> <Link href="/about">About</Link>
+            <ul>
+              <li>
+                <Link href="/idsfind">IDS Finder</Link>
+              </li>
+              {/* TODO: Implement search */}
+              {/* <li>
+                <Link href="/">Search</Link>
+              </li> */}
+            </ul>
+            <ul>
+              <li>
+                <Link href="/about">About</Link>
+              </li>
+            </ul>
           </nav>
         </header>
         {children}
