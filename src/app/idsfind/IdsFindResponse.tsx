@@ -5,6 +5,7 @@ import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchIdsFind } from './idsfind'
 import ConditionalLink from '@/components/ConditionalLink'
 import { Pager } from '@/components/Pager'
+import { Spacer } from '@/components/Spacer'
 
 function getPrevAndNextPagePath(
   ids: string[],
@@ -90,6 +91,11 @@ export default async function IdsFindResponse(
             </div>
           )
         })}
+        {pageNum > 1 &&
+          pageNum === totalPages &&
+          Array.from(Array(size - (total - offset)), (_, i) => (
+            <Spacer key={i} width={60} height={60} border={1} margin={5} />
+          ))}
       </div>
       {total === 0 && <p>No results found. </p>}
       {total === 0 && wholeSearch && (

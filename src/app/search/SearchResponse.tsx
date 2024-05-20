@@ -5,6 +5,7 @@ import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchSearch } from './search'
 import ConditionalLink from '@/components/ConditionalLink'
 import { Pager } from '@/components/Pager'
+import { Spacer } from '@/components/Spacer'
 
 function getPrevAndNextPagePath(query: string, page: number, done: boolean) {
   const url = new URL('/search', 'http://localhost/')
@@ -80,6 +81,11 @@ export default async function SearchResponse(
             </div>
           )
         })}
+        {pageNum > 1 &&
+          pageNum === totalPages &&
+          Array.from(Array(size - (total - offset)), (_, i) => (
+            <Spacer key={i} width={60} height={60} border={1} margin={5} />
+          ))}
       </div>
       {total === 0 && <p>No results found. </p>}
       <footer>
