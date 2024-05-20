@@ -69,7 +69,7 @@ export default async function IdsFindResponse(
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
   return (
-    <article>
+    <article className="article-ids-find-response">
       <div className="ids-find-response">
         {results.slice(offset, offset + size).map((char: string) => {
           const glyphWikiName = toGlyphWikiName(char)
@@ -94,7 +94,7 @@ export default async function IdsFindResponse(
         {pageNum > 1 &&
           pageNum === totalPages &&
           Array.from(Array(size - (total - offset)), (_, i) => (
-            <Spacer key={i} width={60} height={60} border={1} margin={5} />
+            <Spacer key={i} width={60} height={60} border={1} margin={3} />
           ))}
       </div>
       {total === 0 && <p>No results found. </p>}

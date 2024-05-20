@@ -1,5 +1,8 @@
+.article-search-response {
+  padding: 3px;
+}
+
 .search-response {
-  margin: 5px;
   display: flex;
   flex-flow: row wrap;
 }
@@ -9,7 +12,7 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  margin: 5px;
+  margin: 3px;
   border: 1px solid #ccc;
   font-size: 50px;
   width: 60px;

@@ -59,7 +59,7 @@ export default async function SearchResponse(
   const totalPages = Math.ceil(total / size)
   const { prev, next } = getPrevAndNextPagePath(query, pageNum, done)
   return (
-    <article>
+    <article className="article-search-response">
       <div className="search-response">
         {results.slice(offset, offset + size).map((char: string) => {
           const glyphWikiName = toGlyphWikiName(char)
@@ -84,7 +84,7 @@ export default async function SearchResponse(
         {pageNum > 1 &&
           pageNum === totalPages &&
           Array.from(Array(size - (total - offset)), (_, i) => (
-            <Spacer key={i} width={60} height={60} border={1} margin={5} />
+            <Spacer key={i} width={60} height={60} border={1} margin={3} />
           ))}
       </div>
       {total === 0 && <p>No results found. </p>}
