@@ -1,8 +1,7 @@
-.article-ids-find-response {
-  padding: 3px;
-}
-
 .ids-find-response {
+  margin:
+    calc(3px - var(--pico-block-spacing-vertical))
+    calc(3px - var(--pico-block-spacing-horizontal));
   display: flex;
   flex-flow: row wrap;
 }

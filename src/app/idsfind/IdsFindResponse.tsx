@@ -69,7 +69,7 @@ export default async function IdsFindResponse(
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
   return (
-    <article className="article-ids-find-response">
+    <article>
       <div className="ids-find-response">
         {results.slice(offset, offset + size).map((char: string) => {
           const glyphWikiName = toGlyphWikiName(char)
