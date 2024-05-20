@@ -20,8 +20,8 @@ export function middleware(request: NextRequest): NextResponse | undefined {
       }
     }
   }
-  const { isBot } = userAgent(request)
-  if (isBot) {
+  const { isBot, ua } = userAgent(request)
+  if (isBot || ua.includes('Bytespider')) {
     const url = request.nextUrl
     url.searchParams.set('bot', '1')
     return NextResponse.rewrite(url)
