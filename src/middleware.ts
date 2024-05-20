@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, userAgent } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest): NextResponse | undefined {
@@ -19,5 +19,11 @@ export function middleware(request: NextRequest): NextResponse | undefined {
         })
       }
     }
+  }
+  const { isBot } = userAgent(request)
+  if (isBot) {
+    const url = request.nextUrl
+    url.searchParams.set('bot', '1')
+    return NextResponse.rewrite(url)
   }
 }

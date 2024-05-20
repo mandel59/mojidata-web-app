@@ -44,11 +44,12 @@ function toRefName(char: string) {
 interface SearchResponseParams {
   query: string
   page?: number
+  bot: boolean
 }
 export default async function SearchResponse(
   params: SearchResponseParams,
 ): Promise<ReactElement> {
-  const { query, page } = params
+  const { query, page, bot } = params
   const size = 120
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchSearch({
@@ -77,7 +78,12 @@ export default async function SearchResponse(
                 title={toRefName(char)}
               >
                 <ConditionalLink prefetch={false} href={href}>
-                  <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
+                  <GlyphWikiChar
+                    name={glyphWikiName}
+                    alt={char}
+                    size={55}
+                    bot={bot}
+                  />
                 </ConditionalLink>
               </div>
             )

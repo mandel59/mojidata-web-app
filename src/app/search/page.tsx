@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function Search({ searchParams }: Props) {
-  let { query, page } = searchParams
+  let { query, page, bot } = searchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
@@ -35,6 +35,7 @@ export default function Search({ searchParams }: Props) {
           <SearchResponse
             query={query}
             page={page ? Number(page) : undefined}
+            bot={!!bot}
           />
         </Suspense>
       </main>

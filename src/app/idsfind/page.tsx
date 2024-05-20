@@ -16,7 +16,7 @@ function castToArray<T>(x: undefined | T | T[]): T[] {
 }
 
 export default function IdsFind({ searchParams }: Props) {
-  const { ids, whole, page } = searchParams
+  const { ids, whole, page, bot } = searchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
   if (idsArray.length === 0 && wholeArray.length === 0) {
@@ -36,6 +36,7 @@ export default function IdsFind({ searchParams }: Props) {
             ids={idsArray}
             whole={wholeArray}
             page={page ? Number(page) : undefined}
+            bot={!!bot}
           />
         </Suspense>
       </main>

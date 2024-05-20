@@ -51,11 +51,12 @@ interface IdsFindResponseParams {
   ids: string[]
   whole: string[]
   page?: number
+  bot: boolean
 }
 export default async function IdsFindResponse(
   params: IdsFindResponseParams,
 ): Promise<ReactElement> {
-  const { ids, whole, page } = params
+  const { ids, whole, page, bot } = params
   const size = 120
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchIdsFind({
@@ -87,7 +88,12 @@ export default async function IdsFindResponse(
                 title={toRefName(char)}
               >
                 <ConditionalLink prefetch={false} href={href}>
-                  <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
+                  <GlyphWikiChar
+                    name={glyphWikiName}
+                    alt={char}
+                    size={55}
+                    bot={bot}
+                  />
                 </ConditionalLink>
               </div>
             )

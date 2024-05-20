@@ -12,8 +12,9 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default function Mojidata({ params }: Props) {
+export default function Mojidata({ params, searchParams }: Props) {
   const { char } = params
+  const { bot } = searchParams
   const ucs = decodeURIComponent(char)
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
     notFound()
@@ -38,7 +39,7 @@ export default function Mojidata({ params }: Props) {
     <div>
       <main className="container">
         <Suspense fallback={<LoadingArticle />}>
-          <MojidataResponse ucs={ucs} />
+          <MojidataResponse ucs={ucs} bot={!!bot} />
         </Suspense>
       </main>
       <nav className="container">

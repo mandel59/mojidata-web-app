@@ -75,11 +75,12 @@ function ConditionalLink(props: ConditionalLinkProps): ReactElement {
 
 interface MojidataResponseParams {
   ucs: string
+  bot: boolean
 }
 export default async function MojidataResponse(
   params: MojidataResponseParams,
 ): Promise<ReactElement> {
-  const { ucs } = params
+  const { ucs, bot } = params
 
   const results = await fetchMojidata(ucs)
 
@@ -225,7 +226,12 @@ export default async function MojidataResponse(
             )}
           </figcaption>
           <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-            <GlyphWikiChar name={glyphWikiName} alt={results.char} size={110} />
+            <GlyphWikiChar
+              name={glyphWikiName}
+              alt={results.char}
+              size={110}
+              bot={bot}
+            />
           </div>
         </figure>
         {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
@@ -249,6 +255,7 @@ export default async function MojidataResponse(
                           name={toGlyphWikiName(record.CJKCI_char)}
                           alt={record.CJKCI}
                           size={110}
+                          bot={bot}
                         />
                       </Link>
                     </div>
@@ -553,6 +560,7 @@ export default async function MojidataResponse(
                         name={toGlyphWikiName(char)}
                         alt={char}
                         size={110}
+                        bot={bot}
                       />
                     ) : (
                       char
