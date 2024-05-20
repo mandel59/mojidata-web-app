@@ -4,12 +4,9 @@ import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchSearch } from './search'
 import ConditionalLink from '@/components/ConditionalLink'
+import { Pager } from '@/components/Pager'
 
-function getPrevAndNextPagePath(
-  query: string,
-  page: number,
-  done: boolean,
-) {
+function getPrevAndNextPagePath(query: string, page: number, done: boolean) {
   const url = new URL('/search', 'http://localhost/')
   url.searchParams.set('query', query)
   let prevUrl: URL | undefined
@@ -58,6 +55,7 @@ export default async function SearchResponse(
     page,
     size,
   })
+  const totalPages = Math.ceil(total / size)
   const { prev, next } = getPrevAndNextPagePath(query, pageNum, done)
   return (
     <article>
@@ -85,23 +83,12 @@ export default async function SearchResponse(
       </div>
       {total === 0 && <p>No results found. </p>}
       <footer>
-        <div className="pager">
-          <div>
-            {prev && (
-              <Link rel="prev" role="button" href={prev}>
-                Prev
-              </Link>
-            )}
-          </div>
-          <div>page {pageNum}</div>
-          <div>
-            {next && (
-              <Link rel="next" role="button" href={next}>
-                Next
-              </Link>
-            )}
-          </div>
-        </div>
+        <Pager
+          prev={prev}
+          next={next}
+          pageNum={pageNum}
+          totalPages={totalPages}
+        />
       </footer>
     </article>
   )

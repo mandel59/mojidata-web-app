@@ -1,0 +1,17 @@
+.pager {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+
+  & .prev, & .next {
+    width: 5em;
+    text-align: center;
+  }
+
+  & .pagenum {
+    width: 10em;
+    text-align: center;
+  }
+}

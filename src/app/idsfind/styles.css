@@ -28,16 +28,3 @@
 .ids-find-char-glyphwiki img {
   display: block;
 }
-
-.pager {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1em;
-}
-
-.pager > div {
-  width: 5em;
-  text-align: center;
-}

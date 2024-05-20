@@ -39,5 +39,5 @@ export async function fetchIdsFind(params: IdsFindParams) {
     total?: number
   }
   const done = size ? results.length <= offset + size : true
-  return { results, done, offset, size, total }
+  return { results, done, offset, size, total: total ?? results.length }
 }

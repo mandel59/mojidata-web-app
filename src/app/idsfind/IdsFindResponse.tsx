@@ -4,6 +4,7 @@ import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchIdsFind } from './idsfind'
 import ConditionalLink from '@/components/ConditionalLink'
+import { Pager } from '@/components/Pager'
 
 function getPrevAndNextPagePath(
   ids: string[],
@@ -62,6 +63,7 @@ export default async function IdsFindResponse(
     page,
     size,
   })
+  const totalPages = Math.ceil(total / size)
   const wholeSearch =
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
@@ -98,23 +100,12 @@ export default async function IdsFindResponse(
         </p>
       )}
       <footer>
-        <div className="pager">
-          <div>
-            {prev && (
-              <Link rel="prev" role="button" href={prev}>
-                Prev
-              </Link>
-            )}
-          </div>
-          <div>page {pageNum}</div>
-          <div>
-            {next && (
-              <Link rel="next" role="button" href={next}>
-                Next
-              </Link>
-            )}
-          </div>
-        </div>
+        <Pager
+          prev={prev}
+          next={next}
+          pageNum={pageNum}
+          totalPages={totalPages}
+        />
       </footer>
     </article>
   )
