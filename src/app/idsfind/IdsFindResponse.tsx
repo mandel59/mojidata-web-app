@@ -70,33 +70,35 @@ export default async function IdsFindResponse(
   const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
   return (
     <article>
-      <div className="ids-find-response">
-        {results.slice(offset, offset + size).map((char: string) => {
-          const glyphWikiName = toGlyphWikiName(char)
-          const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
-          // TODO: Make pages for reference characters
-          const href = charIsRef
-            ? `https://glyphwiki.org/wiki/${glyphWikiName}`
-            : `/mojidata/${encodeURIComponent(char)}`
-          return (
-            <div
-              className="ids-find-result-char ids-find-char-glyphwiki"
-              lang="ja"
-              key={char}
-              title={toRefName(char)}
-            >
-              <ConditionalLink prefetch={false} href={href}>
-                <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
-              </ConditionalLink>
-            </div>
-          )
-        })}
-        {pageNum > 1 &&
-          pageNum === totalPages &&
-          Array.from(Array(size - (total - offset)), (_, i) => (
-            <Spacer key={i} width={60} height={60} border={1} margin={3} />
-          ))}
-      </div>
+      {total > 0 && (
+        <div className="ids-find-response">
+          {results.slice(offset, offset + size).map((char: string) => {
+            const glyphWikiName = toGlyphWikiName(char)
+            const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
+            // TODO: Make pages for reference characters
+            const href = charIsRef
+              ? `https://glyphwiki.org/wiki/${glyphWikiName}`
+              : `/mojidata/${encodeURIComponent(char)}`
+            return (
+              <div
+                className="ids-find-result-char ids-find-char-glyphwiki"
+                lang="ja"
+                key={char}
+                title={toRefName(char)}
+              >
+                <ConditionalLink prefetch={false} href={href}>
+                  <GlyphWikiChar name={glyphWikiName} alt={char} size={55} />
+                </ConditionalLink>
+              </div>
+            )
+          })}
+          {pageNum > 1 &&
+            pageNum === totalPages &&
+            Array.from(Array(size - (total - offset)), (_, i) => (
+              <Spacer key={i} width={60} height={60} border={1} margin={3} />
+            ))}
+        </div>
+      )}
       {total === 0 && <p>No results found. </p>}
       {total === 0 && wholeSearch && (
         <p>
