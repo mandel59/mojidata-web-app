@@ -25,8 +25,10 @@ export async function middleware(
   const { isBot, ua } = userAgent(request)
   if (isBot || ua.includes('Bytespider')) {
     if (ua.includes('Bytespider')) {
-      // slow down Bytespider
-      await new Promise((resolve) => setTimeout(resolve, 15000))
+      if (Math.random() < 0.75) {
+        // Request too many. Randomly return 429.
+        return new NextResponse('', { status: 429 })
+      }
     }
     if (request.nextUrl.host !== 'mojidata.ryusei.dev') {
       const url = request.nextUrl
