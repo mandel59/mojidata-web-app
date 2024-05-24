@@ -1,7 +1,9 @@
 import { NextResponse, userAgent } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest): NextResponse | undefined {
+export async function middleware(
+  request: NextRequest,
+): Promise<NextResponse | undefined> {
   const { pathname } = request.nextUrl
   if (pathname.startsWith('/mojidata/')) {
     // redirect /mojidata/U+6F22 to /mojidata/漢
@@ -22,6 +24,10 @@ export function middleware(request: NextRequest): NextResponse | undefined {
   }
   const { isBot, ua } = userAgent(request)
   if (isBot || ua.includes('Bytespider')) {
+    if (ua.includes('Bytespider')) {
+      // slow down Bytespider
+      await new Promise((resolve) => setTimeout(resolve, 15000))
+    }
     if (request.nextUrl.host !== 'mojidata.ryusei.dev') {
       const url = request.nextUrl
       url.host = 'mojidata.ryusei.dev'
