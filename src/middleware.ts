@@ -22,8 +22,14 @@ export function middleware(request: NextRequest): NextResponse | undefined {
   }
   const { isBot, ua } = userAgent(request)
   if (isBot || ua.includes('Bytespider')) {
-    const url = request.nextUrl
-    url.searchParams.set('bot', '1')
-    return NextResponse.rewrite(url)
+    if (request.nextUrl.host !== 'mojidata.ryusei.dev') {
+      const url = request.nextUrl
+      url.host = 'mojidata.ryusei.dev'
+      return NextResponse.redirect(url)
+    } else {
+      const url = request.nextUrl
+      url.searchParams.set('bot', '1')
+      return NextResponse.rewrite(url)
+    }
   }
 }
