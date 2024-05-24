@@ -42,9 +42,6 @@ export default function Mojidata({ params, searchParams }: Props) {
           <MojidataResponse ucs={ucs} bot={!!bot} />
         </Suspense>
       </main>
-      <nav className="container">
-        <IdsFinder />
-      </nav>
     </div>
   )
 }
