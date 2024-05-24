@@ -1,4 +1,4 @@
-import ReactMarkdown, { uriTransformer } from 'react-markdown'
+import ReactMarkdown, { defaultUrlTransform } from 'react-markdown'
 import mojidataLicenseMd from '@mandel59/mojidata/LICENSE.md'
 import Link from 'next/link'
 
@@ -8,6 +8,7 @@ export default function License() {
   const baseUrl =
     'https://github.com/mandel59/mojidata/blob/main/packages/mojidata'
   function customUriTransformer(uri: string) {
+    uri = defaultUrlTransform(uri)
     if (/^\w+?:\/\//.test(uri)) {
       return uri
     }
