@@ -30,7 +30,6 @@ export default function RootLayout({
       <body>
         <header className="container">
           <h1>{siteName}</h1>
-          <PreviewWarning />
           <nav>
             <ul>
               <li>
@@ -48,6 +47,7 @@ export default function RootLayout({
           </nav>
         </header>
         {children}
+        <PreviewWarning />
       </body>
     </html>
   )
