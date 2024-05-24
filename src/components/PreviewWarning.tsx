@@ -28,7 +28,8 @@ export default function PreviewWarning(): ReactElement {
             <Link href="https://mojidata.ryusei.dev/">
               https://mojidata.ryusei.dev/
             </Link>
-            &gt;.{' '}
+            &gt;
+            <br />
             {productionPage && (
               <Link href={productionPage}>
                 Go to the production version of this page
