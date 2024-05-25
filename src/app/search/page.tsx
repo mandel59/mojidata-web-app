@@ -34,7 +34,10 @@ export default function Search({ searchParams }: Props) {
         <MojidataSearchForm />
       </nav>
       <main className="container">
-        <Suspense fallback={<LoadingArticle />}>
+        <Suspense
+          key={JSON.stringify(searchParams)}
+          fallback={<LoadingArticle />}
+        >
           <SearchResponse
             query={query}
             page={page ? Number(page) : undefined}
