@@ -2,7 +2,6 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
 import LoadingArticle from '@/components/LoadingArticle'
-import IdsFinder from '@/components/IdsFinder'
 import { notFound, redirect } from 'next/navigation'
 
 export const runtime = 'experimental-edge'
