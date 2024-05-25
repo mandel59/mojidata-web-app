@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import './styles.css'
-import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchIdsFind } from './idsfind'
 import ConditionalLink from '@/components/ConditionalLink'
@@ -10,12 +9,14 @@ import { Spacer } from '@/components/Spacer'
 function getPrevAndNextPagePath(
   ids: string[],
   whole: string[],
+  query: string,
   page: number,
   done: boolean,
 ) {
   const url = new URL('/idsfind', 'http://localhost/')
   ids.forEach((value) => url.searchParams.append('ids', value))
   whole.forEach((value) => url.searchParams.append('whole', value))
+  if (query) url.searchParams.set('query', query)
   let prevUrl: URL | undefined
   if (page > 1) {
     prevUrl = new URL(url)
@@ -50,25 +51,33 @@ function toRefName(char: string) {
 interface IdsFindResponseParams {
   ids: string[]
   whole: string[]
+  query: string
   page?: number
   bot: boolean
 }
 export default async function IdsFindResponse(
   params: IdsFindResponseParams,
 ): Promise<ReactElement> {
-  const { ids, whole, page, bot } = params
+  const { ids, whole, query, page, bot } = params
   const size = 120
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchIdsFind({
     ids,
     whole,
+    query,
     page,
     size,
   })
   const totalPages = Math.ceil(total / size)
   const wholeSearch =
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
-  const { prev, next } = getPrevAndNextPagePath(ids, whole, pageNum, done)
+  const { prev, next } = getPrevAndNextPagePath(
+    ids,
+    whole,
+    query,
+    pageNum,
+    done,
+  )
   return (
     <article>
       {total > 0 && (

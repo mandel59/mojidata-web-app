@@ -6,7 +6,7 @@ export interface SearchParams {
   size?: number
 }
 
-function parseQuery(query: string) {
+export function parseQuery(query: string) {
   return (query.match(/\S+/gu) ?? [])
     .map((p): [string, string] | undefined => {
       if (p.startsWith('U+')) return ['UCS', p.slice(2)]
@@ -42,7 +42,7 @@ function parseQuery(query: string) {
     .filter((x): x is [string, string] => typeof x === 'object')
 }
 
-function unzip(pairs: [string, string][]) {
+export function unzip(pairs: [string, string][]) {
   const ps = []
   const qs = []
   for (const [p, q] of pairs) {

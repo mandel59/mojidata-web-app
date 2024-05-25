@@ -15,11 +15,16 @@ function castToArray<T>(x: undefined | T | T[]): T[] {
   return Array.isArray(x) ? x : x != null ? [x] : []
 }
 
+function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
+  return Array.isArray(x) ? x.join(joiner) : x != null ? String(x) : ''
+}
+
 export default function IdsFind({ searchParams }: Props) {
-  const { ids, whole, page, bot } = searchParams
+  const { ids, whole, query, page, bot } = searchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
-  if (idsArray.length === 0 && wholeArray.length === 0) {
+  const queryString = castToString(query)
+  if (idsArray.length === 0 && wholeArray.length === 0 && !queryString) {
     return (
       <div>
         <nav className="container">
@@ -35,6 +40,7 @@ export default function IdsFind({ searchParams }: Props) {
           <IdsFindResponse
             ids={idsArray}
             whole={wholeArray}
+            query={queryString}
             page={page ? Number(page) : undefined}
             bot={!!bot}
           />
@@ -51,10 +57,12 @@ export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { ids, whole, page } = searchParams
+  const { ids, whole, query, page } = searchParams
   const url = new URL('https://mojidata.ryusei.dev/idsfind')
   castToArray(ids).forEach((ids) => url.searchParams.append('ids', ids))
   castToArray(whole).forEach((whole) => url.searchParams.append('whole', whole))
+  const queryString = castToString(query)
+  if (queryString) url.searchParams.append('query', queryString)
   if (page != null) url.searchParams.append('page', String(page))
   return {
     alternates: {

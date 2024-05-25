@@ -1,8 +1,10 @@
 import { getApiUrl, getRevalidateDuration } from '../config'
+import { parseQuery, unzip } from '../search/search'
 
 export interface IdsFindParams {
   ids: string[]
   whole: string[]
+  query: string
   page?: number
   size?: number
 }
@@ -13,14 +15,18 @@ function normalize(s: string) {
 }
 
 export async function fetchIdsFind(params: IdsFindParams) {
-  const { ids, whole, page, size } = params
+  const { ids, whole, query, page, size } = params
   const pageNum = page ?? 1
   const offset = size ? (pageNum - 1) * size : 0
+  const pqs = parseQuery(query)
+  const [ps, qs] = unzip(pqs)
   const url = new URL(getApiUrl('/api/v1/idsfind'))
   ids.map(normalize).forEach((value) => url.searchParams.append('ids', value))
   whole
     .map(normalize)
     .forEach((value) => url.searchParams.append('whole', value))
+  ps.forEach((p) => url.searchParams.append('p', p))
+  qs.forEach((q) => url.searchParams.append('q', q))
   url.searchParams.set('all_results', '1')
   const res = await fetch(url, {
     next: {

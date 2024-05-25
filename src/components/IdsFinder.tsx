@@ -12,8 +12,10 @@ export default function IdsFinder() {
   const searchParams = useSearchParams()
   const initialIds = pathIsIdsfind ? searchParams.getAll('ids') : []
   const initialWhole = pathIsIdsfind ? searchParams.get('whole') ?? '' : ''
+  const initialQuery = pathIsIdsfind ? searchParams.get('query') ?? '' : ''
   const [ids, setIds] = useState<string[]>(initialIds)
   const [whole, setWhole] = useState<string>(initialWhole)
+  const [query, setQuery] = useState<string>(initialQuery)
   return (
     <div className="ids-finder">
       <GetForm action="/idsfind">
@@ -42,10 +44,19 @@ export default function IdsFinder() {
           <div key="whole">
             Whole IDS:{' '}
             <input
-              name={whole === '' ? undefined : 'whole'}
+              name={whole ? 'whole' : undefined}
               value={whole}
               placeholder="Whole IDS"
               onChange={(e) => setWhole(e.target.value)}
+            />
+          </div>
+          <div key="query">
+            Other search queries:{' '}
+            <input
+              name={query ? 'query' : undefined}
+              value={query}
+              placeholder="Search by reading, total strokes, code point or a character."
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           <footer>
