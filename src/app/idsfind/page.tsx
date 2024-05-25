@@ -35,6 +35,9 @@ export default function IdsFind({ searchParams }: Props) {
   }
   return (
     <div>
+      <nav className="container">
+        <IdsFinder />
+      </nav>
       <main className="container">
         <Suspense fallback={<LoadingArticle />}>
           <IdsFindResponse
@@ -46,9 +49,6 @@ export default function IdsFind({ searchParams }: Props) {
           />
         </Suspense>
       </main>
-      <nav className="container">
-        <IdsFinder />
-      </nav>
     </div>
   )
 }
