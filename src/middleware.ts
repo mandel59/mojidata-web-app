@@ -27,7 +27,10 @@ export async function middleware(
     if (ua.includes('Bytespider')) {
       if (Math.random() < 0.75) {
         // Request too many. Randomly return 429.
-        return new NextResponse('', { status: 429 })
+        return new NextResponse('', {
+          status: 429,
+          headers: { 'Retry-After': '60' },
+        })
       }
     }
     if (request.nextUrl.host !== 'mojidata.ryusei.dev') {
