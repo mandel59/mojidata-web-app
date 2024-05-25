@@ -34,7 +34,9 @@ const GetForm = forwardRef<HTMLFormElement, FormProps>(function GetForm(
                 throw new Error('unexpected value type')
               }
             })
-            router.push(url.href)
+            router.push(url.href, {
+              scroll: false,
+            })
             return
           }
         },
