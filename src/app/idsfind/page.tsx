@@ -41,7 +41,7 @@ export default function IdsFind({ searchParams }: Props) {
         </nav>
         <main>
           <Suspense
-            key={JSON.stringify(searchParams)}
+            key={JSON.stringify({ ids, whole, query })}
             fallback={<LoadingArticle />}
           >
             <IdsFindResponse

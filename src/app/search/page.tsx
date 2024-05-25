@@ -36,7 +36,7 @@ export default function Search({ searchParams }: Props) {
         </nav>
         <main>
           <Suspense
-            key={JSON.stringify(searchParams)}
+            key={JSON.stringify({ query })}
             fallback={<LoadingArticle />}
           >
             <SearchResponse
