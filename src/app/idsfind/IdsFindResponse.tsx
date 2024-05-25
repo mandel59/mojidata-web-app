@@ -59,7 +59,7 @@ export default async function IdsFindResponse(
   params: IdsFindResponseParams,
 ): Promise<ReactElement> {
   const { ids, whole, query, page, bot } = params
-  const size = 120
+  const size = 50
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchIdsFind({
     ids,

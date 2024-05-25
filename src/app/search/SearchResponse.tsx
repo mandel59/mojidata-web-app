@@ -50,7 +50,7 @@ export default async function SearchResponse(
   params: SearchResponseParams,
 ): Promise<ReactElement> {
   const { query, page, bot } = params
-  const size = 120
+  const size = 50
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchSearch({
     query,

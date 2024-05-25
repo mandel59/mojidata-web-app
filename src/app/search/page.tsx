@@ -29,22 +29,24 @@ export default function Search({ searchParams }: Props) {
     )
   }
   return (
-    <div>
-      <nav className="container">
-        <MojidataSearchForm />
-      </nav>
-      <main className="container">
-        <Suspense
-          key={JSON.stringify(searchParams)}
-          fallback={<LoadingArticle />}
-        >
-          <SearchResponse
-            query={query}
-            page={page ? Number(page) : undefined}
-            bot={!!bot}
-          />
-        </Suspense>
-      </main>
+    <div className="container">
+      <div className="grid">
+        <nav>
+          <MojidataSearchForm />
+        </nav>
+        <main>
+          <Suspense
+            key={JSON.stringify(searchParams)}
+            fallback={<LoadingArticle />}
+          >
+            <SearchResponse
+              query={query}
+              page={page ? Number(page) : undefined}
+              bot={!!bot}
+            />
+          </Suspense>
+        </main>
+      </div>
     </div>
   )
 }
