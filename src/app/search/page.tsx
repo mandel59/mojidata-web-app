@@ -30,6 +30,9 @@ export default function Search({ searchParams }: Props) {
   }
   return (
     <div>
+      <nav className="container">
+        <MojidataSearchForm />
+      </nav>
       <main className="container">
         <Suspense fallback={<LoadingArticle />}>
           <SearchResponse
@@ -39,9 +42,6 @@ export default function Search({ searchParams }: Props) {
           />
         </Suspense>
       </main>
-      <nav className="container">
-        <MojidataSearchForm />
-      </nav>
     </div>
   )
 }
