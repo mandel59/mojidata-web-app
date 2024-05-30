@@ -56,7 +56,7 @@ export async function fetchSearch(params: SearchParams) {
   const { query, page, size } = params
   const pageNum = page ?? 1
   const offset = size ? (pageNum - 1) * size : 0
-  const url = new URL(getApiUrl('/api/v1/search'))
+  const url = new URL(getApiUrl('/api/v1/idsfind'))
   const pqs = parseQuery(query)
   if (pqs.length === 0) {
     return { results: [], done: true, offset, size: 0, total: 0 }
