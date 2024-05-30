@@ -1,8 +1,8 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { Suspense } from 'react'
-import SearchResponse from './SearchResponse'
 import LoadingArticle from '@/components/LoadingArticle'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
+import IdsFindResponse from '../idsfind/IdsFindResponse'
 
 export const runtime = 'experimental-edge'
 
@@ -39,7 +39,9 @@ export default function Search({ searchParams }: Props) {
             key={JSON.stringify({ query })}
             fallback={<LoadingArticle />}
           >
-            <SearchResponse
+            <IdsFindResponse
+              ids={[]}
+              whole={[]}
               query={query}
               page={page ? Number(page) : undefined}
               bot={!!bot}

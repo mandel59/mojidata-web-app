@@ -51,36 +51,3 @@ export function unzip(pairs: [string, string][]) {
   }
   return [ps, qs] as const
 }
-
-export async function fetchSearch(params: SearchParams) {
-  const { query, page, size } = params
-  const pageNum = page ?? 1
-  const offset = size ? (pageNum - 1) * size : 0
-  const url = new URL(getApiUrl('/api/v1/idsfind'))
-  const pqs = parseQuery(query)
-  if (pqs.length === 0) {
-    return { results: [], done: true, offset, size: 0, total: 0 }
-  }
-  const [ps, qs] = unzip(pqs)
-  ps.forEach((value) => url.searchParams.append('p', value))
-  qs.forEach((value) => url.searchParams.append('q', value))
-  const res = await fetch(url, {
-    next: {
-      revalidate: getRevalidateDuration(),
-    },
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-  if (!res.ok) {
-    throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
-  }
-  const responseBody = await res.json()
-  const { results } = responseBody as {
-    results: string[]
-    total: number
-  }
-  const done = size ? results.length <= offset + size : true
-  const total = results.length
-  return { results, done, offset, size, total }
-}
