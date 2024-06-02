@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function Search({ searchParams }: Props) {
-  let { query, page, bot } = searchParams
+  let { query, page, bot, disableExternalLinks } = searchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
@@ -45,6 +45,7 @@ export default function Search({ searchParams }: Props) {
               query={query}
               page={page ? Number(page) : undefined}
               bot={!!bot}
+              disableExternalLinks={!!disableExternalLinks}
             />
           </Suspense>
         </main>
