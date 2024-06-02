@@ -1,4 +1,5 @@
 import { getApiUrl, getRevalidateDuration } from '@/app/config'
+import { customFetch } from '@/customFetch'
 
 export interface MojidataResults {
   char: string
@@ -370,7 +371,7 @@ export async function fetchMojidata(char: string) {
   url.searchParams.set('char', char)
   // dummy query to avoid cache for older versions
   url.searchParams.set('_v', '6')
-  const res = await fetch(url, {
+  const res = await customFetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
     },

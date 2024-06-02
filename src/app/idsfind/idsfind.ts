@@ -1,3 +1,4 @@
+import { customFetch } from '@/customFetch'
 import { getApiUrl, getRevalidateDuration } from '../config'
 import { parseQuery, unzip } from '../search/search'
 
@@ -28,7 +29,7 @@ export async function fetchIdsFind(params: IdsFindParams) {
   ps.forEach((p) => url.searchParams.append('p', p))
   qs.forEach((q) => url.searchParams.append('q', q))
   url.searchParams.set('all_results', '1')
-  const res = await fetch(url, {
+  const res = await customFetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
     },
