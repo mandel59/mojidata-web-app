@@ -1,6 +1,6 @@
 import ReactMarkdown, { defaultUrlTransform } from 'react-markdown'
 import mojidataLicenseMd from '@mandel59/mojidata/LICENSE.md'
-import Link from 'next/link'
+import ConditionalLink from '@/components/ConditionalLink'
 
 export const runtime = 'experimental-edge'
 
@@ -28,19 +28,19 @@ export default function License() {
         </p>
         <ul>
           <li>
-            <Link href="https://github.com/mandel59/mojidata">
+            <ConditionalLink href="https://github.com/mandel59/mojidata">
               GitHub mandel59/mojidata
-            </Link>
+            </ConditionalLink>
           </li>
           <li>
-            <Link href="https://github.com/mandel59/mojidata-api">
+            <ConditionalLink href="https://github.com/mandel59/mojidata-api">
               GitHub mandel59/mojidata-api
-            </Link>
+            </ConditionalLink>
           </li>
           <li>
-            <Link href="https://github.com/mandel59/mojidata-web-app">
+            <ConditionalLink href="https://github.com/mandel59/mojidata-web-app">
               GitHub mandel59/mojidata-web-app
-            </Link>
+            </ConditionalLink>
           </li>
         </ul>
         <hr />
@@ -50,15 +50,15 @@ export default function License() {
         </p>
         <ul>
           <li>
-            <a href="https://moji.or.jp/mojikiban/font/">
+            <ConditionalLink href="https://moji.or.jp/mojikiban/font/">
               IPAmjMincho Ver.006.01
-            </a>{' '}
+            </ConditionalLink>{' '}
             is required for Moji_Joho glyphs
           </li>
           <li>
-            <a href="https://github.com/adobe-fonts/source-han-serif/releases/tag/2.001R">
+            <ConditionalLink href="https://github.com/adobe-fonts/source-han-serif/releases/tag/2.001R">
               Source Han Serif Version 2.001
-            </a>{' '}
+            </ConditionalLink>{' '}
             is required for regional glyphs and Adobe-Japan1 glyphs
           </li>
         </ul>
@@ -68,9 +68,9 @@ export default function License() {
           online project that allows users to create, edit, and share glyphs of
           Chinese characters. You can view the license information for
           GlyphWiki&apos;s data on the{' '}
-          <Link href="http://en.glyphwiki.org/wiki/GlyphWiki:License">
+          <ConditionalLink href="http://en.glyphwiki.org/wiki/GlyphWiki:License">
             GlyphWiki:License
-          </Link>{' '}
+          </ConditionalLink>{' '}
           page.
         </p>
         <hr />

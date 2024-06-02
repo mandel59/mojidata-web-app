@@ -54,11 +54,12 @@ interface IdsFindResponseParams {
   query: string
   page?: number
   bot: boolean
+  disableExternalLinks: boolean
 }
 export default async function IdsFindResponse(
   params: IdsFindResponseParams,
 ): Promise<ReactElement> {
-  const { ids, whole, query, page, bot } = params
+  const { ids, whole, query, page, bot, disableExternalLinks } = params
   const size = 50
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchIdsFind({
@@ -96,7 +97,11 @@ export default async function IdsFindResponse(
                 key={char}
                 title={toRefName(char)}
               >
-                <ConditionalLink prefetch={false} href={href}>
+                <ConditionalLink
+                  prefetch={false}
+                  href={href}
+                  disableExternalLinks={disableExternalLinks}
+                >
                   <GlyphWikiChar
                     name={glyphWikiName}
                     alt={char}
@@ -117,9 +122,12 @@ export default async function IdsFindResponse(
       {total === 0 && <p>No results found. </p>}
       {total === 0 && wholeSearch && (
         <p>
-          <a href={`https://zi.tools/zi/${encodeURIComponent(whole[0])}`}>
+          <ConditionalLink
+            href={`https://zi.tools/zi/${encodeURIComponent(whole[0])}`}
+            disableExternalLinks={disableExternalLinks}
+          >
             Search zi.tools for {whole[0]}
-          </a>
+          </ConditionalLink>
         </p>
       )}
       <footer>

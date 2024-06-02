@@ -20,7 +20,7 @@ function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
 }
 
 export default function IdsFind({ searchParams }: Props) {
-  const { ids, whole, query, page, bot } = searchParams
+  const { ids, whole, query, page, bot, disableExternalLinks } = searchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
   const queryString = castToString(query)
@@ -50,6 +50,7 @@ export default function IdsFind({ searchParams }: Props) {
               query={queryString}
               page={page ? Number(page) : undefined}
               bot={!!bot}
+              disableExternalLinks={!!disableExternalLinks}
             />
           </Suspense>
         </main>
