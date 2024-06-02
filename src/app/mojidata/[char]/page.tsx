@@ -13,7 +13,7 @@ type Props = {
 
 export default function Mojidata({ params, searchParams }: Props) {
   const { char } = params
-  const { bot } = searchParams
+  const { bot, disableExternalLinks } = searchParams
   const ucs = decodeURIComponent(char)
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
     notFound()
@@ -38,7 +38,11 @@ export default function Mojidata({ params, searchParams }: Props) {
     <div>
       <main className="container">
         <Suspense fallback={<LoadingArticle />}>
-          <MojidataResponse ucs={ucs} bot={!!bot} />
+          <MojidataResponse
+            ucs={ucs}
+            bot={!!bot}
+            disableExternalLinks={!!disableExternalLinks}
+          />
         </Suspense>
       </main>
     </div>

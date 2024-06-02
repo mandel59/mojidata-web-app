@@ -23,8 +23,9 @@ export async function middleware(
     }
   }
   const { isBot, ua } = userAgent(request)
-  if (isBot || ua.includes('Bytespider')) {
-    if (ua.includes('Bytespider')) {
+  const isBytespider = ua.includes('Bytespider')
+  if (isBot || isBytespider) {
+    if (isBytespider) {
       if (Math.random() < 0.75) {
         // Request too many. Randomly return 429.
         return new NextResponse('', {
@@ -37,10 +38,12 @@ export async function middleware(
       const url = request.nextUrl
       url.host = 'mojidata.ryusei.dev'
       return NextResponse.redirect(url)
-    } else {
-      const url = request.nextUrl
-      url.searchParams.set('bot', '1')
-      return NextResponse.rewrite(url)
     }
+    const url = request.nextUrl
+    if (isBytespider) {
+      url.searchParams.set('disableExternalLinks', '1')
+    }
+    url.searchParams.set('bot', '1')
+    return NextResponse.rewrite(url)
   }
 }
