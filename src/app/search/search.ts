@@ -12,22 +12,22 @@ export function parseQuery(query: string) {
       if (p.startsWith('U+')) return ['UCS', p.slice(2)]
       if (p.startsWith('MJ')) return ['mji.MJ文字図形名', p]
       if (p[0] === '=' || p[0] === '＝') {
-        return ['mji.総画数', p.normalize('NFKC').slice(1)]
+        return ['totalStrokes', p.normalize('NFKC').slice(1)]
       }
       if (p.slice(0, 2).normalize('NFKC') === '<=') {
-        return ['mji.総画数.le', p.normalize('NFKC').slice(2)]
+        return ['totalStrokes.le', p.normalize('NFKC').slice(2)]
       }
       if (p[0] === '<' || p[0] === '＜') {
-        return ['mji.総画数.lt', p.normalize('NFKC').slice(1)]
+        return ['totalStrokes.lt', p.normalize('NFKC').slice(1)]
       }
       if (p.slice(0, 2).normalize('NFKC') === '>=') {
-        return ['mji.総画数.ge', p.normalize('NFKC').slice(2)]
+        return ['totalStrokes.ge', p.normalize('NFKC').slice(2)]
       }
       if (p[0] === '>' || p[0] === '＞') {
-        return ['mji.総画数.gt', p.normalize('NFKC').slice(1)]
+        return ['totalStrokes.gt', p.normalize('NFKC').slice(1)]
       }
       if (p.normalize('NFKC').match(/^\d{1,2}$/u)) {
-        return ['mji.総画数', p.normalize('NFKC')]
+        return ['totalStrokes', p.normalize('NFKC')]
       }
       if (p.match(/^[\p{sc=Kana}\p{sc=Hira}ー]+$/u)) {
         return ['mji.読み', p]
