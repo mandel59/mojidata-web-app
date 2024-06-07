@@ -1,5 +1,3 @@
-import { getApiUrl, getRevalidateDuration } from '../config'
-
 export interface SearchParams {
   query: string
   page?: number
