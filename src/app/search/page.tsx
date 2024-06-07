@@ -40,6 +40,7 @@ export default function Search({ searchParams }: Props) {
             fallback={<LoadingArticle />}
           >
             <IdsFindResponse
+              path="/search"
               ids={[]}
               whole={[]}
               query={query}

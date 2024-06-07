@@ -7,13 +7,14 @@ import { Pager } from '@/components/Pager'
 import { Spacer } from '@/components/Spacer'
 
 function getPrevAndNextPagePath(
+  path: string,
   ids: string[],
   whole: string[],
   query: string,
   page: number,
   done: boolean,
 ) {
-  const url = new URL('/idsfind', 'http://localhost/')
+  const url = new URL(path, 'http://localhost/')
   ids.forEach((value) => url.searchParams.append('ids', value))
   whole.forEach((value) => url.searchParams.append('whole', value))
   if (query) url.searchParams.set('query', query)
@@ -49,6 +50,7 @@ function toRefName(char: string) {
 }
 
 interface IdsFindResponseParams {
+  path?: string
   ids: string[]
   whole: string[]
   query: string
@@ -59,7 +61,15 @@ interface IdsFindResponseParams {
 export default async function IdsFindResponse(
   params: IdsFindResponseParams,
 ): Promise<ReactElement> {
-  const { ids, whole, query, page, bot, disableExternalLinks } = params
+  const {
+    path = '/idsfind',
+    ids,
+    whole,
+    query,
+    page,
+    bot,
+    disableExternalLinks,
+  } = params
   const size = 50
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchIdsFind({
@@ -73,6 +83,7 @@ export default async function IdsFindResponse(
   const wholeSearch =
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
   const { prev, next } = getPrevAndNextPagePath(
+    path,
     ids,
     whole,
     query,
