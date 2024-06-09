@@ -414,7 +414,7 @@ export default async function MojidataResponse(
             ))}
           </div>
         )}
-        <h3 id="Variants">Variants</h3>
+        <h3 id="Variants">Variants and Relevant Characters</h3>
         {allVariantChars.length > 0 &&
           allVariantChars.map((char) => {
             const kdpvRelations = kdpvVariants.get(char)
