@@ -54,7 +54,7 @@ export function parseQuery(query: string) {
       putPQ('mji.読み.prefix', p.substring(0, p.length - 1))
       continue
     }
-    if (p.match(/^[:：][\u0100-\u{1FFFF}].*$/u)) {
+    if (p.match(/^[:：][^\x00-\xFF].*$/u)) {
       putPQ('UCS', p.codePointAt(1)!.toString(16))
       continue
     }
