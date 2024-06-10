@@ -11,8 +11,8 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/idsfind',
-        permanent: true,
+        destination: '/search',
+        permanent: false,
       },
     ]
   },
