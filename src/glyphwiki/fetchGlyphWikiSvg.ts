@@ -25,22 +25,18 @@ export async function fetchGlyphWikiSvg(name: string) {
       return {
         name,
         svgImage: null,
-        svgImageDataUri: null,
       }
     }
     const svgImage = await svgImageResponse.text()
-    const svgImageDataUri = `data:image/svg+xml,${encodeURIComponent(svgImage)}`
     return {
       name,
       svgImage,
-      svgImageDataUri,
     }
   } catch (error) {
     console.error(error)
     return {
       name,
       svgImage: null,
-      svgImageDataUri: null,
     }
   }
 }

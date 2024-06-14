@@ -8,6 +8,7 @@ import {
   toGlyphWikiName,
 } from '@/glyphwiki/fetchGlyphWikiSvg'
 import { getRevalidateDuration } from '@/app/config'
+import { toDataUri } from '@/utils/toDataUri'
 
 export const runtime = 'edge'
 
@@ -26,7 +27,7 @@ export default async function og({ params }: Props) {
     ?.toString(16)
     .toUpperCase()
     .padStart(4, '0')
-  const { svgImageDataUri } = await fetchGlyphWikiSvg(toGlyphWikiName(ucs))
+  const { svgImage } = await fetchGlyphWikiSvg(toGlyphWikiName(ucs))
   return new ImageResponse(
     (
       <div
@@ -42,8 +43,12 @@ export default async function og({ params }: Props) {
         }}
       >
         <div style={{ display: 'flex', fontSize: '128px' }}>U+{codePoint}</div>
-        {svgImageDataUri ? (
-          <img width={512} height={512} src={svgImageDataUri} />
+        {svgImage ? (
+          <img
+            width={512}
+            height={512}
+            src={toDataUri(svgImage, 'image/svg+xml')}
+          />
         ) : (
           <div
             style={{

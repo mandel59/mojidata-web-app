@@ -1,4 +1,5 @@
 import { fetchGlyphWikiSvg } from '@/glyphwiki/fetchGlyphWikiSvg'
+import { toDataUri } from '@/utils/toDataUri'
 import Image from 'next/image'
 import { Suspense } from 'react'
 
@@ -41,12 +42,12 @@ async function GlyphWikiImage(props: GlyphWikiCharProps) {
   if (bot) {
     return <LoadingImage {...props} />
   }
-  const { svgImageDataUri } = await fetchGlyphWikiSvg(name)
-  if (svgImageDataUri) {
+  const { svgImage } = await fetchGlyphWikiSvg(name)
+  if (svgImage) {
     return (
       <span data-name={name}>
         <Image
-          src={svgImageDataUri}
+          src={toDataUri(svgImage, 'image/svg+xml')}
           alt={alt ?? name}
           width={size}
           height={size}
