@@ -58,15 +58,19 @@ export function parseQuery(query: string) {
       putPQ('UCS', p.codePointAt(1)!.toString(16))
       continue
     }
+    if (p.match(/^(char|ｃｈａｒ)[:：][^\x00-\xFF].*$/iu)) {
+      putPQ('UCS', p.codePointAt(5)!.toString(16))
+      continue
+    }
     if (p.match(/^[@＠].+$/u)) {
       whole.push(p.slice(1))
       continue
     }
-    if (p.match(/^(whole|ｗｈｏｌｅ)[=＝].+$/iu)) {
+    if (p.match(/^(whole|ｗｈｏｌｅ)[:：=＝].+$/iu)) {
       whole.push(p.slice(6))
       continue
     }
-    if (p.match(/^(ids|ｉｄｓ)[=＝].+$/iu)) {
+    if (p.match(/^(ids|ｉｄｓ)[:：=＝].+$/iu)) {
       ids.push(p.slice(4))
       continue
     }
