@@ -39,3 +39,10 @@ trademarks of Unicode, Inc. in the United States and other countries.
 
 This project is released under the SIL Open Font License 1.1 (OFL-1.1).  
 See [LICENSE](https://github.com/unicode-org/cjk-symbols/blob/main/LICENSE)
+
+## Adobe NotDef
+
+Copyright 2016-2019 Adobe (http://www.adobe.com/).
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.  
+See [LICENSE.md](https://github.com/adobe-fonts/adobe-notdef/blob/master/LICENSE.md)
