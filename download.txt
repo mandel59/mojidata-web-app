@@ -1,0 +1,3 @@
+## CJK Symbols <https://github.com/unicode-org/cjk-symbols>
+## License: OFL-1.1
+CJKSymbols-Regular.otf 9d24bd969065c42e090b369540a0a12401b2343c37305789b502a72628a1990e https://github.com/unicode-org/cjk-symbols/releases/download/2.001/CJKSymbols-Regular.otf

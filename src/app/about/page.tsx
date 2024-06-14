@@ -1,13 +1,16 @@
 import ReactMarkdown, { defaultUrlTransform } from 'react-markdown'
+import mojidataWebAppLicenseMd from '@/../LICENSE.md'
 import mojidataLicenseMd from '@mandel59/mojidata/LICENSE.md'
 import ConditionalLink from '@/components/ConditionalLink'
 
 export const runtime = 'experimental-edge'
 
 export default function License() {
-  const baseUrl =
+  const mojidataWebAppBaseUrl =
+    'https://github.com/mandel59/mojidata/blob/main/packages/mojidata-web-app'
+  const mojidataBaseUrl =
     'https://github.com/mandel59/mojidata/blob/main/packages/mojidata'
-  function customUriTransformer(uri: string) {
+  const customUriTransformer = (baseUrl: string) => (uri: string) => {
     uri = defaultUrlTransform(uri)
     if (/^\w+?:\/\//.test(uri)) {
       return uri
@@ -74,7 +77,13 @@ export default function License() {
           page.
         </p>
         <hr />
-        <ReactMarkdown urlTransform={customUriTransformer}>
+        <ReactMarkdown
+          urlTransform={customUriTransformer(mojidataWebAppBaseUrl)}
+        >
+          {mojidataWebAppLicenseMd}
+        </ReactMarkdown>
+        <hr />
+        <ReactMarkdown urlTransform={customUriTransformer(mojidataBaseUrl)}>
           {
             /* Replace <br> tag to Markdown line break */
             mojidataLicenseMd.replace(/<br\s*\/?>\n?/g, '  \n')

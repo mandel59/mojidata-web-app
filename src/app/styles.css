@@ -65,5 +65,5 @@ body {
   /* TODO: consider font preference */
   font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
     Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
-    Mojidata-SourceHanSerifKR, serif;
+    Mojidata-SourceHanSerifKR, var(--font-cjksymbols), serif;
 }

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eux
+cd "$(dirname "$0")/.."
+
+scripts/build-font-cjksymbols

@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import '@picocss/pico/css/pico.min.css'
 import { canonicalUrlBase, description, siteName } from '@/settings'
+import { fontCjkSymbols } from './fonts'
 
 export const metadata = {
   title: {
@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="light">
-      <body>
+      <body className={fontCjkSymbols.variable}>
         <header className="container">
           <h1>{siteName}</h1>
           <nav>
