@@ -1,4 +1,5 @@
 import { fetchGlyphWikiSvg } from '@/glyphwiki/fetchGlyphWikiSvg'
+import { insertWhiteLayerToGlyphWikiSvg } from '@/glyphwiki/insertWhiteLayerToGlyphWikiSvg'
 import { toDataUri } from '@/utils/toDataUri'
 import Image from 'next/image'
 import { Suspense } from 'react'
@@ -47,7 +48,10 @@ async function GlyphWikiImage(props: GlyphWikiCharProps) {
     return (
       <span data-name={name}>
         <Image
-          src={toDataUri(svgImage, 'image/svg+xml')}
+          src={toDataUri(
+            insertWhiteLayerToGlyphWikiSvg(svgImage),
+            'image/svg+xml',
+          )}
           alt={alt ?? name}
           width={size}
           height={size}
