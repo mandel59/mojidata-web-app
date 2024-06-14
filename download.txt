@@ -1,3 +1,7 @@
 ## CJK Symbols <https://github.com/unicode-org/cjk-symbols>
 ## License: OFL-1.1
 CJKSymbols-Regular.otf 9d24bd969065c42e090b369540a0a12401b2343c37305789b502a72628a1990e https://github.com/unicode-org/cjk-symbols/releases/download/2.001/CJKSymbols-Regular.otf
+
+## Adobe NotDef <https://github.com/adobe-fonts/adobe-notdef/>
+## License: OFL-1.1
+AND-Regular.otf 494bfaeeea8993a8f6fc8d21d2a9f4c6036dc51fb6e4938ff6f34ce5ad9dd7f2 https://raw.githubusercontent.com/adobe-fonts/adobe-notdef/1f1f863b2295543598b69bebe42db3e73fe58353/AND-Regular.otf

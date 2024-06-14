@@ -51,7 +51,7 @@
 }
 
 .mojidata-mojijoho {
-  font-family: 'Mojidata-IPAmjMincho', serif;
+  font-family: 'Mojidata-IPAmjMincho', var(--font-notdef);
 }
 
 .mojidata-char-link a {

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eux
+
+# check command dependencies
+if ! type woff2_compress >/dev/null 2>&1; then
+  echo "Please install woff2_compress" >&2
+  exit 1
+fi
+
+cd "$(dirname "$0")/.."
+scripts/download AND-Regular.otf
+mkdir -p src/fonts
+cd src/fonts
+ln -s ../../cache/AND-Regular.otf AND-Regular.otf
+woff2_compress AND-Regular.otf
+rm AND-Regular.otf
