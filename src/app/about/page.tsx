@@ -7,7 +7,7 @@ export const runtime = 'experimental-edge'
 
 export default function License() {
   const mojidataWebAppBaseUrl =
-    'https://github.com/mandel59/mojidata/blob/main/packages/mojidata-web-app'
+    'https://github.com/mandel59/mojidata-web-app/blob/main'
   const mojidataBaseUrl =
     'https://github.com/mandel59/mojidata/blob/main/packages/mojidata'
   const customUriTransformer = (baseUrl: string) => (uri: string) => {
