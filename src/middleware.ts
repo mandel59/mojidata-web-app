@@ -73,7 +73,6 @@ export async function middleware(
   }
   const url1 = String(url)
   if (url0 !== url1) {
-    console.log({ url0, url1 })
     return NextResponse.rewrite(url)
   }
 }
