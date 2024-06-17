@@ -3,16 +3,18 @@ import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
 import LoadingArticle from '@/components/LoadingArticle'
 import { notFound, redirect } from 'next/navigation'
+import { getLanguage } from '@/getText'
 
 export const runtime = 'experimental-edge'
 
 type Props = {
-  params: { char: string }
+  params: { char: string; lang: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export default function Mojidata({ params, searchParams }: Props) {
-  const { char } = params
+  const { char, lang } = params
+  const language = getLanguage(lang)
   const { bot, disableExternalLinks } = searchParams
   const ucs = decodeURIComponent(char)
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
@@ -42,6 +44,7 @@ export default function Mojidata({ params, searchParams }: Props) {
             ucs={ucs}
             bot={!!bot}
             disableExternalLinks={!!disableExternalLinks}
+            lang={language}
           />
         </Suspense>
       </main>

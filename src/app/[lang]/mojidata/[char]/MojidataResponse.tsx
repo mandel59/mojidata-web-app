@@ -24,6 +24,7 @@ import {
 import './styles.css'
 import Link from 'next/link'
 import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
+import { Language, getText } from '@/getText'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -77,11 +78,12 @@ interface MojidataResponseParams {
   ucs: string
   bot: boolean
   disableExternalLinks: boolean
+  lang: Language
 }
 export default async function MojidataResponse(
   params: MojidataResponseParams,
 ): Promise<ReactElement> {
-  const { ucs, bot, disableExternalLinks } = params
+  const { ucs, bot, disableExternalLinks, lang } = params
 
   const results = await fetchMojidata(ucs)
 
@@ -213,7 +215,7 @@ export default async function MojidataResponse(
   return (
     <article>
       <div className="mojidata-response">
-        <h2 id="Character_Data">Character Data</h2>
+        <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         <figure>
           <figcaption>
             {results.UCS} {results.char}
@@ -237,7 +239,9 @@ export default async function MojidataResponse(
         </figure>
         {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
           <>
-            <h3 id="Compatibility_Ideographs">Compatibility Ideographs</h3>
+            <h3 id="Compatibility_Ideographs">
+              {getText('compatibility-ideographs.h3', lang)}
+            </h3>
             <div className="mojidata-chars-comparison">
               {results.svs_cjkci.map((record) => {
                 return (
@@ -266,7 +270,7 @@ export default async function MojidataResponse(
             </div>
           </>
         )}
-        <h3 id="IDS">IDS</h3>
+        <h3 id="IDS">{getText('ids.h3', lang)}</h3>
         <table>
           <thead>
             <tr>
@@ -283,8 +287,10 @@ export default async function MojidataResponse(
             ))}
           </tbody>
         </table>
-        <h3 id="Glyph_Comparison">Glyph Comparison</h3>
-        <h4 id="Regional_Differences">Regional Differences</h4>
+        <h3 id="Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</h3>
+        <h4 id="Regional_Differences">
+          {getText('regional-differences.h4', lang)}
+        </h4>
         <div className="mojidata-chars-comparison">
           {langTags.map((lang) => (
             <figure key={lang}>
@@ -304,7 +310,7 @@ export default async function MojidataResponse(
             </figure>
           ))}
         </div>
-        <h4 id="Adobe-Japan1">Adobe-Japan1</h4>
+        <h4 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h4>
         {ivsAj1.length > 0 && (
           <div className="mojidata-chars-comparison">
             {ivsAj1.map((record) => {
@@ -316,23 +322,35 @@ export default async function MojidataResponse(
                   <figcaption>
                     {record.code}
                     {record.code === aj1Jp04 && (
-                      <span
+                      <small
                         title={
                           record.code !== aj1Jp90
-                            ? 'jp04 glyph'
-                            : 'default glyph'
+                            ? getText('jp04-glyph.title', lang)
+                            : getText('default-glyph.title', lang)
                         }
                       >
-                        *
-                      </span>
+                        {' '}
+                        {record.code !== aj1Jp90
+                          ? getText('jp04-glyph.small', lang)
+                          : getText('default-glyph.small', lang)}
+                      </small>
                     )}
                     {record.code === aj1Jp90 && record.code !== aj1Jp04 && (
-                      <span title="jp90 glyph">⁑</span>
+                      <small title={getText('jp90-glyph.title', lang)}>
+                        {' '}
+                        {getText('jp90-glyph.small', lang)}
+                      </small>
                     )}
                     {compat && (
-                      <span title={`compatibility variant ${compat.ucs}`}>
-                        †
-                      </span>
+                      <small
+                        title={`${getText(
+                          'compatibility-variant.title',
+                          lang,
+                        )} ${compat.ucs}`}
+                      >
+                        {' '}
+                        {getText('compatibility-variant.small', lang)}
+                      </small>
                     )}
                     <br />
                     <small>{toCodePoints(record.char)}</small>
@@ -355,11 +373,11 @@ export default async function MojidataResponse(
             <figure key={aj1Cid}>
               <figcaption>
                 {aj1Cid}
-                <span
+                <small
                   title={`compatibility variant of ${canonicalCharacter.UCS}`}
                 >
                   †
-                </span>
+                </small>
                 <br />
                 <small>{results.UCS}</small>
               </figcaption>
@@ -371,7 +389,7 @@ export default async function MojidataResponse(
             </figure>
           </div>
         )}
-        <h4 id="Moji_Joho">Moji_Joho</h4>
+        <h4 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h4>
         {mji.length > 0 && (
           <div className="mojidata-chars-comparison">
             {mji.map((record) => (
@@ -379,28 +397,42 @@ export default async function MojidataResponse(
                 <figcaption>
                   <a href={record.href}>{record.code}</a>
                   {record.ucs === ucs && !record.compat && (
-                    <span title="default glyph">*</span>
+                    <small title={getText('default-glyph.title', lang)}>
+                      {' '}
+                      {getText('default-glyph.small', lang)}
+                    </small>
                   )}
                   {isJISX0213char &&
                     !record.x0213 &&
                     record.ucs === ucs &&
                     !record.compat && (
-                      <span title="not JIS X 0213:2004 glyph">!</span>
+                      <small title={getText('not-jp04-glyph.title', lang)}>
+                        {' '}
+                        {getText('not-jp04-glyph.small', lang)}
+                      </small>
                     )}
                   {record.x0213 && !(record.ucs === ucs) && !record.compat && (
-                    <span title="JIS X 0213:2004 glyph">⁑</span>
+                    <small title={getText('jp04-glyph.title', lang)}>
+                      {' '}
+                      {getText('jp04-glyph.small', lang)}
+                    </small>
                   )}
                   {!(record.ucs === ucs) && !record.compat && record.x0212 && (
-                    <span title="JIS X 0212 glyph">‡</span>
+                    <small title={getText('hojo-glyph.title', lang)}>
+                      {' '}
+                      {getText('hojo-glyph.small', lang)}
+                    </small>
                   )}
                   {record.compat && (
-                    <span
-                      title={`compatibility variant ${toCodePoint(
-                        record.ucs!,
-                      )}`}
+                    <small
+                      title={`${getText(
+                        'compatibility-variant.title',
+                        lang,
+                      )} ${toCodePoint(record.ucs!)}`}
                     >
-                      †
-                    </span>
+                      {' '}
+                      {getText('compatibility-variant.small', lang)}
+                    </small>
                   )}
                   <br />
                   <small>{toCodePoints(record.char)}</small>
@@ -414,7 +446,9 @@ export default async function MojidataResponse(
             ))}
           </div>
         )}
-        <h3 id="Variants">Variants and Relevant Characters</h3>
+        <h3 id="Variants">
+          {getText('variants-and-relevant-characters.h3', lang)}
+        </h3>
         {allVariantChars.length > 0 &&
           allVariantChars.map((char) => {
             const kdpvRelations = kdpvVariants.get(char)
@@ -573,7 +607,7 @@ export default async function MojidataResponse(
           })}
         {!disableExternalLinks && (
           <>
-            <h3 id="External_Links">External Links</h3>
+            <h3 id="External_Links">{getText('external-links.h3', lang)}</h3>
             <ul>
               <li>
                 <a
@@ -654,7 +688,7 @@ export default async function MojidataResponse(
             </ul>
           </>
         )}
-        <h3 id="JSON">JSON</h3>
+        <h3 id="JSON">{getText('json.h3', lang)}</h3>
         <pre>{JSON.stringify(results, null, 2)}</pre>
       </div>
     </article>
