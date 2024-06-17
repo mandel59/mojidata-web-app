@@ -40,7 +40,7 @@ export default function RootLayout({
                 <a href="/idsfind">{getText('ids-finder.nav', language)}</a>
               </li>
               <li>
-                <a href="/search">{getText('search.nav', language)}</a>
+                <a href="/search">{getText('mojidata-search.nav', language)}</a>
               </li>
             </ul>
             <ul>

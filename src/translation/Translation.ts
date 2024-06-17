@@ -1,6 +1,6 @@
 export type TranslationKey =
   | 'ids-finder.nav'
-  | 'search.nav'
+  | 'mojidata-search.nav'
   | 'about-this-app.nav'
   | 'mojidata-search.caption'
   | 'query-type.th'
