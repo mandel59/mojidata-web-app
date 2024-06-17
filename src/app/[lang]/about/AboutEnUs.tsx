@@ -6,7 +6,9 @@ export function AboutEnUs() {
       <h2>About Mojidata Web App</h2>
       <p>
         The Mojidata Web App is a web application for Mojidata, an open-source
-        collection of kanji information databases.
+        collection of Chinese character information databases. It allows you to
+        search and display Chinese character information across various Chinese
+        character information databases.
       </p>
       <p>
         The source code for Mojidata and the Mojidata Web App is available from

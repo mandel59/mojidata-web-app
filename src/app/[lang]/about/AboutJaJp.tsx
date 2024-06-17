@@ -6,7 +6,8 @@ export function AboutJaJp() {
       <h2>Mojidata Web Appについて</h2>
       <p>
         Mojidata Web
-        Appは、オープンソース漢字情報データベースMojidataのウェブアプリケーションです。
+        Appは、オープンソース漢字情報データベースコレクションMojidataのウェブアプリケーションです。
+        いろいろな漢字情報データベースを横断して、漢字の情報を検索、表示できます。
       </p>
       <p>
         MojidataおよびMojidata Web
