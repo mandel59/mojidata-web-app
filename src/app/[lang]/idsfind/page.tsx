@@ -3,11 +3,12 @@ import { Suspense } from 'react'
 import IdsFindResponse from './IdsFindResponse'
 import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
+import { getLanguage } from '@/getText'
 
 export const runtime = 'experimental-edge'
 
 type Props = {
-  params: {}
+  params: { lang: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
@@ -19,7 +20,8 @@ function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
   return Array.isArray(x) ? x.join(joiner) : x != null ? String(x) : ''
 }
 
-export default function IdsFind({ searchParams }: Props) {
+export default function IdsFind({ params: { lang }, searchParams }: Props) {
+  const language = getLanguage(lang)
   const { ids, whole, query, page, bot, disableExternalLinks } = searchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
@@ -28,7 +30,7 @@ export default function IdsFind({ searchParams }: Props) {
     return (
       <div>
         <nav className="container">
-          <IdsFinder />
+          <IdsFinder lang={language} />
         </nav>
       </div>
     )
@@ -37,7 +39,7 @@ export default function IdsFind({ searchParams }: Props) {
     <div className="container">
       <div className="grid">
         <nav>
-          <IdsFinder />
+          <IdsFinder lang={language} />
         </nav>
         <main>
           <Suspense

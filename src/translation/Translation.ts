@@ -54,5 +54,14 @@ export type TranslationKey =
   | 'variants-and-relevant-characters.h3'
   | 'external-links.h3'
   | 'json.h3'
+  | 'mojidata-search.placeholder'
+  | 'ids-multiple-sequences-can-be-entered.label'
+  | 'whole-ids.label'
+  | 'whole-ids.placeholder'
+  | 'other-search-queries.label'
+  | 'list-of-ids-operators.summary'
+  | 'ids-unary-operators.dt'
+  | 'ids-binary-operators.dt'
+  | 'ids-ternary-operators.dt'
 
 export type Translation = Record<TranslationKey, string>

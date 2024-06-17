@@ -63,4 +63,14 @@ export const translationEnUs: Translation = {
   'variants-and-relevant-characters.h3': 'Variants and Relevant Characters',
   'external-links.h3': 'External Links',
   'json.h3': 'JSON',
+  'mojidata-search.placeholder': 'Enter search queries...',
+  'ids-multiple-sequences-can-be-entered.label':
+    'IDS (Multiple sequences can be entered)',
+  'whole-ids.label': 'Whole IDS',
+  'whole-ids.placeholder': 'Enter whole IDS...',
+  'other-search-queries.label': 'Other search queries',
+  'list-of-ids-operators.summary': 'List of IDS Operators',
+  'ids-unary-operators.dt': 'IDS Unary Operators',
+  'ids-binary-operators.dt': 'IDS Binary Operators',
+  'ids-ternary-operators.dt': 'IDS Ternary Operators',
 }

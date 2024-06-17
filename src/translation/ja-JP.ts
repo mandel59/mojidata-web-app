@@ -57,4 +57,13 @@ export const translationJaJp: Translation = {
   'variants-and-relevant-characters.h3': '異体字と関連字',
   'external-links.h3': '外部リンク',
   'json.h3': 'JSON',
+  'mojidata-search.placeholder': '検索条件を入力...',
+  'ids-multiple-sequences-can-be-entered.label': 'IDS（複数のIDSを入力可能）',
+  'whole-ids.label': '全体IDS',
+  'whole-ids.placeholder': '全体IDSを入力...',
+  'other-search-queries.label': 'その他の検索条件',
+  'list-of-ids-operators.summary': 'IDS演算子一覧',
+  'ids-unary-operators.dt': 'IDS単項演算子',
+  'ids-binary-operators.dt': 'IDS二項演算子',
+  'ids-ternary-operators.dt': 'IDS三項演算子',
 }

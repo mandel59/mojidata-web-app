@@ -5,8 +5,13 @@ import GetForm from './GetForm'
 import { useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import './IdsFinder.css'
+import { Language, getText } from '@/getText'
 
-export default function IdsFinder() {
+export interface IdsFinderProps {
+  lang: Language
+}
+export default function IdsFinder(props: IdsFinderProps) {
+  const { lang } = props
   const pathname = usePathname()
   const pathIsIdsfind = pathname === '/idsfind'
   const searchParams = useSearchParams()
@@ -22,18 +27,18 @@ export default function IdsFinder() {
         <article>
           <h2>IDS Finder</h2>
           <details>
-            <summary>IDS Operators</summary>
+            <summary>{getText('list-of-ids-operators.summary', lang)}</summary>
             <dl>
-              <dt>IDS Unary Operators</dt>
+              <dt>{getText('ids-unary-operators.dt', lang)}</dt>
               <dd>〾↔↷</dd>
-              <dt>IDS Binary Operators</dt>
+              <dt>{getText('ids-binary-operators.dt', lang)}</dt>
               <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
-              <dt>IDS Ternary Operators</dt>
+              <dt>{getText('ids-ternary-operators.dt', lang)}</dt>
               <dd>⿲⿳</dd>
             </dl>
           </details>
           <div key="ids">
-            IDS (Multiple sequences can be entered):{' '}
+            {getText('ids-multiple-sequences-can-be-entered.label', lang)}{' '}
             <MultiInput
               name="ids"
               values={ids}
@@ -42,24 +47,25 @@ export default function IdsFinder() {
             />
           </div>
           <div key="whole">
-            Whole IDS:{' '}
+            {getText('whole-ids.label', lang)}{' '}
             <input
               name={whole ? 'whole' : undefined}
               value={whole}
-              placeholder="Whole IDS"
+              placeholder={getText('whole-ids.placeholder', lang)}
               onChange={(e) => setWhole(e.target.value)}
             />
           </div>
           <div key="query">
-            Other search queries:{' '}
+            {getText('other-search-queries.label', lang)}{' '}
             <input
               name={query ? 'query' : undefined}
               value={query}
+              placeholder={getText('mojidata-search.placeholder', lang)}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           <footer>
-            <button>Search</button>
+            <button>{getText('search.button', lang)}</button>
           </footer>
         </article>
       </GetForm>

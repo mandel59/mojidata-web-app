@@ -108,6 +108,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
             <input
               name="query"
               value={query}
+              placeholder={getText('mojidata-search.placeholder', lang)}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
