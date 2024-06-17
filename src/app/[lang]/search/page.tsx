@@ -3,15 +3,17 @@ import { Suspense } from 'react'
 import LoadingArticle from '@/components/LoadingArticle'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
+import { getLanguage } from '@/getText'
 
 export const runtime = 'experimental-edge'
 
 type Props = {
-  params: {}
+  params: { lang: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default function Search({ searchParams }: Props) {
+export default function Search({ params: { lang }, searchParams }: Props) {
+  const language = getLanguage(lang)
   let { query, page, bot, disableExternalLinks } = searchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
@@ -23,7 +25,7 @@ export default function Search({ searchParams }: Props) {
     return (
       <div>
         <nav className="container">
-          <MojidataSearchForm />
+          <MojidataSearchForm lang={language} />
         </nav>
       </div>
     )
@@ -32,7 +34,7 @@ export default function Search({ searchParams }: Props) {
     <div className="container">
       <div className="grid">
         <nav>
-          <MojidataSearchForm />
+          <MojidataSearchForm lang={language} />
         </nav>
         <main>
           <Suspense

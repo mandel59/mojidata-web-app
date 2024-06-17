@@ -55,7 +55,6 @@ export default function IdsFinder() {
             <input
               name={query ? 'query' : undefined}
               value={query}
-              placeholder="Search by reading, total strokes, code point or a character."
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>

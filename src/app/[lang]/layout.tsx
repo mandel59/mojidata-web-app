@@ -2,7 +2,8 @@ import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import '@picocss/pico/css/pico.min.css'
 import { canonicalUrlBase, description, siteName } from '@/settings'
-import { fontCjkSymbols, fontNotDef } from './fonts'
+import { fontCjkSymbols, fontNotDef } from '../fonts'
+import { getLanguage, getText } from '@/getText'
 
 export const metadata = {
   title: {
@@ -22,26 +23,29 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  params: { lang },
 }: {
   children: React.ReactNode
+  params: { lang: string }
 }) {
+  const language = getLanguage(lang)
   return (
-    <html lang="en" data-theme="light">
+    <html lang={language} data-theme="light">
       <body className={`${fontCjkSymbols.variable} ${fontNotDef.variable}`}>
         <header className="container">
           <h1>{siteName}</h1>
           <nav>
             <ul>
               <li>
-                <a href="/idsfind">IDS Finder</a>
+                <a href="/idsfind">{getText('ids-finder.nav', language)}</a>
               </li>
               <li>
-                <a href="/search">Search</a>
+                <a href="/search">{getText('search.nav', language)}</a>
               </li>
             </ul>
             <ul>
               <li>
-                <a href="/about">About</a>
+                <a href="/about">{getText('about-this-app.nav', language)}</a>
               </li>
             </ul>
           </nav>

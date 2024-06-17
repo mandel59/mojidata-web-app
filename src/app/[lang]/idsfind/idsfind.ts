@@ -1,5 +1,5 @@
 import { customFetch } from '@/customFetch'
-import { getApiUrl, getRevalidateDuration } from '../config'
+import { getApiUrl, getRevalidateDuration } from '../../config'
 import { parseQuery } from '../search/search'
 
 export interface IdsFindParams {
