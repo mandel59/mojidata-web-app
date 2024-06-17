@@ -411,7 +411,7 @@ export default async function MojidataResponse(
                         {getText('not-jp04-glyph.small', lang)}
                       </small>
                     )}
-                  {record.x0213 && !(record.ucs === ucs) && !record.compat && (
+                  {record.x0213 && !record.compat && (
                     <small title={getText('jp04-glyph.title', lang)}>
                       {' '}
                       {getText('jp04-glyph.small', lang)}
