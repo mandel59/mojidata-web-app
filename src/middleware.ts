@@ -34,11 +34,6 @@ export async function middleware(
         })
       }
     }
-    if (request.nextUrl.host !== 'mojidata.ryusei.dev') {
-      const url = request.nextUrl
-      url.host = 'mojidata.ryusei.dev'
-      return NextResponse.redirect(url)
-    }
     const url = request.nextUrl
     if (isBytespider) {
       url.searchParams.set('disableExternalLinks', '1')
