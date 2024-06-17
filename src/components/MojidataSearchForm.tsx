@@ -26,83 +26,79 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
             <table>
               <thead>
                 <tr>
-                  <th>Query type</th>
-                  <th>Example</th>
-                  <th>Description</th>
+                  <th>{getText('query-type.th', lang)}</th>
+                  <th>{getText('example.th', lang)}</th>
+                  <th>{getText('description.th', lang)}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Component Characters</td>
+                  <td>{getText('component-characters.query-type', lang)}</td>
                   <td>日　月</td>
-                  <td>
-                    Search characters having the specified characters as
-                    components
-                  </td>
+                  <td>{getText('component-characters.description', lang)}</td>
                 </tr>
                 <tr>
-                  <td>Component IDS</td>
+                  <td>{getText('component-ids.query-type', lang)}</td>
                   <td>⿰日月</td>
-                  <td>
-                    Search characters having the specified IDS as components
-                  </td>
+                  <td>{getText('component-ids.description', lang)}</td>
                 </tr>
                 <tr>
-                  <td>Whole IDS</td>
+                  <td>{getText('whole-ids.query-type', lang)}</td>
                   <td>＠⿰？月</td>
-                  <td>
-                    Search characters having the specified IDS as whole
-                    structure
-                  </td>
+                  <td>{getText('whole-ids.description', lang)}</td>
                 </tr>
                 <tr>
-                  <td>Search the character</td>
+                  <td>{getText('search-character.query-type', lang)}</td>
                   <td>：日</td>
-                  <td>Search the specified character</td>
+                  <td>{getText('search-character.description', lang)}</td>
                 </tr>
                 <tr>
-                  <td>Search the character (Kana)</td>
+                  <td>{getText('search-character-kana.query-type', lang)}</td>
                   <td>：あ</td>
-                  <td>Search the specified character</td>
+                  <td>{getText('search-character-kana.description', lang)}</td>
                 </tr>
                 <tr>
-                  <td>Code point</td>
+                  <td>{getText('code-point.query-type', lang)}</td>
                   <td>U+21234</td>
-                  <td>Specify scalar value by hexadecimal</td>
+                  <td>{getText('code-point.description', lang)}</td>
                 </tr>
                 <tr>
-                  <td>Japanese Kun reading</td>
+                  <td>{getText('japanese-kun-reading.query-type', lang)}</td>
                   <td>あか</td>
-                  <td></td>
+                  <td>{getText('japanese-kun-reading.description', lang)}</td>
                 </tr>
                 <tr>
-                  <td>Japanese Kun reading (Prefix)</td>
-                  <td>あか＊</td>
-                  <td>Use an asterisk for prefix search</td>
-                </tr>
-                <tr>
-                  <td>Japanese On reading</td>
-                  <td>セキ</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Total strokes</td>
-                  <td>＝１０</td>
-                  <td>Search for characters with 10 strokes.</td>
-                </tr>
-                <tr>
-                  <td>Total strokes (Range)</td>
-                  <td>＞＝１　＜＝３</td>
+                  {/* <td>Japanese Kun reading (Prefix)</td> */}
                   <td>
-                    Search for characters with a stroke count between 1 and 3.
+                    {getText('japanese-kun-reading-prefix.query-type', lang)}
+                  </td>
+                  <td>あか＊</td>
+                  <td>
+                    {getText('japanese-kun-reading-prefix.description', lang)}
                   </td>
                 </tr>
                 <tr>
-                  <td>MJ database serial number</td>
+                  <td>{getText('japanese-on-reading.query-type', lang)}</td>
+                  <td>セキ</td>
+                  <td>{getText('japanese-on-reading.description', lang)}</td>
+                </tr>
+                <tr>
+                  <td>{getText('total-strokes.query-type', lang)}</td>
+                  <td>＝１０</td>
+                  <td>{getText('total-strokes.description', lang)}</td>
+                </tr>
+                <tr>
+                  <td>{getText('total-strokes-range.query-type', lang)}</td>
+                  <td>＞＝１　＜＝３</td>
+                  <td>{getText('total-strokes-range.description', lang)}</td>
+                </tr>
+                <tr>
+                  <td>
+                    {getText('mj-database-serial-number.query-type', lang)}
+                  </td>
                   <td>MJ052285</td>
                   <td>
-                    Search for MJ characters by Moji Jōhō Kiban database serial
-                    numbers.
+                    {getText('mj-database-serial-number.description', lang)}
                   </td>
                 </tr>
               </tbody>
