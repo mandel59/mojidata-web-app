@@ -442,7 +442,7 @@ export function getKdpvVariants(results: MojidataResults) {
   return m
 }
 
-const excludedProperties = ['kJapanese', 'kSMSZD2003Readings']
+const excludedProperties = ['kJapanese', 'kSMSZD2003Readings', 'kFanqie']
 
 export function getUnihanVariants(results: MojidataResults) {
   const m = new Map<string, Set<string>>()
