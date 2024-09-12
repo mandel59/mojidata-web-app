@@ -370,7 +370,7 @@ export async function fetchMojidata(char: string) {
   const url = new URL(getApiUrl('/api/v1/mojidata'))
   url.searchParams.set('char', char)
   // dummy query to avoid cache for older versions
-  url.searchParams.set('_v', '6')
+  url.searchParams.set('_v', '7')
   const res = await customFetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
