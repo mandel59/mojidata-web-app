@@ -1,6 +1,7 @@
 import { customFetch } from '@/customFetch'
 import { getApiUrl, getRevalidateDuration } from '../../config'
 import { parseQuery } from '../search/search'
+import { version } from '@/settings'
 
 export interface IdsFindParams {
   ids: string[]
@@ -30,6 +31,7 @@ export async function fetchIdsFind(params: IdsFindParams) {
   ps.forEach((p) => url.searchParams.append('p', p))
   qs.forEach((q) => url.searchParams.append('q', q))
   url.searchParams.set('all_results', '1')
+  url.searchParams.set('_v', version)
   const res = await customFetch(url, {
     next: {
       revalidate: getRevalidateDuration(),
