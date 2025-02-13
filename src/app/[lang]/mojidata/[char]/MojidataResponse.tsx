@@ -374,9 +374,12 @@ export default async function MojidataResponse(
               <figcaption>
                 {aj1Cid}
                 <small
-                  title={`compatibility variant of ${canonicalCharacter.UCS}`}
+                  title={`${getText('compatibility-variant.title', lang)} ${
+                    results.UCS
+                  }`}
                 >
-                  †
+                  {' '}
+                  {getText('compatibility-variant.small', lang)}
                 </small>
                 <br />
                 <small>{results.UCS}</small>

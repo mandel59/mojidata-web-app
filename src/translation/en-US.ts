@@ -53,7 +53,7 @@ export const translationEnUs: Translation = {
   'jp04-glyph.small': 'jp04',
   'jp90-glyph.title': 'jp90 glyph',
   'jp90-glyph.small': 'jp90',
-  'compatibility-variant.title': 'compatibility variant of',
+  'compatibility-variant.title': 'compatibility variant',
   'compatibility-variant.small': 'compat.',
   'not-jp04-glyph.title': 'not jp04 glyph',
   'not-jp04-glyph.small': 'not jp04',
