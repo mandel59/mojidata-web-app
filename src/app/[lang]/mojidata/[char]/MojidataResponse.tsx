@@ -247,9 +247,9 @@ export default async function MojidataResponse(
                 return (
                   <figure key={record.SVS}>
                     <figcaption>
-                      {record.CJKCI}
+                      {record.CJKCI} {record.CJKCI_char}
                       <br />
-                      <small>{toCodePoints(record.SVS_char)}</small>
+                      <small>{toCodePoints(record.SVS_char)} {record.SVS_char}</small>
                     </figcaption>
                     <div
                       className="mojidata-char mojidata-char-link mojidata-char-glyphwiki"
