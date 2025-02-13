@@ -512,9 +512,9 @@ export function getMjsmVariants(results: MojidataResults) {
 
 export function getMjsmInverseVariants(results: MojidataResults) {
   const m = new Map<string, Set<MjsmTableName>>()
-  for (const { 表: table, 対応するUCS } of results.mjsm_inverse) {
-    if (対応するUCS == null) continue
-    const char = String.fromCodePoint(parseInt(対応するUCS.slice(2), 16))
+  for (const { 表: table, 実装したUCS } of results.mjsm_inverse) {
+    if (実装したUCS == null) continue
+    const char = String.fromCodePoint(parseInt(実装したUCS.slice(2), 16))
     add(m, char, table)
   }
   return m
