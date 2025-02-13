@@ -51,13 +51,22 @@ export function AboutJaJp() {
       </ul>
       <hr />
       <p>
-        Mojidata Web AppはGlyphWikiのグリフ画像を使っています。
+        Mojidata Web AppはGlyphWikiのグリフ画像を利用しています。
         GlyphWikiは、ユーザーが漢字のグリフを作成、編集、共有できるオンラインプロジェクトです。
         GlyphWikiのデータのライセンス情報は、
         <ConditionalLink href="https://glyphwiki.org/wiki/GlyphWiki:%E3%83%87%E3%83%BC%E3%82%BF%E3%83%BB%E8%A8%98%E4%BA%8B%E3%81%AE%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9">
           GlyphWiki:データ・記事のライセンス
         </ConditionalLink>
         ページで確認できます。
+      </p>
+      <hr />
+      <p>
+        Mojidataは漢字構造情報に
+        <ConditionalLink href="https://www.babelstone.co.uk/CJK/IDS.HTML">
+          BabelStone IDSデータベース
+        </ConditionalLink>
+        を利用しています。
+        <br />
       </p>
       <hr />
       <p>

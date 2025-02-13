@@ -62,6 +62,14 @@ export function AboutEnUs() {
       </p>
       <hr />
       <p>
+        Mojidata uses the{' '}
+        <ConditionalLink href="https://www.babelstone.co.uk/CJK/IDS.HTML">
+          BabelStone IDS Database
+        </ConditionalLink>{' '}
+        for character structural information.
+      </p>
+      <hr />
+      <p>
         The license for data and each kanji database included in Mojidata varies
         depending on their sources. Please refer to the following license
         information for details.
