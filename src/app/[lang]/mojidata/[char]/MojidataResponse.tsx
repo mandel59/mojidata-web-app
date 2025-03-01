@@ -272,127 +272,135 @@ export default async function MojidataResponse(
             </div>
           </>
         )}
-        <h3 id="IDS">{getText('ids.h3', lang)}</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>IDS</th>
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results.ids.map((record) => (
-              <tr key={record.source}>
-                <td>{record.IDS}</td>
-                <td>{record.source}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {charIsHan && (
+          <>
+            <h3 id="IDS">{getText('ids.h3', lang)}</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>IDS</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results.ids.map((record) => (
+                  <tr key={record.source}>
+                    <td>{record.IDS}</td>
+                    <td>{record.source}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
         <h3 id="Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</h3>
-        <h4 id="Regional_Differences">
-          {getText('regional-differences.h4', lang)}
-        </h4>
-        <div className="mojidata-chars-comparison">
-          {langTags.map((lang) => (
-            <figure key={lang}>
-              <figcaption>
-                {lang}
-                <br />
-                <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
-              </figcaption>
-              <div className="mojidata-char">
-                <span
-                  lang={lang}
-                  className="mojidata-raw-char mojidata-source-han-serif"
-                >
-                  {results.char}
-                </span>
-              </div>
-            </figure>
-          ))}
-        </div>
-        <h4 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h4>
-        {ivsAj1.length > 0 && (
-          <div className="mojidata-chars-comparison">
-            {ivsAj1.map((record) => {
-              const compat = unihanAj1CompatibilityCid?.find(
-                ({ cid }) => record.code === cid,
-              )
-              return (
-                <figure key={record.code}>
+        {charIsHan && (
+          <>
+            <h4 id="Regional_Differences">
+              {getText('regional-differences.h4', lang)}
+            </h4>
+            <div className="mojidata-chars-comparison">
+              {langTags.map((lang) => (
+                <figure key={lang}>
                   <figcaption>
-                    {record.code}
-                    {record.code === aj1Jp04 && (
-                      <small
-                        title={
-                          record.code !== aj1Jp90
-                            ? getText('jp04-glyph.title', lang)
-                            : getText('default-glyph.title', lang)
-                        }
-                      >
-                        {' '}
-                        {record.code !== aj1Jp90
-                          ? getText('jp04-glyph.small', lang)
-                          : getText('default-glyph.small', lang)}
-                      </small>
-                    )}
-                    {record.code === aj1Jp90 && record.code !== aj1Jp04 && (
-                      <small title={getText('jp90-glyph.title', lang)}>
-                        {' '}
-                        {getText('jp90-glyph.small', lang)}
-                      </small>
-                    )}
-                    {compat && (
-                      <small
-                        title={`${getText(
-                          'compatibility-variant.title',
-                          lang,
-                        )} ${compat.ucs}`}
-                      >
-                        {' '}
-                        {getText('compatibility-variant.small', lang)}
-                      </small>
-                    )}
+                    {lang}
                     <br />
-                    <small>{toCodePoints(record.char)}</small>
+                    <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
                   </figcaption>
                   <div className="mojidata-char">
                     <span
-                      lang="ja"
+                      lang={lang}
                       className="mojidata-raw-char mojidata-source-han-serif"
                     >
-                      {record.char}
+                      {results.char}
                     </span>
                   </div>
                 </figure>
-              )
-            })}
-          </div>
-        )}
-        {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
-          <div className="mojidata-chars-comparison">
-            <figure key={aj1Cid}>
-              <figcaption>
-                {aj1Cid}
-                <small
-                  title={`${getText('compatibility-variant.title', lang)} ${
-                    results.UCS
-                  }`}
-                >
-                  {' '}
-                  {getText('compatibility-variant.small', lang)}
-                </small>
-                <br />
-                <small>{results.UCS}</small>
-              </figcaption>
-              <div className="mojidata-char" lang="ja">
-                <span className="mojidata-raw-char mojidata-source-han-serif">
-                  {results.char}
-                </span>
+              ))}
+            </div>
+            <h4 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h4>
+            {ivsAj1.length > 0 && (
+              <div className="mojidata-chars-comparison">
+                {ivsAj1.map((record) => {
+                  const compat = unihanAj1CompatibilityCid?.find(
+                    ({ cid }) => record.code === cid,
+                  )
+                  return (
+                    <figure key={record.code}>
+                      <figcaption>
+                        {record.code}
+                        {record.code === aj1Jp04 && (
+                          <small
+                            title={
+                              record.code !== aj1Jp90
+                                ? getText('jp04-glyph.title', lang)
+                                : getText('default-glyph.title', lang)
+                            }
+                          >
+                            {' '}
+                            {record.code !== aj1Jp90
+                              ? getText('jp04-glyph.small', lang)
+                              : getText('default-glyph.small', lang)}
+                          </small>
+                        )}
+                        {record.code === aj1Jp90 && record.code !== aj1Jp04 && (
+                          <small title={getText('jp90-glyph.title', lang)}>
+                            {' '}
+                            {getText('jp90-glyph.small', lang)}
+                          </small>
+                        )}
+                        {compat && (
+                          <small
+                            title={`${getText(
+                              'compatibility-variant.title',
+                              lang,
+                            )} ${compat.ucs}`}
+                          >
+                            {' '}
+                            {getText('compatibility-variant.small', lang)}
+                          </small>
+                        )}
+                        <br />
+                        <small>{toCodePoints(record.char)}</small>
+                      </figcaption>
+                      <div className="mojidata-char">
+                        <span
+                          lang="ja"
+                          className="mojidata-raw-char mojidata-source-han-serif"
+                        >
+                          {record.char}
+                        </span>
+                      </div>
+                    </figure>
+                  )
+                })}
               </div>
-            </figure>
-          </div>
+            )}
+            {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
+              <div className="mojidata-chars-comparison">
+                <figure key={aj1Cid}>
+                  <figcaption>
+                    {aj1Cid}
+                    <small
+                      title={`${getText('compatibility-variant.title', lang)} ${
+                        results.UCS
+                      }`}
+                    >
+                      {' '}
+                      {getText('compatibility-variant.small', lang)}
+                    </small>
+                    <br />
+                    <small>{results.UCS}</small>
+                  </figcaption>
+                  <div className="mojidata-char" lang="ja">
+                    <span className="mojidata-raw-char mojidata-source-han-serif">
+                      {results.char}
+                    </span>
+                  </div>
+                </figure>
+              </div>
+            )}
+          </>
         )}
         <h4 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h4>
         {mji.length > 0 && (
