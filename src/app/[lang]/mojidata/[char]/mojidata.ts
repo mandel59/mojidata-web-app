@@ -580,7 +580,7 @@ export function getCns11643Search(results: MojidataResults) {
   const codePoint = results.char.codePointAt(0)?.toString(16).padStart(4, '0')
   const defaultSearch = {
     title: `[${results.char}] - 字形資訊 - CNS11643 全字庫`,
-    href: `https://www.cns11643.gov.tw/search.jsp?ID=7&&SN=${codePoint}`,
+    href: `https://www.cns11643.gov.tw/search.jsp?ID=12&UNI=${codePoint}&UNI2=`,
   }
   const tSource = results.unihan.kIRG_TSource
   if (tSource == null) return defaultSearch
@@ -592,7 +592,7 @@ export function getCns11643Search(results: MojidataResults) {
     const SN = t2
     return {
       title: `[${results.char}] ${cPage}-${SN} - 字形資訊 - CNS11643 全字庫`,
-      href: `https://www.cns11643.gov.tw/search.jsp?ID=5&cPage=${cPage}&SN=${SN}`,
+      href: `https://www.cns11643.gov.tw/search.jsp?ID=6&CPG=${cPage}&CNUM=${SN}&CNUM2=`,
     }
   }
 }
