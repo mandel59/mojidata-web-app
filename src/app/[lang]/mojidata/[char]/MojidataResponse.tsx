@@ -249,7 +249,9 @@ export default async function MojidataResponse(
                     <figcaption>
                       {record.CJKCI} {record.CJKCI_char}
                       <br />
-                      <small>{toCodePoints(record.SVS_char)} {record.SVS_char}</small>
+                      <small>
+                        {toCodePoints(record.SVS_char)} {record.SVS_char}
+                      </small>
                     </figcaption>
                     <div
                       className="mojidata-char mojidata-char-link mojidata-char-glyphwiki"
@@ -447,6 +449,26 @@ export default async function MojidataResponse(
                 </div>
               </figure>
             ))}
+          </div>
+        )}
+        {results.mjih.length > 0 && (
+          <div className="mojidata-chars-comparison">
+            {results.mjih.map((record) => {
+              return (
+                <figure key={record.MJ文字図形名}>
+                  <figcaption>
+                    {record.MJ文字図形名}
+                    <br />
+                    <small>{record.UCS符号位置}</small>
+                  </figcaption>
+                  <div className="mojidata-char" lang="ja">
+                    <span className="mojidata-raw-char mojidata-mojijoho">
+                      {record.文字}
+                    </span>
+                  </div>
+                </figure>
+              )
+            })}
           </div>
         )}
         <h3 id="Variants">
