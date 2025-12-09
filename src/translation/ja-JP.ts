@@ -3,6 +3,7 @@ import { Translation } from './Translation'
 export const translationJaJp: Translation = {
   'ids-finder.nav': 'IDS Finder',
   'mojidata-search.nav': 'Mojidata 検索',
+  'privacy-policy.nav': 'プライバシーポリシー',
   'about-this-app.nav': 'このアプリについて',
   'mojidata-search.caption': 'Mojidata 検索',
   'usage.summary': '使い方',

@@ -47,6 +47,11 @@ export default function RootLayout({
             </ul>
             <ul>
               <li>
+                <a href="/privacy-policy">
+                  {getText('privacy-policy.nav', language)}
+                </a>
+              </li>
+              <li>
                 <a href="/about">{getText('about-this-app.nav', language)}</a>
               </li>
             </ul>

@@ -3,6 +3,7 @@ import { Translation } from './Translation'
 export const translationEnUs: Translation = {
   'ids-finder.nav': 'IDS Finder',
   'mojidata-search.nav': 'Mojidata Search',
+  'privacy-policy.nav': 'Privacy Policy',
   'about-this-app.nav': 'About This App',
   'mojidata-search.caption': 'Mojidata Search',
   'usage.summary': 'Usage',
