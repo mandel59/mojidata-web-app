@@ -4,6 +4,8 @@ import '@picocss/pico/css/pico.min.css'
 import { canonicalUrlBase, description, siteName } from '@/settings'
 import { fontCjkSymbols, fontNotDef } from '../fonts'
 import { getLanguage, getText } from '@/getText'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/next'
 
 export const metadata = {
   title: {
@@ -52,6 +54,8 @@ export default function RootLayout({
         </header>
         {children}
         <PreviewWarning />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
