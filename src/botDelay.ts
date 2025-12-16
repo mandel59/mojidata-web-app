@@ -94,6 +94,8 @@ function botFamily(ua: string): string {
   if (s.includes('seznambot')) return 'seznambot'
   if (s.includes('coccocbot')) return 'coccocbot'
   if (s.includes('gptbot')) return 'gptbot'
+  if (s.includes('applebot')) return 'applebot'
+  if (s.includes('twitterbot')) return 'twitterbot'
   return 'unknown'
 }
 
@@ -133,7 +135,7 @@ function computeAndRecordBotDelay(
 
   const bot = botFamily(ua)
   const ip = ipPrefix(getClientIp(request))
-  const key = `${bot}:${ip}`
+  const key = bot === 'unknown' ? `${bot}:${ip}` : bot
   const prev = cache.get(key)
   if (!prev) {
     const targetIntervalMs = BOT_DELAY_TARGET_INTERVAL_MS
@@ -169,7 +171,7 @@ function computeAndRecordBotDelay(
   const delta = now - prev.lastSeenMs
   const continuousSinceMs =
     delta <= BOT_DELAY_CONTINUOUS_IDLE_MAX_MS
-      ? (prev.continuousSinceMs ?? prev.lastSeenMs)
+      ? prev.continuousSinceMs ?? prev.lastSeenMs
       : now
   const continuousDurationMs = now - continuousSinceMs
   const longCrawl = continuousDurationMs >= BOT_DELAY_LONG_CRAWL_THRESHOLD_MS
@@ -181,10 +183,7 @@ function computeAndRecordBotDelay(
   const scheduledAtMs = Math.max(now, nextAllowedMsBefore)
   const queueMs = scheduledAtMs - now
 
-  const delayMs = Math.min(
-    BOT_DELAY_MAX_MS,
-    BOT_DELAY_BASE_MS + queueMs,
-  )
+  const delayMs = Math.min(BOT_DELAY_MAX_MS, BOT_DELAY_BASE_MS + queueMs)
 
   cache.set(key, {
     lastSeenMs: now,
