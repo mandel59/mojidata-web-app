@@ -11,6 +11,14 @@ export function getApiBaseUrl() {
   }
 }
 
+export function getApiHeaders(): Record<string, string> {
+  const bypass = process.env.X_VERCEL_PROTECTION_BYPASS?.trim()
+  if (bypass) {
+    return { 'x-vercel-protection-bypass': bypass }
+  }
+  return {}
+}
+
 export function getApiUrl(path: string) {
   return new URL(path, getApiBaseUrl()).href
 }

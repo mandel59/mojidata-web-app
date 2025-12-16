@@ -1,5 +1,5 @@
 import { customFetch } from '@/customFetch'
-import { getApiUrl, getRevalidateDuration } from '../../config'
+import { getApiHeaders, getApiUrl, getRevalidateDuration } from '../../config'
 import { parseQuery } from '../search/search'
 import { version } from '@/settings'
 
@@ -38,6 +38,7 @@ export async function fetchIdsFind(params: IdsFindParams) {
     },
     headers: {
       Accept: 'application/json',
+      ...getApiHeaders(),
     },
   })
   if (!res.ok) {

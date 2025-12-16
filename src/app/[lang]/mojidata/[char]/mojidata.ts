@@ -1,4 +1,4 @@
-import { getApiUrl, getRevalidateDuration } from '@/app/config'
+import { getApiHeaders, getApiUrl, getRevalidateDuration } from '@/app/config'
 import { customFetch } from '@/customFetch'
 import { version } from '@/settings'
 
@@ -378,6 +378,7 @@ export async function fetchMojidata(char: string) {
     },
     headers: {
       Accept: 'application/json',
+      ...getApiHeaders(),
     },
   })
   if (!res.ok) {
