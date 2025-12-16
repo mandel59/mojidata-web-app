@@ -28,6 +28,9 @@ export function SiteHeader(props: SiteHeaderProps) {
           <li>
             <a href="/about">{getText('about-this-app.nav', language)}</a>
           </li>
+          <li>
+            <a href="/license">{getText('license.nav', language)}</a>
+          </li>
         </ul>
       </nav>
     </header>

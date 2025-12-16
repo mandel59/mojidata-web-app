@@ -5,6 +5,7 @@ export const translationEnUs: Translation = {
   'mojidata-search.nav': 'Mojidata Search',
   'privacy-policy.nav': 'Privacy Policy',
   'about-this-app.nav': 'About This App',
+  'license.nav': 'License',
   'mojidata-search.caption': 'Mojidata Search',
   'usage.summary': 'Usage',
   'search.button': 'Search',

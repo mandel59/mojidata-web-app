@@ -3,6 +3,7 @@ export type TranslationKey =
   | 'mojidata-search.nav'
   | 'privacy-policy.nav'
   | 'about-this-app.nav'
+  | 'license.nav'
   | 'mojidata-search.caption'
   | 'query-type.th'
   | 'example.th'

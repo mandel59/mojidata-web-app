@@ -1,5 +1,4 @@
 import { About } from './About'
-import { Licence } from './License'
 import { getLanguage } from '@/getText'
 
 export const runtime = 'experimental-edge'
@@ -14,8 +13,6 @@ export default function AboutPage(props: AboutPageProps) {
     <main className="container">
       <article>
         <About lang={language} />
-        <hr />
-        <Licence />
       </article>
     </main>
   )

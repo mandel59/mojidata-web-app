@@ -71,7 +71,8 @@ export function AboutJaJp() {
       <hr />
       <p>
         Mojidataに含まれるデータおよび各漢字データベースのライセンスは出典ごとに異なります。
-        詳細は下記ライセンス情報をご覧ください。
+        詳細は<ConditionalLink href="/license">ライセンス</ConditionalLink>
+        ページをご覧ください。
       </p>
     </>
   )
