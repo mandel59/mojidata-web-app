@@ -2,8 +2,7 @@ import type { NextRequest } from 'next/server'
 
 type BotDelayState = {
   lastSeenMs: number
-  strikes: number
-  inFlight: number
+  nextAllowedMs: number
   continuousSinceMs?: number
 }
 
@@ -16,12 +15,6 @@ const BOT_DELAY_MAX_MS = 30_000
 const BOT_DELAY_TTL_MS = 10 * 60 * 1000
 const BOT_DELAY_CLEANUP_INTERVAL_MS = 60 * 1000
 const BOT_DELAY_MAX_KEYS = 10_000
-const BOT_DELAY_MAX_UNDER_TARGET_MS = 10_000
-const BOT_DELAY_STRIKE_STEP_MS = 250
-const BOT_DELAY_MAX_STRIKES_MS = 12_000
-const BOT_DELAY_PARALLEL_STEP_MS = 400
-const BOT_DELAY_PARALLEL_EXTRA_STEP_MS = 800
-const BOT_DELAY_MAX_PARALLEL_MS = 20_000
 
 export type BotDelayInfo = {
   key: string
@@ -33,12 +26,9 @@ export type BotDelayInfo = {
   deltaMs: number | null
   continuousDurationMs: number
   targetIntervalMs: number
-  underTargetMs: number
-  underTargetPenaltyMs: number
-  strikes: number
-  strikePenaltyMs: number
-  inFlightBefore: number
-  parallelPenaltyMs: number
+  nextAllowedMsBefore: number | null
+  scheduledAtMs: number
+  queueMs: number
   baseMs: number
   maxMs: number
 }
@@ -121,7 +111,7 @@ function computeAndRecordBotDelay(
   ) {
     g.__botDelayCacheLastCleanupMs = now
     for (const [key, value] of cache.entries()) {
-      if (now - value.lastSeenMs > BOT_DELAY_TTL_MS && value.inFlight <= 0) {
+      if (now - value.lastSeenMs > BOT_DELAY_TTL_MS) {
         cache.delete(key)
       }
     }
@@ -135,18 +125,15 @@ function computeAndRecordBotDelay(
   const key = `${bot}:${ip}`
   const prev = cache.get(key)
   if (!prev) {
-    const delayMs = BOT_DELAY_BASE_MS
+    const targetIntervalMs = BOT_DELAY_TARGET_INTERVAL_MS
+    const scheduledAtMs = now
+    const queueMs = 0
+    const delayMs = Math.min(BOT_DELAY_MAX_MS, BOT_DELAY_BASE_MS + queueMs)
     cache.set(key, {
       lastSeenMs: now,
-      strikes: 0,
-      inFlight: 1,
+      nextAllowedMs: now + targetIntervalMs,
       continuousSinceMs: now,
     })
-    setTimeout(() => {
-      const cur = cache.get(key)
-      if (!cur) return
-      cache.set(key, { ...cur, inFlight: Math.max(0, cur.inFlight - 1) })
-    }, delayMs)
     return {
       delayMs,
       info: {
@@ -158,13 +145,10 @@ function computeAndRecordBotDelay(
         nowMs: now,
         deltaMs: null,
         continuousDurationMs: 0,
-        targetIntervalMs: BOT_DELAY_TARGET_INTERVAL_MS,
-        underTargetMs: 0,
-        underTargetPenaltyMs: 0,
-        strikes: 0,
-        strikePenaltyMs: 0,
-        inFlightBefore: 0,
-        parallelPenaltyMs: 0,
+        targetIntervalMs,
+        nextAllowedMsBefore: null,
+        scheduledAtMs,
+        queueMs,
         baseMs: BOT_DELAY_BASE_MS,
         maxMs: BOT_DELAY_MAX_MS,
       },
@@ -182,37 +166,20 @@ function computeAndRecordBotDelay(
     ? BOT_DELAY_LONG_CRAWL_TARGET_INTERVAL_MS
     : BOT_DELAY_TARGET_INTERVAL_MS
 
-  const underTarget = Math.max(0, targetIntervalMs - delta)
-  const strikes = delta < targetIntervalMs ? prev.strikes + 1 : 0
+  const nextAllowedMsBefore = prev.nextAllowedMs
+  const scheduledAtMs = Math.max(now, nextAllowedMsBefore)
+  const queueMs = scheduledAtMs - now
 
-  const parallel = Math.max(0, prev.inFlight)
-  const parallelPenalty = Math.min(
-    BOT_DELAY_MAX_PARALLEL_MS,
-    parallel * BOT_DELAY_PARALLEL_STEP_MS +
-      Math.max(0, parallel - 4) * BOT_DELAY_PARALLEL_EXTRA_STEP_MS,
-  )
-
-  const underTargetPenalty = Math.min(BOT_DELAY_MAX_UNDER_TARGET_MS, underTarget)
-  const strikePenalty = Math.min(
-    BOT_DELAY_MAX_STRIKES_MS,
-    strikes * BOT_DELAY_STRIKE_STEP_MS,
-  )
   const delayMs = Math.min(
     BOT_DELAY_MAX_MS,
-    BOT_DELAY_BASE_MS + underTargetPenalty + strikePenalty + parallelPenalty,
+    BOT_DELAY_BASE_MS + queueMs,
   )
 
   cache.set(key, {
     lastSeenMs: now,
-    strikes,
-    inFlight: parallel + 1,
+    nextAllowedMs: scheduledAtMs + targetIntervalMs,
     continuousSinceMs,
   })
-  setTimeout(() => {
-    const cur = cache.get(key)
-    if (!cur) return
-    cache.set(key, { ...cur, inFlight: Math.max(0, cur.inFlight - 1) })
-  }, delayMs)
   return {
     delayMs,
     info: {
@@ -225,12 +192,9 @@ function computeAndRecordBotDelay(
       deltaMs: delta,
       continuousDurationMs,
       targetIntervalMs,
-      underTargetMs: underTarget,
-      underTargetPenaltyMs: underTargetPenalty,
-      strikes,
-      strikePenaltyMs: strikePenalty,
-      inFlightBefore: parallel,
-      parallelPenaltyMs: parallelPenalty,
+      nextAllowedMsBefore,
+      scheduledAtMs,
+      queueMs,
       baseMs: BOT_DELAY_BASE_MS,
       maxMs: BOT_DELAY_MAX_MS,
     },
