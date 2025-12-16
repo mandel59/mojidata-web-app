@@ -3,6 +3,9 @@ import type { NextRequest } from 'next/server'
 import { resolveAcceptLanguage } from 'resolve-accept-language'
 import { botDelayWithInfo } from './botDelay'
 
+const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
+const BOT_DELAY_BEFORE_429_MS = 20_000
+
 function getLocaleFromUrl(url: URL): string | undefined {
   const locale = url.pathname.split('/')[1]
   if (locale.match(/^[a-z]{2}-[A-Z]{2}$/)) {
@@ -69,6 +72,16 @@ export async function middleware(
         ua,
         delayMs,
         ...info,
+      })
+    }
+    if (delayMs > BOT_DELAY_MAX_BEFORE_429_MS) {
+      await new Promise((resolve) => setTimeout(resolve, BOT_DELAY_BEFORE_429_MS))
+      return new NextResponse('Too Many Requests', {
+        status: 429,
+        headers: {
+          'retry-after': String(Math.ceil(BOT_DELAY_BEFORE_429_MS / 1000)),
+          'content-type': 'text/plain; charset=utf-8',
+        },
       })
     }
     await new Promise((resolve) => setTimeout(resolve, delayMs))
