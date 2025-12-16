@@ -3,14 +3,21 @@ import type { NextRequest } from 'next/server'
 type BotDelayState = {
   lastSeenMs: number
   strikes: number
+  inFlight: number
 }
 
 const BOT_DELAY_BASE_MS = 100
 const BOT_DELAY_TARGET_INTERVAL_MS = 6000
-const BOT_DELAY_MAX_MS = 8000
+const BOT_DELAY_MAX_MS = 30_000
 const BOT_DELAY_TTL_MS = 10 * 60 * 1000
 const BOT_DELAY_CLEANUP_INTERVAL_MS = 60 * 1000
 const BOT_DELAY_MAX_KEYS = 10_000
+const BOT_DELAY_MAX_UNDER_TARGET_MS = 10_000
+const BOT_DELAY_STRIKE_STEP_MS = 250
+const BOT_DELAY_MAX_STRIKES_MS = 12_000
+const BOT_DELAY_PARALLEL_STEP_MS = 400
+const BOT_DELAY_PARALLEL_EXTRA_STEP_MS = 800
+const BOT_DELAY_MAX_PARALLEL_MS = 20_000
 
 function getBotDelayCache() {
   const g = globalThis as unknown as {
@@ -75,7 +82,7 @@ export function botDelay(request: NextRequest, ua: string): number {
   ) {
     g.__botDelayCacheLastCleanupMs = now
     for (const [key, value] of cache.entries()) {
-      if (now - value.lastSeenMs > BOT_DELAY_TTL_MS) {
+      if (now - value.lastSeenMs > BOT_DELAY_TTL_MS && value.inFlight <= 0) {
         cache.delete(key)
       }
     }
@@ -87,18 +94,40 @@ export function botDelay(request: NextRequest, ua: string): number {
   const key = `${botFamily(ua)}:${ipPrefix(getClientIp(request))}`
   const prev = cache.get(key)
   if (!prev) {
-    cache.set(key, { lastSeenMs: now, strikes: 0 })
-    return BOT_DELAY_BASE_MS
+    const delay = BOT_DELAY_BASE_MS
+    cache.set(key, { lastSeenMs: now, strikes: 0, inFlight: 1 })
+    setTimeout(() => {
+      const cur = cache.get(key)
+      if (!cur) return
+      cache.set(key, { ...cur, inFlight: Math.max(0, cur.inFlight - 1) })
+    }, delay)
+    return delay
   }
 
   const delta = now - prev.lastSeenMs
   const underTarget = Math.max(0, BOT_DELAY_TARGET_INTERVAL_MS - delta)
   const strikes = delta < BOT_DELAY_TARGET_INTERVAL_MS ? prev.strikes + 1 : 0
-  cache.set(key, { lastSeenMs: now, strikes })
 
-  const delay =
+  const parallel = Math.max(0, prev.inFlight)
+  const parallelPenalty = Math.min(
+    BOT_DELAY_MAX_PARALLEL_MS,
+    parallel * BOT_DELAY_PARALLEL_STEP_MS +
+      Math.max(0, parallel - 4) * BOT_DELAY_PARALLEL_EXTRA_STEP_MS,
+  )
+
+  const delay = Math.min(
+    BOT_DELAY_MAX_MS,
     BOT_DELAY_BASE_MS +
-    Math.min(5000, underTarget) +
-    Math.min(4000, strikes * 250)
-  return Math.min(BOT_DELAY_MAX_MS, delay)
+      Math.min(BOT_DELAY_MAX_UNDER_TARGET_MS, underTarget) +
+      Math.min(BOT_DELAY_MAX_STRIKES_MS, strikes * BOT_DELAY_STRIKE_STEP_MS) +
+      parallelPenalty,
+  )
+
+  cache.set(key, { lastSeenMs: now, strikes, inFlight: parallel + 1 })
+  setTimeout(() => {
+    const cur = cache.get(key)
+    if (!cur) return
+    cache.set(key, { ...cur, inFlight: Math.max(0, cur.inFlight - 1) })
+  }, delay)
+  return delay
 }
