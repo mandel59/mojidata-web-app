@@ -54,6 +54,7 @@ function botFamily(ua: string): string {
   if (s.includes('duckduckbot')) return 'duckduckbot'
   if (s.includes('yandexbot')) return 'yandexbot'
   if (s.includes('baiduspider')) return 'baiduspider'
+  if (s.includes('gptbot')) return 'gptbot'
   return 'unknown'
 }
 
@@ -101,4 +102,3 @@ export function botDelay(request: NextRequest, ua: string): number {
     Math.min(4000, strikes * 250)
   return Math.min(BOT_DELAY_MAX_MS, delay)
 }
-

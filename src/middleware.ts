@@ -57,7 +57,8 @@ export async function middleware(
   }
   const { isBot, ua } = userAgent(request)
   const isBytespider = ua.includes('Bytespider')
-  if (isBot || isBytespider) {
+  const isGPTBot = ua.includes('GPTBot')
+  if (isBot || isBytespider || isGPTBot) {
     if (isBytespider) {
       url.searchParams.set('disableExternalLinks', '1')
     }
