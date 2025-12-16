@@ -1,9 +1,9 @@
 import { Licence } from './License'
 
-export const runtime = 'experimental-edge'
+export const runtime = 'nodejs'
 
 export interface LicensePageProps {
-  params: { lang: string }
+  params: Promise<{ lang: string }>
 }
 
 export default function LicensePage(_props: LicensePageProps) {
@@ -15,4 +15,3 @@ export default function LicensePage(_props: LicensePageProps) {
     </main>
   )
 }
-

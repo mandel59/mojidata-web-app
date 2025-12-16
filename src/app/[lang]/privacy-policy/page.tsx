@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 }
 
 export interface PrivacyPageProps {
-  params: { lang: string }
+  params: Promise<{ lang: string }>
 }
 
 export default function PrivacyPage(props: PrivacyPageProps) {

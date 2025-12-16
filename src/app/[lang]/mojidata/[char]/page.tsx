@@ -5,17 +5,18 @@ import LoadingArticle from '@/components/LoadingArticle'
 import { notFound, redirect } from 'next/navigation'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'experimental-edge'
+export const runtime = 'edge'
 
 type Props = {
-  params: { char: string; lang: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ char: string; lang: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function Mojidata({ params, searchParams }: Props) {
-  const { char, lang } = params
+export default async function Mojidata({ params, searchParams }: Props) {
+  const { char, lang } = await params
+  const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { bot, disableExternalLinks } = searchParams
+  const { bot, disableExternalLinks } = resolvedSearchParams
   const ucs = decodeURIComponent(char)
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
     notFound()
@@ -56,7 +57,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { char } = params
+  const { char } = await params
   const ucs = String.fromCodePoint(
     decodeURIComponent(char).codePointAt(0) ?? 0x20,
   )

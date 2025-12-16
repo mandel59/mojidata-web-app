@@ -24,13 +24,14 @@ export const metadata = {
   metadataBase: new URL(canonicalUrlBase),
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params: { lang },
+  params,
 }: {
   children: React.ReactNode
-  params: { lang: string }
+  params: Promise<{ lang: string }>
 }) {
+  const { lang } = await params
   const language = getLanguage(lang)
   return (
     <html lang={language} data-theme="light">

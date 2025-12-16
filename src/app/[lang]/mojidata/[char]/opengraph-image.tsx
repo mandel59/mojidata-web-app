@@ -7,12 +7,11 @@ import {
   fetchGlyphWikiSvg,
   toGlyphWikiName,
 } from '@/glyphwiki/fetchGlyphWikiSvg'
-import { getRevalidateDuration } from '@/app/config'
 import { toDataUri } from '@/utils/toDataUri'
 
 export const runtime = 'edge'
 
-export const revalidate = getRevalidateDuration()
+export const revalidate = 86400
 
 export default async function og({ params }: Props) {
   const char = params.char

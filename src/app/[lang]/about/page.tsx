@@ -1,14 +1,15 @@
 import { About } from './About'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'experimental-edge'
+export const runtime = 'edge'
 
 export interface AboutPageProps {
-  params: { lang: string }
+  params: Promise<{ lang: string }>
 }
 
-export default function AboutPage(props: AboutPageProps) {
-  const language = getLanguage(props.params.lang)
+export default async function AboutPage({ params }: AboutPageProps) {
+  const { lang } = await params
+  const language = getLanguage(lang)
   return (
     <main className="container">
       <article>

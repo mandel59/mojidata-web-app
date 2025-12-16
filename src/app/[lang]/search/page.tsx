@@ -5,16 +5,18 @@ import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'experimental-edge'
+export const runtime = 'edge'
 
 type Props = {
-  params: { lang: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ lang: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function Search({ params: { lang }, searchParams }: Props) {
+export default async function Search({ params, searchParams }: Props) {
+  const { lang } = await params
+  const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  let { query, page, bot, disableExternalLinks } = searchParams
+  let { query, page, bot, disableExternalLinks } = resolvedSearchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
@@ -61,12 +63,13 @@ export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  let { query, page } = searchParams
+  const resolvedSearchParams = await searchParams
+  let { query, page } = resolvedSearchParams
   const url = new URL('https://mojidata.ryusei.dev/search')
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
-  if (query != null) url.searchParams.append('query', String(page))
+  if (query != null) url.searchParams.append('query', String(query))
   if (page != null) url.searchParams.append('page', String(page))
   return {
     alternates: {

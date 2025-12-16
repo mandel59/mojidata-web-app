@@ -5,11 +5,11 @@ import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'experimental-edge'
+export const runtime = 'edge'
 
 type Props = {
-  params: { lang: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ lang: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 function castToArray<T>(x: undefined | T | T[]): T[] {
@@ -20,9 +20,12 @@ function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
   return Array.isArray(x) ? x.join(joiner) : x != null ? String(x) : ''
 }
 
-export default function IdsFind({ params: { lang }, searchParams }: Props) {
+export default async function IdsFind({ params, searchParams }: Props) {
+  const { lang } = await params
+  const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { ids, whole, query, page, bot, disableExternalLinks } = searchParams
+  const { ids, whole, query, page, bot, disableExternalLinks } =
+    resolvedSearchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
   const queryString = castToString(query)
@@ -65,7 +68,8 @@ export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { ids, whole, query, page } = searchParams
+  const resolvedSearchParams = await searchParams
+  const { ids, whole, query, page } = resolvedSearchParams
   const url = new URL('https://mojidata.ryusei.dev/idsfind')
   castToArray(ids).forEach((ids) => url.searchParams.append('ids', ids))
   castToArray(whole).forEach((whole) => url.searchParams.append('whole', whole))
