@@ -1,7 +1,7 @@
 import { NextResponse, userAgent } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { resolveAcceptLanguage } from 'resolve-accept-language'
-import { botDelay } from './botDelay'
+import { botDelayWithInfo } from './botDelay'
 
 function getLocaleFromUrl(url: URL): string | undefined {
   const locale = url.pathname.split('/')[1]
@@ -63,7 +63,15 @@ export async function middleware(
       url.searchParams.set('disableExternalLinks', '1')
     }
     url.searchParams.set('bot', '1')
-    await new Promise((resolve) => setTimeout(resolve, botDelay(request, ua)))
+    const { delayMs, info } = botDelayWithInfo(request, ua)
+    if (process.env.BOT_DELAY_DEBUG === '1') {
+      console.log('[botDelay]', {
+        ua,
+        delayMs,
+        ...info,
+      })
+    }
+    await new Promise((resolve) => setTimeout(resolve, delayMs))
   }
   const url1 = String(url)
   if (url0 !== url1) {
