@@ -6,6 +6,28 @@ import { botDelayWithInfo } from './botDelay'
 const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
 const BOT_DELAY_BEFORE_429_MS = 20_000
 
+function isLikelyBotUserAgent(ua: string): boolean {
+  const s = ua.toLowerCase()
+  if (!s) return false
+  return (
+    s.includes('gptbot') ||
+    s.includes('oai-searchbot') ||
+    s.includes('amazonbot') ||
+    s.includes('ahrefsbot') ||
+    s.includes('semrushbot') ||
+    s.includes('mj12bot') ||
+    s.includes('dotbot') ||
+    s.includes('petalbot') ||
+    s.includes('bytespider') ||
+    s.includes('baiduspider') ||
+    s.includes('yisouspider') ||
+    s.includes('seznambot') ||
+    s.includes('coccocbot') ||
+    s.includes('backlinksextendedbot') ||
+    /(?:\b(?:bot|spider|crawler|crawl|slurp|archiver)\b)/i.test(ua)
+  )
+}
+
 function getLocaleFromUrl(url: URL): string | undefined {
   const locale = url.pathname.split('/')[1]
   if (locale.match(/^[a-z]{2}-[A-Z]{2}$/)) {
@@ -61,7 +83,8 @@ export async function middleware(
   const { isBot, ua } = userAgent(request)
   const isBytespider = ua.includes('Bytespider')
   const isGPTBot = ua.includes('GPTBot')
-  if (isBot || isBytespider || isGPTBot) {
+  const isLikelyBot = isLikelyBotUserAgent(ua)
+  if (isBot || isBytespider || isGPTBot || isLikelyBot) {
     if (isBytespider) {
       url.searchParams.set('disableExternalLinks', '1')
     }
@@ -70,6 +93,8 @@ export async function middleware(
     if (process.env.BOT_DELAY_DEBUG === '1') {
       console.log('[botDelay]', {
         ua,
+        isBot,
+        isLikelyBot,
         delayMs,
         ...info,
       })
