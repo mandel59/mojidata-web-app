@@ -1,8 +1,6 @@
 import { About } from './About'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'edge'
-
 export interface AboutPageProps {
   params: Promise<{ lang: string }>
 }

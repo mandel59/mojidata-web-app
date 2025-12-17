@@ -1,7 +1,5 @@
 import { Licence } from './License'
 
-export const runtime = 'nodejs'
-
 export interface LicensePageProps {
   params: Promise<{ lang: string }>
 }

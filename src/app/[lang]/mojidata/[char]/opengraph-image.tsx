@@ -9,8 +9,6 @@ import {
 } from '@/glyphwiki/fetchGlyphWikiSvg'
 import { toDataUri } from '@/utils/toDataUri'
 
-export const runtime = 'edge'
-
 export const revalidate = 86400
 
 export default async function og({ params }: Props) {

@@ -5,8 +5,6 @@ import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'edge'
-
 type Props = {
   params: Promise<{ lang: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>

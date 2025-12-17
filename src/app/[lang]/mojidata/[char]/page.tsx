@@ -5,8 +5,6 @@ import LoadingArticle from '@/components/LoadingArticle'
 import { notFound, redirect } from 'next/navigation'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'edge'
-
 type Props = {
   params: Promise<{ char: string; lang: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
