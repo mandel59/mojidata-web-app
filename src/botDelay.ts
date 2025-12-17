@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server'
+import { botFamily } from './bot'
 
 type BotDelayState = {
   lastSeenMs: number
@@ -7,9 +8,9 @@ type BotDelayState = {
 }
 
 const BOT_DELAY_BASE_MS = 100
-const BOT_DELAY_TARGET_INTERVAL_MS = 6000
+const BOT_DELAY_TARGET_INTERVAL_MS = 10_000
 const BOT_DELAY_LONG_CRAWL_TARGET_INTERVAL_MS = 20_000
-const BOT_DELAY_LONG_CRAWL_THRESHOLD_MS = 5 * 60 * 1000
+const BOT_DELAY_LONG_CRAWL_THRESHOLD_MS = 2 * 60 * 1000
 const BOT_DELAY_CONTINUOUS_IDLE_MAX_MS = 60 * 1000
 const BOT_DELAY_MAX_MS = 30_000
 const BOT_DELAY_TTL_MS = 10 * 60 * 1000
@@ -72,31 +73,6 @@ function ipPrefix(ip: string | undefined): string {
     return `${octets[0]}.${octets[1]}.${octets[2]}`
   }
   return 'ipv4'
-}
-
-function botFamily(ua: string): string {
-  const s = ua.toLowerCase()
-  if (s.includes('bytespider')) return 'bytespider'
-  if (s.includes('googlebot')) return 'googlebot'
-  if (s.includes('bingbot')) return 'bingbot'
-  if (s.includes('duckduckbot')) return 'duckduckbot'
-  if (s.includes('yandexbot')) return 'yandexbot'
-  if (s.includes('baiduspider')) return 'baiduspider'
-  if (s.includes('yisouspider')) return 'yisouspider'
-  if (s.includes('petalbot')) return 'petalbot'
-  if (s.includes('ahrefsbot')) return 'ahrefsbot'
-  if (s.includes('semrushbot')) return 'semrushbot'
-  if (s.includes('mj12bot')) return 'mj12bot'
-  if (s.includes('dotbot')) return 'dotbot'
-  if (s.includes('amazonbot')) return 'amazonbot'
-  if (s.includes('oai-searchbot')) return 'oai-searchbot'
-  if (s.includes('backlinksextendedbot')) return 'backlinksextendedbot'
-  if (s.includes('seznambot')) return 'seznambot'
-  if (s.includes('coccocbot')) return 'coccocbot'
-  if (s.includes('gptbot')) return 'gptbot'
-  if (s.includes('applebot')) return 'applebot'
-  if (s.includes('twitterbot')) return 'twitterbot'
-  return 'unknown'
 }
 
 /**

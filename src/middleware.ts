@@ -2,31 +2,10 @@ import { NextResponse, userAgent } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { resolveAcceptLanguage } from 'resolve-accept-language'
 import { botDelayWithInfo } from './botDelay'
+import { isLikelyBotUserAgent } from './bot'
 
 const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
 const BOT_DELAY_BEFORE_429_MS = 20_000
-
-function isLikelyBotUserAgent(ua: string): boolean {
-  const s = ua.toLowerCase()
-  if (!s) return false
-  return (
-    s.includes('gptbot') ||
-    s.includes('oai-searchbot') ||
-    s.includes('amazonbot') ||
-    s.includes('ahrefsbot') ||
-    s.includes('semrushbot') ||
-    s.includes('mj12bot') ||
-    s.includes('dotbot') ||
-    s.includes('petalbot') ||
-    s.includes('bytespider') ||
-    s.includes('baiduspider') ||
-    s.includes('yisouspider') ||
-    s.includes('seznambot') ||
-    s.includes('coccocbot') ||
-    s.includes('backlinksextendedbot') ||
-    /(?:\b(?:bot|spider|crawler|crawl|slurp|archiver)\b)/i.test(ua)
-  )
-}
 
 function getLocaleFromUrl(url: URL): string | undefined {
   const locale = url.pathname.split('/')[1]
@@ -81,11 +60,9 @@ export async function middleware(
     }
   }
   const { isBot, ua } = userAgent(request)
-  const isBytespider = ua.includes('Bytespider')
-  const isGPTBot = ua.includes('GPTBot')
   const isLikelyBot = isLikelyBotUserAgent(ua)
-  if (isBot || isBytespider || isGPTBot || isLikelyBot) {
-    if (isBytespider) {
+  if ((isBot || isLikelyBot) && !url.basePath.startsWith('/_next/')) {
+    if (!isBot) {
       url.searchParams.set('disableExternalLinks', '1')
     }
     url.searchParams.set('bot', '1')
@@ -100,7 +77,9 @@ export async function middleware(
       })
     }
     if (delayMs > BOT_DELAY_MAX_BEFORE_429_MS) {
-      await new Promise((resolve) => setTimeout(resolve, BOT_DELAY_BEFORE_429_MS))
+      await new Promise((resolve) =>
+        setTimeout(resolve, BOT_DELAY_BEFORE_429_MS),
+      )
       return new NextResponse('Too Many Requests', {
         status: 429,
         headers: {
