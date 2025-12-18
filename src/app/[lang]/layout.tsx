@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import '@picocss/pico/css/pico.min.css'
@@ -8,7 +9,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
 import { SiteHeader } from './SiteHeader'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: siteName,
     template: `%s - ${siteName}`,
@@ -24,13 +25,14 @@ export const metadata = {
   metadataBase: new URL(canonicalUrlBase),
 }
 
+export async function generateStaticParams() {
+  return [{ lang: 'en-US' }, { lang: 'ja-JP' }]
+}
+
 export default async function RootLayout({
   children,
   params,
-}: {
-  children: React.ReactNode
-  params: Promise<{ lang: string }>
-}) {
+}: LayoutProps<'/[lang]'>) {
   const { lang } = await params
   const language = getLanguage(lang)
   return (
