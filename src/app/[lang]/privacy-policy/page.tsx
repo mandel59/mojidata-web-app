@@ -5,11 +5,9 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
 }
 
-export interface PrivacyPageProps {
-  params: Promise<{ lang: string }>
-}
-
-export default function PrivacyPage(props: PrivacyPageProps) {
+export default function PrivacyPage(
+  props: PageProps<'/[lang]/privacy-policy'>,
+) {
   return (
     <main className="container">
       <article>

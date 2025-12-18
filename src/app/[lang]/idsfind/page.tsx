@@ -5,11 +5,6 @@ import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
 import { getLanguage } from '@/getText'
 
-type Props = {
-  params: Promise<{ lang: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
 function castToArray<T>(x: undefined | T | T[]): T[] {
   return Array.isArray(x) ? x : x != null ? [x] : []
 }
@@ -18,7 +13,10 @@ function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
   return Array.isArray(x) ? x.join(joiner) : x != null ? String(x) : ''
 }
 
-export default async function IdsFind({ params, searchParams }: Props) {
+export default async function IdsFind({
+  params,
+  searchParams,
+}: PageProps<'/[lang]/idsfind'>) {
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
@@ -63,7 +61,7 @@ export default async function IdsFind({ params, searchParams }: Props) {
 }
 
 export async function generateMetadata(
-  { searchParams }: Props,
+  { searchParams }: PageProps<'/[lang]/idsfind'>,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const resolvedSearchParams = await searchParams

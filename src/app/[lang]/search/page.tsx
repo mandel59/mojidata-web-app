@@ -5,12 +5,10 @@ import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
 import { getLanguage } from '@/getText'
 
-type Props = {
-  params: Promise<{ lang: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
-export default async function Search({ params, searchParams }: Props) {
+export default async function Search({
+  params,
+  searchParams,
+}: PageProps<'/[lang]/search'>) {
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
@@ -58,7 +56,7 @@ export default async function Search({ params, searchParams }: Props) {
 }
 
 export async function generateMetadata(
-  { searchParams }: Props,
+  { searchParams }: PageProps<'/[lang]/search'>,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const resolvedSearchParams = await searchParams

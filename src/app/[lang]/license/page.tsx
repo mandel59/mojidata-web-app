@@ -1,10 +1,6 @@
 import { Licence } from './License'
 
-export interface LicensePageProps {
-  params: Promise<{ lang: string }>
-}
-
-export default function LicensePage(_props: LicensePageProps) {
+export default function LicensePage(_props: PageProps<'/[lang]/license'>) {
   return (
     <main className="container">
       <article>
