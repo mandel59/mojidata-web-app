@@ -15,7 +15,7 @@ function getLocaleFromUrl(url: URL): string | undefined {
   return undefined
 }
 
-export async function middleware(
+export async function proxy(
   request: NextRequest,
 ): Promise<NextResponse | undefined> {
   const locale = getLocaleFromUrl(request.nextUrl)
