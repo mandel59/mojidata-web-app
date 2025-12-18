@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { ImageResponse } from 'next/og'
 
-import { Props } from './props'
 import {
   fetchGlyphWikiSvg,
   toGlyphWikiName,
@@ -11,8 +10,10 @@ import { toDataUri } from '@/utils/toDataUri'
 
 export const revalidate = 86400
 
-export default async function og({ params }: Props) {
-  const char = params.char
+export default async function og({
+  params,
+}: PageProps<'/[lang]/mojidata/[char]'>) {
+  const char = (await params).char
     // Workaround for a bug in Next.js to replace %25 with %.
     .replace(/%25/g, '%')
   const ucs = String.fromCodePoint(decodeURIComponent(char).codePointAt(0) ?? 0)
