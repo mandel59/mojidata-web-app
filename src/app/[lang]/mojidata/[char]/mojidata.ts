@@ -1,6 +1,9 @@
-import { getApiHeaders, getApiUrl, getRevalidateDuration } from '@/app/config'
-import { customFetch } from '@/customFetch'
+import 'server-only'
+
+import { getRevalidateDuration } from '@/app/config'
 import { version } from '@/settings'
+import { mojidataApiApp } from '@/server/mojidataApiApp'
+import { unstable_cache } from 'next/cache'
 
 export interface MojidataResults {
   char: string
@@ -367,27 +370,31 @@ const kdpvRelations = [
 
 export type KdpvRelation = (typeof kdpvRelations)[number]
 
-export async function fetchMojidata(char: string) {
-  const url = new URL(getApiUrl('/api/v1/mojidata'))
-  url.searchParams.set('char', char)
-  // dummy query to avoid cache for older versions
-  url.searchParams.set('_v', version)
-  const res = await customFetch(url, {
-    next: {
-      revalidate: getRevalidateDuration(),
-    },
-    headers: {
-      Accept: 'application/json',
-      ...getApiHeaders(),
-    },
-  })
-  if (!res.ok) {
-    throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
-  }
-  const responseBody = await res.json()
-  const { results }: { results: MojidataResults } = responseBody
-  return results
-}
+export const fetchMojidata = unstable_cache(
+  async (char: string) => {
+    const url = new URL('/api/v1/mojidata', 'http://mojidata.local')
+    url.searchParams.set('char', char)
+
+    const res = await mojidataApiApp.fetch(
+      new Request(url, {
+        headers: {
+          Accept: 'application/json',
+        },
+      }),
+    )
+    if (!res.ok) {
+      throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
+    }
+    const responseBody = await res.json()
+    const { results }: { results: MojidataResults | null } = responseBody
+    if (!results) {
+      throw new Error(`No results for char: ${char}`)
+    }
+    return results
+  },
+  ['fetchMojidata', version],
+  { revalidate: getRevalidateDuration() },
+)
 
 export function toCodePoint(c: string): string {
   const codePoint = c.codePointAt(0)!

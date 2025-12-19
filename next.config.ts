@@ -1,6 +1,14 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  transpilePackages: ['@mandel59/mojidata-api'],
+  outputFileTracingIncludes: {
+    '/**': [
+      'node_modules/@mandel59/mojidata/dist/moji.db',
+      'node_modules/@mandel59/idsdb/idsfind.db',
+      'node_modules/sql.js/dist/sql-wasm.wasm',
+    ],
+  },
   turbopack: {
     rules: {
       '*.md': {
