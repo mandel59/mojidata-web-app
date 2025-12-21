@@ -100,7 +100,7 @@ export default function SearchSpaClient(props: { lang: Language }) {
   return (
     <IdsFindResponseView
       langPrefix={langPrefix}
-      linkMode="spa"
+      linkMode="server"
       results={results}
       total={total}
       offset={offset}

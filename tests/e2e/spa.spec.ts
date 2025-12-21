@@ -20,6 +20,10 @@ test('search-spa renders results in browser', async ({ page }) => {
   await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
     timeout: 60_000,
   })
+  await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
+    'href',
+    /\/ja-JP\/mojidata\//,
+  )
 })
 
 test('mojidata-spa renders character data in browser', async ({ page }) => {
