@@ -1,8 +1,22 @@
 import MojidataSpaClient from './mojidataSpaClient'
 import { getLanguage } from '@/getText'
+import { Metadata } from 'next'
 
 type Props = {
   params: Promise<{ char: string; lang: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { char } = await params
+  return {
+    alternates: {
+      canonical: `/mojidata/${char}`,
+    },
+    robots: {
+      index: false,
+      follow: true,
+    },
+  }
 }
 
 export default async function MojidataSpa({ params }: Props) {
