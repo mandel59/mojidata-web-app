@@ -15,6 +15,23 @@ function getLocaleFromUrl(url: URL): string | undefined {
   return undefined
 }
 
+function stripLocale(pathname: string, locale: string | undefined) {
+  if (!locale) return pathname
+  const prefix = `/${locale}`
+  return pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname
+}
+
+function getSpaPathForBot(pathnameWithoutLocale: string) {
+  if (pathnameWithoutLocale === '/search') {
+    return '/search-spa'
+  }
+  const m = pathnameWithoutLocale.match(/^\/mojidata\/([^/]+)$/)
+  if (m) {
+    return `/mojidata-spa/${m[1]}`
+  }
+  return undefined
+}
+
 export async function proxy(
   request: NextRequest,
 ): Promise<NextResponse | undefined> {
@@ -33,7 +50,8 @@ export async function proxy(
     )
     url.pathname = `/${lang}${url.pathname}`
   }
-  const pathname = url.pathname.slice('/en-US'.length)
+  const locale2 = getLocaleFromUrl(url)
+  const pathname = stripLocale(url.pathname, locale2)
   if (pathname.startsWith('/mojidata/')) {
     // redirect /mojidata/U+6F22 to /mojidata/漢
     const m = pathname.match(/^\/mojidata\/[uU](?:\+|%2B)?([0-9a-fA-F]{4,6})$/)
@@ -61,34 +79,44 @@ export async function proxy(
   }
   const { isBot, ua } = userAgent(request)
   const isLikelyBot = isLikelyBotUserAgent(ua)
-  if ((isBot || isLikelyBot) && !url.basePath.startsWith('/_next/')) {
+  const pathname2 = stripLocale(url.pathname, getLocaleFromUrl(url))
+  if ((isBot || isLikelyBot) && !url.pathname.startsWith('/_next/')) {
     if (!isBot) {
       url.searchParams.set('disableExternalLinks', '1')
     }
     url.searchParams.set('bot', '1')
-    const { delayMs, info } = botDelayWithInfo(request, ua)
-    if (process.env.BOT_DELAY_DEBUG === '1') {
-      console.log('[botDelay]', {
-        ua,
-        isBot,
-        isLikelyBot,
-        delayMs,
-        ...info,
-      })
+    const spaPath = getSpaPathForBot(pathname2)
+    if (spaPath) {
+      const lang = getLocaleFromUrl(url)
+      if (lang) {
+        url.pathname = `/${lang}${spaPath}`
+      }
     }
-    if (delayMs > BOT_DELAY_MAX_BEFORE_429_MS) {
-      await new Promise((resolve) =>
-        setTimeout(resolve, BOT_DELAY_BEFORE_429_MS),
-      )
-      return new NextResponse('Too Many Requests', {
-        status: 429,
-        headers: {
-          'retry-after': String(Math.ceil(BOT_DELAY_BEFORE_429_MS / 1000)),
-          'content-type': 'text/plain; charset=utf-8',
-        },
-      })
+    if (process.env.BOT_DELAY_DISABLE !== '1') {
+      const { delayMs, info } = botDelayWithInfo(request, ua)
+      if (process.env.BOT_DELAY_DEBUG === '1') {
+        console.log('[botDelay]', {
+          ua,
+          isBot,
+          isLikelyBot,
+          delayMs,
+          ...info,
+        })
+      }
+      if (delayMs > BOT_DELAY_MAX_BEFORE_429_MS) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, BOT_DELAY_BEFORE_429_MS),
+        )
+        return new NextResponse('Too Many Requests', {
+          status: 429,
+          headers: {
+            'retry-after': String(Math.ceil(BOT_DELAY_BEFORE_429_MS / 1000)),
+            'content-type': 'text/plain; charset=utf-8',
+          },
+        })
+      }
+      await new Promise((resolve) => setTimeout(resolve, delayMs))
     }
-    await new Promise((resolve) => setTimeout(resolve, delayMs))
   }
   const url1 = String(url)
   if (url0 !== url1) {

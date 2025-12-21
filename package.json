@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare:spa-assets": "node scripts/copy-spa-assets.mjs",
+    "predev": "npm run prepare:spa-assets",
     "dev": "next dev --webpack",
+    "prebuild": "npm run prepare:spa-assets",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",

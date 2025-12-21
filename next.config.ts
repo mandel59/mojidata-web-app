@@ -20,11 +20,19 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.md$/,
       use: 'raw-loader',
     })
+    if (!isServer) {
+      config.resolve ??= {}
+      config.resolve.fallback = {
+        ...(config.resolve.fallback ?? {}),
+        fs: false,
+        path: false,
+      }
+    }
     return config
   },
   async redirects() {

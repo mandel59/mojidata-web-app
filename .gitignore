@@ -32,6 +32,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# generated SPA assets (copied from node_modules)
+/public/assets/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
