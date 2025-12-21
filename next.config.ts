@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
       'node_modules/@mandel59/mojidata/dist/moji.db',
       'node_modules/@mandel59/idsdb/idsfind.db',
       'node_modules/sql.js/**',
+      'src/server/mojidataApiWorker.cjs',
+      'node_modules/@mandel59/mojidata-api/**',
     ],
   },
   turbopack: {

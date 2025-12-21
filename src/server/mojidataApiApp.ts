@@ -2,93 +2,95 @@ import 'server-only'
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { Worker } from 'node:worker_threads'
 
 type MojidataApiApp = { fetch: (request: Request) => Promise<Response> }
-type SqlJsStatic = { Database: new (bytes: Uint8Array) => unknown }
-
-const { createRequire } = require('node:module') as typeof import('node:module')
-const nodeRequire = createRequire(__filename)
-
-function joinModulePath(...parts: string[]) {
-  return parts.join('/')
+type MojidataApiDb = {
+  getMojidataJson: (char: string, select: string[]) => Promise<string | null>
+  idsfind: (idslist: string[]) => Promise<string[]>
+  search: (ps: string[], qs: string[]) => Promise<string[]>
+  filterChars: (chars: string[], ps: string[], qs: string[]) => Promise<string[]>
 }
 
-function resolvePnpVirtualPath(filePath: string) {
-  if (!path.isAbsolute(filePath)) return filePath
-  try {
-    const pnp = nodeRequire('pnpapi') as {
-      resolveVirtual?: (p: string) => string | null
-    }
-    return pnp.resolveVirtual?.(filePath) ?? filePath
-  } catch {
-    return filePath
+type WorkerRequest = { id: number; method: keyof MojidataApiDb; args: unknown[] }
+type WorkerResponse =
+  | { id: number; ok: true; result: unknown }
+  | { id: number; ok: false; error: { message: string; stack?: string } }
+
+function resolveWorkerPath(): string {
+  const candidates = [
+    path.join(process.cwd(), 'src/server/mojidataApiWorker.cjs'),
+    path.join(process.cwd(), 'mojidataApiWorker.cjs'),
+  ]
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p
   }
+  return candidates[0]
 }
 
-let sqlJsPromise: Promise<SqlJsStatic> | undefined
-async function getSqlJsNode(): Promise<SqlJsStatic> {
-  sqlJsPromise ??= (() => {
-    const wasmPath = resolvePnpVirtualPath(
-      nodeRequire.resolve(joinModulePath('sql.js', 'dist', 'sql-wasm.wasm')),
-    )
-    const initSqlJs = nodeRequire('sql.js') as (opts: {
-      locateFile: () => string
-    }) => Promise<SqlJsStatic>
-    return initSqlJs({
-      locateFile: () => wasmPath,
+function createWorkerDb(): MojidataApiDb {
+  let worker: Worker | undefined
+  let nextId = 1
+  const pending = new Map<
+    number,
+    { resolve: (v: any) => void; reject: (e: Error) => void }
+  >()
+
+  const rejectAll = (err: Error) => {
+    for (const { reject } of pending.values()) reject(err)
+    pending.clear()
+  }
+
+  const ensureWorker = () => {
+    if (worker) return worker
+    const workerPath = resolveWorkerPath()
+    worker = new Worker(workerPath)
+    worker.on('message', (msg: WorkerResponse) => {
+      const handler = pending.get(msg.id)
+      if (!handler) return
+      pending.delete(msg.id)
+      if (msg.ok) {
+        handler.resolve(msg.result)
+        return
+      }
+      const err = new Error(msg.error.message)
+      if (msg.error.stack) err.stack = msg.error.stack
+      handler.reject(err)
     })
-  })()
-  return sqlJsPromise
-}
-
-async function openDatabaseFromFile(filePath: string): Promise<unknown> {
-  const SQL = await getSqlJsNode()
-  const realPath = resolvePnpVirtualPath(filePath)
-  const bytes = fs.readFileSync(realPath)
-  return new SQL.Database(new Uint8Array(bytes))
-}
-
-function createNodeDb() {
-  const { createSqlJsApiDb } = require(
-    '@mandel59/mojidata-api/api/v1/_lib/mojidata-api-db-sqljs',
-  ) as {
-    createSqlJsApiDb: (args: {
-      getMojidataDb: () => Promise<unknown>
-      getIdsfindDb: () => Promise<unknown>
-    }) => unknown
-  }
-  const { createMojidataDbProvider } = require(
-    '@mandel59/mojidata-api/api/v1/_lib/mojidata-db',
-  ) as {
-    createMojidataDbProvider: (
-      openDatabase: () => Promise<unknown>,
-    ) => () => Promise<unknown>
-  }
-  const { createCachedPromise } = require(
-    '@mandel59/mojidata-api/api/v1/_lib/promise-cache',
-  ) as {
-    createCachedPromise: <T>(factory: () => Promise<T>) => () => Promise<T>
+    worker.on('error', (err) => {
+      rejectAll(err instanceof Error ? err : new Error(String(err)))
+      worker = undefined
+    })
+    worker.on('exit', (code) => {
+      if (code !== 0) {
+        rejectAll(new Error(`mojidata worker exited: ${code}`))
+      }
+      worker = undefined
+    })
+    return worker
   }
 
-  const mojidataDbPath = nodeRequire.resolve(
-    joinModulePath('@mandel59/mojidata', 'dist', 'moji.db'),
-  )
-  const idsfindDbPath = nodeRequire.resolve(
-    joinModulePath('@mandel59/idsdb', 'idsfind.db'),
-  )
+  const call = <TResult>(method: keyof MojidataApiDb, args: unknown[]) => {
+    const id = nextId++
+    return new Promise<TResult>((resolve, reject) => {
+      pending.set(id, { resolve: resolve as (v: any) => void, reject })
+      const w = ensureWorker()
+      w.postMessage({ id, method, args } satisfies WorkerRequest)
+    })
+  }
 
-  const getMojidataDb = createMojidataDbProvider(() =>
-    openDatabaseFromFile(mojidataDbPath),
-  )
-  const getIdsfindDb = createCachedPromise(() =>
-    openDatabaseFromFile(idsfindDbPath),
-  )
-  return createSqlJsApiDb({ getMojidataDb, getIdsfindDb })
+  return {
+    getMojidataJson: (char, select) =>
+      call<string | null>('getMojidataJson', [char, select]),
+    idsfind: (idslist) => call<string[]>('idsfind', [idslist]),
+    search: (ps, qs) => call<string[]>('search', [ps, qs]),
+    filterChars: (chars, ps, qs) => call<string[]>('filterChars', [chars, ps, qs]),
+  }
 }
 
 export const mojidataApiApp: MojidataApiApp = (() => {
   const { createApp } = require('@mandel59/mojidata-api/app') as {
-    createApp: (db: unknown) => MojidataApiApp
+    createApp: (db: MojidataApiDb) => MojidataApiApp
   }
-  return createApp(createNodeDb())
+  return createApp(createWorkerDb())
 })()
