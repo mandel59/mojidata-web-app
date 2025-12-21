@@ -1,23 +1,23 @@
 'use client'
 
 import Link from 'next/link'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useMemo, useSyncExternalStore } from 'react'
 
 export default function PreviewWarning(): ReactElement {
-  const [hostname, setHostname] = useState<string | undefined>(undefined)
-  const [productionPage, setProductionPage] = useState<string | undefined>(
-    undefined,
+  const href = useSyncExternalStore(
+    () => () => {},
+    () => window.location.href,
+    () => 'https://mojidata.ryusei.dev/',
   )
-  useEffect(() => {
-    setHostname(window.location.hostname)
-    const productionUrl = new URL(window.location.href)
+  const { hostname, productionPage } = useMemo(() => {
+    const currentUrl = new URL(href)
+    const productionUrl = new URL(href)
     productionUrl.protocol = 'https'
     productionUrl.hostname = 'mojidata.ryusei.dev'
     productionUrl.port = ''
-    setProductionPage(productionUrl.href)
-  }, [])
+    return { hostname: currentUrl.hostname, productionPage: productionUrl.href }
+  }, [href])
   switch (hostname) {
-    case undefined:
     case 'mojidata.ryusei.dev':
       return <></>
     default:

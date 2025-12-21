@@ -13,6 +13,7 @@ export default function GlyphWikiCharImg(props: GlyphWikiCharImgProps) {
   const name = toGlyphWikiName(char)
   const src = `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       width={size}
@@ -23,4 +24,3 @@ export default function GlyphWikiCharImg(props: GlyphWikiCharImgProps) {
     />
   )
 }
-
