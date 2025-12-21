@@ -6,10 +6,19 @@ import type { MojidataResults } from '@/mojidata/mojidataShared'
 
 type MojidataApiApp = ReturnType<typeof createApp>
 
+const SPA_ASSET_VERSION = process.env.NEXT_PUBLIC_SPA_ASSET_VERSION
+
+function withAssetVersion(url: string) {
+  if (!SPA_ASSET_VERSION) return url
+  const u = new URL(url, 'http://mojidata.local')
+  u.searchParams.set('v', SPA_ASSET_VERSION)
+  return u.pathname + u.search
+}
+
 const defaultAssets = {
-  sqlWasmUrl: '/assets/sql-wasm.wasm',
-  mojidataDbUrl: '/assets/moji.db',
-  idsfindDbUrl: '/assets/idsfind.db',
+  sqlWasmUrl: withAssetVersion('/assets/sql-wasm.wasm'),
+  mojidataDbUrl: withAssetVersion('/assets/moji.db'),
+  idsfindDbUrl: withAssetVersion('/assets/idsfind.db'),
 }
 
 let apiPromise:
