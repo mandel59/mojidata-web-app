@@ -30,6 +30,9 @@ function getSpaPathForBot(pathnameWithoutLocale: string) {
   if (pathnameWithoutLocale === '/search') {
     return '/search-spa'
   }
+  if (pathnameWithoutLocale === '/idsfind') {
+    return '/idsfind-spa'
+  }
   const m = pathnameWithoutLocale.match(/^\/mojidata\/([^/]+)$/)
   if (m) {
     return `/mojidata-spa/${m[1]}`

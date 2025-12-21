@@ -52,3 +52,29 @@ test('mojidata-spa renders character data in browser', async ({ page }) => {
     timeout: 60_000,
   })
 })
+
+test('idsfind-spa renders results in browser', async ({ page }) => {
+  page.on('pageerror', (err) => console.log('[pageerror]', err))
+  page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))
+
+  await page.goto('/ja-JP/idsfind-spa?whole=%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(1)
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    /\/idsfind\?whole=/,
+  )
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    /noindex/,
+  )
+  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+    timeout: 60_000,
+  })
+  await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
+    'href',
+    /\/ja-JP\/mojidata\//,
+  )
+})

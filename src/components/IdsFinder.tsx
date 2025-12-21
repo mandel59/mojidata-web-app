@@ -9,11 +9,13 @@ import { Language, getText } from '@/getText'
 
 export interface IdsFinderProps {
   lang: Language
+  action?: string
 }
 export default function IdsFinder(props: IdsFinderProps) {
-  const { lang } = props
+  const { lang, action = '/idsfind' } = props
   const pathname = usePathname()
-  const pathIsIdsfind = pathname === '/idsfind'
+  const pathIsIdsfind =
+    pathname.endsWith('/idsfind') || pathname.endsWith('/idsfind-spa')
   const searchParams = useSearchParams()
   const initialIds = pathIsIdsfind ? searchParams.getAll('ids') : []
   const initialWhole = pathIsIdsfind ? searchParams.get('whole') ?? '' : ''
@@ -23,7 +25,7 @@ export default function IdsFinder(props: IdsFinderProps) {
   const [query, setQuery] = useState<string>(initialQuery)
   return (
     <div className="ids-finder">
-      <GetForm action="/idsfind">
+      <GetForm action={action}>
         <article>
           <h2>IDS Finder</h2>
           <details>

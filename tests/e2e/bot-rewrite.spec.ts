@@ -30,3 +30,18 @@ test('bot is rewritten to /mojidata-spa/[char]', async ({ browser }) => {
 
   await context.close()
 })
+
+test('bot is rewritten to /idsfind-spa', async ({ browser }) => {
+  const context = await browser.newContext({
+    userAgent: BOT_UA,
+    javaScriptEnabled: false,
+  })
+  const page = await context.newPage()
+
+  await page.goto('/ja-JP/idsfind?whole=%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+  await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(1)
+
+  await context.close()
+})
