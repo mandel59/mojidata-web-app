@@ -7,9 +7,23 @@ import { isLikelyBotUserAgent } from './bot'
 const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
 const BOT_DELAY_BEFORE_429_MS = 20_000
 
+type SpaRewriteTarget = 'search' | 'idsfind' | 'mojidata'
+
+const SPA_REWRITE_TARGETS_ALL: readonly SpaRewriteTarget[] = [
+  'search',
+  'idsfind',
+  'mojidata',
+]
+
 function isFileLikePath(pathname: string) {
   const lastSegment = pathname.split('/').pop() ?? ''
   return lastSegment.includes('.')
+}
+
+function isMobileUserAgent(ua: string) {
+  return /Mobile|Android|iPhone|iPad|iPod|IEMobile|BlackBerry|Opera Mini/i.test(
+    ua,
+  )
 }
 
 function getLocaleFromUrl(url: URL): string | undefined {
@@ -26,15 +40,68 @@ function stripLocale(pathname: string, locale: string | undefined) {
   return pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname
 }
 
-function getSpaPathForBot(pathnameWithoutLocale: string) {
-  if (pathnameWithoutLocale === '/search') {
+function normalizeSpaRewriteTarget(token: string): SpaRewriteTarget | undefined {
+  const t = token.trim().toLowerCase()
+  if (!t) return undefined
+  if (t === 'search' || t === '/search') return 'search'
+  if (t === 'idsfind' || t === '/idsfind') return 'idsfind'
+  if (t === 'mojidata' || t === '/mojidata') return 'mojidata'
+  return undefined
+}
+
+function parseSpaRewriteTargets(
+  value: string | undefined,
+  defaults: readonly SpaRewriteTarget[],
+): Set<SpaRewriteTarget> {
+  if (value == null) return new Set(defaults)
+  const tokens = value
+    .split(',')
+    .map((x) => x.trim())
+    .filter(Boolean)
+  if (tokens.length === 0) return new Set()
+  if (tokens.some((t) => t === 'none')) return new Set()
+  if (tokens.some((t) => t === 'all' || t === '*'))
+    return new Set(SPA_REWRITE_TARGETS_ALL)
+  const out = new Set<SpaRewriteTarget>()
+  for (const token of tokens) {
+    const k = normalizeSpaRewriteTarget(token)
+    if (k) out.add(k)
+  }
+  return out
+}
+
+function getSpaRewriteConfig() {
+  const g = globalThis as unknown as {
+    __spaRewriteConfig?: {
+      desktop: Set<SpaRewriteTarget>
+      mobile: Set<SpaRewriteTarget>
+      bot: Set<SpaRewriteTarget>
+    }
+  }
+  g.__spaRewriteConfig ??= {
+    desktop: parseSpaRewriteTargets(process.env.SPA_REWRITE_DESKTOP, []),
+    mobile: parseSpaRewriteTargets(process.env.SPA_REWRITE_MOBILE, []),
+    bot: parseSpaRewriteTargets(process.env.SPA_REWRITE_BOT, [
+      'search',
+      'idsfind',
+      'mojidata',
+    ]),
+  }
+  return g.__spaRewriteConfig
+}
+
+function getSpaPathForTargets(
+  pathnameWithoutLocale: string,
+  targets: Set<SpaRewriteTarget>,
+) {
+  if (pathnameWithoutLocale === '/search' && targets.has('search')) {
     return '/search-spa'
   }
-  if (pathnameWithoutLocale === '/idsfind') {
+  if (pathnameWithoutLocale === '/idsfind' && targets.has('idsfind')) {
     return '/idsfind-spa'
   }
   const m = pathnameWithoutLocale.match(/^\/mojidata\/([^/]+)$/)
-  if (m) {
+  if (m && targets.has('mojidata')) {
     return `/mojidata-spa/${m[1]}`
   }
   return undefined
@@ -91,6 +158,18 @@ export async function proxy(
   const { isBot, ua } = userAgent(request)
   const isLikelyBot = isLikelyBotUserAgent(ua)
   const pathname2 = stripLocale(url.pathname, getLocaleFromUrl(url))
+
+  const uaKind: 'bot' | 'mobile' | 'desktop' =
+    isBot || isLikelyBot ? 'bot' : isMobileUserAgent(ua) ? 'mobile' : 'desktop'
+  const spaTargets = getSpaRewriteConfig()[uaKind]
+  const spaPath = getSpaPathForTargets(pathname2, spaTargets)
+  if (spaPath) {
+    const lang = getLocaleFromUrl(url)
+    if (lang) {
+      url.pathname = `/${lang}${spaPath}`
+    }
+  }
+
   if (
     (isBot || isLikelyBot) &&
     !url.pathname.startsWith('/_next/') &&
@@ -102,13 +181,6 @@ export async function proxy(
       url.searchParams.set('disableExternalLinks', '1')
     }
     url.searchParams.set('bot', '1')
-    const spaPath = getSpaPathForBot(pathname2)
-    if (spaPath) {
-      const lang = getLocaleFromUrl(url)
-      if (lang) {
-        url.pathname = `/${lang}${spaPath}`
-      }
-    }
     if (process.env.BOT_DELAY_DISABLE !== '1') {
       const { delayMs, info } = botDelayWithInfo(request, ua)
       if (process.env.BOT_DELAY_DEBUG === '1') {
