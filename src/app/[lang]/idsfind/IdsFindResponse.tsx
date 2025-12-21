@@ -35,7 +35,6 @@ function getPrevAndNextPagePath(
 
 interface IdsFindResponseParams {
   path?: string
-  langPrefix: string
   ids: string[]
   whole: string[]
   query: string
@@ -48,7 +47,6 @@ export default async function IdsFindResponse(
 ): Promise<ReactElement> {
   const {
     path = '/idsfind',
-    langPrefix,
     ids,
     whole,
     query,
@@ -56,7 +54,6 @@ export default async function IdsFindResponse(
     bot,
     disableExternalLinks,
   } = params
-  const pathWithLocale = `${langPrefix}${path}`
   const size = 50
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchIdsFind({
@@ -70,7 +67,7 @@ export default async function IdsFindResponse(
   const wholeSearch =
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
   const { prev, next } = getPrevAndNextPagePath(
-    pathWithLocale,
+    path,
     ids,
     whole,
     query,
@@ -79,7 +76,6 @@ export default async function IdsFindResponse(
   )
   return (
     <IdsFindResponseView
-      langPrefix={langPrefix}
       linkMode="server"
       results={results}
       total={total}

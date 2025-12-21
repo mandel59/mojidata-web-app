@@ -24,17 +24,15 @@ function toRefName(char: string) {
 
 function charToHref(
   char: string,
-  langPrefix: string,
   linkMode: IdsFindLinkMode,
 ) {
   const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
   if (charIsRef) return undefined
   const basePath = linkMode === 'spa' ? '/mojidata-spa/' : '/mojidata/'
-  return `${langPrefix}${basePath}${encodeURIComponent(char)}`
+  return `${basePath}${encodeURIComponent(char)}`
 }
 
 export interface IdsFindResponseViewProps {
-  langPrefix: string
   linkMode: IdsFindLinkMode
   results: string[]
   total: number
@@ -52,7 +50,6 @@ export interface IdsFindResponseViewProps {
 
 export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
   const {
-    langPrefix,
     linkMode,
     results,
     total,
@@ -73,7 +70,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
       {total > 0 && (
         <div className="ids-find-response">
           {results.slice(offset, offset + size).map((char: string) => {
-            const href = charToHref(char, langPrefix, linkMode)
+            const href = charToHref(char, linkMode)
             const glyphHref = href
               ? href
               : `https://glyphwiki.org/wiki/${encodeURIComponent(

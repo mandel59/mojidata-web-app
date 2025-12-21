@@ -19,14 +19,21 @@ function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
 }
 
 export async function generateMetadata({
-  params,
   searchParams,
 }: Props): Promise<Metadata> {
-  const { lang } = await params
   const resolvedSearchParams = await searchParams
   const { ids, whole, query, page } = resolvedSearchParams
-  function buildPath(locale: string) {
+  function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/idsfind`)
+    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
+    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    const queryString = castToString(query)
+    if (queryString) url.searchParams.append('query', queryString)
+    if (page != null) url.searchParams.append('page', String(page))
+    return url.pathname + url.search
+  }
+  function buildCanonicalPath() {
+    const url = new URL(`https://mojidata.ryusei.dev/idsfind`)
     castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
     castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
     const queryString = castToString(query)
@@ -36,10 +43,10 @@ export async function generateMetadata({
   }
   return {
     alternates: {
-      canonical: buildPath(lang),
+      canonical: buildCanonicalPath(),
       languages: {
-        'en-US': buildPath('en-US'),
-        'ja-JP': buildPath('ja-JP'),
+        'en-US': buildLocalePath('en-US'),
+        'ja-JP': buildLocalePath('ja-JP'),
       },
     },
     robots: {
@@ -53,7 +60,6 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const langPrefix = `/${lang}`
   const { ids, whole, query } = resolvedSearchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
@@ -63,7 +69,7 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
     return (
       <div>
         <nav className="container">
-          <IdsFinder lang={language} action={`${langPrefix}/idsfind-spa`} />
+          <IdsFinder lang={language} action="/idsfind-spa" />
         </nav>
       </div>
     )
@@ -73,7 +79,7 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
     <div className="container">
       <div className="grid">
         <nav>
-          <IdsFinder lang={language} action={`${langPrefix}/idsfind-spa`} />
+          <IdsFinder lang={language} action="/idsfind-spa" />
         </nav>
         <main>
           <div data-spa="idsfind">

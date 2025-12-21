@@ -14,7 +14,6 @@ export default async function Mojidata({ params, searchParams }: Props) {
   const { char, lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const langPrefix = `/${lang}`
   const { bot, disableExternalLinks } = resolvedSearchParams
   const ucs = decodeURIComponent(char)
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
@@ -29,7 +28,7 @@ export default async function Mojidata({ params, searchParams }: Props) {
       ) {
         // character with variation selector
         // redirect to the base character
-        redirect(`/${lang}/mojidata/${encodeURIComponent(ucsList[0])}`)
+        redirect(`/mojidata/${encodeURIComponent(ucsList[0])}`)
       } else {
         notFound()
       }
@@ -42,7 +41,6 @@ export default async function Mojidata({ params, searchParams }: Props) {
         <Suspense fallback={<LoadingArticle />}>
           <MojidataResponse
             ucs={ucs}
-            langPrefix={langPrefix}
             bot={!!bot}
             disableExternalLinks={!!disableExternalLinks}
             lang={language}
@@ -57,7 +55,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { char, lang } = await params
+  const { char } = await params
   const ucs = String.fromCodePoint(
     decodeURIComponent(char).codePointAt(0) ?? 0x20,
   )
@@ -69,7 +67,7 @@ export async function generateMetadata(
   return {
     title,
     alternates: {
-      canonical: `/${lang}/mojidata/${char}`,
+      canonical: `/mojidata/${char}`,
       languages: {
         'en-US': `/en-US/mojidata/${char}`,
         'ja-JP': `/ja-JP/mojidata/${char}`,

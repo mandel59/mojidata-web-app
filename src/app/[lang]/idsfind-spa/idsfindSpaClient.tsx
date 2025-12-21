@@ -13,16 +13,15 @@ function normalize(s: string) {
   return s.normalize('NFC').replace(vsPattern, '')
 }
 
-function getLangPrefix(pathname: string) {
-  const m = pathname.match(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/)
-  return m ? m[0] : ''
+function stripLocalePrefix(pathname: string) {
+  return pathname.replace(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/, '')
 }
 
 export default function IdsFindSpaClient(props: { lang: Language }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const canonicalPathname = useMemo(() => stripLocalePrefix(pathname), [pathname])
 
-  const langPrefix = useMemo(() => getLangPrefix(pathname), [pathname])
   const bot = searchParams.get('bot') != null
   const disableExternalLinks = searchParams.get('disableExternalLinks') === '1'
 
@@ -44,14 +43,14 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
   const baseUrl = useMemo(() => {
-    const url = new URL(pathname, 'http://local/')
+    const url = new URL(canonicalPathname, 'http://local/')
     ids.forEach((v) => url.searchParams.append('ids', v))
     whole.forEach((v) => url.searchParams.append('whole', v))
     if (query) url.searchParams.set('query', query)
     if (bot) url.searchParams.set('bot', '1')
     if (disableExternalLinks) url.searchParams.set('disableExternalLinks', '1')
     return url
-  }, [pathname, ids, whole, query, bot, disableExternalLinks])
+  }, [canonicalPathname, ids, whole, query, bot, disableExternalLinks])
 
   useEffect(() => {
     let cancelled = false
@@ -117,7 +116,6 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
 
   return (
     <IdsFindResponseView
-      langPrefix={langPrefix}
       linkMode="server"
       results={results}
       total={total}

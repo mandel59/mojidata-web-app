@@ -11,7 +11,7 @@ test('search-spa renders results in browser', async ({ page }) => {
   await expect(page.locator('[data-spa="search"]')).toHaveCount(1)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    /\/ja-JP\/search\?query=/,
+    /\/search\?query=/,
   )
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
     'content',
@@ -22,7 +22,7 @@ test('search-spa renders results in browser', async ({ page }) => {
   })
   await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
     'href',
-    /\/ja-JP\/mojidata\//,
+    /\/mojidata\//,
   )
 })
 
@@ -37,7 +37,7 @@ test('mojidata-spa renders character data in browser', async ({ page }) => {
   await expect(page.locator('[data-spa="mojidata"]')).toHaveCount(1)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    /\/ja-JP\/mojidata\/%E6%BC%A2$/,
+    /\/mojidata\/%E6%BC%A2$/,
   )
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
     'content',
@@ -64,7 +64,7 @@ test('idsfind-spa renders results in browser', async ({ page }) => {
   await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(1)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    /\/ja-JP\/idsfind\?whole=/,
+    /\/idsfind\?whole=/,
   )
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
     'content',
@@ -75,6 +75,6 @@ test('idsfind-spa renders results in browser', async ({ page }) => {
   })
   await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
     'href',
-    /\/ja-JP\/mojidata\//,
+    /\/mojidata\//,
   )
 })

@@ -86,7 +86,6 @@ export interface MojidataResponseViewParams {
   disableExternalLinks: boolean
   lang: Language
   linkMode: 'server' | 'spa'
-  langPrefix: string
 }
 export default function MojidataResponseView(
   params: MojidataResponseViewParams,
@@ -101,14 +100,13 @@ export default function MojidataResponseView(
     disableExternalLinks,
     lang,
     linkMode,
-    langPrefix,
   } = params
 
   const mojidataBasePath = linkMode === 'spa' ? '/mojidata-spa/' : '/mojidata/'
   const mojidataHref = (char: string) =>
-    `${langPrefix}${mojidataBasePath}${encodeURIComponent(char)}`
+    `${mojidataBasePath}${encodeURIComponent(char)}`
   const idsfindHref = (whole: string) =>
-    `${langPrefix}/idsfind?whole=${encodeURIComponent(whole)}`
+    `/idsfind?whole=${encodeURIComponent(whole)}`
 
   const charIsHan =
     /[\p{Script=Han}\u{20000}-\u{2FFFD}\u{30000}-\u{3FFFD}]/u.test(results.char)

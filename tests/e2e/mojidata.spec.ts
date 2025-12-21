@@ -6,6 +6,6 @@ test('mojidata page renders', async ({ page }) => {
   await expect(page.locator('h2#Character_Data')).toBeVisible()
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    /\/ja-JP\/mojidata\/%E6%BC%A2$/,
+    /\/mojidata\/%E6%BC%A2$/,
   )
 })

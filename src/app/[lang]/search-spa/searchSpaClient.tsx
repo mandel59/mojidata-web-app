@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { parseQuery } from '../search/search'
 import { idsfindBrowserAllResults } from '@/spa/mojidataApiBrowser'
@@ -14,19 +14,18 @@ function normalize(s: string) {
   return s.normalize('NFC').replace(vsPattern, '')
 }
 
-function getLangPrefix(pathname: string) {
-  const m = pathname.match(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/)
-  return m ? m[0] : ''
+function stripLocalePrefix(pathname: string) {
+  return pathname.replace(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/, '')
 }
 
 export default function SearchSpaClient(props: { lang: Language }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const canonicalPathname = stripLocalePrefix(pathname)
 
   const currentQuery = (searchParams.get('query') ?? '').trim()
   const currentPage = Math.max(1, Number(searchParams.get('page') ?? '1') || 1)
   const pageSize = 50
-  const langPrefix = useMemo(() => getLangPrefix(pathname), [pathname])
   const bot = searchParams.get('bot') != null
   const disableExternalLinks = searchParams.get('disableExternalLinks') === '1'
 
@@ -80,7 +79,7 @@ export default function SearchSpaClient(props: { lang: Language }) {
   const prev =
     currentPage > 1
       ? (() => {
-          const url = new URL(pathname, 'http://local/')
+          const url = new URL(canonicalPathname, 'http://local/')
           url.searchParams.set('query', currentQuery)
           if (currentPage - 1 > 1)
             url.searchParams.set('page', String(currentPage - 1))
@@ -90,7 +89,7 @@ export default function SearchSpaClient(props: { lang: Language }) {
   const next =
     currentPage < totalPages
       ? (() => {
-          const url = new URL(pathname, 'http://local/')
+          const url = new URL(canonicalPathname, 'http://local/')
           url.searchParams.set('query', currentQuery)
           url.searchParams.set('page', String(currentPage + 1))
           return url.pathname + url.search
@@ -99,7 +98,6 @@ export default function SearchSpaClient(props: { lang: Language }) {
 
   return (
     <IdsFindResponseView
-      langPrefix={langPrefix}
       linkMode="server"
       results={results}
       total={total}

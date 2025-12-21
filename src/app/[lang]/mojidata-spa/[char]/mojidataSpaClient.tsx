@@ -6,18 +6,11 @@ import type { Language } from '@/getText'
 import MojidataResponseView from '../../mojidata/[char]/MojidataResponseView'
 import LoadingArticle from '@/components/LoadingArticle'
 import type { MojidataResults } from '@/mojidata/mojidataShared'
-import { usePathname, useSearchParams } from 'next/navigation'
-
-function getLangPrefix(pathname: string) {
-  const m = pathname.match(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/)
-  return m ? m[0] : ''
-}
+import { useSearchParams } from 'next/navigation'
 
 export default function MojidataSpaClient(props: { char: string; lang: Language }) {
   const { char, lang } = props
-  const pathname = usePathname()
   const searchParams = useSearchParams()
-  const langPrefix = getLangPrefix(pathname)
   const bot = searchParams.get('bot') != null
   const disableExternalLinks = searchParams.get('disableExternalLinks') === '1'
 
@@ -80,7 +73,6 @@ export default function MojidataSpaClient(props: { char: string; lang: Language 
       disableExternalLinks={disableExternalLinks}
       lang={lang}
       linkMode="server"
-      langPrefix={langPrefix}
     />
   )
 }

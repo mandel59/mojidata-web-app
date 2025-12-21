@@ -10,27 +10,31 @@ type Props = {
 }
 
 export async function generateMetadata({
-  params,
   searchParams,
 }: Props): Promise<Metadata> {
-  const { lang } = await params
   const resolvedSearchParams = await searchParams
   let { query, page } = resolvedSearchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
-  function buildPath(locale: string) {
+  function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
+    if (query != null) url.searchParams.append('query', String(query))
+    if (page != null) url.searchParams.append('page', String(page))
+    return url.pathname + url.search
+  }
+  function buildCanonicalPath() {
+    const url = new URL(`https://mojidata.ryusei.dev/search`)
     if (query != null) url.searchParams.append('query', String(query))
     if (page != null) url.searchParams.append('page', String(page))
     return url.pathname + url.search
   }
   return {
     alternates: {
-      canonical: buildPath(lang),
+      canonical: buildCanonicalPath(),
       languages: {
-        'en-US': buildPath('en-US'),
-        'ja-JP': buildPath('ja-JP'),
+        'en-US': buildLocalePath('en-US'),
+        'ja-JP': buildLocalePath('ja-JP'),
       },
     },
     robots: {
@@ -43,7 +47,6 @@ export async function generateMetadata({
 export default async function SearchSpa({ params, searchParams }: Props) {
   const { lang } = await params
   const language = getLanguage(lang)
-  const langPrefix = `/${lang}`
   const resolvedSearchParams = await searchParams
   let { query } = resolvedSearchParams
   if (Array.isArray(query)) {
@@ -57,10 +60,7 @@ export default async function SearchSpa({ params, searchParams }: Props) {
     return (
       <div>
         <nav className="container">
-          <MojidataSearchForm
-            lang={language}
-            action={`${langPrefix}/search-spa`}
-          />
+          <MojidataSearchForm lang={language} action="/search-spa" />
         </nav>
       </div>
     )
@@ -70,10 +70,7 @@ export default async function SearchSpa({ params, searchParams }: Props) {
     <div className="container">
       <div className="grid">
         <nav>
-          <MojidataSearchForm
-            lang={language}
-            action={`${langPrefix}/search-spa`}
-          />
+          <MojidataSearchForm lang={language} action="/search-spa" />
         </nav>
         <main>
           <div data-spa="search">
