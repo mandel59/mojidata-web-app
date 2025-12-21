@@ -8,17 +8,18 @@ import { Language, getText } from '@/getText'
 
 export interface MojidataSearchFormProps {
   lang: Language
+  action?: string
 }
 export default function MojidataSearchForm(props: MojidataSearchFormProps) {
-  const { lang } = props
+  const { lang, action = '/search' } = props
   const pathname = usePathname()
-  const pathIsIdsfind = pathname === '/search'
+  const pathIsIdsfind = pathname.endsWith('/search') || pathname.endsWith('/search-spa')
   const searchParams = useSearchParams()
   const initialQuery = pathIsIdsfind ? searchParams.get('query') ?? '' : ''
   const [query, setQuery] = useState<string>(initialQuery)
   return (
     <div className="mojidata-search">
-      <GetForm action="/search">
+      <GetForm action={action}>
         <article>
           <h2>{getText('mojidata-search.caption', lang)}</h2>
           <details>

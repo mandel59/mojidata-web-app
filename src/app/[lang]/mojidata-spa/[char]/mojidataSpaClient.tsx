@@ -2,12 +2,33 @@
 
 import { useEffect, useState } from 'react'
 import { mojidataBrowser } from '@/spa/mojidataApiBrowser'
+import type { Language } from '@/getText'
+import MojidataResponseView from '../../mojidata/[char]/MojidataResponseView'
+import LoadingArticle from '@/components/LoadingArticle'
+import type { MojidataResults } from '@/mojidata/mojidataShared'
+import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function MojidataSpaClient(props: { char: string }) {
-  const { char } = props
+function getLangPrefix(pathname: string) {
+  const m = pathname.match(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/)
+  return m ? m[0] : ''
+}
+
+export default function MojidataSpaClient(props: { char: string; lang: Language }) {
+  const { char, lang } = props
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const langPrefix = getLangPrefix(pathname)
+  const bot = searchParams.get('bot') != null
+  const disableExternalLinks = searchParams.get('disableExternalLinks') === '1'
+
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [results, setResults] = useState<any>(null)
+  const [data, setData] = useState<{
+    results: MojidataResults
+    canonicalCharacter: MojidataResults
+    compatibilityCharacters?: MojidataResults[]
+    isCompatibilityCharacter: boolean
+  } | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -15,9 +36,23 @@ export default function MojidataSpaClient(props: { char: string }) {
       setLoading(true)
       setError(null)
       try {
-        const r = await mojidataBrowser(char)
+        const results = await mojidataBrowser(char)
+        const cjkci = results.svs_cjkci.map((record) => record.CJKCI_char)
+        const isCompatibilityCharacter =
+          results.svs_cjkci.length > 0 && cjkci[0] === char
+        const canonicalCharacter = isCompatibilityCharacter
+          ? await mojidataBrowser([...results.svs_cjkci[0].SVS_char][0])
+          : results
+        const compatibilityCharacters = !isCompatibilityCharacter
+          ? await Promise.all(cjkci.map((c) => mojidataBrowser(c)))
+          : undefined
         if (cancelled) return
-        setResults(r)
+        setData({
+          results,
+          canonicalCharacter,
+          compatibilityCharacters,
+          isCompatibilityCharacter,
+        })
       } catch (e) {
         if (cancelled) return
         setError(e instanceof Error ? e.message : String(e))
@@ -30,36 +65,22 @@ export default function MojidataSpaClient(props: { char: string }) {
     }
   }, [char])
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <LoadingArticle />
   if (error) return <p style={{ color: 'red' }}>{error}</p>
-  if (!results) return <p>No results.</p>
-
-  const ids: string[] = Array.isArray(results.ids)
-    ? results.ids.map((x: any) => x?.IDS).filter(Boolean)
-    : []
+  if (!data) return <p>No results.</p>
 
   return (
-    <div>
-      <h2>
-        {results.char} ({results.UCS})
-      </h2>
-      {ids.length > 0 && (
-        <div>
-          <h3>IDS</h3>
-          <ul>
-            {ids.slice(0, 10).map((x) => (
-              <li key={x}>{x}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <details>
-        <summary>Raw JSON</summary>
-        <pre style={{ whiteSpace: 'pre-wrap' }}>
-          {JSON.stringify(results, null, 2)}
-        </pre>
-      </details>
-    </div>
+    <MojidataResponseView
+      ucs={char}
+      results={data.results}
+      canonicalCharacter={data.canonicalCharacter}
+      compatibilityCharacters={data.compatibilityCharacters}
+      isCompatibilityCharacter={data.isCompatibilityCharacter}
+      bot={bot}
+      disableExternalLinks={disableExternalLinks}
+      lang={lang}
+      linkMode="spa"
+      langPrefix={langPrefix}
+    />
   )
 }
-

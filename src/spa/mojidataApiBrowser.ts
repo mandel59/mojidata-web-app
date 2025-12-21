@@ -2,6 +2,7 @@
 
 import { createApp } from '@mandel59/mojidata-api/app'
 import { createMojidataApiWorkerClient } from '@mandel59/mojidata-api/browser-client'
+import type { MojidataResults } from '@/mojidata/mojidataShared'
 
 type MojidataApiApp = ReturnType<typeof createApp>
 
@@ -50,7 +51,7 @@ export async function mojidataBrowser(char: string) {
   if (!body.results) {
     throw new Error(`No results for char: ${char}`)
   }
-  return body.results as any
+  return body.results as MojidataResults
 }
 
 export async function idsfindBrowserAllResults(params: {
@@ -80,4 +81,3 @@ export async function idsfindBrowserAllResults(params: {
   const body = (await res.json()) as { results: string[]; total?: number }
   return { results: body.results, total: body.total ?? body.results.length }
 }
-

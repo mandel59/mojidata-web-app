@@ -10,8 +10,10 @@ test('bot is rewritten to /search-spa', async ({ browser }) => {
   })
   const page = await context.newPage()
 
-  await page.goto('/ja-JP/search?query=%E6%BC%A2', { waitUntil: 'domcontentloaded' })
-  await expect(page.locator('article[data-spa="search"]')).toHaveCount(1)
+  await page.goto('/ja-JP/search?query=%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+  await expect(page.locator('[data-spa="search"]')).toHaveCount(1)
 
   await context.close()
 })
@@ -24,7 +26,7 @@ test('bot is rewritten to /mojidata-spa/[char]', async ({ browser }) => {
   const page = await context.newPage()
 
   await page.goto('/ja-JP/mojidata/%E6%BC%A2', { waitUntil: 'domcontentloaded' })
-  await expect(page.locator('article[data-spa="mojidata"]')).toHaveCount(1)
+  await expect(page.locator('[data-spa="mojidata"]')).toHaveCount(1)
 
   await context.close()
 })

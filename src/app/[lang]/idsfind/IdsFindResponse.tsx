@@ -1,10 +1,7 @@
 import { ReactElement } from 'react'
 import './styles.css'
-import GlyphWikiChar, { toGlyphWikiName } from '@/components/GlyphWikiChar'
 import { fetchIdsFind } from './idsfind'
-import ConditionalLink from '@/components/ConditionalLink'
-import { Pager } from '@/components/Pager'
-import { Spacer } from '@/components/Spacer'
+import IdsFindResponseView from '@/components/IdsFindResponseView'
 
 function getPrevAndNextPagePath(
   path: string,
@@ -91,64 +88,21 @@ export default async function IdsFindResponse(
     done,
   )
   return (
-    <article>
-      {total > 0 && (
-        <div className="ids-find-response">
-          {results.slice(offset, offset + size).map((char: string) => {
-            const glyphWikiName = toGlyphWikiName(char)
-            const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
-            // TODO: Make pages for reference characters
-            const href = charIsRef
-              ? `https://glyphwiki.org/wiki/${glyphWikiName}`
-              : `/mojidata/${encodeURIComponent(char)}`
-            return (
-              <div
-                className="ids-find-result-char ids-find-char-glyphwiki"
-                lang="ja"
-                key={char}
-                title={toRefName(char)}
-              >
-                <ConditionalLink
-                  prefetch={false}
-                  href={href}
-                  disableExternalLinks={disableExternalLinks}
-                >
-                  <GlyphWikiChar
-                    name={glyphWikiName}
-                    alt={char}
-                    size={55}
-                    bot={bot}
-                  />
-                </ConditionalLink>
-              </div>
-            )
-          })}
-          {pageNum > 1 &&
-            pageNum === totalPages &&
-            Array.from(Array(size - (total - offset)), (_, i) => (
-              <Spacer key={i} width={60} height={60} border={1} margin={3} />
-            ))}
-        </div>
-      )}
-      {total === 0 && <p>No results found. </p>}
-      {total === 0 && wholeSearch && (
-        <p>
-          <ConditionalLink
-            href={`https://zi.tools/zi/${encodeURIComponent(whole[0])}`}
-            disableExternalLinks={disableExternalLinks}
-          >
-            Search zi.tools for {whole[0]}
-          </ConditionalLink>
-        </p>
-      )}
-      <footer>
-        <Pager
-          prev={prev}
-          next={next}
-          pageNum={pageNum}
-          totalPages={totalPages}
-        />
-      </footer>
-    </article>
+    <IdsFindResponseView
+      langPrefix=""
+      linkMode="server"
+      results={results}
+      total={total}
+      offset={offset}
+      size={size}
+      pageNum={pageNum}
+      totalPages={totalPages}
+      prev={prev}
+      next={next}
+      wholeSearch={wholeSearch}
+      whole={whole[0]}
+      bot={bot}
+      disableExternalLinks={disableExternalLinks}
+    />
   )
 }

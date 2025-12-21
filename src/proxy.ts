@@ -7,6 +7,11 @@ import { isLikelyBotUserAgent } from './bot'
 const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
 const BOT_DELAY_BEFORE_429_MS = 20_000
 
+function isFileLikePath(pathname: string) {
+  const lastSegment = pathname.split('/').pop() ?? ''
+  return lastSegment.includes('.')
+}
+
 function getLocaleFromUrl(url: URL): string | undefined {
   const locale = url.pathname.split('/')[1]
   if (locale.match(/^[a-z]{2}-[A-Z]{2}$/)) {
@@ -40,6 +45,9 @@ export async function proxy(
   const url0 = String(url)
   if (
     !url.pathname.startsWith('/_') &&
+    !url.pathname.startsWith('/api/') &&
+    !url.pathname.startsWith('/assets/') &&
+    !isFileLikePath(url.pathname) &&
     !/^\/[a-z]{2}-[A-Z]{2}\//.test(url.pathname)
   ) {
     const acceptLanguage = request.headers.get('accept-language')
@@ -80,7 +88,13 @@ export async function proxy(
   const { isBot, ua } = userAgent(request)
   const isLikelyBot = isLikelyBotUserAgent(ua)
   const pathname2 = stripLocale(url.pathname, getLocaleFromUrl(url))
-  if ((isBot || isLikelyBot) && !url.pathname.startsWith('/_next/')) {
+  if (
+    (isBot || isLikelyBot) &&
+    !url.pathname.startsWith('/_next/') &&
+    !url.pathname.startsWith('/assets/') &&
+    !url.pathname.startsWith('/api/') &&
+    !isFileLikePath(url.pathname)
+  ) {
     if (!isBot) {
       url.searchParams.set('disableExternalLinks', '1')
     }
