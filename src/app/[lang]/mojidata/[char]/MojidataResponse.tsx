@@ -5,6 +5,7 @@ import { Language } from '@/getText'
 
 interface MojidataResponseParams {
   ucs: string
+  langPrefix: string
   bot: boolean
   disableExternalLinks: boolean
   lang: Language
@@ -13,7 +14,7 @@ interface MojidataResponseParams {
 export default async function MojidataResponse(
   params: MojidataResponseParams,
 ): Promise<ReactElement> {
-  const { ucs, bot, disableExternalLinks, lang } = params
+  const { ucs, langPrefix, bot, disableExternalLinks, lang } = params
 
   const results = await fetchMojidata(ucs)
 
@@ -38,8 +39,7 @@ export default async function MojidataResponse(
       disableExternalLinks={disableExternalLinks}
       lang={lang}
       linkMode="server"
-      langPrefix=""
+      langPrefix={langPrefix}
     />
   )
 }
-

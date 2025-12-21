@@ -10,19 +10,28 @@ type Props = {
 }
 
 export async function generateMetadata({
+  params,
   searchParams,
 }: Props): Promise<Metadata> {
+  const { lang } = await params
   const resolvedSearchParams = await searchParams
   let { query, page } = resolvedSearchParams
-  const url = new URL('https://mojidata.ryusei.dev/search')
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
-  if (query != null) url.searchParams.append('query', String(query))
-  if (page != null) url.searchParams.append('page', String(page))
+  function buildPath(locale: string) {
+    const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
+    if (query != null) url.searchParams.append('query', String(query))
+    if (page != null) url.searchParams.append('page', String(page))
+    return url.pathname + url.search
+  }
   return {
     alternates: {
-      canonical: url.pathname + url.search,
+      canonical: buildPath(lang),
+      languages: {
+        'en-US': buildPath('en-US'),
+        'ja-JP': buildPath('ja-JP'),
+      },
     },
     robots: {
       index: false,
@@ -34,6 +43,7 @@ export async function generateMetadata({
 export default async function SearchSpa({ params, searchParams }: Props) {
   const { lang } = await params
   const language = getLanguage(lang)
+  const langPrefix = `/${lang}`
   const resolvedSearchParams = await searchParams
   let { query } = resolvedSearchParams
   if (Array.isArray(query)) {
@@ -47,7 +57,10 @@ export default async function SearchSpa({ params, searchParams }: Props) {
     return (
       <div>
         <nav className="container">
-          <MojidataSearchForm lang={language} action="/search-spa" />
+          <MojidataSearchForm
+            lang={language}
+            action={`${langPrefix}/search-spa`}
+          />
         </nav>
       </div>
     )
@@ -57,7 +70,10 @@ export default async function SearchSpa({ params, searchParams }: Props) {
     <div className="container">
       <div className="grid">
         <nav>
-          <MojidataSearchForm lang={language} action="/search-spa" />
+          <MojidataSearchForm
+            lang={language}
+            action={`${langPrefix}/search-spa`}
+          />
         </nav>
         <main>
           <div data-spa="search">

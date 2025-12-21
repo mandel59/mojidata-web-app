@@ -12,6 +12,7 @@ export default async function Search({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
+  const langPrefix = `/${lang}`
   let { query, page, bot, disableExternalLinks } = resolvedSearchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
@@ -23,7 +24,7 @@ export default async function Search({
     return (
       <div>
         <nav className="container">
-          <MojidataSearchForm lang={language} />
+          <MojidataSearchForm lang={language} action={`${langPrefix}/search`} />
         </nav>
       </div>
     )
@@ -32,7 +33,7 @@ export default async function Search({
     <div className="container">
       <div className="grid">
         <nav>
-          <MojidataSearchForm lang={language} />
+          <MojidataSearchForm lang={language} action={`${langPrefix}/search`} />
         </nav>
         <main>
           <Suspense
@@ -41,6 +42,7 @@ export default async function Search({
           >
             <IdsFindResponse
               path="/search"
+              langPrefix={langPrefix}
               ids={[]}
               whole={[]}
               query={query}
@@ -56,20 +58,28 @@ export default async function Search({
 }
 
 export async function generateMetadata(
-  { searchParams }: PageProps<'/[lang]/search'>,
+  { params, searchParams }: PageProps<'/[lang]/search'>,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
+  const { lang } = await params
   const resolvedSearchParams = await searchParams
   let { query, page } = resolvedSearchParams
-  const url = new URL('https://mojidata.ryusei.dev/search')
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
-  if (query != null) url.searchParams.append('query', String(query))
-  if (page != null) url.searchParams.append('page', String(page))
+  function buildPath(locale: string) {
+    const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
+    if (query != null) url.searchParams.append('query', String(query))
+    if (page != null) url.searchParams.append('page', String(page))
+    return url.pathname + url.search
+  }
   return {
     alternates: {
-      canonical: url.pathname + url.search,
+      canonical: buildPath(lang),
+      languages: {
+        'en-US': buildPath('en-US'),
+        'ja-JP': buildPath('ja-JP'),
+      },
     },
   }
 }

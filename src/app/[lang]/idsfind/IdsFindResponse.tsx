@@ -33,21 +33,9 @@ function getPrevAndNextPagePath(
   }
 }
 
-function toRefName(char: string) {
-  const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
-  if (charIsRef) {
-    return char.slice(1, char.length - 1)
-  } else {
-    return `U+${char
-      .codePointAt(0)
-      ?.toString(16)
-      .padStart(4, '0')
-      .toUpperCase()}`
-  }
-}
-
 interface IdsFindResponseParams {
   path?: string
+  langPrefix: string
   ids: string[]
   whole: string[]
   query: string
@@ -60,6 +48,7 @@ export default async function IdsFindResponse(
 ): Promise<ReactElement> {
   const {
     path = '/idsfind',
+    langPrefix,
     ids,
     whole,
     query,
@@ -67,6 +56,7 @@ export default async function IdsFindResponse(
     bot,
     disableExternalLinks,
   } = params
+  const pathWithLocale = `${langPrefix}${path}`
   const size = 50
   const pageNum = page ?? 1
   const { results, done, offset, total } = await fetchIdsFind({
@@ -80,7 +70,7 @@ export default async function IdsFindResponse(
   const wholeSearch =
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0])
   const { prev, next } = getPrevAndNextPagePath(
-    path,
+    pathWithLocale,
     ids,
     whole,
     query,
@@ -89,7 +79,7 @@ export default async function IdsFindResponse(
   )
   return (
     <IdsFindResponseView
-      langPrefix=""
+      langPrefix={langPrefix}
       linkMode="server"
       results={results}
       total={total}

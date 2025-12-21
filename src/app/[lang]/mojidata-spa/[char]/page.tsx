@@ -7,10 +7,14 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { char } = await params
+  const { char, lang } = await params
   return {
     alternates: {
-      canonical: `/mojidata/${char}`,
+      canonical: `/${lang}/mojidata/${char}`,
+      languages: {
+        'en-US': `/en-US/mojidata/${char}`,
+        'ja-JP': `/ja-JP/mojidata/${char}`,
+      },
     },
     robots: {
       index: false,

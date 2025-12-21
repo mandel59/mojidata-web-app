@@ -20,6 +20,7 @@ export default async function IdsFind({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
+  const langPrefix = `/${lang}`
   const { ids, whole, query, page, bot, disableExternalLinks } =
     resolvedSearchParams
   const idsArray = castToArray(ids)
@@ -29,7 +30,7 @@ export default async function IdsFind({
     return (
       <div>
         <nav className="container">
-          <IdsFinder lang={language} />
+          <IdsFinder lang={language} action={`${langPrefix}/idsfind`} />
         </nav>
       </div>
     )
@@ -38,7 +39,7 @@ export default async function IdsFind({
     <div className="container">
       <div className="grid">
         <nav>
-          <IdsFinder lang={language} />
+          <IdsFinder lang={language} action={`${langPrefix}/idsfind`} />
         </nav>
         <main>
           <Suspense
@@ -46,6 +47,7 @@ export default async function IdsFind({
             fallback={<LoadingArticle />}
           >
             <IdsFindResponse
+              langPrefix={langPrefix}
               ids={idsArray}
               whole={wholeArray}
               query={queryString}
@@ -61,20 +63,28 @@ export default async function IdsFind({
 }
 
 export async function generateMetadata(
-  { searchParams }: PageProps<'/[lang]/idsfind'>,
+  { params, searchParams }: PageProps<'/[lang]/idsfind'>,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
+  const { lang } = await params
   const resolvedSearchParams = await searchParams
   const { ids, whole, query, page } = resolvedSearchParams
-  const url = new URL('https://mojidata.ryusei.dev/idsfind')
-  castToArray(ids).forEach((ids) => url.searchParams.append('ids', ids))
-  castToArray(whole).forEach((whole) => url.searchParams.append('whole', whole))
-  const queryString = castToString(query)
-  if (queryString) url.searchParams.append('query', queryString)
-  if (page != null) url.searchParams.append('page', String(page))
+  function buildPath(locale: string) {
+    const url = new URL(`https://mojidata.ryusei.dev/${locale}/idsfind`)
+    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
+    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    const queryString = castToString(query)
+    if (queryString) url.searchParams.append('query', queryString)
+    if (page != null) url.searchParams.append('page', String(page))
+    return url.pathname + url.search
+  }
   return {
     alternates: {
-      canonical: url.pathname + url.search,
+      canonical: buildPath(lang),
+      languages: {
+        'en-US': buildPath('en-US'),
+        'ja-JP': buildPath('ja-JP'),
+      },
     },
   }
 }
