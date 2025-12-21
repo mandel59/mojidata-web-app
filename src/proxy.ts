@@ -79,13 +79,12 @@ function getSpaRewriteConfig() {
     }
   }
   g.__spaRewriteConfig ??= {
-    desktop: parseSpaRewriteTargets(process.env.SPA_REWRITE_DESKTOP, []),
+    desktop: parseSpaRewriteTargets(
+      process.env.SPA_REWRITE_DESKTOP,
+      SPA_REWRITE_TARGETS_ALL,
+    ),
     mobile: parseSpaRewriteTargets(process.env.SPA_REWRITE_MOBILE, []),
-    bot: parseSpaRewriteTargets(process.env.SPA_REWRITE_BOT, [
-      'search',
-      'idsfind',
-      'mojidata',
-    ]),
+    bot: parseSpaRewriteTargets(process.env.SPA_REWRITE_BOT, SPA_REWRITE_TARGETS_ALL),
   }
   return g.__spaRewriteConfig
 }
