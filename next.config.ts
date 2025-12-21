@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     '/**': [
       'node_modules/@mandel59/mojidata/dist/moji.db',
       'node_modules/@mandel59/idsdb/idsfind.db',
-      'node_modules/sql.js/dist/sql-wasm.wasm',
+      'node_modules/sql.js/**',
     ],
   },
   turbopack: {
