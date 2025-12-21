@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       'node_modules/sql.js/**',
       'src/server/mojidataApiWorker.cjs',
       'node_modules/@mandel59/mojidata-api/**',
+      'node_modules/@mandel59/idsdb-utils/**',
     ],
   },
   turbopack: {

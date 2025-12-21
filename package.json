@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@mandel59/idsdb": "^1.6.3",
@@ -31,5 +32,8 @@
     "resolve-accept-language": "^3.1.4",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.3.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1"
   }
 }
