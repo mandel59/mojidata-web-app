@@ -15,6 +15,9 @@
   jj commit -m $'Subject line\n\nGenerated-by: Codex (GPT-5.2, reasoning: high)'
   ```
 
+- When running shell commands, **quote file paths** that contain glob-like characters (e.g. `[]`, `*`, `?`) to avoid `zsh` expanding them.  
+  Example: `sed -n '1,20p' 'src/app/[lang]/search/page.tsx'`
+
 - Sandbox/approval note: in restricted environments, these typically require permission escalation:
   - `jj commit` (needs to write to `.git/objects` to create commit objects)
   - Integration tests that start local servers / bind ports (e.g. Vite) or launch browsers (e.g. Playwright)
