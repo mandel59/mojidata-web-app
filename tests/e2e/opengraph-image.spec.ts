@@ -17,14 +17,6 @@ function extractMeta(html: string, property: string) {
   return html.match(re)?.[1] ?? null
 }
 
-function extractMetaName(html: string, name: string) {
-  const re = new RegExp(
-    `<meta[^>]+name=["']${name}["'][^>]*content=["']([^"']+)["'][^>]*>`,
-    'i',
-  )
-  return html.match(re)?.[1] ?? null
-}
-
 function toLocalUrl(url: string, baseURL: string) {
   const localBase = new URL(baseURL)
   const u = new URL(url, baseURL)
@@ -69,7 +61,6 @@ test('disableExternalLinks bots do not advertise og:image', async ({ request }) 
   expect(pageRes.status()).toBe(200)
 
   const html = await pageRes.text()
-  expect(extractMetaName(html, 'robots')).toMatch(/noindex/i)
   expect(extractMeta(html, 'og:image')).toBeNull()
 })
 

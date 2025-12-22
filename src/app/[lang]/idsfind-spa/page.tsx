@@ -50,10 +50,6 @@ export async function generateMetadata({
         'ja-JP': buildLocalePath('ja-JP'),
       },
     },
-    robots: {
-      index: false,
-      follow: true,
-    },
   }
 }
 

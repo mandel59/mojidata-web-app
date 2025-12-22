@@ -34,10 +34,6 @@ export async function generateMetadata({
         'ja-JP': `/ja-JP/mojidata/${char}`,
       },
     },
-    robots: {
-      index: false,
-      follow: true,
-    },
     openGraph: {
       title,
       description,
