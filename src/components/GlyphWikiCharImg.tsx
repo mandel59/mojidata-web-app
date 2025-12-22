@@ -11,7 +11,7 @@ export interface GlyphWikiCharImgProps {
 export default function GlyphWikiCharImg(props: GlyphWikiCharImgProps) {
   const { char, size, alt } = props
   const name = toGlyphWikiName(char)
-  const src = `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`
+  const src = `/api/glyphwiki/svg/${encodeURIComponent(name)}`
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
