@@ -77,12 +77,14 @@ export async function generateMetadata(
       title,
       description,
       siteName,
+      images: [`/api/mojidata/${char}/opengraph-image`],
     },
     twitter: {
       card: 'summary_large_image',
       title: `U+${codePoint} ${ucs} - ${siteName}`,
       description,
       creator: '@mandel59',
+      images: [`/api/mojidata/${char}/opengraph-image`],
     },
   }
 }
