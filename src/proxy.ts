@@ -7,6 +7,17 @@ import { isLikelyBotUserAgent } from './bot'
 const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
 const BOT_DELAY_BEFORE_429_MS = 20_000
 
+const SPA_ASSET_CACHE_CONTROL =
+  process.env.NODE_ENV === 'production'
+    ? 'public, max-age=31536000, immutable'
+    : 'public, max-age=0, must-revalidate'
+
+const COMPRESSIBLE_SPA_ASSETS = new Set([
+  '/assets/sql-wasm.wasm',
+  '/assets/moji.db',
+  '/assets/idsfind.db',
+])
+
 type SpaRewriteTarget = 'search' | 'idsfind' | 'mojidata'
 
 const SPA_REWRITE_TARGETS_ALL: readonly SpaRewriteTarget[] = [
@@ -14,6 +25,13 @@ const SPA_REWRITE_TARGETS_ALL: readonly SpaRewriteTarget[] = [
   'idsfind',
   'mojidata',
 ]
+
+function pickAssetCompression(acceptEncoding: string | null) {
+  const v = (acceptEncoding ?? '').toLowerCase()
+  if (v.includes('br')) return 'br'
+  if (v.includes('gzip')) return 'gzip'
+  return undefined
+}
 
 function isFileLikePath(pathname: string) {
   const lastSegment = pathname.split('/').pop() ?? ''
@@ -109,6 +127,19 @@ function getSpaPathForTargets(
 export async function proxy(
   request: NextRequest,
 ): Promise<NextResponse | undefined> {
+  if (COMPRESSIBLE_SPA_ASSETS.has(request.nextUrl.pathname)) {
+    const encoding = pickAssetCompression(request.headers.get('accept-encoding'))
+    const ext = encoding === 'br' ? '.br' : encoding === 'gzip' ? '.gz' : undefined
+    if (encoding && ext) {
+      const assetUrl = new URL(request.url)
+      assetUrl.pathname = `${request.nextUrl.pathname}${ext}`
+      const res = NextResponse.redirect(assetUrl, 307)
+      res.headers.set('Vary', 'Accept-Encoding')
+      res.headers.set('Cache-Control', SPA_ASSET_CACHE_CONTROL)
+      return res
+    }
+  }
+
   const locale = getLocaleFromUrl(request.nextUrl)
   let url = request.nextUrl
   const url0 = String(url)

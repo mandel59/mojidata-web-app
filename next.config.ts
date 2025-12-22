@@ -5,6 +5,11 @@ const spaAssetCacheControl =
     ? 'public, max-age=31536000, immutable'
     : 'public, max-age=0, must-revalidate'
 
+const spaAssetHeadersCommon = [
+  { key: 'Cache-Control', value: spaAssetCacheControl },
+  { key: 'Vary', value: 'Accept-Encoding' },
+]
+
 const nextConfig: NextConfig = {
   transpilePackages: ['@mandel59/mojidata-api'],
   env: {
@@ -61,15 +66,72 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/assets/sql-wasm.wasm',
-        headers: [{ key: 'Cache-Control', value: spaAssetCacheControl }],
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/wasm' },
+        ],
+      },
+      {
+        source: '/assets/sql-wasm.wasm.br',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/wasm' },
+          { key: 'Content-Encoding', value: 'br' },
+        ],
+      },
+      {
+        source: '/assets/sql-wasm.wasm.gz',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/wasm' },
+          { key: 'Content-Encoding', value: 'gzip' },
+        ],
       },
       {
         source: '/assets/moji.db',
-        headers: [{ key: 'Cache-Control', value: spaAssetCacheControl }],
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+        ],
+      },
+      {
+        source: '/assets/moji.db.br',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+          { key: 'Content-Encoding', value: 'br' },
+        ],
+      },
+      {
+        source: '/assets/moji.db.gz',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+          { key: 'Content-Encoding', value: 'gzip' },
+        ],
       },
       {
         source: '/assets/idsfind.db',
-        headers: [{ key: 'Cache-Control', value: spaAssetCacheControl }],
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+        ],
+      },
+      {
+        source: '/assets/idsfind.db.br',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+          { key: 'Content-Encoding', value: 'br' },
+        ],
+      },
+      {
+        source: '/assets/idsfind.db.gz',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+          { key: 'Content-Encoding', value: 'gzip' },
+        ],
       },
     ]
   },
