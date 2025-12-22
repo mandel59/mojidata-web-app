@@ -1,5 +1,6 @@
 import { getRevalidateDuration } from '@/app/config'
 import { customFetch } from '@/customFetch'
+import { insertWhiteLayerToGlyphWikiSvg } from '@/glyphwiki/insertWhiteLayerToGlyphWikiSvg'
 import { NextResponse } from 'next/server'
 import { createHash } from 'node:crypto'
 
@@ -46,7 +47,7 @@ export async function GET(
     })
   }
 
-  const svg = await upstream.text()
+  const svg = insertWhiteLayerToGlyphWikiSvg(await upstream.text())
   const etag = `W/\"${createHash('sha256').update(svg).digest('base64url')}\"`
   const ifNoneMatch = request.headers.get('if-none-match')
 
