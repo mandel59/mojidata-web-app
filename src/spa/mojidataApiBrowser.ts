@@ -3,23 +3,9 @@
 import { createApp } from '@mandel59/mojidata-api/app'
 import { createMojidataApiWorkerClient } from '@mandel59/mojidata-api/browser-client'
 import type { MojidataResults } from '@/mojidata/mojidataShared'
+import { mojidataApiAssets } from './mojidataApiAssets'
 
 type MojidataApiApp = ReturnType<typeof createApp>
-
-const SPA_ASSET_VERSION = process.env.NEXT_PUBLIC_SPA_ASSET_VERSION
-
-function withAssetVersion(url: string) {
-  if (!SPA_ASSET_VERSION) return url
-  const u = new URL(url, 'http://mojidata.local')
-  u.searchParams.set('v', SPA_ASSET_VERSION)
-  return u.pathname + u.search
-}
-
-const defaultAssets = {
-  sqlWasmUrl: withAssetVersion('/assets/sql-wasm.wasm'),
-  mojidataDbUrl: withAssetVersion('/assets/moji.db'),
-  idsfindDbUrl: withAssetVersion('/assets/idsfind.db'),
-}
 
 let apiPromise:
   | Promise<{
@@ -34,7 +20,7 @@ export async function getMojidataApiBrowser() {
       new URL('./mojidataApiBrowserWorker.ts', import.meta.url),
       { type: 'module' },
     )
-    const db = createMojidataApiWorkerClient(worker, defaultAssets)
+    const db = createMojidataApiWorkerClient(worker, mojidataApiAssets)
     await db.ready
     const app = createApp(db)
     return { app, terminate: () => db.terminate() }

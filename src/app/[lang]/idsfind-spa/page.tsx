@@ -4,6 +4,7 @@ import { getLanguage } from '@/getText'
 import IdsFinder from '@/components/IdsFinder'
 import LoadingArticle from '@/components/LoadingArticle'
 import IdsFindSpaClient from './idsfindSpaClient'
+import SpaAssetsPrefetcher from '@/spa/SpaAssetsPrefetcher'
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -68,6 +69,7 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
   if (idsArray.length === 0 && wholeArray.length === 0 && !queryString) {
     return (
       <div>
+        <SpaAssetsPrefetcher kind="idsfind" />
         <nav className="container">
           <IdsFinder lang={language} action="/idsfind-spa" />
         </nav>
@@ -77,6 +79,7 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
 
   return (
     <div className="container">
+      <SpaAssetsPrefetcher kind="idsfind" />
       <div className="grid">
         <nav>
           <IdsFinder lang={language} action="/idsfind-spa" />

@@ -4,6 +4,16 @@ test('search-spa renders results in browser', async ({ page }) => {
   page.on('pageerror', (err) => console.log('[pageerror]', err))
   page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))
 
+  const sawWasm = page.waitForRequest((req) =>
+    req.url().includes('/assets/sql-wasm.wasm'),
+  )
+  const sawIdsDb = page.waitForRequest((req) =>
+    req.url().includes('/assets/idsfind.db'),
+  )
+  await page.goto('/ja-JP/search-spa', { waitUntil: 'domcontentloaded' })
+  await sawWasm
+  await sawIdsDb
+
   await page.goto('/ja-JP/search-spa?query=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
   })
@@ -56,6 +66,16 @@ test('mojidata-spa renders character data in browser', async ({ page }) => {
 test('idsfind-spa renders results in browser', async ({ page }) => {
   page.on('pageerror', (err) => console.log('[pageerror]', err))
   page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))
+
+  const sawWasm = page.waitForRequest((req) =>
+    req.url().includes('/assets/sql-wasm.wasm'),
+  )
+  const sawIdsDb = page.waitForRequest((req) =>
+    req.url().includes('/assets/idsfind.db'),
+  )
+  await page.goto('/ja-JP/idsfind-spa', { waitUntil: 'domcontentloaded' })
+  await sawWasm
+  await sawIdsDb
 
   await page.goto('/ja-JP/idsfind-spa?whole=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',

@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import { Suspense } from 'react'
 import SearchSpaClient from './searchSpaClient'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
+import SpaAssetsPrefetcher from '@/spa/SpaAssetsPrefetcher'
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -59,6 +60,7 @@ export default async function SearchSpa({ params, searchParams }: Props) {
   if (!query) {
     return (
       <div>
+        <SpaAssetsPrefetcher kind="idsfind" />
         <nav className="container">
           <MojidataSearchForm lang={language} action="/search-spa" />
         </nav>
@@ -68,6 +70,7 @@ export default async function SearchSpa({ params, searchParams }: Props) {
 
   return (
     <div className="container">
+      <SpaAssetsPrefetcher kind="idsfind" />
       <div className="grid">
         <nav>
           <MojidataSearchForm lang={language} action="/search-spa" />
