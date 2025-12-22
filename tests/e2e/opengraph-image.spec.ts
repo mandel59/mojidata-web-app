@@ -3,12 +3,23 @@ import { expect, test } from '@playwright/test'
 const BOT_UA =
   'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
 
+const LIKELY_BOT_UA =
+  'Mozilla/5.0 (compatible; ExampleCrawler/1.0; +https://example.com/crawler)'
+
 const MOBILE_UA =
   'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
 
 function extractMeta(html: string, property: string) {
   const re = new RegExp(
     `<meta[^>]+property=["']${property}["'][^>]*content=["']([^"']+)["'][^>]*>`,
+    'i',
+  )
+  return html.match(re)?.[1] ?? null
+}
+
+function extractMetaName(html: string, name: string) {
+  const re = new RegExp(
+    `<meta[^>]+name=["']${name}["'][^>]*content=["']([^"']+)["'][^>]*>`,
     'i',
   )
   return html.match(re)?.[1] ?? null
@@ -47,6 +58,19 @@ test('bot sees og:image on mojidata page and can fetch it', async ({ request, ba
 
   const body = await imgRes.body()
   expect(body.byteLength).toBeGreaterThan(1000)
+})
+
+test('disableExternalLinks bots do not advertise og:image', async ({ request }) => {
+  const pageRes = await request.get('/ja-JP/mojidata/%E6%BC%A2', {
+    headers: {
+      'User-Agent': LIKELY_BOT_UA,
+    },
+  })
+  expect(pageRes.status()).toBe(200)
+
+  const html = await pageRes.text()
+  expect(extractMetaName(html, 'robots')).toMatch(/noindex/i)
+  expect(extractMeta(html, 'og:image')).toBeNull()
 })
 
 test('server mojidata page advertises shared og:image and it is fetchable', async ({

@@ -4,10 +4,19 @@ import { Metadata } from 'next'
 
 type Props = {
   params: Promise<{ char: string; lang: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
   const { char, lang } = await params
+  const resolvedSearchParams = await searchParams
+  const disableExternalLinks =
+    resolvedSearchParams.disableExternalLinks === '1' ||
+    (Array.isArray(resolvedSearchParams.disableExternalLinks) &&
+      resolvedSearchParams.disableExternalLinks.includes('1'))
   const ucs = String.fromCodePoint(
     decodeURIComponent(char).codePointAt(0) ?? 0x20,
   )
@@ -33,14 +42,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       siteName,
-      images: [`/api/mojidata/${char}/opengraph-image`],
+      ...(disableExternalLinks
+        ? {}
+        : { images: [`/api/mojidata/${char}/opengraph-image`] }),
     },
     twitter: {
       card: 'summary_large_image',
       title: `U+${codePoint} ${ucs} - ${siteName}`,
       description,
       creator: '@mandel59',
-      images: [`/api/mojidata/${char}/opengraph-image`],
+      ...(disableExternalLinks
+        ? {}
+        : { images: [`/api/mojidata/${char}/opengraph-image`] }),
     },
   }
 }

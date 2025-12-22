@@ -52,10 +52,15 @@ export default async function Mojidata({ params, searchParams }: Props) {
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  { params, searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { char } = await params
+  const resolvedSearchParams = await searchParams
+  const disableExternalLinks =
+    resolvedSearchParams?.disableExternalLinks === '1' ||
+    (Array.isArray(resolvedSearchParams?.disableExternalLinks) &&
+      resolvedSearchParams?.disableExternalLinks.includes('1'))
   const ucs = String.fromCodePoint(
     decodeURIComponent(char).codePointAt(0) ?? 0x20,
   )
@@ -77,14 +82,18 @@ export async function generateMetadata(
       title,
       description,
       siteName,
-      images: [`/api/mojidata/${char}/opengraph-image`],
+      ...(disableExternalLinks
+        ? {}
+        : { images: [`/api/mojidata/${char}/opengraph-image`] }),
     },
     twitter: {
       card: 'summary_large_image',
       title: `U+${codePoint} ${ucs} - ${siteName}`,
       description,
       creator: '@mandel59',
-      images: [`/api/mojidata/${char}/opengraph-image`],
+      ...(disableExternalLinks
+        ? {}
+        : { images: [`/api/mojidata/${char}/opengraph-image`] }),
     },
   }
 }
