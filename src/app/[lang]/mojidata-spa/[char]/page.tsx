@@ -7,8 +7,17 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { char } = await params
+  const { char, lang } = await params
+  const ucs = String.fromCodePoint(
+    decodeURIComponent(char).codePointAt(0) ?? 0x20,
+  )
+  const codePoint =
+    ucs.codePointAt(0)?.toString(16).toUpperCase().padStart(4, '0') ?? 0x20
+  const siteName = 'Mojidata Web App'
+  const title = `U+${codePoint} ${ucs}`
+  const description = `Character data for U+${codePoint} ${ucs}`
   return {
+    title,
     alternates: {
       canonical: `/mojidata/${char}`,
       languages: {
@@ -19,6 +28,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     robots: {
       index: false,
       follow: true,
+    },
+    openGraph: {
+      title,
+      description,
+      siteName,
+      images: [`/${lang}/mojidata/${char}/opengraph-image`],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `U+${codePoint} ${ucs} - ${siteName}`,
+      description,
+      creator: '@mandel59',
+      images: [`/${lang}/mojidata/${char}/opengraph-image`],
     },
   }
 }
