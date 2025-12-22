@@ -25,6 +25,12 @@
   Tip: use `--` before path arguments when supported (e.g. `rg -- 'src/app/[lang]/...'`).  
   Example: `sed -n '1,20p' 'src/app/[lang]/search/page.tsx'`
 
+- Many `jj` commands accept positional **fileset** expressions (not raw paths). The default `"path"` pattern is `prefix-glob:"path"` (cwd-relative path prefix + glob syntax).  
+  For literal paths containing glob characters like `[]` (e.g. `src/app/[lang]/...`, `...[char]...`), prefer the `cwd:`/`cwd-file:` patterns:
+  - `cwd:"path"`: matches cwd-relative path prefix (directory recursively)
+  - `file:"path"` or `cwd-file:"path"`: matches cwd-relative exact file path
+  Example: `jj diff 'cwd-file:"src/app/[lang]/mojidata/[char]/page.tsx"'`
+
 - Sandbox/approval note: in restricted environments, these typically require permission escalation:
   - `jj commit` (needs to write to `.git/objects` to create commit objects)
   - Integration tests that start local servers / bind ports (e.g. Vite) or launch browsers (e.g. Playwright)
