@@ -160,6 +160,13 @@ export async function proxy(
   }
   const locale2 = getLocaleFromUrl(url)
   const pathname = stripLocale(url.pathname, locale2)
+
+  const ogImageMatch = pathname.match(/^\/mojidata\/([^/]+)\/opengraph-image$/)
+  if (ogImageMatch) {
+    url.pathname = `/api/mojidata/${ogImageMatch[1]}/opengraph-image`
+    return NextResponse.rewrite(url)
+  }
+
   if (pathname.startsWith('/mojidata/')) {
     // redirect /mojidata/U+6F22 to /mojidata/漢
     const m = pathname.match(/^\/mojidata\/[uU](?:\+|%2B)?([0-9a-fA-F]{4,6})$/)

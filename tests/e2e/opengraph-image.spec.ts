@@ -90,3 +90,17 @@ test('bot can fetch mojidata opengraph-image', async ({ request }) => {
   const body = await res.body()
   expect(body.byteLength).toBeGreaterThan(1000)
 })
+
+test('legacy /[lang]/mojidata/[char]/opengraph-image is served via API', async ({
+  request,
+}) => {
+  const res = await request.get('/ja-JP/mojidata/%E6%BC%A2/opengraph-image', {
+    headers: {
+      'User-Agent': BOT_UA,
+    },
+  })
+
+  expect(res.status()).toBe(200)
+  expect(res.headers()['content-type']).toMatch(/^image\/png\b/)
+  expect((await res.body()).byteLength).toBeGreaterThan(1000)
+})
