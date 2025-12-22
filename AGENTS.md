@@ -15,7 +15,14 @@
   jj commit -m $'Subject line\n\nGenerated-by: Codex (GPT-5.2, reasoning: high)'
   ```
 
-- When running shell commands, **quote file paths** that contain glob-like characters (e.g. `[]`, `*`, `?`) to avoid `zsh` expanding them.  
+- When running shell commands, **quote file paths** (prefer single quotes) to avoid `zsh` interpreting special characters and expansions.  
+  In particular, quote paths containing whitespace or any of these characters/features:
+  - Globs: `*`, `?`, `[]`, `()`, `^`, `#`, `~` (zsh glob operators / qualifiers)
+  - Brace expansion: `{}`, e.g. `{a,b}`
+  - Tilde expansion: `~` (especially at the start of a path)
+  - Parameter/command/history expansion: `$...`, `$(...)`, `` `...` ``, `!`
+  - Redirection / control operators: `<`, `>`, `|`, `&`, `;`
+  Tip: use `--` before path arguments when supported (e.g. `rg -- 'src/app/[lang]/...'`).  
   Example: `sed -n '1,20p' 'src/app/[lang]/search/page.tsx'`
 
 - Sandbox/approval note: in restricted environments, these typically require permission escalation:
