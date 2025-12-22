@@ -32,7 +32,7 @@ test('bot sees og:image on mojidata page and can fetch it', async ({ request, ba
   const html = await pageRes.text()
   const ogImage = extractMeta(html, 'og:image')
   expect(ogImage).toBeTruthy()
-  expect(ogImage).toMatch(/\/ja-JP\/mojidata\/%E6%BC%A2\/opengraph-image\b/)
+  expect(ogImage).toMatch(/\/api\/mojidata\/%E6%BC%A2\/opengraph-image\b/)
 
   const imgRes = await request.get(toLocalUrl(ogImage!, baseURL!), {
     headers: {
@@ -47,7 +47,7 @@ test('bot sees og:image on mojidata page and can fetch it', async ({ request, ba
 })
 
 test('bot can fetch mojidata opengraph-image', async ({ request }) => {
-  const res = await request.get('/ja-JP/mojidata/%E6%BC%A2/opengraph-image', {
+  const res = await request.get('/api/mojidata/%E6%BC%A2/opengraph-image', {
     headers: {
       'User-Agent': BOT_UA,
     },
