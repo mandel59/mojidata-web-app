@@ -2,7 +2,7 @@ import { NextResponse, userAgent } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { resolveAcceptLanguage } from 'resolve-accept-language'
 import { botDelayWithInfo } from './botDelay'
-import { isLikelyBotUserAgent } from './bot'
+import { botFamily, isLikelyBotUserAgent } from './bot'
 
 const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
 const BOT_DELAY_BEFORE_429_MS = 20_000
@@ -194,11 +194,13 @@ export async function proxy(
   }
   const { isBot, ua } = userAgent(request)
   const isLikelyBot = isLikelyBotUserAgent(ua)
+  const family = botFamily(ua)
+  const isMajorIndexingBot = family === 'googlebot' || family === 'bingbot'
   const pathname2 = stripLocale(url.pathname, getLocaleFromUrl(url))
 
   const uaKind: 'bot' | 'mobile' | 'desktop' =
     isBot || isLikelyBot ? 'bot' : isMobileUserAgent(ua) ? 'mobile' : 'desktop'
-  const spaTargets = getSpaRewriteConfig()[uaKind]
+  const spaTargets = isMajorIndexingBot ? new Set<SpaRewriteTarget>() : getSpaRewriteConfig()[uaKind]
   const spaPath = getSpaPathForTargets(pathname2, spaTargets)
   if (spaPath) {
     const lang = getLocaleFromUrl(url)
@@ -209,6 +211,7 @@ export async function proxy(
 
   if (
     (isBot || isLikelyBot) &&
+    !isMajorIndexingBot &&
     !url.pathname.startsWith('/_next/') &&
     !url.pathname.startsWith('/assets/') &&
     !url.pathname.startsWith('/api/') &&
