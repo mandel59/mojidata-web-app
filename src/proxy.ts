@@ -26,8 +26,29 @@ const SPA_REWRITE_TARGETS_ALL: readonly SpaRewriteTarget[] = [
   'mojidata',
 ]
 
-function pickAssetCompression(acceptEncoding: string | null) {
+function isWebKitSafariUserAgent(ua: string) {
+  const s = ua.toLowerCase()
+  return (
+    s.includes('applewebkit') &&
+    s.includes('safari') &&
+    !s.includes('chrome') &&
+    !s.includes('chromium') &&
+    !s.includes('crios') &&
+    !s.includes('fxios') &&
+    !s.includes('edgios')
+  )
+}
+
+function pickAssetCompressionForUserAgent(
+  acceptEncoding: string | null,
+  ua: string,
+) {
   const v = (acceptEncoding ?? '').toLowerCase()
+  if (isWebKitSafariUserAgent(ua)) {
+    if (v.includes('gzip')) return 'gzip'
+    if (v.includes('br')) return 'br'
+    return undefined
+  }
   if (v.includes('br')) return 'br'
   if (v.includes('gzip')) return 'gzip'
   return undefined
@@ -127,8 +148,22 @@ function getSpaPathForTargets(
 export async function proxy(
   request: NextRequest,
 ): Promise<NextResponse | undefined> {
+  const { isBot, ua } = userAgent(request)
   if (COMPRESSIBLE_SPA_ASSETS.has(request.nextUrl.pathname)) {
-    const encoding = pickAssetCompression(request.headers.get('accept-encoding'))
+    if (
+      isWebKitSafariUserAgent(ua) &&
+      (request.nextUrl.pathname === '/assets/moji.db' ||
+        request.nextUrl.pathname === '/assets/idsfind.db')
+    ) {
+      // WebKit/Safari does not reliably decode Content-Encoding for large
+      // application/octet-stream fetches, which breaks sql.js DB loading.
+      // Serve the uncompressed DB for these user agents.
+      return
+    }
+    const encoding = pickAssetCompressionForUserAgent(
+      request.headers.get('accept-encoding'),
+      ua,
+    )
     const ext = encoding === 'br' ? '.br' : encoding === 'gzip' ? '.gz' : undefined
     if (encoding && ext) {
       const assetUrl = new URL(request.url)
@@ -192,7 +227,6 @@ export async function proxy(
       }
     }
   }
-  const { isBot, ua } = userAgent(request)
   const isLikelyBot = isLikelyBotUserAgent(ua)
   const family = botFamily(ua)
   const isMajorIndexingBot = family === 'googlebot' || family === 'bingbot'

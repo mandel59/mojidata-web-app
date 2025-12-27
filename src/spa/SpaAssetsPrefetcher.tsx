@@ -25,4 +25,3 @@ export default function SpaAssetsPrefetcher(props: { kind: AssetKind }) {
   }, [kind])
   return null
 }
-
