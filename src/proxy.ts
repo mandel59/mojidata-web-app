@@ -229,7 +229,10 @@ export async function proxy(
   }
   const isLikelyBot = isLikelyBotUserAgent(ua)
   const family = botFamily(ua)
-  const isMajorIndexingBot = family === 'googlebot' || family === 'bingbot'
+  const isMajorIndexingBot =
+    family === 'googlebot' ||
+    family === 'google-inspectiontool' ||
+    family === 'bingbot'
   const pathname2 = stripLocale(url.pathname, getLocaleFromUrl(url))
 
   const uaKind: 'bot' | 'mobile' | 'desktop' =

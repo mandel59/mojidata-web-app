@@ -11,6 +11,7 @@ const botNames = [
   'dotbot',
   'duckduckbot',
   'googlebot',
+  'google-inspectiontool',
   'gptbot',
   'mj12bot',
   'oai-searchbot',
