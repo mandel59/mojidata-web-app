@@ -134,14 +134,7 @@ export default function IdsFindSpaClient() {
   if (loading && !hasAnyResult) return <LoadingArticle />
 
   return (
-    <div className="relative" aria-busy={loading}>
-      {loading && hasAnyResult && (
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-start justify-end p-2">
-          <span className="rounded bg-background/90 px-2 py-1 text-xs text-muted-foreground shadow">
-            Updating…
-          </span>
-        </div>
-      )}
+    <div aria-busy={loading}>
       <IdsFindResponseView
         linkMode="server"
         results={results}
