@@ -254,8 +254,8 @@
 }
 
 .mojidata-variants-comparison > figure > figcaption {
-  height: 9.25rem;
-  overflow: auto;
+  min-height: 7.5rem;
+  overflow: visible;
   margin-bottom: 0.45rem;
   padding-bottom: 0.45rem;
 }
