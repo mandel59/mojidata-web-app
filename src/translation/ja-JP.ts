@@ -72,7 +72,7 @@ export const translationJaJp: Translation = {
   'summary.rs-index.dt': '部首・画数',
   'summary.total-strokes.dt': '総画数',
   'summary.japanese.dt': '日本語',
-  'summary.mandarin.dt': '北京語',
+  'summary.mandarin.dt': '標準中国語',
   'summary.cantonese.dt': '広東語',
   'summary.korean.dt': '韓国語',
   'summary.vietnamese.dt': 'ベトナム語',
