@@ -8,7 +8,7 @@ export default async function AboutPage({
   const language = getLanguage(lang)
   return (
     <main className="container">
-      <article>
+      <article className="docs-article rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm">
         <About lang={language} />
       </article>
     </main>
