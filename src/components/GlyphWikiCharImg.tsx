@@ -18,8 +18,8 @@ export default function GlyphWikiCharImg(props: GlyphWikiCharImgProps) {
       src={src}
       width={size}
       height={size}
-      loading="eager"
-      decoding="sync"
+      loading="lazy"
+      decoding="async"
       alt={alt ?? char}
     />
   )
