@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import '@picocss/pico/css/pico.min.css'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import { canonicalUrlBase, description, siteName } from '@/settings'
