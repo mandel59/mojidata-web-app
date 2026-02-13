@@ -3,6 +3,7 @@ import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
 import { getLanguage, getText } from '@/getText'
 import { castToString } from '../searchParams'
+import MobileFormDrawer from '@/components/MobileFormDrawer'
 
 export default async function Search({
   params,
@@ -23,14 +24,12 @@ export default async function Search({
   return (
     <div className="space-y-4">
       <section className="md:hidden">
-        <details className="rounded-md border border-border bg-card px-3 py-2">
-          <summary className="cursor-pointer text-sm font-medium">
-            {getText('mojidata-search.nav', language)}
-          </summary>
-          <div className="pt-2">
-            <MojidataSearchForm lang={language} action="/search" />
-          </div>
-        </details>
+        <MobileFormDrawer
+          buttonLabel={getText('mojidata-search.nav', language)}
+          title={getText('mojidata-search.nav', language)}
+        >
+          <MojidataSearchForm lang={language} action="/search" />
+        </MobileFormDrawer>
       </section>
       <section className="hidden md:block">
         <MojidataSearchForm lang={language} action="/search" />

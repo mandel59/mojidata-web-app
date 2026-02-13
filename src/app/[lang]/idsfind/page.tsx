@@ -3,6 +3,7 @@ import IdsFinder from '@/components/IdsFinder'
 import { getLanguage, getText } from '@/getText'
 import IdsFindSpaClient from '../idsfind-spa/idsfindSpaClient'
 import { appendArraySearchParams, castToArray, castToString } from '../searchParams'
+import MobileFormDrawer from '@/components/MobileFormDrawer'
 
 export default async function IdsFind({
   params,
@@ -25,14 +26,12 @@ export default async function IdsFind({
   return (
     <div className="space-y-4">
       <section className="md:hidden">
-        <details className="rounded-md border border-border bg-card px-3 py-2">
-          <summary className="cursor-pointer text-sm font-medium">
-            {getText('ids-finder.nav', language)}
-          </summary>
-          <div className="pt-2">
-            <IdsFinder lang={language} action="/idsfind" />
-          </div>
-        </details>
+        <MobileFormDrawer
+          buttonLabel={getText('ids-finder.nav', language)}
+          title={getText('ids-finder.nav', language)}
+        >
+          <IdsFinder lang={language} action="/idsfind" />
+        </MobileFormDrawer>
       </section>
       <section className="hidden md:block">
         <IdsFinder lang={language} action="/idsfind" />
