@@ -10,17 +10,26 @@ export interface MobileFormDrawerProps {
   children: ReactNode
 }
 
-export default function MobileFormDrawer({ buttonLabel, title, children }: MobileFormDrawerProps) {
+export default function MobileFormDrawer({
+  buttonLabel,
+  title,
+  children,
+}: MobileFormDrawerProps) {
   const [open, setOpen] = useState(false)
 
   return (
-    <>
-      <Button type="button" variant="outline" size="sm" onClick={() => setOpen(true)}>
+    <div className="rounded-md border border-border bg-card p-2">
+      <Button
+        type="button"
+        size="sm"
+        className="w-full justify-center"
+        onClick={() => setOpen(true)}
+      >
         {buttonLabel}
       </Button>
       <Drawer open={open} title={title} onClose={() => setOpen(false)}>
         {children}
       </Drawer>
-    </>
+    </div>
   )
 }
