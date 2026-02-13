@@ -24,7 +24,7 @@ export function Pager(props: PagerProps) {
   }
 
   return (
-    <div className="flex flex-row items-center justify-center gap-3 sm:gap-4" aria-busy={isPending}>
+    <div className="relative flex flex-row items-center justify-center gap-3 sm:gap-4" aria-busy={isPending}>
       <div className="w-20 text-center">
         {prev ? (
           <button
@@ -40,7 +40,7 @@ export function Pager(props: PagerProps) {
         )}
       </div>
       <div className="w-40 text-center text-sm font-medium text-muted-foreground">
-        {isPending ? 'Loading next page…' : `page ${pageNum} of ${totalPages || 1}`}
+        page {pageNum} of {totalPages || 1}
       </div>
       <div className="w-20 text-center">
         {next ? (
@@ -56,6 +56,11 @@ export function Pager(props: PagerProps) {
           <span className="inline-block w-full text-muted-foreground">&nbsp;</span>
         )}
       </div>
+      {isPending && (
+        <span className="pointer-events-none absolute -top-5 right-0 text-xs text-muted-foreground">
+          Updating…
+        </span>
+      )}
     </div>
   )
 }
