@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type APIRequestContext, type APIResponse } from '@playwright/test'
 
 const BOT_UA =
   'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
@@ -23,6 +23,20 @@ function toLocalUrl(url: string, baseURL: string) {
   u.protocol = localBase.protocol
   u.host = localBase.host
   return u.toString()
+}
+
+async function getWith429Retry(
+  request: APIRequestContext,
+  url: string,
+  headers?: Record<string, string>,
+): Promise<APIResponse> {
+  let res = await request.get(url, { headers })
+  if (res.status() !== 429) return res
+
+  const retryAfter = Number(res.headers()['retry-after'] ?? '1')
+  await new Promise((resolve) => setTimeout(resolve, Math.max(1, retryAfter) * 1000))
+  res = await request.get(url, { headers })
+  return res
 }
 
 test('bot sees og:image on mojidata page and can fetch it', async ({ request, baseURL }) => {
@@ -53,10 +67,8 @@ test('bot sees og:image on mojidata page and can fetch it', async ({ request, ba
 })
 
 test('disableExternalLinks bots do not advertise og:image', async ({ request }) => {
-  const pageRes = await request.get('/ja-JP/mojidata/%E6%BC%A2', {
-    headers: {
-      'User-Agent': LIKELY_BOT_UA,
-    },
+  const pageRes = await getWith429Retry(request, '/ja-JP/mojidata/%E6%BC%A2', {
+    'User-Agent': LIKELY_BOT_UA,
   })
   expect(pageRes.status()).toBe(200)
 
