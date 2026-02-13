@@ -244,13 +244,25 @@ export default function MojidataResponseView(
   const unihanAny = results.unihan as Record<string, string | undefined>
   const readings = [
     {
-      label: 'Japanese',
+      label: getText('summary.japanese.dt', lang),
       value: compactReading(unihanAny.kJapanese),
     },
-    { label: 'Mandarin', value: compactReading(results.unihan.kMandarin) },
-    { label: 'Cantonese', value: compactReading(results.unihan.kCantonese) },
-    { label: 'Korean', value: compactReading(results.unihan.kKorean) },
-    { label: 'Vietnamese', value: compactReading(results.unihan.kVietnamese) },
+    {
+      label: getText('summary.mandarin.dt', lang),
+      value: compactReading(results.unihan.kMandarin),
+    },
+    {
+      label: getText('summary.cantonese.dt', lang),
+      value: compactReading(results.unihan.kCantonese),
+    },
+    {
+      label: getText('summary.korean.dt', lang),
+      value: compactReading(results.unihan.kKorean),
+    },
+    {
+      label: getText('summary.vietnamese.dt', lang),
+      value: compactReading(results.unihan.kVietnamese),
+    },
   ].filter((row) => row.value)
 
   return (
@@ -269,7 +281,9 @@ export default function MojidataResponseView(
                 window.setTimeout(() => setPermalinkCopied(false), 1400)
               }}
             >
-              {permalinkCopied ? 'Copied' : 'Copy permalink'}
+              {permalinkCopied
+                ? getText('summary.permalink.copied', lang)
+                : getText('summary.permalink.copy', lang)}
             </button>
           </div>
           <div className="mojidata-summary-grid">
@@ -279,26 +293,28 @@ export default function MojidataResponseView(
               </div>
               {isCompatibilityCharacter && (
                 <div className="mojidata-summary-badge-row">
-                  <span className="mojidata-badge">Compatibility</span>
+                  <span className="mojidata-badge">
+                    {getText('summary.compatibility.badge', lang)}
+                  </span>
                 </div>
               )}
             </div>
             <dl className="mojidata-summary-kv">
               <div className="mojidata-summary-row">
-                <dt>Unicode</dt>
+                <dt>{getText('summary.unicode.dt', lang)}</dt>
                 <dd>
                   {results.UCS} {results.char}
                 </dd>
               </div>
             {rsSummary && (
               <div className="mojidata-summary-row">
-                <dt>RS Index</dt>
+                <dt>{getText('summary.rs-index.dt', lang)}</dt>
                 <dd>{rsSummary}</dd>
               </div>
             )}
             {totalStrokes && (
               <div className="mojidata-summary-row">
-                <dt>Total Strokes</dt>
+                <dt>{getText('summary.total-strokes.dt', lang)}</dt>
                 <dd>{totalStrokes}</dd>
               </div>
             )}
@@ -338,7 +354,7 @@ export default function MojidataResponseView(
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         {isCompatibilityCharacter && (
           <>
-            <h3 id="Unified_Ideograph">Unified Ideograph</h3>
+            <h3 id="Unified_Ideograph">{getText('unified-ideograph.h3', lang)}</h3>
             <div className="mojidata-chars-comparison">
               <figure>
                 <figcaption>

@@ -65,5 +65,17 @@ export type TranslationKey =
   | 'ids-unary-operators.dt'
   | 'ids-binary-operators.dt'
   | 'ids-ternary-operators.dt'
+  | 'summary.unicode.dt'
+  | 'summary.rs-index.dt'
+  | 'summary.total-strokes.dt'
+  | 'summary.japanese.dt'
+  | 'summary.mandarin.dt'
+  | 'summary.cantonese.dt'
+  | 'summary.korean.dt'
+  | 'summary.vietnamese.dt'
+  | 'summary.compatibility.badge'
+  | 'summary.permalink.copy'
+  | 'summary.permalink.copied'
+  | 'unified-ideograph.h3'
 
 export type Translation = Record<TranslationKey, string>
