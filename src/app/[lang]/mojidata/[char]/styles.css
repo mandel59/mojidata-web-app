@@ -408,10 +408,8 @@
 
 @media (max-width: 767px) {
   .mojidata-summary-actions {
-    position: absolute;
-    top: 0.45rem;
-    right: 0.5rem;
-    margin: 0;
+    position: static;
+    margin-bottom: 0.35rem;
   }
 
   .mojidata-summary-copy-btn {
