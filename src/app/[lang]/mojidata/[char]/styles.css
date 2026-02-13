@@ -41,10 +41,9 @@
 }
 
 .mojidata-section-nav-mobile {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 0.15rem;
-  scrollbar-width: thin;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
 }
 
 .mojidata-section-nav a {
@@ -60,9 +59,23 @@
   background: #fff;
 }
 
+.mojidata-section-nav-mobile a {
+  white-space: normal;
+  text-align: center;
+  border-radius: 0.6rem;
+  padding: 0.4rem 0.55rem;
+  line-height: 1.25;
+}
+
 .mojidata-section-nav a:hover {
   color: hsl(var(--foreground));
   border-color: hsl(var(--primary));
+}
+
+@media (max-width: 420px) {
+  .mojidata-section-nav-mobile {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 1024px) {
