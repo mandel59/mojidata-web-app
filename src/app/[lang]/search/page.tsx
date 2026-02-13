@@ -1,9 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
+import IdsFindResponse from '../idsfind/IdsFindResponse'
 import { getLanguage, getText } from '@/getText'
 import { castToString } from '../searchParams'
 import MobileFormDrawer from '@/components/MobileFormDrawer'
-import SearchSpaClient from '../search-spa/searchSpaClient'
 
 export default async function Search({
   params,
@@ -12,6 +12,7 @@ export default async function Search({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
+  const { page, bot, disableExternalLinks } = resolvedSearchParams
   const query = castToString(resolvedSearchParams.query).trim()
   if (!query) {
     return (
@@ -34,7 +35,15 @@ export default async function Search({
         <MojidataSearchForm lang={language} action="/search" />
       </section>
       <section>
-        <SearchSpaClient lang={language} />
+        <IdsFindResponse
+          path="/search"
+          ids={[]}
+          whole={[]}
+          query={query}
+          page={page ? Number(page) : undefined}
+          bot={!!bot}
+          disableExternalLinks={!!disableExternalLinks}
+        />
       </section>
     </div>
   )
