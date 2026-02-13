@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import IdsFindResponse from './IdsFindResponse'
 import IdsFinder from '@/components/IdsFinder'
 import { getLanguage } from '@/getText'
+import IdsFindSpaClient from '../idsfind-spa/idsfindSpaClient'
 
 function castToArray<T>(x: undefined | T | T[]): T[] {
   return Array.isArray(x) ? x : x != null ? [x] : []
@@ -18,8 +18,7 @@ export default async function IdsFind({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { ids, whole, query, page, bot, disableExternalLinks } =
-    resolvedSearchParams
+  const { ids, whole, query } = resolvedSearchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
   const queryString = castToString(query)
@@ -36,14 +35,7 @@ export default async function IdsFind({
         <IdsFinder lang={language} action="/idsfind" />
       </section>
       <section>
-        <IdsFindResponse
-          ids={idsArray}
-          whole={wholeArray}
-          query={queryString}
-          page={page ? Number(page) : undefined}
-          bot={!!bot}
-          disableExternalLinks={!!disableExternalLinks}
-        />
+        <IdsFindSpaClient lang={language} />
       </section>
     </div>
   )

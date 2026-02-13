@@ -88,7 +88,6 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
   }, [ids, whole, query])
 
   if (ids.length === 0 && whole.length === 0 && !query) return null
-  if (loading) return <LoadingArticle />
   if (error) return <p style={{ color: 'red' }}>{error}</p>
 
   const prev =
@@ -114,21 +113,33 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
   const wholeSearch =
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0] ?? '')
 
+  const hasAnyResult = results.length > 0 || total > 0
+  if (loading && !hasAnyResult) return <LoadingArticle />
+
   return (
-    <IdsFindResponseView
-      linkMode="server"
-      results={results}
-      total={total}
-      offset={offset}
-      size={pageSize}
-      pageNum={currentPage}
-      totalPages={totalPages}
-      prev={prev}
-      next={next}
-      wholeSearch={wholeSearch}
-      whole={whole[0]}
-      bot={bot}
-      disableExternalLinks={disableExternalLinks}
-    />
+    <div className="relative" aria-busy={loading}>
+      {loading && hasAnyResult && (
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-start justify-end p-2">
+          <span className="rounded bg-background/90 px-2 py-1 text-xs text-muted-foreground shadow">
+            Updating…
+          </span>
+        </div>
+      )}
+      <IdsFindResponseView
+        linkMode="server"
+        results={results}
+        total={total}
+        offset={offset}
+        size={pageSize}
+        pageNum={currentPage}
+        totalPages={totalPages}
+        prev={prev}
+        next={next}
+        wholeSearch={wholeSearch}
+        whole={whole[0]}
+        bot={bot}
+        disableExternalLinks={disableExternalLinks}
+      />
+    </div>
   )
 }
