@@ -247,7 +247,10 @@ export default function MojidataResponseView(
           </div>
         </section>
 
-        <nav className="mojidata-section-nav" aria-label="Mojidata sections">
+        <nav
+          className="mojidata-section-nav mojidata-section-nav-mobile"
+          aria-label="Mojidata sections"
+        >
           <a href="#Character_Data">{getText('character-data.h2', lang)}</a>
           <a href="#Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</a>
           <a href="#Variants">{getText('variants-and-relevant-characters.h3', lang)}</a>
@@ -255,7 +258,19 @@ export default function MojidataResponseView(
           <a href="#JSON">{getText('json.h3', lang)}</a>
         </nav>
 
-        <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
+        <div className="mojidata-content-grid">
+          <aside className="mojidata-toc-sidebar" aria-label="Mojidata table of contents">
+            <nav className="mojidata-section-nav mojidata-section-nav-sidebar" aria-label="Mojidata sections">
+              <a href="#Character_Data">{getText('character-data.h2', lang)}</a>
+              <a href="#Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</a>
+              <a href="#Variants">{getText('variants-and-relevant-characters.h3', lang)}</a>
+              {!disableExternalLinks && <a href="#External_Links">{getText('external-links.h3', lang)}</a>}
+              <a href="#JSON">{getText('json.h3', lang)}</a>
+            </nav>
+          </aside>
+
+          <div className="mojidata-content-main">
+            <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         <figure>
           <figcaption>
             {results.UCS} {results.char}
@@ -762,8 +777,10 @@ export default function MojidataResponseView(
             </ul>
           </>
         )}
-        <h3 id="JSON">{getText('json.h3', lang)}</h3>
-        <pre>{JSON.stringify(results, null, 2)}</pre>
+            <h3 id="JSON">{getText('json.h3', lang)}</h3>
+            <pre>{JSON.stringify(results, null, 2)}</pre>
+          </div>
+        </div>
       </div>
     </article>
   )
