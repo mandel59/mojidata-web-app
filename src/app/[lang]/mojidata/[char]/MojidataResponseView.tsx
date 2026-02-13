@@ -227,8 +227,8 @@ export default function MojidataResponseView(
     rsUnicodeList && rsUnicodeList.length > 0
       ? rsUnicodeList
           .map((entry) => {
-            const [, inner, , rawRadical] = entry
-            return `${rawRadical}.${inner}`
+            const [, inner, radicalChar, rawRadical] = entry
+            return `${rawRadical}.${inner} (${radicalChar}部${inner}画)`
           })
           .join(' / ')
       : results.unihan.kRSUnicode
