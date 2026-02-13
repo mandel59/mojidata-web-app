@@ -1,7 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { Suspense } from 'react'
 import IdsFindResponse from './IdsFindResponse'
-import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
 import { getLanguage } from '@/getText'
 
@@ -38,19 +36,14 @@ export default async function IdsFind({
         <IdsFinder lang={language} action="/idsfind" />
       </section>
       <section>
-          <Suspense
-            key={JSON.stringify({ ids, whole, query })}
-            fallback={<LoadingArticle />}
-          >
-            <IdsFindResponse
-              ids={idsArray}
-              whole={wholeArray}
-              query={queryString}
-              page={page ? Number(page) : undefined}
-              bot={!!bot}
-              disableExternalLinks={!!disableExternalLinks}
-            />
-          </Suspense>
+        <IdsFindResponse
+          ids={idsArray}
+          whole={wholeArray}
+          query={queryString}
+          page={page ? Number(page) : undefined}
+          bot={!!bot}
+          disableExternalLinks={!!disableExternalLinks}
+        />
       </section>
     </div>
   )

@@ -1,6 +1,4 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { Suspense } from 'react'
-import LoadingArticle from '@/components/LoadingArticle'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
 import { getLanguage } from '@/getText'
@@ -32,20 +30,15 @@ export default async function Search({
         <MojidataSearchForm lang={language} action="/search" />
       </section>
       <section>
-          <Suspense
-            key={JSON.stringify({ query })}
-            fallback={<LoadingArticle />}
-          >
-            <IdsFindResponse
-              path="/search"
-              ids={[]}
-              whole={[]}
-              query={query}
-              page={page ? Number(page) : undefined}
-              bot={!!bot}
-              disableExternalLinks={!!disableExternalLinks}
-            />
-          </Suspense>
+        <IdsFindResponse
+          path="/search"
+          ids={[]}
+          whole={[]}
+          query={query}
+          page={page ? Number(page) : undefined}
+          bot={!!bot}
+          disableExternalLinks={!!disableExternalLinks}
+        />
       </section>
     </div>
   )
