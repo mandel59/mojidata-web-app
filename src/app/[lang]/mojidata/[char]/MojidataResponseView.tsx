@@ -333,9 +333,9 @@ export default function MojidataResponseView(
         <h2 id="Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</h2>
         {charIsHan && (
           <>
-            <h4 id="Regional_Differences">
+            <h3 id="Regional_Differences">
               {getText('regional-differences.h4', lang)}
-            </h4>
+            </h3>
             <div className="mojidata-chars-comparison">
               {langTags.map((lang) => (
                 <figure key={lang}>
@@ -355,7 +355,7 @@ export default function MojidataResponseView(
                 </figure>
               ))}
             </div>
-            <h4 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h4>
+            <h3 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h3>
             {ivsAj1.length > 0 && (
               <div className="mojidata-chars-comparison">
                 {ivsAj1.map((record) => {
@@ -439,7 +439,7 @@ export default function MojidataResponseView(
             )}
           </>
         )}
-        <h4 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h4>
+        <h3 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h3>
         {mji.length > 0 && (
           <div className="mojidata-chars-comparison">
             {mji.map((record) => (
