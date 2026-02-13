@@ -29,6 +29,40 @@
 
 .mojidata-content-main {
   min-width: 0;
+  line-height: 1.75;
+}
+
+.mojidata-content-main h2 {
+  margin-top: 0.2rem;
+  margin-bottom: 0.45rem;
+  font-size: 1.35rem;
+}
+
+.mojidata-content-main h3 {
+  margin-top: 1.15rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.1rem;
+}
+
+.mojidata-content-main h4 {
+  margin-top: 0.9rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.97rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.mojidata-content-main p,
+.mojidata-content-main li {
+  color: hsl(var(--foreground));
+}
+
+.mojidata-content-main a {
+  color: hsl(var(--primary));
+  text-underline-offset: 2px;
+}
+
+.mojidata-content-main a:hover {
+  text-decoration-thickness: 2px;
 }
 
 .mojidata-toc-sidebar {
@@ -126,6 +160,32 @@
   border: 1px solid hsl(var(--border));
   border-radius: 0.6rem;
   background: hsl(var(--muted));
+  padding: 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.mojidata-response table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  overflow: hidden;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+.mojidata-response th,
+.mojidata-response td {
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 0.45rem 0.6rem;
+  vertical-align: top;
+}
+
+.mojidata-response th {
+  text-align: left;
+  background: hsl(var(--muted));
+  font-weight: 600;
 }
 
 .mojidata-response ul,
