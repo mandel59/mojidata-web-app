@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import IdsFinder from '@/components/IdsFinder'
-import { getLanguage } from '@/getText'
+import { getLanguage, getText } from '@/getText'
 import IdsFindSpaClient from '../idsfind-spa/idsfindSpaClient'
 import { appendArraySearchParams, castToArray, castToString } from '../searchParams'
 
@@ -24,7 +24,17 @@ export default async function IdsFind({
   }
   return (
     <div className="space-y-4">
-      <section>
+      <section className="md:hidden">
+        <details className="rounded-md border border-border bg-card px-3 py-2">
+          <summary className="cursor-pointer text-sm font-medium">
+            {getText('ids-finder.nav', language)}
+          </summary>
+          <div className="pt-2">
+            <IdsFinder lang={language} action="/idsfind" />
+          </div>
+        </details>
+      </section>
+      <section className="hidden md:block">
         <IdsFinder lang={language} action="/idsfind" />
       </section>
       <section>

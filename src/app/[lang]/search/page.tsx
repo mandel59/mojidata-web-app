@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
-import { getLanguage } from '@/getText'
+import { getLanguage, getText } from '@/getText'
 import { castToString } from '../searchParams'
 
 export default async function Search({
@@ -22,7 +22,17 @@ export default async function Search({
   }
   return (
     <div className="space-y-4">
-      <section>
+      <section className="md:hidden">
+        <details className="rounded-md border border-border bg-card px-3 py-2">
+          <summary className="cursor-pointer text-sm font-medium">
+            {getText('mojidata-search.nav', language)}
+          </summary>
+          <div className="pt-2">
+            <MojidataSearchForm lang={language} action="/search" />
+          </div>
+        </details>
+      </section>
+      <section className="hidden md:block">
         <MojidataSearchForm lang={language} action="/search" />
       </section>
       <section>
