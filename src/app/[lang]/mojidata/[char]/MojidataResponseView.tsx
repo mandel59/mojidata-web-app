@@ -330,7 +330,7 @@ export default function MojidataResponseView(
             </table>
           </>
         )}
-        <h3 id="Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</h3>
+        <h2 id="Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</h2>
         {charIsHan && (
           <>
             <h4 id="Regional_Differences">
@@ -516,9 +516,9 @@ export default function MojidataResponseView(
             })}
           </div>
         )}
-        <h3 id="Variants">
+        <h2 id="Variants">
           {getText('variants-and-relevant-characters.h3', lang)}
-        </h3>
+        </h2>
         {allVariantChars.length > 0 && (
           <div className="mojidata-chars-comparison mojidata-variants-comparison">
             {allVariantChars.map((char) => {
@@ -679,7 +679,7 @@ export default function MojidataResponseView(
         )}
         {!disableExternalLinks && (
           <>
-            <h3 id="External_Links">{getText('external-links.h3', lang)}</h3>
+            <h2 id="External_Links">{getText('external-links.h3', lang)}</h2>
             <ul>
               <li>
                 <a
@@ -760,7 +760,7 @@ export default function MojidataResponseView(
             </ul>
           </>
         )}
-            <h3 id="JSON">{getText('json.h3', lang)}</h3>
+            <h2 id="JSON">{getText('json.h3', lang)}</h2>
             <pre>{JSON.stringify(results, null, 2)}</pre>
           </div>
         </div>
