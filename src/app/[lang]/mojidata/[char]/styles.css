@@ -4,15 +4,24 @@
   gap: 0.75rem;
 }
 
+.mojidata-summary-wrap {
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.75rem 0.75rem;
+  background: hsl(var(--muted));
+}
+
+.mojidata-summary-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.35rem;
+}
+
 .mojidata-summary-grid {
   display: grid;
   grid-template-columns: 120px minmax(0, 1fr);
   gap: 0.8rem;
   align-items: center;
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.75rem;
-  padding: 0.75rem;
-  background: hsl(var(--muted));
 }
 
 .mojidata-summary-kv {

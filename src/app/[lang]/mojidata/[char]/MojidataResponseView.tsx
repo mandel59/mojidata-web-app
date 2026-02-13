@@ -256,37 +256,40 @@ export default function MojidataResponseView(
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
-        <section className="mojidata-summary-grid">
-          <div>
-            <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-              {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
-            </div>
-            {isCompatibilityCharacter && (
-              <div className="mojidata-summary-badge-row">
-                <span className="mojidata-badge">Compatibility</span>
-              </div>
-            )}
+        <section className="mojidata-summary-wrap">
+          <div className="mojidata-summary-actions">
+            <button
+              type="button"
+              className="mojidata-summary-copy-btn"
+              onClick={async () => {
+                if (typeof window === 'undefined') return
+                const url = `${window.location.origin}${window.location.pathname}`
+                await navigator.clipboard.writeText(url)
+                setPermalinkCopied(true)
+                window.setTimeout(() => setPermalinkCopied(false), 1400)
+              }}
+            >
+              {permalinkCopied ? 'Copied' : 'Copy permalink'}
+            </button>
           </div>
-          <dl className="mojidata-summary-kv">
-            <div className="mojidata-summary-row">
-              <dt>Unicode</dt>
-              <dd>
-                {results.UCS} {results.char}
-                <button
-                  type="button"
-                  className="mojidata-summary-copy-btn"
-                  onClick={async () => {
-                    if (typeof window === 'undefined') return
-                    const url = `${window.location.origin}${window.location.pathname}`
-                    await navigator.clipboard.writeText(url)
-                    setPermalinkCopied(true)
-                    window.setTimeout(() => setPermalinkCopied(false), 1400)
-                  }}
-                >
-                  {permalinkCopied ? 'Copied' : 'Copy permalink'}
-                </button>
-              </dd>
+          <div className="mojidata-summary-grid">
+            <div>
+              <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
+                {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
+              </div>
+              {isCompatibilityCharacter && (
+                <div className="mojidata-summary-badge-row">
+                  <span className="mojidata-badge">Compatibility</span>
+                </div>
+              )}
             </div>
+            <dl className="mojidata-summary-kv">
+              <div className="mojidata-summary-row">
+                <dt>Unicode</dt>
+                <dd>
+                  {results.UCS} {results.char}
+                </dd>
+              </div>
             {rsSummary && (
               <div className="mojidata-summary-row">
                 <dt>RS Index</dt>
@@ -306,6 +309,7 @@ export default function MojidataResponseView(
               </div>
             ))}
           </dl>
+          </div>
         </section>
 
         <nav
