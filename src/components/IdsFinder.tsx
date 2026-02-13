@@ -43,8 +43,8 @@ export default function IdsFinder(props: IdsFinderProps) {
                 <Button type="button" size="sm" onClick={() => setIds(['⿰日月'])}>
                   IDS: ⿰日月
                 </Button>
-                <Button type="button" size="sm" onClick={() => setWhole('＠⿰？月')}>
-                  Whole: ＠⿰？月
+                <Button type="button" size="sm" onClick={() => setWhole('⿰？月')}>
+                  Whole: ⿰？月
                 </Button>
                 <Button type="button" size="sm" onClick={() => setQuery('：日')}>
                   Query: ：日
