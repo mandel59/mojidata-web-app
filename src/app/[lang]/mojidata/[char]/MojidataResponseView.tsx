@@ -226,6 +226,7 @@ export default function MojidataResponseView(
   const radicalSummary = rsUnicode
     ? `${rsUnicode[0]} (${rsUnicode[2]})`
     : results.unihan.kRSUnicode
+  const innerStrokes = rsUnicode?.[1]
   const totalStrokes = results.unihan.kTotalStrokes
 
   const compactReading = (value?: string) =>
@@ -267,6 +268,11 @@ export default function MojidataResponseView(
             {radicalSummary && (
               <div>
                 <strong>Radical:</strong> {radicalSummary}
+              </div>
+            )}
+            {innerStrokes != null && (
+              <div>
+                <strong>Inner Strokes:</strong> {innerStrokes}
               </div>
             )}
             {totalStrokes && (
