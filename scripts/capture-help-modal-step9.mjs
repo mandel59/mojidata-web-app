@@ -1,0 +1,11 @@
+import { chromium } from 'playwright'
+const browser = await chromium.launch()
+const page = await browser.newPage({ viewport: { width: 1280, height: 800 } })
+await page.goto('http://127.0.0.1:3000/ja-JP/search', { waitUntil: 'domcontentloaded' })
+await page.getByRole('button', { name: 'Usage' }).click()
+await page.screenshot({ path: '/home/openclaw/.openclaw/workspace/canvas/_ui_shots/ui-polish-help-modal-search-step9.png', fullPage: true })
+await page.getByRole('button', { name: 'Close' }).click()
+await page.goto('http://127.0.0.1:3000/ja-JP/idsfind', { waitUntil: 'domcontentloaded' })
+await page.getByRole('button', { name: /List of IDS operators|IDS/ }).first().click()
+await page.screenshot({ path: '/home/openclaw/.openclaw/workspace/canvas/_ui_shots/ui-polish-help-modal-ids-step9.png', fullPage: true })
+await browser.close()

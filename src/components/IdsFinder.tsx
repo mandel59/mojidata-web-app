@@ -8,6 +8,7 @@ import { Language, getText } from '@/getText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Modal } from '@/components/ui/modal'
 
 export interface IdsFinderProps {
   lang: Language
@@ -55,25 +56,25 @@ export default function IdsFinder(props: IdsFinderProps) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                onClick={() => setShowHelp((v) => !v)}
+                onClick={() => setShowHelp(true)}
               >
-                {showHelp
-                  ? 'Hide operators'
-                  : getText('list-of-ids-operators.summary', lang)}
+                {getText('list-of-ids-operators.summary', lang)}
               </Button>
-              {showHelp && (
-                <div className="mt-2 rounded-md border border-border p-3">
-                  <dl>
-                    <dt>{getText('ids-unary-operators.dt', lang)}</dt>
-                    <dd>〾↔↷</dd>
-                    <dt>{getText('ids-binary-operators.dt', lang)}</dt>
-                    <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
-                    <dt>{getText('ids-ternary-operators.dt', lang)}</dt>
-                    <dd>⿲⿳</dd>
-                  </dl>
-                </div>
-              )}
             </div>
+            <Modal
+              open={showHelp}
+              onClose={() => setShowHelp(false)}
+              title={getText('list-of-ids-operators.summary', lang)}
+            >
+              <dl>
+                <dt>{getText('ids-unary-operators.dt', lang)}</dt>
+                <dd>〾↔↷</dd>
+                <dt>{getText('ids-binary-operators.dt', lang)}</dt>
+                <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
+                <dt>{getText('ids-ternary-operators.dt', lang)}</dt>
+                <dd>⿲⿳</dd>
+              </dl>
+            </Modal>
             <div key="ids" className="mt-2">
               <label className="mb-1 inline-block font-semibold">
                 {getText('ids-multiple-sequences-can-be-entered.label', lang)}
