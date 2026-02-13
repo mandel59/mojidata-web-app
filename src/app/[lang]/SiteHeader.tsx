@@ -1,5 +1,9 @@
+'use client'
+
+import { useState } from 'react'
 import { getText, Language } from '@/getText'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export interface SiteHeaderProps {
   siteName: string
@@ -8,14 +12,28 @@ export interface SiteHeaderProps {
 
 export function SiteHeader(props: SiteHeaderProps) {
   const { siteName, language } = props
+  const [open, setOpen] = useState(false)
+
   return (
     <header className="rounded-lg border border-border bg-card p-4 shadow-sm">
-      <h1 className="mb-3 text-2xl font-semibold leading-tight">
-        <Link className="text-inherit no-underline" href="/search">
-          {siteName}
-        </Link>
-      </h1>
-      <nav aria-label="Global" className="space-y-1">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <h1 className="m-0 text-2xl font-semibold leading-tight">
+          <Link className="text-inherit no-underline" href="/search">
+            {siteName}
+          </Link>
+        </h1>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="lg:hidden"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          Menu
+        </Button>
+      </div>
+      <nav aria-label="Global" className={`${open ? 'block' : 'hidden'} space-y-1 lg:block`}>
         <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           Explore
         </div>
