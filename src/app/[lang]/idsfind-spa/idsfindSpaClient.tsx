@@ -16,7 +16,22 @@ function stripLocalePrefix(pathname: string) {
   return pathname.replace(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/, '')
 }
 
-const idsfindResultCache = new Map<string, { results: string[]; total: number }>()
+interface IdsfindCachedResult {
+  results: string[]
+  total: number
+}
+
+const idsfindResultCache = new Map<string, IdsfindCachedResult>()
+
+function buildPageHref(baseUrl: URL, page: number) {
+  const url = new URL(baseUrl)
+  if (page > 1) {
+    url.searchParams.set('page', String(page))
+  } else {
+    url.searchParams.delete('page')
+  }
+  return url.pathname + url.search
+}
 
 export default function IdsFindSpaClient() {
   const pathname = usePathname()
@@ -108,25 +123,9 @@ export default function IdsFindSpaClient() {
   if (ids.length === 0 && whole.length === 0 && !query) return null
   if (error) return <p style={{ color: 'red' }}>{error}</p>
 
-  const prev =
-    currentPage > 1
-      ? (() => {
-          const url = new URL(baseUrl)
-          if (currentPage - 1 > 1)
-            url.searchParams.set('page', String(currentPage - 1))
-          else url.searchParams.delete('page')
-          return url.pathname + url.search
-        })()
-      : null
-
+  const prev = currentPage > 1 ? buildPageHref(baseUrl, currentPage - 1) : null
   const next =
-    currentPage < totalPages
-      ? (() => {
-          const url = new URL(baseUrl)
-          url.searchParams.set('page', String(currentPage + 1))
-          return url.pathname + url.search
-        })()
-      : null
+    currentPage < totalPages ? buildPageHref(baseUrl, currentPage + 1) : null
 
   const wholeSearch =
     ids.length === 0 && whole.length === 1 && !/[a-z？]/.test(whole[0] ?? '')

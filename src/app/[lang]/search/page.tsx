@@ -2,6 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
 import { getLanguage } from '@/getText'
+import { castToString } from '../searchParams'
 
 export default async function Search({
   params,
@@ -10,13 +11,8 @@ export default async function Search({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  let { query, page, bot, disableExternalLinks } = resolvedSearchParams
-  if (Array.isArray(query)) {
-    query = query.join(' ')
-  }
-  if (typeof query === 'string') {
-    query = query.trim()
-  }
+  const { page, bot, disableExternalLinks } = resolvedSearchParams
+  const query = castToString(resolvedSearchParams.query).trim()
   if (!query) {
     return (
       <section>
@@ -49,10 +45,8 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const resolvedSearchParams = await searchParams
-  let { query, page } = resolvedSearchParams
-  if (Array.isArray(query)) {
-    query = query.join(' ')
-  }
+  const { page } = resolvedSearchParams
+  const query = castToString(resolvedSearchParams.query)
   function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
     if (query != null) url.searchParams.append('query', String(query))

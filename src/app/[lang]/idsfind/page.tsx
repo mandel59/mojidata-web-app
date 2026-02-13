@@ -2,14 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import IdsFinder from '@/components/IdsFinder'
 import { getLanguage } from '@/getText'
 import IdsFindSpaClient from '../idsfind-spa/idsfindSpaClient'
-
-function castToArray<T>(x: undefined | T | T[]): T[] {
-  return Array.isArray(x) ? x : x != null ? [x] : []
-}
-
-function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
-  return Array.isArray(x) ? x.join(joiner) : x != null ? String(x) : ''
-}
+import { appendArraySearchParams, castToArray, castToString } from '../searchParams'
 
 export default async function IdsFind({
   params,
@@ -49,8 +42,8 @@ export async function generateMetadata(
   const { ids, whole, query, page } = resolvedSearchParams
   function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/idsfind`)
-    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
-    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    appendArraySearchParams(url, 'ids', castToArray(ids))
+    appendArraySearchParams(url, 'whole', castToArray(whole))
     const queryString = castToString(query)
     if (queryString) url.searchParams.append('query', queryString)
     if (page != null) url.searchParams.append('page', String(page))
@@ -58,8 +51,8 @@ export async function generateMetadata(
   }
   function buildCanonicalPath() {
     const url = new URL(`https://mojidata.ryusei.dev/idsfind`)
-    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
-    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    appendArraySearchParams(url, 'ids', castToArray(ids))
+    appendArraySearchParams(url, 'whole', castToArray(whole))
     const queryString = castToString(query)
     if (queryString) url.searchParams.append('query', queryString)
     if (page != null) url.searchParams.append('page', String(page))
