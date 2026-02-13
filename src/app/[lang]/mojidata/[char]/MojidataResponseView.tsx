@@ -271,26 +271,6 @@ export default function MojidataResponseView(
 
           <div className="mojidata-content-main">
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
-        <figure>
-          <figcaption>
-            {results.UCS} {results.char}
-            {svs && (
-              <>
-                <br />
-                <small>
-                  {toCodePoints(svs.SVS_char)} {svs.SVS_char}
-                </small>
-              </>
-            )}
-          </figcaption>
-          <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-            {bot ? (
-              results.char
-            ) : (
-              <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />
-            )}
-          </div>
-        </figure>
         {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
           <>
             <h3 id="Compatibility_Ideographs">
