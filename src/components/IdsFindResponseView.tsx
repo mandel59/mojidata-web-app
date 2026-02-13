@@ -66,7 +66,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
   } = props
 
   return (
-    <article>
+    <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       {total > 0 && (
         <div className="ids-find-response">
           {results.slice(offset, offset + size).map((char: string) => {
@@ -104,7 +104,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
             ))}
         </div>
       )}
-      {total === 0 && <p>No results found. </p>}
+      {total === 0 && <p className="text-muted-foreground">No results found.</p>}
       {total === 0 && wholeSearch && whole && (
         <p>
           <ConditionalLink
@@ -115,7 +115,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
           </ConditionalLink>
         </p>
       )}
-      <footer>
+      <footer className="mt-4 border-t border-border pt-3">
         <Pager prev={prev} next={next} pageNum={pageNum} totalPages={totalPages} />
       </footer>
     </article>
