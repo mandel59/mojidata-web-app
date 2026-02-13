@@ -197,11 +197,28 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.65rem;
 }
 
 .mojidata-chars-comparison > figure {
   margin: 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.7rem;
+  background: #fff;
+  padding: 0.5rem;
+  min-width: 150px;
+}
+
+.mojidata-chars-comparison > figure > figcaption {
+  margin-bottom: 0.35rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid hsl(var(--border));
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.mojidata-chars-comparison > figure > figcaption small {
+  color: hsl(var(--muted-foreground));
 }
 
 .mojidata-char {
@@ -209,10 +226,10 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  margin: 0.4rem 0;
+  margin: 0.25rem 0 0;
   border: 1px solid hsl(var(--border));
   border-radius: 0.6rem;
-  background: #fff;
+  background: hsl(var(--muted));
   color: #000;
   font-size: 100px;
   width: 120px;
@@ -272,11 +289,11 @@
 
 .mojidata-kdpv-char {
   flex-shrink: 0;
-  margin: 0.4rem 0;
+  margin: 0.25rem 0 0;
   padding: 0 0.7rem;
   border: 1px solid hsl(var(--border));
   border-radius: 0.6rem;
-  background: #fff;
+  background: hsl(var(--muted));
   font-size: 100px;
   width: fit-content;
   height: 120px;
