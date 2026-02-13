@@ -262,11 +262,9 @@ export default function MojidataResponseView(
           <div className="mojidata-summary-kv">
             <div>
               <strong>Unicode:</strong> {results.UCS} {results.char}
-            </div>
-            <div>
-              <span className="mojidata-badge">
-                {isCompatibilityCharacter ? 'Compatibility' : 'Canonical'}
-              </span>
+              {isCompatibilityCharacter && (
+                <span className="mojidata-badge">Compatibility</span>
+              )}
             </div>
             {rsSummary && (
               <div>

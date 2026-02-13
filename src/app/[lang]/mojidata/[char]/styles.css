@@ -23,11 +23,12 @@
 
 .mojidata-badge {
   display: inline-block;
-  margin-left: 0.25rem;
+  margin-left: 0.45rem;
+  vertical-align: text-top;
   border: 1px solid hsl(var(--border));
   border-radius: 9999px;
   padding: 0.05rem 0.45rem;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: hsl(var(--muted-foreground));
   background: #fff;
 }
