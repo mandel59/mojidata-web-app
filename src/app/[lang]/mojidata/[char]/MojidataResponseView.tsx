@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactElement, ReactNode, useState } from 'react'
+import { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react'
 import {
   getBabelStoneIdsInverseVariants,
   getBabelStoneIdsVariants,
@@ -106,6 +106,7 @@ export default function MojidataResponseView(
   const mojidataHref = (char: string) =>
     `${mojidataBasePath}${encodeURIComponent(char)}`
   const [permalinkCopied, setPermalinkCopied] = useState(false)
+  const [activeSectionId, setActiveSectionId] = useState('Character_Data')
   const idsfindHref = (whole: string) =>
     `/idsfind?whole=${encodeURIComponent(whole)}`
 
@@ -265,6 +266,47 @@ export default function MojidataResponseView(
     },
   ].filter((row) => row.value)
 
+  const tocSections = useMemo(
+    () => [
+      { id: 'Character_Data', label: getText('character-data.h2', lang) },
+      { id: 'Glyph_Comparison', label: getText('glyph-comparison.h3', lang) },
+      {
+        id: 'Variants',
+        label: getText('variants-and-relevant-characters.h3', lang),
+      },
+      ...(disableExternalLinks
+        ? []
+        : [{ id: 'External_Links', label: getText('external-links.h3', lang) }]),
+      { id: 'JSON', label: getText('json.h3', lang) },
+    ],
+    [disableExternalLinks, lang],
+  )
+
+  useEffect(() => {
+    const updateActive = () => {
+      const sections = tocSections
+        .map(({ id }) => document.getElementById(id))
+        .filter((el): el is HTMLElement => Boolean(el))
+      if (sections.length === 0) return
+
+      const topOffset = 140
+      const current =
+        sections.filter((el) => el.getBoundingClientRect().top <= topOffset).at(-1) ??
+        sections[0]
+      if (current?.id) setActiveSectionId(current.id)
+    }
+
+    updateActive()
+    window.addEventListener('scroll', updateActive, { passive: true })
+    window.addEventListener('resize', updateActive)
+    window.addEventListener('hashchange', updateActive)
+    return () => {
+      window.removeEventListener('scroll', updateActive)
+      window.removeEventListener('resize', updateActive)
+      window.removeEventListener('hashchange', updateActive)
+    }
+  }, [tocSections])
+
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
@@ -332,21 +374,29 @@ export default function MojidataResponseView(
           className="mojidata-section-nav mojidata-section-nav-mobile"
           aria-label="Mojidata sections"
         >
-          <a href="#Character_Data">{getText('character-data.h2', lang)}</a>
-          <a href="#Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</a>
-          <a href="#Variants">{getText('variants-and-relevant-characters.h3', lang)}</a>
-          {!disableExternalLinks && <a href="#External_Links">{getText('external-links.h3', lang)}</a>}
-          <a href="#JSON">{getText('json.h3', lang)}</a>
+          {tocSections.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className={section.id === activeSectionId ? 'is-active' : undefined}
+            >
+              {section.label}
+            </a>
+          ))}
         </nav>
 
         <div className="mojidata-content-grid">
           <aside className="mojidata-toc-sidebar" aria-label="Mojidata table of contents">
             <nav className="mojidata-section-nav mojidata-section-nav-sidebar" aria-label="Mojidata sections">
-              <a href="#Character_Data">{getText('character-data.h2', lang)}</a>
-              <a href="#Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</a>
-              <a href="#Variants">{getText('variants-and-relevant-characters.h3', lang)}</a>
-              {!disableExternalLinks && <a href="#External_Links">{getText('external-links.h3', lang)}</a>}
-              <a href="#JSON">{getText('json.h3', lang)}</a>
+              {tocSections.map((section) => (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  className={section.id === activeSectionId ? 'is-active' : undefined}
+                >
+                  {section.label}
+                </a>
+              ))}
             </nav>
           </aside>
 

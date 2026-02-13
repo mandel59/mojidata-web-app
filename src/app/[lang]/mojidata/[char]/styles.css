@@ -173,6 +173,13 @@
   border-color: hsl(var(--primary));
 }
 
+.mojidata-section-nav a.is-active {
+  color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  background: hsl(var(--background));
+  font-weight: 600;
+}
+
 @media (max-width: 420px) {
   .mojidata-section-nav-mobile {
     grid-template-columns: 1fr;
