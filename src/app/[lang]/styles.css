@@ -158,6 +158,14 @@ article > footer {
   padding-left: 1.35rem;
 }
 
+.docs-article ul {
+  list-style: disc;
+}
+
+.docs-article ol {
+  list-style: decimal;
+}
+
 .docs-article a {
   color: hsl(var(--primary));
   text-underline-offset: 2px;

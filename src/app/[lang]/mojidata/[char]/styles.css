@@ -260,6 +260,14 @@
   padding-left: 1.25rem;
 }
 
+.mojidata-response ul {
+  list-style: disc;
+}
+
+.mojidata-response ol {
+  list-style: decimal;
+}
+
 .mojidata-chars-comparison {
   display: flex;
   flex-direction: row;
