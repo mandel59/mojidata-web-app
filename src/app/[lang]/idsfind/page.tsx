@@ -35,7 +35,7 @@ export default async function IdsFind({
         <IdsFinder lang={language} action="/idsfind" />
       </section>
       <section>
-        <IdsFindSpaClient lang={language} />
+        <IdsFindSpaClient />
       </section>
     </div>
   )

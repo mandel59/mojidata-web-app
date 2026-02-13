@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
-import type { Language } from '@/getText'
 import LoadingArticle from '@/components/LoadingArticle'
 import IdsFindResponseView from '@/components/IdsFindResponseView'
 import { idsfindBrowserAllResults } from '@/spa/mojidataApiBrowser'
@@ -19,7 +18,7 @@ function stripLocalePrefix(pathname: string) {
 
 const idsfindResultCache = new Map<string, { results: string[]; total: number }>()
 
-export default function IdsFindSpaClient(props: { lang: Language }) {
+export default function IdsFindSpaClient() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const canonicalPathname = useMemo(() => stripLocalePrefix(pathname), [pathname])

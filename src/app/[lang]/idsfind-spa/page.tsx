@@ -86,7 +86,7 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
               <p>This page requires JavaScript.</p>
             </noscript>
             <Suspense fallback={<LoadingArticle />}>
-              <IdsFindSpaClient lang={language} />
+              <IdsFindSpaClient />
             </Suspense>
           </div>
         </main>
