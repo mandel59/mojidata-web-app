@@ -356,7 +356,7 @@ export default function MojidataResponseView(
             </div>
           </>
         )}
-        {charIsHan && (
+        {charIsHan && results.ids.length > 0 && (
           <>
             <h3 id="IDS">{getText('ids.h3', lang)}</h3>
             <table>
