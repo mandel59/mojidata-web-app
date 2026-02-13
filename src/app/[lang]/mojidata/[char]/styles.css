@@ -221,8 +221,22 @@
   color: hsl(var(--muted-foreground));
 }
 
+.mojidata-variants-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.65rem;
+}
+
 .mojidata-variants-comparison > figure {
-  min-width: 220px;
+  min-width: 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: minmax(7.2rem, auto) auto;
+}
+
+.mojidata-variants-comparison > figure > figcaption {
+  max-height: 12rem;
+  overflow: auto;
 }
 
 .mojidata-variants-comparison > figure > figcaption > div {
