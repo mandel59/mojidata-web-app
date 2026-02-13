@@ -235,12 +235,11 @@ export default function MojidataResponseView(
       .slice(0, 3)
       .join(' / ')
 
+  const unihanAny = results.unihan as Record<string, string | undefined>
   const readings = [
     {
       label: 'Japanese',
-      value: [compactReading(results.unihan.kJapaneseOn), compactReading(results.unihan.kJapaneseKun)]
-        .filter(Boolean)
-        .join(' · '),
+      value: compactReading(unihanAny.kJapanese),
     },
     { label: 'Mandarin', value: compactReading(results.unihan.kMandarin) },
     { label: 'Cantonese', value: compactReading(results.unihan.kCantonese) },
