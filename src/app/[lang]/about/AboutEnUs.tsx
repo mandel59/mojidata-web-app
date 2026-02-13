@@ -3,7 +3,7 @@ import ConditionalLink from '@/components/ConditionalLink'
 export function AboutEnUs() {
   return (
     <>
-      <h2>About Mojidata Web App</h2>
+      <h1>About Mojidata Web App</h1>
       <p>
         The Mojidata Web App is a web application for Mojidata, an open-source
         collection of Chinese character information databases. It allows you to
