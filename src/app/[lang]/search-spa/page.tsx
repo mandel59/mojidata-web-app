@@ -67,7 +67,7 @@ export default async function SearchSpa({ params, searchParams }: Props) {
   return (
     <div className="container">
       <SpaAssetsPrefetcher kind="idsfind" />
-      <div className="grid">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:items-start">
         <nav>
           <MojidataSearchForm lang={language} action="/search-spa" />
         </nav>

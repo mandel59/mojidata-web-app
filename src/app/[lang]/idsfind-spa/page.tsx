@@ -76,7 +76,7 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
   return (
     <div className="container">
       <SpaAssetsPrefetcher kind="idsfind" />
-      <div className="grid">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:items-start">
         <nav>
           <IdsFinder lang={language} action="/idsfind-spa" />
         </nav>
