@@ -105,15 +105,19 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
               </tbody>
             </table>
           </details>
-          <div key="query">
+          <div key="query" className="search-field-row">
+            <label htmlFor="mojidata-query-input" className="sr-only">
+              {getText('mojidata-search.placeholder', lang)}
+            </label>
             <input
+              id="mojidata-query-input"
               name="query"
               value={query}
               placeholder={getText('mojidata-search.placeholder', lang)}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-          <footer>
+          <footer className="search-form-footer">
             <button>{getText('search.button', lang)}</button>
           </footer>
         </article>

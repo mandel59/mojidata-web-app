@@ -39,8 +39,8 @@ export default function IdsFinder(props: IdsFinderProps) {
               <dd>⿲⿳</dd>
             </dl>
           </details>
-          <div key="ids">
-            {getText('ids-multiple-sequences-can-be-entered.label', lang)}{' '}
+          <div key="ids" className="ids-finder-field-row">
+            <label>{getText('ids-multiple-sequences-can-be-entered.label', lang)}</label>
             <MultiInput
               name="ids"
               values={ids}
@@ -48,25 +48,31 @@ export default function IdsFinder(props: IdsFinderProps) {
               setValues={setIds}
             />
           </div>
-          <div key="whole">
-            {getText('whole-ids.label', lang)}{' '}
+          <div key="whole" className="ids-finder-field-row">
+            <label htmlFor="ids-finder-whole-input">
+              {getText('whole-ids.label', lang)}
+            </label>
             <input
+              id="ids-finder-whole-input"
               name={whole ? 'whole' : undefined}
               value={whole}
               placeholder={getText('whole-ids.placeholder', lang)}
               onChange={(e) => setWhole(e.target.value)}
             />
           </div>
-          <div key="query">
-            {getText('other-search-queries.label', lang)}{' '}
+          <div key="query" className="ids-finder-field-row">
+            <label htmlFor="ids-finder-query-input">
+              {getText('other-search-queries.label', lang)}
+            </label>
             <input
+              id="ids-finder-query-input"
               name={query ? 'query' : undefined}
               value={query}
               placeholder={getText('mojidata-search.placeholder', lang)}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-          <footer>
+          <footer className="ids-finder-footer">
             <button>{getText('search.button', lang)}</button>
           </footer>
         </article>
