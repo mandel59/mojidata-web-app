@@ -21,6 +21,17 @@
   font-size: 0.95rem;
 }
 
+.mojidata-badge {
+  display: inline-block;
+  margin-left: 0.25rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  padding: 0.05rem 0.45rem;
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  background: #fff;
+}
+
 .mojidata-content-grid {
   display: grid;
   grid-template-columns: 1fr;

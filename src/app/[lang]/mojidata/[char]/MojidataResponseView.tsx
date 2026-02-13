@@ -222,6 +222,32 @@ export default function MojidataResponseView(
   const cns11643Search = getCns11643Search(results)
   const primaryIds = results.ids.slice(0, 2).map((record) => record.IDS)
 
+  const rsUnicode = results.unihan_rs?.kRSUnicode?.[0]
+  const radicalSummary = rsUnicode
+    ? `${rsUnicode[0]} (${rsUnicode[2]})`
+    : results.unihan.kRSUnicode
+  const totalStrokes = results.unihan.kTotalStrokes
+
+  const compactReading = (value?: string) =>
+    value
+      ?.split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 3)
+      .join(' / ')
+
+  const readings = [
+    {
+      label: 'Japanese',
+      value: [compactReading(results.unihan.kJapaneseOn), compactReading(results.unihan.kJapaneseKun)]
+        .filter(Boolean)
+        .join(' · '),
+    },
+    { label: 'Mandarin', value: compactReading(results.unihan.kMandarin) },
+    { label: 'Cantonese', value: compactReading(results.unihan.kCantonese) },
+    { label: 'Korean', value: compactReading(results.unihan.kKorean) },
+    { label: 'Vietnamese', value: compactReading(results.unihan.kVietnamese) },
+  ].filter((row) => row.value)
+
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
@@ -233,17 +259,32 @@ export default function MojidataResponseView(
             <div>
               <strong>Unicode:</strong> {results.UCS} {results.char}
             </div>
+            <div>
+              <strong>Status:</strong>{' '}
+              <span className="mojidata-badge">
+                {isCompatibilityCharacter ? 'Compatibility' : 'Canonical'}
+              </span>
+            </div>
+            {radicalSummary && (
+              <div>
+                <strong>Radical:</strong> {radicalSummary}
+              </div>
+            )}
+            {totalStrokes && (
+              <div>
+                <strong>Total Strokes:</strong> {totalStrokes}
+              </div>
+            )}
             {primaryIds.length > 0 && (
               <div>
                 <strong>IDS:</strong> {primaryIds.join(' / ')}
               </div>
             )}
-            <div>
-              <strong>Variants:</strong> {allVariantChars.length}
-            </div>
-            <div>
-              <strong>Moji_Joho:</strong> {mji.length}
-            </div>
+            {readings.map((row) => (
+              <div key={row.label}>
+                <strong>{row.label}:</strong> {row.value}
+              </div>
+            ))}
           </div>
         </section>
 
