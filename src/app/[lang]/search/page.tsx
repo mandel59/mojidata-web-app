@@ -27,7 +27,7 @@ export default async function Search({
     )
   }
   return (
-    <div className="grid gap-4 xl:grid-cols-[minmax(0,360px)_minmax(0,1fr)] xl:items-start">
+    <div className="space-y-4">
       <section>
         <MojidataSearchForm lang={language} action="/search" />
       </section>
