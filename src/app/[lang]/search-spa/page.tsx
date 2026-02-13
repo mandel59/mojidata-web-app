@@ -1,9 +1,12 @@
-import { getLanguage } from '@/getText'
+import { getLanguage, getText } from '@/getText'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import SearchSpaClient from './searchSpaClient'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
 import SpaAssetsPrefetcher from '@/spa/SpaAssetsPrefetcher'
+import MobileFormDrawer from '@/components/MobileFormDrawer'
+import LoadingArticle from '@/components/LoadingArticle'
+import { castToString } from '../searchParams'
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -14,10 +17,8 @@ export async function generateMetadata({
   searchParams,
 }: Props): Promise<Metadata> {
   const resolvedSearchParams = await searchParams
-  let { query, page } = resolvedSearchParams
-  if (Array.isArray(query)) {
-    query = query.join(' ')
-  }
+  const { page } = resolvedSearchParams
+  const query = castToString(resolvedSearchParams.query)
   function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
     if (query != null) url.searchParams.append('query', String(query))
@@ -45,43 +46,41 @@ export default async function SearchSpa({ params, searchParams }: Props) {
   const { lang } = await params
   const language = getLanguage(lang)
   const resolvedSearchParams = await searchParams
-  let { query } = resolvedSearchParams
-  if (Array.isArray(query)) {
-    query = query.join(' ')
-  }
-  if (typeof query === 'string') {
-    query = query.trim()
-  }
+  const query = castToString(resolvedSearchParams.query).trim()
 
   if (!query) {
     return (
-      <div>
+      <section>
         <SpaAssetsPrefetcher kind="idsfind" />
-        <nav className="container">
-          <MojidataSearchForm lang={language} action="/search-spa" />
-        </nav>
-      </div>
+        <MojidataSearchForm lang={language} action="/search-spa" />
+      </section>
     )
   }
 
   return (
-    <div className="container">
+    <div className="space-y-4">
       <SpaAssetsPrefetcher kind="idsfind" />
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:items-start">
-        <nav>
+      <section className="md:hidden">
+        <MobileFormDrawer
+          buttonLabel={getText('mojidata-search.nav', language)}
+          title={getText('mojidata-search.nav', language)}
+        >
           <MojidataSearchForm lang={language} action="/search-spa" />
-        </nav>
-        <main>
-          <div data-spa="search">
-            <noscript>
-              <p>This page requires JavaScript.</p>
-            </noscript>
-            <Suspense fallback={<p>Loading...</p>}>
-              <SearchSpaClient lang={language} />
-            </Suspense>
-          </div>
-        </main>
-      </div>
+        </MobileFormDrawer>
+      </section>
+      <section className="hidden md:block">
+        <MojidataSearchForm lang={language} action="/search-spa" />
+      </section>
+      <section>
+        <div data-spa="search">
+          <noscript>
+            <p>This page requires JavaScript.</p>
+          </noscript>
+          <Suspense fallback={<LoadingArticle />}>
+            <SearchSpaClient lang={language} />
+          </Suspense>
+        </div>
+      </section>
     </div>
   )
 }
