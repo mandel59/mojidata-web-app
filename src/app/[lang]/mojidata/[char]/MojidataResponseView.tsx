@@ -318,6 +318,31 @@ export default function MojidataResponseView(
 
           <div className="mojidata-content-main">
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
+        {isCompatibilityCharacter && (
+          <>
+            <h3 id="Unified_Ideograph">Unified Ideograph</h3>
+            <div className="mojidata-chars-comparison">
+              <figure>
+                <figcaption>
+                  {canonicalCharacter.UCS} {canonicalCharacter.char}
+                </figcaption>
+                <div className="mojidata-char mojidata-char-link mojidata-char-glyphwiki" lang="ja">
+                  <Link href={mojidataHref(canonicalCharacter.char)}>
+                    {bot ? (
+                      canonicalCharacter.char
+                    ) : (
+                      <GlyphWikiCharImg
+                        char={canonicalCharacter.char}
+                        size={110}
+                        alt={canonicalCharacter.char}
+                      />
+                    )}
+                  </Link>
+                </div>
+              </figure>
+            </div>
+          </>
+        )}
         {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
           <>
             <h3 id="Compatibility_Ideographs">
