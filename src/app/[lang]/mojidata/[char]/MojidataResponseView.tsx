@@ -220,10 +220,41 @@ export default function MojidataResponseView(
   const isJISX0213char = mji.some((record) => record.x0213)
 
   const cns11643Search = getCns11643Search(results)
+  const primaryIds = results.ids.slice(0, 2).map((record) => record.IDS)
 
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
+        <section className="mojidata-summary-grid">
+          <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
+            {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
+          </div>
+          <div className="mojidata-summary-kv">
+            <div>
+              <strong>Unicode:</strong> {results.UCS} {results.char}
+            </div>
+            {primaryIds.length > 0 && (
+              <div>
+                <strong>IDS:</strong> {primaryIds.join(' / ')}
+              </div>
+            )}
+            <div>
+              <strong>Variants:</strong> {allVariantChars.length}
+            </div>
+            <div>
+              <strong>Moji_Joho:</strong> {mji.length}
+            </div>
+          </div>
+        </section>
+
+        <nav className="mojidata-section-nav" aria-label="Mojidata sections">
+          <a href="#Character_Data">{getText('character-data.h2', lang)}</a>
+          <a href="#Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</a>
+          <a href="#Variants">{getText('variants-and-relevant-characters.h3', lang)}</a>
+          {!disableExternalLinks && <a href="#External_Links">{getText('external-links.h3', lang)}</a>}
+          <a href="#JSON">{getText('json.h3', lang)}</a>
+        </nav>
+
         <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         <figure>
           <figcaption>

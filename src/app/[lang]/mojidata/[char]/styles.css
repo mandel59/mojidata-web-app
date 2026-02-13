@@ -4,6 +4,45 @@
   gap: 0.75rem;
 }
 
+.mojidata-summary-grid {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: center;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: hsl(var(--muted));
+}
+
+.mojidata-summary-kv {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.mojidata-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.mojidata-section-nav a {
+  display: inline-block;
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: hsl(var(--muted-foreground));
+  background: #fff;
+}
+
+.mojidata-section-nav a:hover {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
+}
+
 .mojidata-response > h2 {
   margin-bottom: 0.2rem;
 }
@@ -124,4 +163,11 @@
 .mojidata-char-glyphwiki img {
   display: block;
   padding: 5px;
+}
+
+@media (max-width: 700px) {
+  .mojidata-summary-grid {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
 }
