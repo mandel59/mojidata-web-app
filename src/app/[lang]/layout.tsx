@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
+import '@picocss/pico/css/pico.min.css'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
-import '@picocss/pico/css/pico.min.css'
 import { canonicalUrlBase, description, siteName } from '@/settings'
 import { fontCjkSymbols, fontNotDef } from '../fonts'
 import { getLanguage, getText } from '@/getText'
