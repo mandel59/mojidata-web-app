@@ -40,7 +40,6 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                   <Button
                     key={example}
                     type="button"
-                    variant="outline"
                     size="sm"
                     onClick={() => setQuery(example)}
                   >

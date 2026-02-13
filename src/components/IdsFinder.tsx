@@ -40,13 +40,13 @@ export default function IdsFinder(props: IdsFinderProps) {
             <div className="rounded-md border border-border bg-muted/40 p-3">
               <p className="mb-2 text-sm text-muted-foreground">Quick examples</p>
               <div className="flex flex-wrap gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => setIds(['⿰日月'])}>
+                <Button type="button" size="sm" onClick={() => setIds(['⿰日月'])}>
                   IDS: ⿰日月
                 </Button>
-                <Button type="button" variant="outline" size="sm" onClick={() => setWhole('＠⿰？月')}>
+                <Button type="button" size="sm" onClick={() => setWhole('＠⿰？月')}>
                   Whole: ＠⿰？月
                 </Button>
-                <Button type="button" variant="outline" size="sm" onClick={() => setQuery('：日')}>
+                <Button type="button" size="sm" onClick={() => setQuery('：日')}>
                   Query: ：日
                 </Button>
               </div>
