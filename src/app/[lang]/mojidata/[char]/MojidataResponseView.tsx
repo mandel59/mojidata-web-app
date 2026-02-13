@@ -222,7 +222,7 @@ export default function MojidataResponseView(
   const cns11643Search = getCns11643Search(results)
 
   return (
-    <article>
+    <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
         <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         <figure>
