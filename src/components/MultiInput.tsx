@@ -37,7 +37,7 @@ export default function MultiInput(props: MultiInputProps) {
     return values
   }
   return (
-    <span ref={refMultiInput} className="multi-input">
+    <span ref={refMultiInput} className="grid gap-2">
       {[...values, ''].map((value, index) => {
         return (
           <input

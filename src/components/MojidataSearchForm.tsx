@@ -3,7 +3,6 @@
 import GetForm from './GetForm'
 import { useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
-import './MojidataSearchForm.css'
 import { Language, getText } from '@/getText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -21,9 +20,9 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
   const initialQuery = pathIsIdsfind ? searchParams.get('query') ?? '' : ''
   const [query, setQuery] = useState<string>(initialQuery)
   return (
-    <div className="mojidata-search">
+    <div className="w-full">
       <GetForm action={action}>
-        <Card className="mojidata-search-card">
+        <Card className="h-full">
           <CardHeader>
             <CardTitle>
               <h2>{getText('mojidata-search.caption', lang)}</h2>
@@ -112,7 +111,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 </tbody>
               </table>
             </details>
-            <div key="query" className="search-field-row">
+            <div key="query" className="mt-2">
               <label htmlFor="mojidata-query-input" className="sr-only">
                 {getText('mojidata-search.placeholder', lang)}
               </label>
@@ -124,7 +123,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
-            <footer className="search-form-footer">
+            <footer className="mt-3 flex justify-start border-t border-border pt-3">
               <Button type="submit">{getText('search.button', lang)}</Button>
             </footer>
           </CardContent>

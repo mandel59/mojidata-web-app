@@ -4,7 +4,6 @@ import MultiInput from './MultiInput'
 import GetForm from './GetForm'
 import { useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
-import './IdsFinder.css'
 import { Language, getText } from '@/getText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -27,9 +26,9 @@ export default function IdsFinder(props: IdsFinderProps) {
   const [whole, setWhole] = useState<string>(initialWhole)
   const [query, setQuery] = useState<string>(initialQuery)
   return (
-    <div className="ids-finder">
+    <div className="w-full">
       <GetForm action={action}>
-        <Card className="ids-finder-card">
+        <Card className="h-full">
           <CardHeader>
             <CardTitle>
               <h2>IDS Finder</h2>
@@ -47,8 +46,10 @@ export default function IdsFinder(props: IdsFinderProps) {
                 <dd>⿲⿳</dd>
               </dl>
             </details>
-            <div key="ids" className="ids-finder-field-row">
-              <label>{getText('ids-multiple-sequences-can-be-entered.label', lang)}</label>
+            <div key="ids" className="mt-2">
+              <label className="mb-1 inline-block font-semibold">
+                {getText('ids-multiple-sequences-can-be-entered.label', lang)}
+              </label>
               <MultiInput
                 name="ids"
                 values={ids}
@@ -56,8 +57,8 @@ export default function IdsFinder(props: IdsFinderProps) {
                 setValues={setIds}
               />
             </div>
-            <div key="whole" className="ids-finder-field-row">
-              <label htmlFor="ids-finder-whole-input">
+            <div key="whole" className="mt-2">
+              <label htmlFor="ids-finder-whole-input" className="mb-1 inline-block font-semibold">
                 {getText('whole-ids.label', lang)}
               </label>
               <Input
@@ -68,8 +69,8 @@ export default function IdsFinder(props: IdsFinderProps) {
                 onChange={(e) => setWhole(e.target.value)}
               />
             </div>
-            <div key="query" className="ids-finder-field-row">
-              <label htmlFor="ids-finder-query-input">
+            <div key="query" className="mt-2">
+              <label htmlFor="ids-finder-query-input" className="mb-1 inline-block font-semibold">
                 {getText('other-search-queries.label', lang)}
               </label>
               <Input
@@ -80,7 +81,7 @@ export default function IdsFinder(props: IdsFinderProps) {
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
-            <footer className="ids-finder-footer">
+            <footer className="mt-3 flex justify-start border-t border-border pt-3">
               <Button type="submit">{getText('search.button', lang)}</Button>
             </footer>
           </CardContent>
