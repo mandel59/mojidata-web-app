@@ -242,18 +242,7 @@
 
 .mojidata-chars-comparison > figure > .mojidata-char,
 .mojidata-chars-comparison > figure > .mojidata-kdpv-char {
-  position: relative;
-  margin-top: 0.6rem;
-}
-
-.mojidata-chars-comparison > figure > .mojidata-char::before,
-.mojidata-chars-comparison > figure > .mojidata-kdpv-char::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -0.45rem;
-  border-top: 1px solid hsl(var(--border));
+  margin-top: 0.45rem;
 }
 
 .mojidata-variants-comparison {
