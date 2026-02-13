@@ -132,9 +132,13 @@ article > footer {
 .docs-article h2 {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid hsl(var(--border));
   font-size: 1.2rem;
+}
+
+.docs-article hr {
+  margin: 1.1rem 0;
+  border: 0;
+  border-top: 1px solid hsl(var(--border));
 }
 
 .docs-article h3 {
