@@ -1,9 +1,8 @@
 .ids-find-response {
-  margin:
-    calc(3px - var(--pico-block-spacing-vertical))
-    calc(3px - var(--pico-block-spacing-horizontal));
   display: flex;
   flex-flow: row wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.5rem;
 }
 
 .ids-find-result-char {
@@ -11,19 +10,27 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  margin: 3px;
-  border: 1px solid #ccc;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: #fff;
   font-size: 50px;
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   line-height: 55px;
   text-align: center;
   overflow: clip;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.ids-find-result-char:hover {
+  transform: translateY(-1px);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
 }
 
 .ids-find-result-char > a {
   display: block;
-  color: #000;
+  color: #111;
   text-decoration: none;
 }
 

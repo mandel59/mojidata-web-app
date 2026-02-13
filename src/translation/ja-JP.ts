@@ -5,6 +5,7 @@ export const translationJaJp: Translation = {
   'mojidata-search.nav': 'Mojidata 検索',
   'privacy-policy.nav': 'プライバシーポリシー',
   'about-this-app.nav': 'このアプリについて',
+  'license.nav': 'ライセンス',
   'mojidata-search.caption': 'Mojidata 検索',
   'usage.summary': '使い方',
   'search.button': '検索',

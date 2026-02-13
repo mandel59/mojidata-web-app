@@ -1,11 +1,45 @@
+.mojidata-response {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mojidata-response > h2 {
+  margin-bottom: 0.2rem;
+}
+
+.mojidata-response > h3 {
+  margin-top: 0.65rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.mojidata-response figure {
+  margin: 0;
+}
+
+.mojidata-response pre {
+  overflow: auto;
+  max-height: 32rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: hsl(var(--muted));
+}
+
+.mojidata-response ul,
+.mojidata-response ol {
+  padding-left: 1.25rem;
+}
+
 .mojidata-chars-comparison {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .mojidata-chars-comparison > figure {
-  margin: 5px;
+  margin: 0;
 }
 
 .mojidata-char {
@@ -13,8 +47,10 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  margin: 10px 15px;
-  border: 1px solid #ccc;
+  margin: 0.4rem 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: #fff;
   color: #000;
   font-size: 100px;
   width: 120px;
@@ -74,8 +110,11 @@
 
 .mojidata-kdpv-char {
   flex-shrink: 0;
-  margin: 10px 15px;
-  border: 1px solid #ccc;
+  margin: 0.4rem 0;
+  padding: 0 0.7rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: #fff;
   font-size: 100px;
   width: fit-content;
   height: 120px;

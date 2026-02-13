@@ -5,16 +5,14 @@ import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'experimental-edge'
-
-type Props = {
-  params: { lang: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default function Search({ params: { lang }, searchParams }: Props) {
+export default async function Search({
+  params,
+  searchParams,
+}: PageProps<'/[lang]/search'>) {
+  const { lang } = await params
+  const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  let { query, page, bot, disableExternalLinks } = searchParams
+  let { query, page, bot, disableExternalLinks } = resolvedSearchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
@@ -23,20 +21,17 @@ export default function Search({ params: { lang }, searchParams }: Props) {
   }
   if (!query) {
     return (
-      <div>
-        <nav className="container">
-          <MojidataSearchForm lang={language} />
-        </nav>
-      </div>
+      <section>
+        <MojidataSearchForm lang={language} action="/search" />
+      </section>
     )
   }
   return (
-    <div className="container">
-      <div className="grid">
-        <nav>
-          <MojidataSearchForm lang={language} />
-        </nav>
-        <main>
+    <div className="grid gap-4 xl:grid-cols-[minmax(0,360px)_minmax(0,1fr)] xl:items-start">
+      <section>
+        <MojidataSearchForm lang={language} action="/search" />
+      </section>
+      <section>
           <Suspense
             key={JSON.stringify({ query })}
             fallback={<LoadingArticle />}
@@ -51,26 +46,39 @@ export default function Search({ params: { lang }, searchParams }: Props) {
               disableExternalLinks={!!disableExternalLinks}
             />
           </Suspense>
-        </main>
-      </div>
+      </section>
     </div>
   )
 }
 
 export async function generateMetadata(
-  { searchParams }: Props,
+  { searchParams }: PageProps<'/[lang]/search'>,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  let { query, page } = searchParams
-  const url = new URL('https://mojidata.ryusei.dev/search')
+  const resolvedSearchParams = await searchParams
+  let { query, page } = resolvedSearchParams
   if (Array.isArray(query)) {
     query = query.join(' ')
   }
-  if (query != null) url.searchParams.append('query', String(page))
-  if (page != null) url.searchParams.append('page', String(page))
+  function buildLocalePath(locale: string) {
+    const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
+    if (query != null) url.searchParams.append('query', String(query))
+    if (page != null) url.searchParams.append('page', String(page))
+    return url.pathname + url.search
+  }
+  function buildCanonicalPath() {
+    const url = new URL(`https://mojidata.ryusei.dev/search`)
+    if (query != null) url.searchParams.append('query', String(query))
+    if (page != null) url.searchParams.append('page', String(page))
+    return url.pathname + url.search
+  }
   return {
     alternates: {
-      canonical: url.pathname + url.search,
+      canonical: buildCanonicalPath(),
+      languages: {
+        'en-US': buildLocalePath('en-US'),
+        'ja-JP': buildLocalePath('ja-JP'),
+      },
     },
   }
 }

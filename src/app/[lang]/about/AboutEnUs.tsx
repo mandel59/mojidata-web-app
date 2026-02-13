@@ -72,7 +72,8 @@ export function AboutEnUs() {
       <p>
         The license for data and each kanji database included in Mojidata varies
         depending on their sources. Please refer to the following license
-        information for details.
+        information for details on the <ConditionalLink href="/license">License</ConditionalLink>{' '}
+        page.
       </p>
     </>
   )

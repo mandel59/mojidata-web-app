@@ -5,17 +5,16 @@ import LoadingArticle from '@/components/LoadingArticle'
 import { notFound, redirect } from 'next/navigation'
 import { getLanguage } from '@/getText'
 
-export const runtime = 'experimental-edge'
-
 type Props = {
-  params: { char: string; lang: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ char: string; lang: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function Mojidata({ params, searchParams }: Props) {
-  const { char, lang } = params
+export default async function Mojidata({ params, searchParams }: Props) {
+  const { char, lang } = await params
+  const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { bot, disableExternalLinks } = searchParams
+  const { bot, disableExternalLinks } = resolvedSearchParams
   const ucs = decodeURIComponent(char)
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
     notFound()
@@ -53,10 +52,15 @@ export default function Mojidata({ params, searchParams }: Props) {
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  { params, searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { char } = params
+  const { char } = await params
+  const resolvedSearchParams = await searchParams
+  const disableExternalLinks =
+    resolvedSearchParams?.disableExternalLinks === '1' ||
+    (Array.isArray(resolvedSearchParams?.disableExternalLinks) &&
+      resolvedSearchParams?.disableExternalLinks.includes('1'))
   const ucs = String.fromCodePoint(
     decodeURIComponent(char).codePointAt(0) ?? 0x20,
   )
@@ -69,17 +73,27 @@ export async function generateMetadata(
     title,
     alternates: {
       canonical: `/mojidata/${char}`,
+      languages: {
+        'en-US': `/en-US/mojidata/${char}`,
+        'ja-JP': `/ja-JP/mojidata/${char}`,
+      },
     },
     openGraph: {
       title,
       description,
       siteName,
+      ...(disableExternalLinks
+        ? {}
+        : { images: [`/api/mojidata/${char}/opengraph-image`] }),
     },
     twitter: {
       card: 'summary_large_image',
       title: `U+${codePoint} ${ucs} - ${siteName}`,
       description,
       creator: '@mandel59',
+      ...(disableExternalLinks
+        ? {}
+        : { images: [`/api/mojidata/${char}/opengraph-image`] }),
     },
   }
 }

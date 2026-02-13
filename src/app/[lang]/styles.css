@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: Mojidata-SourceHanSerif;
   src: local('Source Han Serif'), local('Noto Serif CJK');
@@ -61,9 +65,73 @@
   descent-override: calc(100% * 246 / 2048);
 }
 
+:root {
+  --pico-font-size: 18px;
+  --pico-border-radius: 12px;
+  --pico-form-element-spacing-vertical: 0.9rem;
+  --pico-form-element-spacing-horizontal: 1rem;
+  --pico-spacing: 1rem;
+  --pico-muted-border-color: #dde2ea;
+  --pico-card-border-color: #e5e9f0;
+  --pico-card-background-color: #fcfdff;
+  --pico-primary: #0a67c7;
+  --pico-primary-hover: #0956a5;
+
+  /* shadcn/ui token baseline */
+  --background: 210 33% 97%;
+  --foreground: 217 30% 17%;
+  --card: 0 0% 100%;
+  --card-foreground: 217 30% 17%;
+  --primary: 210 90% 41%;
+  --primary-foreground: 0 0% 100%;
+  --muted: 210 24% 93%;
+  --muted-foreground: 215 16% 35%;
+  --border: 214 26% 88%;
+  --input: 214 26% 88%;
+  --ring: 210 90% 41%;
+  --radius: 0.75rem;
+}
+
+html,
 body {
+  min-height: 100%;
+  background-color: #f3f5f8 !important;
+}
+
+body {
+  min-height: 100vh;
   /* TODO: consider font preference */
   font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
     Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
     Mojidata-SourceHanSerifKR, var(--font-cjksymbols), serif;
+  color: #1f2a3a;
+}
+
+.container > .grid {
+  align-items: start;
+  gap: 1.25rem;
+}
+
+article h2 {
+  margin-bottom: 0.7rem;
+}
+
+article > footer {
+  border-top: 1px solid #e8ecf2;
+}
+
+.preview-warning {
+  margin-top: 0.4rem;
+  margin-bottom: 2rem;
+}
+
+.preview-warning [data-slot='card'] {
+  border-style: dashed;
+  background: #f9fbfe;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --pico-font-size: 17px;
+  }
 }
