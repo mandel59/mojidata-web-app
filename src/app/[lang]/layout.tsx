@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import '@picocss/pico/css/pico.min.css'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import { canonicalUrlBase, description, siteName } from '@/settings'
@@ -38,11 +37,9 @@ export default async function RootLayout({
   return (
     <html lang={language} data-theme="light">
       <body className={`${fontCjkSymbols.variable} ${fontNotDef.variable}`}>
-        <div className="container mx-auto my-5 grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start">
-          <aside className="lg:sticky lg:top-4">
-            <SiteHeader siteName={siteName} language={language} />
-          </aside>
-          <main className="space-y-4">{children}</main>
+        <div className="container mx-auto my-4 space-y-4">
+          <SiteHeader siteName={siteName} language={language} />
+          <main>{children}</main>
         </div>
         <PreviewWarning />
         <SpeedInsights />

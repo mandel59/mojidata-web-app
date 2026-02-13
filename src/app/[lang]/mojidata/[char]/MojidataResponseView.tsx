@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react'
 import {
   getBabelStoneIdsInverseVariants,
   getBabelStoneIdsVariants,
@@ -105,6 +105,8 @@ export default function MojidataResponseView(
   const mojidataBasePath = linkMode === 'spa' ? '/mojidata-spa/' : '/mojidata/'
   const mojidataHref = (char: string) =>
     `${mojidataBasePath}${encodeURIComponent(char)}`
+  const [permalinkCopied, setPermalinkCopied] = useState(false)
+  const [activeSectionId, setActiveSectionId] = useState('Character_Data')
   const idsfindHref = (whole: string) =>
     `/idsfind?whole=${encodeURIComponent(whole)}`
 
@@ -221,30 +223,210 @@ export default function MojidataResponseView(
 
   const cns11643Search = getCns11643Search(results)
 
+  const rsUnicodeList = results.unihan_rs?.kRSUnicode
+  const rsSummary =
+    rsUnicodeList && rsUnicodeList.length > 0
+      ? rsUnicodeList
+          .map((entry) => {
+            const [, inner, radicalChar, rawRadical] = entry
+            return `${rawRadical}.${inner} (${radicalChar}部${inner}画)`
+          })
+          .join(' / ')
+      : results.unihan.kRSUnicode
+  const totalStrokes = results.unihan.kTotalStrokes
+
+  const compactReading = (value?: string) =>
+    value
+      ?.split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 3)
+      .join(' / ')
+
+  const unihanAny = results.unihan as Record<string, string | undefined>
+  const readings = [
+    {
+      label: getText('summary.japanese.dt', lang),
+      value: compactReading(unihanAny.kJapanese),
+    },
+    {
+      label: getText('summary.mandarin.dt', lang),
+      value: compactReading(results.unihan.kMandarin),
+    },
+    {
+      label: getText('summary.cantonese.dt', lang),
+      value: compactReading(results.unihan.kCantonese),
+    },
+    {
+      label: getText('summary.korean.dt', lang),
+      value: compactReading(results.unihan.kKorean),
+    },
+    {
+      label: getText('summary.vietnamese.dt', lang),
+      value: compactReading(results.unihan.kVietnamese),
+    },
+  ].filter((row) => row.value)
+
+  const tocSections = useMemo(
+    () => [
+      { id: 'Character_Data', label: getText('character-data.h2', lang) },
+      { id: 'Glyph_Comparison', label: getText('glyph-comparison.h3', lang) },
+      {
+        id: 'Variants',
+        label: getText('variants-and-relevant-characters.h3', lang),
+      },
+      ...(disableExternalLinks
+        ? []
+        : [{ id: 'External_Links', label: getText('external-links.h3', lang) }]),
+      { id: 'JSON', label: getText('json.h3', lang) },
+    ],
+    [disableExternalLinks, lang],
+  )
+
+  useEffect(() => {
+    const updateActive = () => {
+      const sections = tocSections
+        .map(({ id }) => document.getElementById(id))
+        .filter((el): el is HTMLElement => Boolean(el))
+      if (sections.length === 0) return
+
+      const topOffset = 140
+      const current =
+        sections.filter((el) => el.getBoundingClientRect().top <= topOffset).at(-1) ??
+        sections[0]
+      if (current?.id) setActiveSectionId(current.id)
+    }
+
+    updateActive()
+    window.addEventListener('scroll', updateActive, { passive: true })
+    window.addEventListener('resize', updateActive)
+    window.addEventListener('hashchange', updateActive)
+    return () => {
+      window.removeEventListener('scroll', updateActive)
+      window.removeEventListener('resize', updateActive)
+      window.removeEventListener('hashchange', updateActive)
+    }
+  }, [tocSections])
+
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
-        <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
-        <figure>
-          <figcaption>
-            {results.UCS} {results.char}
-            {svs && (
-              <>
-                <br />
-                <small>
-                  {toCodePoints(svs.SVS_char)} {svs.SVS_char}
-                </small>
-              </>
-            )}
-          </figcaption>
-          <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-            {bot ? (
-              results.char
-            ) : (
-              <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />
-            )}
+        <section className="mojidata-summary-wrap">
+          <div className="mojidata-summary-actions">
+            <button
+              type="button"
+              className="mojidata-summary-copy-btn"
+              onClick={async () => {
+                if (typeof window === 'undefined') return
+                const url = `${window.location.origin}${window.location.pathname}`
+                await navigator.clipboard.writeText(url)
+                setPermalinkCopied(true)
+                window.setTimeout(() => setPermalinkCopied(false), 1400)
+              }}
+            >
+              {permalinkCopied
+                ? getText('summary.permalink.copied', lang)
+                : getText('summary.permalink.copy', lang)}
+            </button>
           </div>
-        </figure>
+          <div className="mojidata-summary-grid">
+            <div>
+              <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
+                {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
+              </div>
+              {isCompatibilityCharacter && (
+                <div className="mojidata-summary-badge-row">
+                  <span className="mojidata-badge">
+                    {getText('summary.compatibility.badge', lang)}
+                  </span>
+                </div>
+              )}
+            </div>
+            <dl className="mojidata-summary-kv">
+              <div className="mojidata-summary-row">
+                <dt>{getText('summary.unicode.dt', lang)}</dt>
+                <dd>
+                  {results.UCS} {results.char}
+                </dd>
+              </div>
+            {rsSummary && (
+              <div className="mojidata-summary-row">
+                <dt>{getText('summary.rs-index.dt', lang)}</dt>
+                <dd>{rsSummary}</dd>
+              </div>
+            )}
+            {totalStrokes && (
+              <div className="mojidata-summary-row">
+                <dt>{getText('summary.total-strokes.dt', lang)}</dt>
+                <dd>{totalStrokes}</dd>
+              </div>
+            )}
+            {readings.map((row) => (
+              <div className="mojidata-summary-row" key={row.label}>
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+          </div>
+        </section>
+
+        <nav
+          className="mojidata-section-nav mojidata-section-nav-mobile"
+          aria-label="Mojidata sections"
+        >
+          {tocSections.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className={section.id === activeSectionId ? 'is-active' : undefined}
+            >
+              {section.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="mojidata-content-grid">
+          <aside className="mojidata-toc-sidebar" aria-label="Mojidata table of contents">
+            <nav className="mojidata-section-nav mojidata-section-nav-sidebar" aria-label="Mojidata sections">
+              {tocSections.map((section) => (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  className={section.id === activeSectionId ? 'is-active' : undefined}
+                >
+                  {section.label}
+                </a>
+              ))}
+            </nav>
+          </aside>
+
+          <div className="mojidata-content-main">
+            <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
+        {isCompatibilityCharacter && (
+          <>
+            <h3 id="Unified_Ideograph">{getText('unified-ideograph.h3', lang)}</h3>
+            <div className="mojidata-chars-comparison">
+              <figure>
+                <figcaption>
+                  {canonicalCharacter.UCS} {canonicalCharacter.char}
+                </figcaption>
+                <div className="mojidata-char mojidata-char-link mojidata-char-glyphwiki" lang="ja">
+                  <Link href={mojidataHref(canonicalCharacter.char)}>
+                    {bot ? (
+                      canonicalCharacter.char
+                    ) : (
+                      <GlyphWikiCharImg
+                        char={canonicalCharacter.char}
+                        size={110}
+                        alt={canonicalCharacter.char}
+                      />
+                    )}
+                  </Link>
+                </div>
+              </figure>
+            </div>
+          </>
+        )}
         {!isCompatibilityCharacter && results.svs_cjkci.length > 0 && (
           <>
             <h3 id="Compatibility_Ideographs">
@@ -283,7 +465,7 @@ export default function MojidataResponseView(
             </div>
           </>
         )}
-        {charIsHan && (
+        {charIsHan && results.ids.length > 0 && (
           <>
             <h3 id="IDS">{getText('ids.h3', lang)}</h3>
             <table>
@@ -304,12 +486,12 @@ export default function MojidataResponseView(
             </table>
           </>
         )}
-        <h3 id="Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</h3>
+        <h2 id="Glyph_Comparison">{getText('glyph-comparison.h3', lang)}</h2>
         {charIsHan && (
           <>
-            <h4 id="Regional_Differences">
+            <h3 id="Regional_Differences">
               {getText('regional-differences.h4', lang)}
-            </h4>
+            </h3>
             <div className="mojidata-chars-comparison">
               {langTags.map((lang) => (
                 <figure key={lang}>
@@ -329,7 +511,7 @@ export default function MojidataResponseView(
                 </figure>
               ))}
             </div>
-            <h4 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h4>
+            <h3 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h3>
             {ivsAj1.length > 0 && (
               <div className="mojidata-chars-comparison">
                 {ivsAj1.map((record) => {
@@ -413,7 +595,7 @@ export default function MojidataResponseView(
             )}
           </>
         )}
-        <h4 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h4>
+        <h3 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h3>
         {mji.length > 0 && (
           <div className="mojidata-chars-comparison">
             {mji.map((record) => (
@@ -490,12 +672,13 @@ export default function MojidataResponseView(
             })}
           </div>
         )}
-        <h3 id="Variants">
+        <h2 id="Variants">
           {getText('variants-and-relevant-characters.h3', lang)}
-        </h3>
-        {allVariantChars.length > 0 &&
-          allVariantChars.map((char) => {
-            const kdpvRelations = kdpvVariants.get(char)
+        </h2>
+        {allVariantChars.length > 0 && (
+          <div className="mojidata-chars-comparison mojidata-variants-comparison">
+            {allVariantChars.map((char) => {
+              const kdpvRelations = kdpvVariants.get(char)
             const kdpvForwardRelations = kdpvRelations
               ? [...kdpvRelations].filter((r) => !r.startsWith('~'))
               : []
@@ -647,10 +830,12 @@ export default function MojidataResponseView(
                 </div>
               </figure>
             )
-          })}
+            })}
+          </div>
+        )}
         {!disableExternalLinks && (
           <>
-            <h3 id="External_Links">{getText('external-links.h3', lang)}</h3>
+            <h2 id="External_Links">{getText('external-links.h3', lang)}</h2>
             <ul>
               <li>
                 <a
@@ -731,8 +916,10 @@ export default function MojidataResponseView(
             </ul>
           </>
         )}
-        <h3 id="JSON">{getText('json.h3', lang)}</h3>
-        <pre>{JSON.stringify(results, null, 2)}</pre>
+            <h2 id="JSON">{getText('json.h3', lang)}</h2>
+            <pre>{JSON.stringify(results, null, 2)}</pre>
+          </div>
+        </div>
       </div>
     </article>
   )

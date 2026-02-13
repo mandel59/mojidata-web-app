@@ -1,22 +1,20 @@
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-import { getLanguage } from '@/getText'
+import { getLanguage, getText } from '@/getText'
 import IdsFinder from '@/components/IdsFinder'
 import LoadingArticle from '@/components/LoadingArticle'
 import IdsFindSpaClient from './idsfindSpaClient'
 import SpaAssetsPrefetcher from '@/spa/SpaAssetsPrefetcher'
+import MobileFormDrawer from '@/components/MobileFormDrawer'
+import {
+  appendArraySearchParams,
+  castToArray,
+  castToString,
+} from '../searchParams'
 
 type Props = {
   params: Promise<{ lang: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
-function castToArray<T>(x: undefined | T | T[]): T[] {
-  return Array.isArray(x) ? x : x != null ? [x] : []
-}
-
-function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
-  return Array.isArray(x) ? x.join(joiner) : x != null ? String(x) : ''
 }
 
 export async function generateMetadata({
@@ -26,8 +24,8 @@ export async function generateMetadata({
   const { ids, whole, query, page } = resolvedSearchParams
   function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/idsfind`)
-    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
-    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    appendArraySearchParams(url, 'ids', castToArray(ids))
+    appendArraySearchParams(url, 'whole', castToArray(whole))
     const queryString = castToString(query)
     if (queryString) url.searchParams.append('query', queryString)
     if (page != null) url.searchParams.append('page', String(page))
@@ -35,8 +33,8 @@ export async function generateMetadata({
   }
   function buildCanonicalPath() {
     const url = new URL(`https://mojidata.ryusei.dev/idsfind`)
-    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
-    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    appendArraySearchParams(url, 'ids', castToArray(ids))
+    appendArraySearchParams(url, 'whole', castToArray(whole))
     const queryString = castToString(query)
     if (queryString) url.searchParams.append('query', queryString)
     if (page != null) url.searchParams.append('page', String(page))
@@ -64,33 +62,37 @@ export default async function IdsFindSpa({ params, searchParams }: Props) {
 
   if (idsArray.length === 0 && wholeArray.length === 0 && !queryString) {
     return (
-      <div>
+      <section>
         <SpaAssetsPrefetcher kind="idsfind" />
-        <nav className="container">
-          <IdsFinder lang={language} action="/idsfind-spa" />
-        </nav>
-      </div>
+        <IdsFinder lang={language} action="/idsfind-spa" />
+      </section>
     )
   }
 
   return (
-    <div className="container">
+    <div className="space-y-4">
       <SpaAssetsPrefetcher kind="idsfind" />
-      <div className="grid">
-        <nav>
+      <section className="md:hidden">
+        <MobileFormDrawer
+          buttonLabel={getText('ids-finder.nav', language)}
+          title={getText('ids-finder.nav', language)}
+        >
           <IdsFinder lang={language} action="/idsfind-spa" />
-        </nav>
-        <main>
-          <div data-spa="idsfind">
-            <noscript>
-              <p>This page requires JavaScript.</p>
-            </noscript>
-            <Suspense fallback={<LoadingArticle />}>
-              <IdsFindSpaClient lang={language} />
-            </Suspense>
-          </div>
-        </main>
-      </div>
+        </MobileFormDrawer>
+      </section>
+      <section className="hidden md:block">
+        <IdsFinder lang={language} action="/idsfind-spa" />
+      </section>
+      <section>
+        <div data-spa="idsfind">
+          <noscript>
+            <p>This page requires JavaScript.</p>
+          </noscript>
+          <Suspense fallback={<LoadingArticle />}>
+            <IdsFindSpaClient />
+          </Suspense>
+        </div>
+      </section>
     </div>
   )
 }

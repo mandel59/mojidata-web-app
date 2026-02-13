@@ -3,7 +3,7 @@ import ConditionalLink from '@/components/ConditionalLink'
 export function AboutJaJp() {
   return (
     <>
-      <h2>Mojidata Web Appについて</h2>
+      <h1>Mojidata Web Appについて</h1>
       <p>
         Mojidata Web
         Appは、オープンソース漢字情報データベースコレクションMojidataのウェブアプリケーションです。

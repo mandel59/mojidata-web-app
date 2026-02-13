@@ -8,6 +8,7 @@ import { Language, getText } from '@/getText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Modal } from '@/components/ui/modal'
 
 export interface IdsFinderProps {
   lang: Language
@@ -25,6 +26,7 @@ export default function IdsFinder(props: IdsFinderProps) {
   const [ids, setIds] = useState<string[]>(initialIds)
   const [whole, setWhole] = useState<string>(initialWhole)
   const [query, setQuery] = useState<string>(initialQuery)
+  const [showHelp, setShowHelp] = useState(false)
   return (
     <div className="w-full">
       <GetForm action={action}>
@@ -38,19 +40,32 @@ export default function IdsFinder(props: IdsFinderProps) {
             <div className="rounded-md border border-border bg-muted/40 p-3">
               <p className="mb-2 text-sm text-muted-foreground">Quick examples</p>
               <div className="flex flex-wrap gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => setIds(['⿰日月'])}>
+                <Button type="button" size="sm" onClick={() => setIds(['⿰日月'])}>
                   IDS: ⿰日月
                 </Button>
-                <Button type="button" variant="outline" size="sm" onClick={() => setWhole('＠⿰？月')}>
+                <Button type="button" size="sm" onClick={() => setWhole('＠⿰？月')}>
                   Whole: ＠⿰？月
                 </Button>
-                <Button type="button" variant="outline" size="sm" onClick={() => setQuery('：日')}>
+                <Button type="button" size="sm" onClick={() => setQuery('：日')}>
                   Query: ：日
                 </Button>
               </div>
             </div>
-            <details className="mt-3">
-              <summary>{getText('list-of-ids-operators.summary', lang)}</summary>
+            <div className="mt-3">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowHelp(true)}
+              >
+                {getText('list-of-ids-operators.summary', lang)}
+              </Button>
+            </div>
+            <Modal
+              open={showHelp}
+              onClose={() => setShowHelp(false)}
+              title={getText('list-of-ids-operators.summary', lang)}
+            >
               <dl>
                 <dt>{getText('ids-unary-operators.dt', lang)}</dt>
                 <dd>〾↔↷</dd>
@@ -59,7 +74,7 @@ export default function IdsFinder(props: IdsFinderProps) {
                 <dt>{getText('ids-ternary-operators.dt', lang)}</dt>
                 <dd>⿲⿳</dd>
               </dl>
-            </details>
+            </Modal>
             <div key="ids" className="mt-2">
               <label className="mb-1 inline-block font-semibold">
                 {getText('ids-multiple-sequences-can-be-entered.label', lang)}

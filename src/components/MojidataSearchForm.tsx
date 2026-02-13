@@ -7,6 +7,7 @@ import { Language, getText } from '@/getText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Modal } from '@/components/ui/modal'
 
 export interface MojidataSearchFormProps {
   lang: Language
@@ -19,6 +20,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
   const searchParams = useSearchParams()
   const initialQuery = pathIsIdsfind ? searchParams.get('query') ?? '' : ''
   const [query, setQuery] = useState<string>(initialQuery)
+  const [showHelp, setShowHelp] = useState(false)
   return (
     <div className="w-full">
       <GetForm action={action}>
@@ -38,7 +40,6 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                   <Button
                     key={example}
                     type="button"
-                    variant="outline"
                     size="sm"
                     onClick={() => setQuery(example)}
                   >
@@ -47,8 +48,21 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 ))}
               </div>
             </div>
-            <details className="mt-3">
-              <summary>{getText('usage.summary', lang)}</summary>
+            <div className="mt-3">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowHelp(true)}
+              >
+                {getText('usage.summary', lang)}
+              </Button>
+            </div>
+            <Modal
+              open={showHelp}
+              onClose={() => setShowHelp(false)}
+              title={getText('usage.summary', lang)}
+            >
               <table>
                 <thead>
                   <tr>
@@ -94,13 +108,9 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                     <td>{getText('japanese-kun-reading.description', lang)}</td>
                   </tr>
                   <tr>
-                    <td>
-                      {getText('japanese-kun-reading-prefix.query-type', lang)}
-                    </td>
+                    <td>{getText('japanese-kun-reading-prefix.query-type', lang)}</td>
                     <td>あか＊</td>
-                    <td>
-                      {getText('japanese-kun-reading-prefix.description', lang)}
-                    </td>
+                    <td>{getText('japanese-kun-reading-prefix.description', lang)}</td>
                   </tr>
                   <tr>
                     <td>{getText('japanese-on-reading.query-type', lang)}</td>
@@ -118,17 +128,13 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                     <td>{getText('total-strokes-range.description', lang)}</td>
                   </tr>
                   <tr>
-                    <td>
-                      {getText('mj-database-serial-number.query-type', lang)}
-                    </td>
+                    <td>{getText('mj-database-serial-number.query-type', lang)}</td>
                     <td>MJ052285</td>
-                    <td>
-                      {getText('mj-database-serial-number.description', lang)}
-                    </td>
+                    <td>{getText('mj-database-serial-number.description', lang)}</td>
                   </tr>
                 </tbody>
               </table>
-            </details>
+            </Modal>
             <div key="query" className="mt-2">
               <label htmlFor="mojidata-query-input" className="sr-only">
                 {getText('mojidata-search.placeholder', lang)}

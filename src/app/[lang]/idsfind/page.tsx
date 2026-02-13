@@ -1,17 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { Suspense } from 'react'
-import IdsFindResponse from './IdsFindResponse'
-import LoadingArticle from '@/components/LoadingArticle'
 import IdsFinder from '@/components/IdsFinder'
-import { getLanguage } from '@/getText'
-
-function castToArray<T>(x: undefined | T | T[]): T[] {
-  return Array.isArray(x) ? x : x != null ? [x] : []
-}
-
-function castToString<T>(x: undefined | T | T[], joiner: string = ' '): string {
-  return Array.isArray(x) ? x.join(joiner) : x != null ? String(x) : ''
-}
+import { getLanguage, getText } from '@/getText'
+import IdsFindSpaClient from '../idsfind-spa/idsfindSpaClient'
+import { appendArraySearchParams, castToArray, castToString } from '../searchParams'
+import MobileFormDrawer from '@/components/MobileFormDrawer'
 
 export default async function IdsFind({
   params,
@@ -20,8 +12,7 @@ export default async function IdsFind({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { ids, whole, query, page, bot, disableExternalLinks } =
-    resolvedSearchParams
+  const { ids, whole, query } = resolvedSearchParams
   const idsArray = castToArray(ids)
   const wholeArray = castToArray(whole)
   const queryString = castToString(query)
@@ -33,24 +24,20 @@ export default async function IdsFind({
     )
   }
   return (
-    <div className="grid gap-4 xl:grid-cols-[minmax(0,360px)_minmax(0,1fr)] xl:items-start">
-      <section>
+    <div className="space-y-4">
+      <section className="md:hidden">
+        <MobileFormDrawer
+          buttonLabel={getText('ids-finder.nav', language)}
+          title={getText('ids-finder.nav', language)}
+        >
+          <IdsFinder lang={language} action="/idsfind" />
+        </MobileFormDrawer>
+      </section>
+      <section className="hidden md:block">
         <IdsFinder lang={language} action="/idsfind" />
       </section>
       <section>
-          <Suspense
-            key={JSON.stringify({ ids, whole, query })}
-            fallback={<LoadingArticle />}
-          >
-            <IdsFindResponse
-              ids={idsArray}
-              whole={wholeArray}
-              query={queryString}
-              page={page ? Number(page) : undefined}
-              bot={!!bot}
-              disableExternalLinks={!!disableExternalLinks}
-            />
-          </Suspense>
+        <IdsFindSpaClient />
       </section>
     </div>
   )
@@ -64,8 +51,8 @@ export async function generateMetadata(
   const { ids, whole, query, page } = resolvedSearchParams
   function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/idsfind`)
-    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
-    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    appendArraySearchParams(url, 'ids', castToArray(ids))
+    appendArraySearchParams(url, 'whole', castToArray(whole))
     const queryString = castToString(query)
     if (queryString) url.searchParams.append('query', queryString)
     if (page != null) url.searchParams.append('page', String(page))
@@ -73,8 +60,8 @@ export async function generateMetadata(
   }
   function buildCanonicalPath() {
     const url = new URL(`https://mojidata.ryusei.dev/idsfind`)
-    castToArray(ids).forEach((v) => url.searchParams.append('ids', v))
-    castToArray(whole).forEach((v) => url.searchParams.append('whole', v))
+    appendArraySearchParams(url, 'ids', castToArray(ids))
+    appendArraySearchParams(url, 'whole', castToArray(whole))
     const queryString = castToString(query)
     if (queryString) url.searchParams.append('query', queryString)
     if (page != null) url.searchParams.append('page', String(page))

@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { Suspense } from 'react'
 import MojidataResponse from './MojidataResponse'
-import LoadingArticle from '@/components/LoadingArticle'
+import LoadingMojidataArticle from '@/components/LoadingMojidataArticle'
 import { notFound, redirect } from 'next/navigation'
 import { getLanguage } from '@/getText'
 
@@ -38,7 +38,7 @@ export default async function Mojidata({ params, searchParams }: Props) {
   return (
     <div>
       <main className="container">
-        <Suspense fallback={<LoadingArticle />}>
+        <Suspense fallback={<LoadingMojidataArticle />}>
           <MojidataResponse
             ucs={ucs}
             bot={!!bot}

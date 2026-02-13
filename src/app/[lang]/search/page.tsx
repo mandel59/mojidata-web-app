@@ -1,9 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { Suspense } from 'react'
-import LoadingArticle from '@/components/LoadingArticle'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
 import IdsFindResponse from '../idsfind/IdsFindResponse'
-import { getLanguage } from '@/getText'
+import { getLanguage, getText } from '@/getText'
+import { castToString } from '../searchParams'
+import MobileFormDrawer from '@/components/MobileFormDrawer'
 
 export default async function Search({
   params,
@@ -12,13 +12,8 @@ export default async function Search({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  let { query, page, bot, disableExternalLinks } = resolvedSearchParams
-  if (Array.isArray(query)) {
-    query = query.join(' ')
-  }
-  if (typeof query === 'string') {
-    query = query.trim()
-  }
+  const { page, bot, disableExternalLinks } = resolvedSearchParams
+  const query = castToString(resolvedSearchParams.query).trim()
   if (!query) {
     return (
       <section>
@@ -27,25 +22,28 @@ export default async function Search({
     )
   }
   return (
-    <div className="grid gap-4 xl:grid-cols-[minmax(0,360px)_minmax(0,1fr)] xl:items-start">
-      <section>
+    <div className="space-y-4">
+      <section className="md:hidden">
+        <MobileFormDrawer
+          buttonLabel={getText('mojidata-search.nav', language)}
+          title={getText('mojidata-search.nav', language)}
+        >
+          <MojidataSearchForm lang={language} action="/search" />
+        </MobileFormDrawer>
+      </section>
+      <section className="hidden md:block">
         <MojidataSearchForm lang={language} action="/search" />
       </section>
       <section>
-          <Suspense
-            key={JSON.stringify({ query })}
-            fallback={<LoadingArticle />}
-          >
-            <IdsFindResponse
-              path="/search"
-              ids={[]}
-              whole={[]}
-              query={query}
-              page={page ? Number(page) : undefined}
-              bot={!!bot}
-              disableExternalLinks={!!disableExternalLinks}
-            />
-          </Suspense>
+        <IdsFindResponse
+          path="/search"
+          ids={[]}
+          whole={[]}
+          query={query}
+          page={page ? Number(page) : undefined}
+          bot={!!bot}
+          disableExternalLinks={!!disableExternalLinks}
+        />
       </section>
     </div>
   )
@@ -56,10 +54,8 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const resolvedSearchParams = await searchParams
-  let { query, page } = resolvedSearchParams
-  if (Array.isArray(query)) {
-    query = query.join(' ')
-  }
+  const { page } = resolvedSearchParams
+  const query = castToString(resolvedSearchParams.query)
   function buildLocalePath(locale: string) {
     const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
     if (query != null) url.searchParams.append('query', String(query))

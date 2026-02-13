@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { mojidataBrowser } from '@/spa/mojidataApiBrowser'
 import type { Language } from '@/getText'
 import MojidataResponseView from '../../mojidata/[char]/MojidataResponseView'
-import LoadingArticle from '@/components/LoadingArticle'
+import LoadingMojidataArticle from '@/components/LoadingMojidataArticle'
 import type { MojidataResults } from '@/mojidata/mojidataShared'
 import { useSearchParams } from 'next/navigation'
 
@@ -58,7 +58,7 @@ export default function MojidataSpaClient(props: { char: string; lang: Language 
     }
   }, [char])
 
-  if (loading) return <LoadingArticle />
+  if (loading) return <LoadingMojidataArticle />
   if (error) return <p style={{ color: 'red' }}>{error}</p>
   if (!data) return <p>No results.</p>
 
