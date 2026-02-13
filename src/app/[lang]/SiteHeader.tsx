@@ -38,7 +38,7 @@ export function SiteHeader(props: SiteHeaderProps) {
 
   return (
     <header className="rounded-md border border-border/70 bg-background/80 px-3 py-2">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex min-h-8 items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2 md:gap-3">
           <Link
             className="hidden shrink-0 whitespace-nowrap font-semibold text-foreground no-underline md:inline"
@@ -49,13 +49,13 @@ export function SiteHeader(props: SiteHeaderProps) {
 
           <nav aria-label="Primary" className="flex items-center gap-1 text-[13px] sm:text-sm">
             <Link
-              className="inline-flex h-8 items-center rounded px-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="inline-flex h-8 items-center rounded px-2 leading-none text-muted-foreground hover:bg-muted hover:text-foreground"
               href="/search"
             >
               {getText('mojidata-search.nav', language)}
             </Link>
             <Link
-              className="inline-flex h-8 items-center rounded px-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="inline-flex h-8 items-center rounded px-2 leading-none text-muted-foreground hover:bg-muted hover:text-foreground"
               href="/idsfind"
             >
               {getText('ids-finder.nav', language)}
@@ -68,7 +68,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             type="button"
             variant="ghost"
             size="sm"
-            className="h-8 px-2"
+            className="h-8 px-2 leading-none"
             aria-expanded={moreOpen}
             aria-haspopup="menu"
             aria-controls={menuId}
