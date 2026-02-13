@@ -22,7 +22,7 @@ export default function PreviewWarning(): ReactElement {
       return <></>
     default:
       return (
-        <div className="container">
+        <div className="container preview-warning">
           <article>
             <p>
               This is a preview of the site. The production site is at &lt;
