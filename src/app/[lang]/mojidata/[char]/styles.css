@@ -89,6 +89,7 @@
 .mojidata-content-main {
   min-width: 0;
   line-height: 1.75;
+  padding-bottom: max(18vh, 8rem);
 }
 
 .mojidata-content-main h2 {
