@@ -17,6 +17,8 @@ function stripLocalePrefix(pathname: string) {
   return pathname.replace(/^\/[a-z]{2}-[A-Z]{2}(?=\/)/, '')
 }
 
+const idsfindResultCache = new Map<string, { results: string[]; total: number }>()
+
 export default function IdsFindSpaClient(props: { lang: Language }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -34,10 +36,16 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
   const currentPage = Math.max(1, Number(searchParams.get('page') ?? '1') || 1)
   const pageSize = 50
 
-  const [loading, setLoading] = useState(false)
+  const cacheKey = useMemo(
+    () => JSON.stringify({ ids, whole, query, bot, disableExternalLinks }),
+    [ids, whole, query, bot, disableExternalLinks],
+  )
+  const cached = idsfindResultCache.get(cacheKey)
+
+  const [loading, setLoading] = useState(!cached)
   const [error, setError] = useState<string | null>(null)
-  const [results, setResults] = useState<string[]>([])
-  const [total, setTotal] = useState<number>(0)
+  const [results, setResults] = useState<string[]>(cached?.results ?? [])
+  const [total, setTotal] = useState<number>(cached?.total ?? 0)
 
   const offset = (currentPage - 1) * pageSize
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
@@ -61,6 +69,16 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
       setLoading(false)
       return
     }
+
+    const cached = idsfindResultCache.get(cacheKey)
+    if (cached) {
+      setResults(cached.results)
+      setTotal(cached.total)
+      setLoading(false)
+      setError(null)
+      return
+    }
+
     ;(async () => {
       setLoading(true)
       setError(null)
@@ -73,6 +91,7 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
           qs: parsed.qs,
         })
         if (cancelled) return
+        idsfindResultCache.set(cacheKey, { results, total })
         setResults(results)
         setTotal(total)
       } catch (e) {
@@ -85,7 +104,7 @@ export default function IdsFindSpaClient(props: { lang: Language }) {
     return () => {
       cancelled = true
     }
-  }, [ids, whole, query])
+  }, [cacheKey, ids, whole, query])
 
   if (ids.length === 0 && whole.length === 0 && !query) return null
   if (error) return <p style={{ color: 'red' }}>{error}</p>
