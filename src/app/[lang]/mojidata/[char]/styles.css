@@ -17,8 +17,27 @@
 
 .mojidata-summary-kv {
   display: grid;
-  gap: 0.3rem;
-  font-size: 0.95rem;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.93rem;
+}
+
+.mojidata-summary-row {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 0.45rem;
+  align-items: baseline;
+  padding: 0.18rem 0;
+}
+
+.mojidata-summary-row dt {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-weight: 600;
+}
+
+.mojidata-summary-row dd {
+  margin: 0;
 }
 
 .mojidata-badge {
@@ -363,5 +382,10 @@
   .mojidata-summary-grid {
     grid-template-columns: 1fr;
     justify-items: start;
+  }
+
+  .mojidata-summary-row {
+    grid-template-columns: 1fr;
+    gap: 0.08rem;
   }
 }

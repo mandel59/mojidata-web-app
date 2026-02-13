@@ -259,29 +259,35 @@ export default function MojidataResponseView(
           <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
             {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
           </div>
-          <div className="mojidata-summary-kv">
-            <div>
-              <strong>Unicode:</strong> {results.UCS} {results.char}
-              {isCompatibilityCharacter && (
-                <span className="mojidata-badge">Compatibility</span>
-              )}
+          <dl className="mojidata-summary-kv">
+            <div className="mojidata-summary-row">
+              <dt>Unicode</dt>
+              <dd>
+                {results.UCS} {results.char}
+                {isCompatibilityCharacter && (
+                  <span className="mojidata-badge">Compatibility</span>
+                )}
+              </dd>
             </div>
             {rsSummary && (
-              <div>
-                <strong>RS:</strong> {rsSummary}
+              <div className="mojidata-summary-row">
+                <dt>RS</dt>
+                <dd>{rsSummary}</dd>
               </div>
             )}
             {totalStrokes && (
-              <div>
-                <strong>Total Strokes:</strong> {totalStrokes}
+              <div className="mojidata-summary-row">
+                <dt>Total Strokes</dt>
+                <dd>{totalStrokes}</dd>
               </div>
             )}
             {readings.map((row) => (
-              <div key={row.label}>
-                <strong>{row.label}:</strong> {row.value}
+              <div className="mojidata-summary-row" key={row.label}>
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </section>
 
         <nav
