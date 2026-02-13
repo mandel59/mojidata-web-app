@@ -264,7 +264,6 @@ export default function MojidataResponseView(
               <strong>Unicode:</strong> {results.UCS} {results.char}
             </div>
             <div>
-              <strong>Status:</strong>{' '}
               <span className="mojidata-badge">
                 {isCompatibilityCharacter ? 'Compatibility' : 'Canonical'}
               </span>
