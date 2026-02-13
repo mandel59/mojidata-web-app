@@ -9,10 +9,14 @@ export interface SiteHeaderProps {
 export function SiteHeader(props: SiteHeaderProps) {
   const { siteName, language } = props
   return (
-    <header className="container">
-      <h1>{siteName}</h1>
-      <nav>
-        <ul>
+    <header className="container site-header">
+      <div className="site-header-title-row">
+        <h1 className="site-title">
+          <Link href="/search">{siteName}</Link>
+        </h1>
+      </div>
+      <nav className="site-nav" aria-label="Global">
+        <ul className="site-nav-primary">
           <li>
             <Link href="/idsfind">{getText('ids-finder.nav', language)}</Link>
           </li>
@@ -20,7 +24,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             <Link href="/search">{getText('mojidata-search.nav', language)}</Link>
           </li>
         </ul>
-        <ul>
+        <ul className="site-nav-secondary">
           <li>
             <Link href="/privacy-policy">
               {getText('privacy-policy.nav', language)}
