@@ -25,6 +25,7 @@ export default function IdsFinder(props: IdsFinderProps) {
   const [ids, setIds] = useState<string[]>(initialIds)
   const [whole, setWhole] = useState<string>(initialWhole)
   const [query, setQuery] = useState<string>(initialQuery)
+  const [showHelp, setShowHelp] = useState(false)
   return (
     <div className="w-full">
       <GetForm action={action}>
@@ -49,17 +50,30 @@ export default function IdsFinder(props: IdsFinderProps) {
                 </Button>
               </div>
             </div>
-            <details className="mt-3">
-              <summary>{getText('list-of-ids-operators.summary', lang)}</summary>
-              <dl>
-                <dt>{getText('ids-unary-operators.dt', lang)}</dt>
-                <dd>〾↔↷</dd>
-                <dt>{getText('ids-binary-operators.dt', lang)}</dt>
-                <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
-                <dt>{getText('ids-ternary-operators.dt', lang)}</dt>
-                <dd>⿲⿳</dd>
-              </dl>
-            </details>
+            <div className="mt-3">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowHelp((v) => !v)}
+              >
+                {showHelp
+                  ? 'Hide operators'
+                  : getText('list-of-ids-operators.summary', lang)}
+              </Button>
+              {showHelp && (
+                <div className="mt-2 rounded-md border border-border p-3">
+                  <dl>
+                    <dt>{getText('ids-unary-operators.dt', lang)}</dt>
+                    <dd>〾↔↷</dd>
+                    <dt>{getText('ids-binary-operators.dt', lang)}</dt>
+                    <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
+                    <dt>{getText('ids-ternary-operators.dt', lang)}</dt>
+                    <dd>⿲⿳</dd>
+                  </dl>
+                </div>
+              )}
+            </div>
             <div key="ids" className="mt-2">
               <label className="mb-1 inline-block font-semibold">
                 {getText('ids-multiple-sequences-can-be-entered.label', lang)}

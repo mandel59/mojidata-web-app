@@ -19,6 +19,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
   const searchParams = useSearchParams()
   const initialQuery = pathIsIdsfind ? searchParams.get('query') ?? '' : ''
   const [query, setQuery] = useState<string>(initialQuery)
+  const [showHelp, setShowHelp] = useState(false)
   return (
     <div className="w-full">
       <GetForm action={action}>
@@ -47,88 +48,99 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 ))}
               </div>
             </div>
-            <details className="mt-3">
-              <summary>{getText('usage.summary', lang)}</summary>
-              <table>
-                <thead>
-                  <tr>
-                    <th>{getText('query-type.th', lang)}</th>
-                    <th>{getText('example.th', lang)}</th>
-                    <th>{getText('description.th', lang)}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{getText('component-characters.query-type', lang)}</td>
-                    <td>日　月</td>
-                    <td>{getText('component-characters.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('component-ids.query-type', lang)}</td>
-                    <td>⿰日月</td>
-                    <td>{getText('component-ids.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('whole-ids.query-type', lang)}</td>
-                    <td>＠⿰？月</td>
-                    <td>{getText('whole-ids.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('search-character.query-type', lang)}</td>
-                    <td>：日</td>
-                    <td>{getText('search-character.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('search-character-kana.query-type', lang)}</td>
-                    <td>：あ</td>
-                    <td>{getText('search-character-kana.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('code-point.query-type', lang)}</td>
-                    <td>U+21234</td>
-                    <td>{getText('code-point.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('japanese-kun-reading.query-type', lang)}</td>
-                    <td>あか</td>
-                    <td>{getText('japanese-kun-reading.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {getText('japanese-kun-reading-prefix.query-type', lang)}
-                    </td>
-                    <td>あか＊</td>
-                    <td>
-                      {getText('japanese-kun-reading-prefix.description', lang)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>{getText('japanese-on-reading.query-type', lang)}</td>
-                    <td>セキ</td>
-                    <td>{getText('japanese-on-reading.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('total-strokes.query-type', lang)}</td>
-                    <td>＝１０</td>
-                    <td>{getText('total-strokes.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>{getText('total-strokes-range.query-type', lang)}</td>
-                    <td>＞＝１　＜＝３</td>
-                    <td>{getText('total-strokes-range.description', lang)}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {getText('mj-database-serial-number.query-type', lang)}
-                    </td>
-                    <td>MJ052285</td>
-                    <td>
-                      {getText('mj-database-serial-number.description', lang)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </details>
+            <div className="mt-3">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowHelp((v) => !v)}
+              >
+                {showHelp ? 'Hide help' : getText('usage.summary', lang)}
+              </Button>
+              {showHelp && (
+                <div className="mt-2 rounded-md border border-border p-3">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>{getText('query-type.th', lang)}</th>
+                        <th>{getText('example.th', lang)}</th>
+                        <th>{getText('description.th', lang)}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{getText('component-characters.query-type', lang)}</td>
+                        <td>日　月</td>
+                        <td>{getText('component-characters.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('component-ids.query-type', lang)}</td>
+                        <td>⿰日月</td>
+                        <td>{getText('component-ids.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('whole-ids.query-type', lang)}</td>
+                        <td>＠⿰？月</td>
+                        <td>{getText('whole-ids.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('search-character.query-type', lang)}</td>
+                        <td>：日</td>
+                        <td>{getText('search-character.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('search-character-kana.query-type', lang)}</td>
+                        <td>：あ</td>
+                        <td>{getText('search-character-kana.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('code-point.query-type', lang)}</td>
+                        <td>U+21234</td>
+                        <td>{getText('code-point.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('japanese-kun-reading.query-type', lang)}</td>
+                        <td>あか</td>
+                        <td>{getText('japanese-kun-reading.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {getText('japanese-kun-reading-prefix.query-type', lang)}
+                        </td>
+                        <td>あか＊</td>
+                        <td>
+                          {getText('japanese-kun-reading-prefix.description', lang)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{getText('japanese-on-reading.query-type', lang)}</td>
+                        <td>セキ</td>
+                        <td>{getText('japanese-on-reading.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('total-strokes.query-type', lang)}</td>
+                        <td>＝１０</td>
+                        <td>{getText('total-strokes.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>{getText('total-strokes-range.query-type', lang)}</td>
+                        <td>＞＝１　＜＝３</td>
+                        <td>{getText('total-strokes-range.description', lang)}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {getText('mj-database-serial-number.query-type', lang)}
+                        </td>
+                        <td>MJ052285</td>
+                        <td>
+                          {getText('mj-database-serial-number.description', lang)}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
             <div key="query" className="mt-2">
               <label htmlFor="mojidata-query-input" className="sr-only">
                 {getText('mojidata-search.placeholder', lang)}
