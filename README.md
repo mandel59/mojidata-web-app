@@ -34,3 +34,31 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## SPA routes vs non-SPA routes
+
+This app has both **SPA** and **non-SPA** route sets.
+
+- non-SPA:
+  - `/search`
+  - `/idsfind`
+  - `/mojidata/{char}`
+- SPA:
+  - `/search-spa`
+  - `/idsfind-spa`
+  - `/mojidata-spa/{char}`
+
+### Key difference
+
+- **non-SPA routes** use server-side processing for search/lookup.
+- **SPA routes** can load data/assets in the browser and perform more client-side processing.
+
+### Important policy
+
+Do **not** switch non-SPA routes to SPA client search logic.
+In particular, `/search` should keep using server-side search flow (not `SearchSpaClient`) so mobile clients are not forced to download/search large DB payloads locally.
+
+### UI policy
+
+UI can be aligned between SPA and non-SPA routes (layout, spacing, components),
+but the data-processing model above must remain unchanged.
