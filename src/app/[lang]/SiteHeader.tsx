@@ -38,22 +38,26 @@ export function SiteHeader(props: SiteHeaderProps) {
 
   return (
     <header className="rounded-md border border-border/70 bg-background/80 px-3 py-2">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-2 md:gap-3">
           <Link
-            className="hidden shrink-0 whitespace-nowrap font-semibold text-foreground no-underline sm:inline"
+            className="hidden shrink-0 whitespace-nowrap font-semibold text-foreground no-underline md:inline"
             href="/search"
           >
             {siteName}
           </Link>
-          <nav
-            aria-label="Primary"
-            className="flex min-w-0 items-center gap-0.5 overflow-x-auto whitespace-nowrap pr-1 text-sm text-muted-foreground"
-          >
-            <Link className="rounded px-1.5 py-1 hover:bg-muted hover:text-foreground" href="/search">
+
+          <nav aria-label="Primary" className="flex items-center gap-1 text-[13px] sm:text-sm">
+            <Link
+              className="rounded px-2 py-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+              href="/search"
+            >
               {getText('mojidata-search.nav', language)}
             </Link>
-            <Link className="rounded px-1.5 py-1 hover:bg-muted hover:text-foreground" href="/idsfind">
+            <Link
+              className="rounded px-2 py-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+              href="/idsfind"
+            >
               {getText('ids-finder.nav', language)}
             </Link>
           </nav>
@@ -70,14 +74,14 @@ export function SiteHeader(props: SiteHeaderProps) {
             aria-label="Open secondary menu"
             onClick={() => setMoreOpen((v) => !v)}
           >
-            <span aria-hidden>…</span>
+            More
           </Button>
           {moreOpen && (
             <div
               id={menuId}
               role="menu"
               aria-label="Secondary navigation"
-              className="absolute right-0 top-10 z-30 min-w-44 rounded-md border border-border bg-card p-1 text-sm shadow-lg"
+              className="absolute right-0 top-full z-30 mt-1 min-w-44 rounded-md border border-border bg-card p-1 text-sm shadow-lg"
             >
               <Link
                 role="menuitem"
