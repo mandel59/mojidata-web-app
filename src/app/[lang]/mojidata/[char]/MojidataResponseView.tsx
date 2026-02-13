@@ -222,11 +222,16 @@ export default function MojidataResponseView(
   const cns11643Search = getCns11643Search(results)
   const primaryIds = results.ids.slice(0, 2).map((record) => record.IDS)
 
-  const rsUnicode = results.unihan_rs?.kRSUnicode?.[0]
-  const radicalSummary = rsUnicode
-    ? `${rsUnicode[0]} (${rsUnicode[2]})`
-    : results.unihan.kRSUnicode
-  const innerStrokes = rsUnicode?.[1]
+  const rsUnicodeList = results.unihan_rs?.kRSUnicode
+  const rsSummary =
+    rsUnicodeList && rsUnicodeList.length > 0
+      ? rsUnicodeList
+          .map((entry) => {
+            const [, inner, , rawRadical] = entry
+            return `${rawRadical}.${inner}`
+          })
+          .join(' / ')
+      : results.unihan.kRSUnicode
   const totalStrokes = results.unihan.kTotalStrokes
 
   const compactReading = (value?: string) =>
@@ -265,14 +270,9 @@ export default function MojidataResponseView(
                 {isCompatibilityCharacter ? 'Compatibility' : 'Canonical'}
               </span>
             </div>
-            {radicalSummary && (
+            {rsSummary && (
               <div>
-                <strong>Radical:</strong> {radicalSummary}
-              </div>
-            )}
-            {innerStrokes != null && (
-              <div>
-                <strong>Inner Strokes:</strong> {innerStrokes}
+                <strong>RS:</strong> {rsSummary}
               </div>
             )}
             {totalStrokes && (
