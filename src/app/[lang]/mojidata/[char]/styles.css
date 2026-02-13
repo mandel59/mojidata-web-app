@@ -408,14 +408,30 @@
 
 @media (max-width: 767px) {
   .mojidata-summary-actions {
-    position: static;
-    margin-bottom: 0.35rem;
+    position: absolute;
+    top: 0.45rem;
+    right: 0.5rem;
+    margin: 0;
+  }
+
+  .mojidata-summary-copy-btn {
+    margin-left: 0;
+    padding: 0.08rem 0.5rem;
+    font-size: 0.7rem;
   }
 
   .mojidata-summary-grid {
     grid-template-columns: 1fr;
     justify-items: start;
     padding-right: 0;
+  }
+
+  .mojidata-summary-grid > div:first-child {
+    justify-self: center;
+  }
+
+  .mojidata-summary-badge-row {
+    text-align: center;
   }
 
   .mojidata-summary-row {
