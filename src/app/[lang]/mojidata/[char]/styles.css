@@ -40,6 +40,21 @@
   margin: 0;
 }
 
+.mojidata-summary-copy-btn {
+  margin-left: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  background: #fff;
+  border-radius: 9999px;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.74rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.mojidata-summary-copy-btn:hover {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
+}
+
 .mojidata-summary-badge-row {
   margin-top: 0.4rem;
 }

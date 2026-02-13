@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, useState } from 'react'
 import {
   getBabelStoneIdsInverseVariants,
   getBabelStoneIdsVariants,
@@ -105,6 +105,7 @@ export default function MojidataResponseView(
   const mojidataBasePath = linkMode === 'spa' ? '/mojidata-spa/' : '/mojidata/'
   const mojidataHref = (char: string) =>
     `${mojidataBasePath}${encodeURIComponent(char)}`
+  const [permalinkCopied, setPermalinkCopied] = useState(false)
   const idsfindHref = (whole: string) =>
     `/idsfind?whole=${encodeURIComponent(whole)}`
 
@@ -271,6 +272,19 @@ export default function MojidataResponseView(
               <dt>Unicode</dt>
               <dd>
                 {results.UCS} {results.char}
+                <button
+                  type="button"
+                  className="mojidata-summary-copy-btn"
+                  onClick={async () => {
+                    if (typeof window === 'undefined') return
+                    const url = `${window.location.origin}${window.location.pathname}`
+                    await navigator.clipboard.writeText(url)
+                    setPermalinkCopied(true)
+                    window.setTimeout(() => setPermalinkCopied(false), 1400)
+                  }}
+                >
+                  {permalinkCopied ? 'Copied' : 'Copy permalink'}
+                </button>
               </dd>
             </div>
             {rsSummary && (
