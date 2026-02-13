@@ -275,7 +275,7 @@ export default function MojidataResponseView(
             </div>
             {rsSummary && (
               <div className="mojidata-summary-row">
-                <dt>Radical-Stroke Index</dt>
+                <dt>RS Index</dt>
                 <dd>{rsSummary}</dd>
               </div>
             )}

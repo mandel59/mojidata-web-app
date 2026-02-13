@@ -24,7 +24,7 @@
 
 .mojidata-summary-row {
   display: grid;
-  grid-template-columns: 9.2rem minmax(0, 1fr);
+  grid-template-columns: 6.2rem minmax(0, 1fr);
   gap: 0.25rem;
   align-items: baseline;
   padding: 0.18rem 0;
