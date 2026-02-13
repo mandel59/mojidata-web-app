@@ -5,16 +5,17 @@
 }
 
 .mojidata-summary-wrap {
+  position: relative;
   border: 1px solid hsl(var(--border));
   border-radius: 0.75rem;
-  padding: 0.6rem 0.75rem 0.75rem;
+  padding: 0.75rem;
   background: hsl(var(--muted));
 }
 
 .mojidata-summary-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.35rem;
+  position: absolute;
+  top: 0.55rem;
+  right: 0.65rem;
 }
 
 .mojidata-summary-grid {
@@ -22,6 +23,7 @@
   grid-template-columns: 120px minmax(0, 1fr);
   gap: 0.8rem;
   align-items: center;
+  padding-right: 7rem;
 }
 
 .mojidata-summary-kv {
@@ -405,9 +407,15 @@
 }
 
 @media (max-width: 700px) {
+  .mojidata-summary-actions {
+    position: static;
+    margin-bottom: 0.35rem;
+  }
+
   .mojidata-summary-grid {
     grid-template-columns: 1fr;
     justify-items: start;
+    padding-right: 0;
   }
 
   .mojidata-summary-row {
