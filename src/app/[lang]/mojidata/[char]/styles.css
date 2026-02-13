@@ -40,10 +40,12 @@
   margin: 0;
 }
 
+.mojidata-summary-badge-row {
+  margin-top: 0.4rem;
+}
+
 .mojidata-badge {
   display: inline-block;
-  margin-left: 0.45rem;
-  vertical-align: text-top;
   border: 1px solid hsl(var(--border));
   border-radius: 9999px;
   padding: 0.05rem 0.45rem;

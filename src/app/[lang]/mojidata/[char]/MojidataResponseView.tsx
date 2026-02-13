@@ -256,17 +256,21 @@ export default function MojidataResponseView(
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
         <section className="mojidata-summary-grid">
-          <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-            {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
+          <div>
+            <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
+              {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
+            </div>
+            {isCompatibilityCharacter && (
+              <div className="mojidata-summary-badge-row">
+                <span className="mojidata-badge">Compatibility</span>
+              </div>
+            )}
           </div>
           <dl className="mojidata-summary-kv">
             <div className="mojidata-summary-row">
               <dt>Unicode</dt>
               <dd>
                 {results.UCS} {results.char}
-                {isCompatibilityCharacter && (
-                  <span className="mojidata-badge">Compatibility</span>
-                )}
               </dd>
             </div>
             {rsSummary && (
