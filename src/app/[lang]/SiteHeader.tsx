@@ -49,13 +49,13 @@ export function SiteHeader(props: SiteHeaderProps) {
 
           <nav aria-label="Primary" className="flex items-center gap-1 text-[13px] sm:text-sm">
             <Link
-              className="rounded px-2 py-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="inline-flex h-8 items-center rounded px-2 text-muted-foreground hover:bg-muted hover:text-foreground"
               href="/search"
             >
               {getText('mojidata-search.nav', language)}
             </Link>
             <Link
-              className="rounded px-2 py-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="inline-flex h-8 items-center rounded px-2 text-muted-foreground hover:bg-muted hover:text-foreground"
               href="/idsfind"
             >
               {getText('ids-finder.nav', language)}
@@ -68,6 +68,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             type="button"
             variant="ghost"
             size="sm"
+            className="h-8 px-2"
             aria-expanded={moreOpen}
             aria-haspopup="menu"
             aria-controls={menuId}
@@ -81,7 +82,7 @@ export function SiteHeader(props: SiteHeaderProps) {
               id={menuId}
               role="menu"
               aria-label="Secondary navigation"
-              className="absolute right-0 top-full z-30 mt-1 min-w-44 rounded-md border border-border bg-card p-1 text-sm shadow-lg"
+              className="absolute right-0 top-[calc(100%+0.25rem)] z-30 min-w-44 rounded-md border border-border bg-card p-1 text-sm shadow-lg"
             >
               <Link
                 role="menuitem"
