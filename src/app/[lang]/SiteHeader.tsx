@@ -9,7 +9,7 @@ export interface SiteHeaderProps {
 export function SiteHeader(props: SiteHeaderProps) {
   const { siteName, language } = props
   return (
-    <header className="container site-header">
+    <header className="container site-header mx-auto">
       <div className="site-header-title-row">
         <h1 className="site-title">
           <Link href="/search">{siteName}</Link>
