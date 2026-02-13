@@ -220,7 +220,6 @@ export default function MojidataResponseView(
   const isJISX0213char = mji.some((record) => record.x0213)
 
   const cns11643Search = getCns11643Search(results)
-  const primaryIds = results.ids.slice(0, 2).map((record) => record.IDS)
 
   const rsUnicodeList = results.unihan_rs?.kRSUnicode
   const rsSummary =
@@ -278,11 +277,6 @@ export default function MojidataResponseView(
             {totalStrokes && (
               <div>
                 <strong>Total Strokes:</strong> {totalStrokes}
-              </div>
-            )}
-            {primaryIds.length > 0 && (
-              <div>
-                <strong>IDS:</strong> {primaryIds.join(' / ')}
               </div>
             )}
             {readings.map((row) => (
