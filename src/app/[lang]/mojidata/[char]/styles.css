@@ -229,7 +229,7 @@
   margin: 0.25rem 0 0;
   border: 1px solid hsl(var(--border));
   border-radius: 0.6rem;
-  background: hsl(var(--muted));
+  background: #fff;
   color: #000;
   font-size: 100px;
   width: 120px;
@@ -293,7 +293,7 @@
   padding: 0 0.7rem;
   border: 1px solid hsl(var(--border));
   border-radius: 0.6rem;
-  background: hsl(var(--muted));
+  background: #fff;
   font-size: 100px;
   width: fit-content;
   height: 120px;
