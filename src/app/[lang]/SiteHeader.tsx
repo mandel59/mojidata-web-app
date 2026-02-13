@@ -18,23 +18,31 @@ export function SiteHeader(props: SiteHeaderProps) {
       <nav className="site-nav" aria-label="Global">
         <ul className="site-nav-primary">
           <li>
-            <Link href="/idsfind">{getText('ids-finder.nav', language)}</Link>
+            <Link className="rounded-md px-2 py-1 hover:bg-muted" href="/idsfind">
+              {getText('ids-finder.nav', language)}
+            </Link>
           </li>
           <li>
-            <Link href="/search">{getText('mojidata-search.nav', language)}</Link>
+            <Link className="rounded-md px-2 py-1 hover:bg-muted" href="/search">
+              {getText('mojidata-search.nav', language)}
+            </Link>
           </li>
         </ul>
         <ul className="site-nav-secondary">
           <li>
-            <Link href="/privacy-policy">
+            <Link className="rounded-md px-2 py-1 hover:bg-muted" href="/privacy-policy">
               {getText('privacy-policy.nav', language)}
             </Link>
           </li>
           <li>
-            <Link href="/about">{getText('about-this-app.nav', language)}</Link>
+            <Link className="rounded-md px-2 py-1 hover:bg-muted" href="/about">
+              {getText('about-this-app.nav', language)}
+            </Link>
           </li>
           <li>
-            <Link href="/license">{getText('license.nav', language)}</Link>
+            <Link className="rounded-md px-2 py-1 hover:bg-muted" href="/license">
+              {getText('license.nav', language)}
+            </Link>
           </li>
         </ul>
       </nav>
