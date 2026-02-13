@@ -539,9 +539,10 @@ export default function MojidataResponseView(
         <h3 id="Variants">
           {getText('variants-and-relevant-characters.h3', lang)}
         </h3>
-        {allVariantChars.length > 0 &&
-          allVariantChars.map((char) => {
-            const kdpvRelations = kdpvVariants.get(char)
+        {allVariantChars.length > 0 && (
+          <div className="mojidata-chars-comparison mojidata-variants-comparison">
+            {allVariantChars.map((char) => {
+              const kdpvRelations = kdpvVariants.get(char)
             const kdpvForwardRelations = kdpvRelations
               ? [...kdpvRelations].filter((r) => !r.startsWith('~'))
               : []
@@ -693,7 +694,9 @@ export default function MojidataResponseView(
                 </div>
               </figure>
             )
-          })}
+            })}
+          </div>
+        )}
         {!disableExternalLinks && (
           <>
             <h3 id="External_Links">{getText('external-links.h3', lang)}</h3>

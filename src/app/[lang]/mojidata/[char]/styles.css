@@ -221,6 +221,14 @@
   color: hsl(var(--muted-foreground));
 }
 
+.mojidata-variants-comparison > figure {
+  min-width: 220px;
+}
+
+.mojidata-variants-comparison > figure > figcaption > div {
+  margin-top: 0.1rem;
+}
+
 .mojidata-char {
   display: flex;
   justify-content: center;
