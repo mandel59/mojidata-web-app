@@ -20,3 +20,8 @@
   display: flex;
   justify-content: flex-start;
 }
+
+.multi-input {
+  display: grid;
+  gap: 0.45rem;
+}

@@ -42,6 +42,7 @@ export default function MultiInput(props: MultiInputProps) {
         return (
           <input
             key={index}
+            className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:text-sm"
             name={value === '' ? undefined : name}
             value={value}
             placeholder={placeholder?.(index)}
