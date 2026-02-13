@@ -249,13 +249,18 @@
 .mojidata-variants-comparison > figure {
   min-width: 0;
   height: 100%;
-  display: grid;
-  grid-template-rows: minmax(7.2rem, auto) auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .mojidata-variants-comparison > figure > figcaption {
   max-height: 12rem;
   overflow: auto;
+}
+
+.mojidata-variants-comparison > figure > .mojidata-char,
+.mojidata-variants-comparison > figure > .mojidata-kdpv-char {
+  margin-top: auto;
 }
 
 .mojidata-variants-comparison > figure > figcaption > div {
