@@ -11,3 +11,54 @@ test('mojidata page renders', async ({ page }) => {
     /\/mojidata\/%E6%BC%A2$/,
   )
 })
+
+const DESKTOP_UA =
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+const MOBILE_UA =
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
+
+test.describe('direct open with fragment scrolls to target heading', () => {
+  test('desktop UA + viewport', async ({ browser }) => {
+    const context = await browser.newContext({
+      userAgent: DESKTOP_UA,
+      viewport: { width: 1280, height: 900 },
+    })
+    const page = await context.newPage()
+    await page.goto('/ja-JP/mojidata/%F0%AB%97%82#External_Links', {
+      waitUntil: 'domcontentloaded',
+    })
+
+    const target = page.locator('#External_Links')
+    await expect(target).toBeVisible({ timeout: 60_000 })
+
+    await expect
+      .poll(async () =>
+        target.evaluate((el) => Math.abs(el.getBoundingClientRect().top)),
+      )
+      .toBeLessThan(220)
+
+    await context.close()
+  })
+
+  test('mobile UA + viewport', async ({ browser }) => {
+    const context = await browser.newContext({
+      userAgent: MOBILE_UA,
+      viewport: { width: 390, height: 844 },
+    })
+    const page = await context.newPage()
+    await page.goto('/ja-JP/mojidata/%F0%AB%97%82#External_Links', {
+      waitUntil: 'domcontentloaded',
+    })
+
+    const target = page.locator('#External_Links')
+    await expect(target).toBeVisible({ timeout: 60_000 })
+
+    await expect
+      .poll(async () =>
+        target.evaluate((el) => Math.abs(el.getBoundingClientRect().top)),
+      )
+      .toBeLessThan(260)
+
+    await context.close()
+  })
+})

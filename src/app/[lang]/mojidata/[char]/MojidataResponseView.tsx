@@ -335,6 +335,32 @@ export default function MojidataResponseView(
     }
   }, [tocSections])
 
+  useEffect(() => {
+    const scrollToHashAnchor = () => {
+      const rawHash = window.location.hash
+      if (!rawHash || rawHash.length <= 1) return
+      const id = decodeURIComponent(rawHash.slice(1))
+      const target = document.getElementById(id)
+      if (!target) return
+      target.scrollIntoView({ block: 'start' })
+    }
+
+    // When SPA content is hydrated after route rewrite, the browser's initial
+    // fragment jump may happen before the target heading exists.
+    const raf1 = window.requestAnimationFrame(() => {
+      const raf2 = window.requestAnimationFrame(scrollToHashAnchor)
+      window.setTimeout(scrollToHashAnchor, 120)
+      return raf2
+    })
+
+    window.addEventListener('hashchange', scrollToHashAnchor)
+    return () => {
+      window.cancelAnimationFrame(raf1)
+      window.removeEventListener('hashchange', scrollToHashAnchor)
+    }
+  }, [results.char])
+
+
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="mojidata-response">
