@@ -28,7 +28,7 @@ test('search-spa renders results in browser', async ({ page }) => {
   })
   await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
     'href',
-    /\/mojidata-spa\//,
+    /\/mojidata\//,
   )
 })
 
@@ -83,6 +83,6 @@ test('idsfind-spa renders results in browser', async ({ page }) => {
   })
   await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
     'href',
-    /\/mojidata-spa\//,
+    /\/mojidata\//,
   )
 })

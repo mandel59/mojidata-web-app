@@ -52,13 +52,13 @@ test('SPA navigation resets scroll position on link click', async ({ page }) => 
   })
   await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
     'href',
-    /\/mojidata-spa\//,
+    /\/mojidata\//,
   )
 
   await makePageScrollable(page)
 
   await page.locator('.ids-find-result-char a').first().click()
-  await page.waitForURL(/\/mojidata-spa\//)
+  await page.waitForURL(/\/mojidata\//)
   await expect(page.locator('.mojidata-response')).toHaveCount(1, {
     timeout: 60_000,
   })

@@ -39,6 +39,15 @@ In practice:
 - Data-processing model must remain separated as above.
 - If refactoring shared UI, verify no cross-over of processing responsibilities.
 
+## URL Design Policy (important)
+
+- End-user URLs should not expose SPA/non-SPA implementation details.
+- Search result links should use canonical non-`-spa` paths:
+  - `/mojidata/{char}` (not `/mojidata-spa/{char}`)
+- Runtime route selection (SPA rewrite vs server path) is an internal concern.
+- If rewrites/middleware are configured, keep links canonical and let routing decide the execution mode.
+- E2E tests should verify this contract (e.g. SPA pages still emit canonical `/mojidata/...` links).
+
 ## Review Checklist (for PRs)
 
 - [ ] non-SPA routes still use server-side search/lookup.

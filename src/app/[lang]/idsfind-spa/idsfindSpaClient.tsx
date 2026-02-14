@@ -136,7 +136,7 @@ export default function IdsFindSpaClient() {
   return (
     <div aria-busy={loading}>
       <IdsFindResponseView
-        linkMode="spa"
+        linkMode="server"
         results={results}
         total={total}
         offset={offset}
