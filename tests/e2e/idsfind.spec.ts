@@ -13,3 +13,17 @@ test('idsfind page renders', async ({ page }) => {
     /\/mojidata\//,
   )
 })
+
+test('search accepts formal syntax with eq operator', async ({ page }) => {
+  const res = await page.goto('/ja-JP/search?query=totalStrokes%3D5')
+  expect(res?.status()).toBe(200)
+  await expect(page.locator('.ids-find-response')).toBeVisible()
+  await expect(page.locator('.ids-find-result-char a').first()).toBeVisible()
+})
+
+test('search accepts formal syntax with comparison operator', async ({ page }) => {
+  const res = await page.goto('/ja-JP/search?query=totalStrokes%3C%3D5')
+  expect(res?.status()).toBe(200)
+  await expect(page.locator('.ids-find-response')).toBeVisible()
+  await expect(page.locator('.ids-find-result-char a').first()).toBeVisible()
+})
