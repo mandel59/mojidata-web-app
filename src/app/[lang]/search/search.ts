@@ -4,6 +4,39 @@ export interface SearchParams {
   size?: number
 }
 
+const formalOpSuffix: Record<string, string> = {
+  '<': 'lt',
+  '<=': 'le',
+  '=': 'eq',
+  '>': 'gt',
+  '>=': 'ge',
+  '~': 'glob',
+}
+
+function parseFormalToken(token: string): [string, string] | null {
+  const normalized = token.normalize('NFKC')
+  const m = normalized.match(
+    /^((?<source>[A-Za-z][A-Za-z0-9_-]*)\.)?(?<property>[^<>=~]+?)(?<op><=|>=|=|<|>|~)(?<value>.+)$/u,
+  )
+  if (!m?.groups) return null
+
+  const source = m.groups.source
+  const property = m.groups.property
+  const op = m.groups.op
+  const value = m.groups.value
+
+  if (!property || !op || !value) return null
+
+  const baseKey = source ? `${source}.${property}` : property
+  const suffix = formalOpSuffix[op]
+  if (!suffix) return null
+
+  if (suffix === 'eq') {
+    return [baseKey, value]
+  }
+  return [`${baseKey}.${suffix}`, value]
+}
+
 export function parseQuery(query: string) {
   const ps: string[] = []
   const qs: string[] = []
@@ -14,6 +47,12 @@ export function parseQuery(query: string) {
     qs.push(q)
   }
   for (const p of query.match(/\S+/gu) ?? []) {
+    const formal = parseFormalToken(p)
+    if (formal) {
+      putPQ(formal[0], formal[1])
+      continue
+    }
+
     if (p.startsWith('U+')) {
       putPQ('UCS', p.slice(2))
       continue
