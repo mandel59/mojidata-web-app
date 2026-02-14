@@ -73,7 +73,7 @@ export default function MojidataSpaClient(props: { char: string; lang: Language 
       bot={bot}
       disableExternalLinks={disableExternalLinks}
       lang={lang}
-      linkMode="spa"
+      linkMode="server"
     />
   )
 }

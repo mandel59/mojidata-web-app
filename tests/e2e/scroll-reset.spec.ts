@@ -64,3 +64,91 @@ test('SPA navigation resets scroll position on link click', async ({ page }) => 
   })
   await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20)
 })
+
+
+test('non-SPA mojidata-to-mojidata links keep canonical URL and reset scroll', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ userAgent: BOT_UA })
+  const page = await context.newPage()
+
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2', { waitUntil: 'domcontentloaded' })
+  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+    timeout: 60_000,
+  })
+
+  const linkSelector = '.mojidata-response a[href*="/mojidata/"]'
+  const linkCount = await page.locator(linkSelector).count()
+  expect(linkCount).toBeGreaterThan(0)
+
+  await makePageScrollable(page)
+
+  const currentPath = new URL(page.url()).pathname
+  const targetHref = await page.evaluate(
+    ({ selector, currentPathname }) => {
+      const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(selector))
+      const candidate = links.find((a) => {
+        const href = a.getAttribute('href') ?? ''
+        if (!href || href.startsWith('http')) return false
+        try {
+          return new URL(href, location.origin).pathname !== currentPathname
+        } catch {
+          return false
+        }
+      })
+      return candidate?.getAttribute('href') ?? null
+    },
+    { selector: linkSelector, currentPathname: currentPath },
+  )
+  expect(targetHref).toBeTruthy()
+
+  await page.locator(`${linkSelector}[href="${targetHref}"]`).first().click()
+  await page.waitForURL(/\/mojidata\//)
+  await expect(
+    page.getByRole('heading', { level: 2, name: /文字データ|Character Data/ }),
+  ).toBeVisible({ timeout: 60_000 })
+  await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20)
+
+  await context.close()
+})
+
+test('SPA mojidata-to-mojidata links use canonical URL and reset scroll', async ({ page }) => {
+  await page.goto('/ja-JP/mojidata-spa/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+    timeout: 60_000,
+  })
+
+  const linkSelector = '.mojidata-response a[href*="/mojidata/"]'
+  const linkCount = await page.locator(linkSelector).count()
+  expect(linkCount).toBeGreaterThan(0)
+
+  await makePageScrollable(page)
+
+  const currentPath = new URL(page.url()).pathname
+  const targetHref = await page.evaluate(
+    ({ selector, currentPathname }) => {
+      const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(selector))
+      const candidate = links.find((a) => {
+        const href = a.getAttribute('href') ?? ''
+        if (!href || href.startsWith('http')) return false
+        try {
+          return new URL(href, location.origin).pathname !== currentPathname
+        } catch {
+          return false
+        }
+      })
+      return candidate?.getAttribute('href') ?? null
+    },
+    { selector: linkSelector, currentPathname: currentPath },
+  )
+  expect(targetHref).toBeTruthy()
+
+  await page.locator(`${linkSelector}[href="${targetHref}"]`).first().click()
+  await page.waitForURL(/\/mojidata\//)
+  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+    timeout: 60_000,
+  })
+  await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20)
+})
