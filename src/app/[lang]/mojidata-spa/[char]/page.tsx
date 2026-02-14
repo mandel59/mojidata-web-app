@@ -61,7 +61,7 @@ export default async function MojidataSpa({ params }: Props) {
 
   return (
     <div>
-      <main className="container">
+      <main className="container mojidata-page-main">
         <div data-spa="mojidata">
           <noscript>
             <p>This page requires JavaScript.</p>

@@ -175,14 +175,37 @@ article > footer {
   text-decoration-thickness: 2px;
 }
 
-.preview-warning {
-  margin-top: 0.4rem;
-  margin-bottom: 2rem;
+.mojidata-page-main {
+  padding-bottom: max(26vh, 10rem);
 }
 
-.preview-warning [data-slot='card'] {
+.preview-warning-toast {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0.8rem;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.8rem;
+  pointer-events: none;
+}
+
+.preview-warning-toast [data-slot='card'] {
+  width: min(820px, 100%);
   border-style: dashed;
   background: #f9fbfe;
+  pointer-events: auto;
+  box-shadow: 0 8px 28px rgba(20, 32, 52, 0.15);
+}
+
+.preview-warning-content {
+  padding-top: 0.7rem;
+  padding-bottom: 0.55rem;
+}
+
+.preview-warning-content p {
+  margin: 0;
 }
 
 @media (max-width: 900px) {

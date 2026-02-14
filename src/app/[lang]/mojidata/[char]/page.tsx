@@ -37,7 +37,7 @@ export default async function Mojidata({ params, searchParams }: Props) {
 
   return (
     <div>
-      <main className="container">
+      <main className="container mojidata-page-main">
         <Suspense fallback={<LoadingMojidataArticle />}>
           <MojidataResponse
             ucs={ucs}

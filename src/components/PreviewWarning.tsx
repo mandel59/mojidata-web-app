@@ -24,9 +24,9 @@ export default function PreviewWarning(): ReactElement {
       return <></>
     default:
       return (
-        <div className="container preview-warning">
+        <div className="preview-warning-toast" role="status" aria-live="polite">
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="preview-warning-content">
               <p>
                 This is a preview of the site. The production site is at &lt;
                 <Link href="https://mojidata.ryusei.dev/">
@@ -39,7 +39,7 @@ export default function PreviewWarning(): ReactElement {
                   href={productionPage}
                   className={buttonVariants({ variant: 'link', size: 'sm' })}
                 >
-                  Go to the production version of this page
+                  Open this page on production
                 </Link>
               )}
             </CardContent>
