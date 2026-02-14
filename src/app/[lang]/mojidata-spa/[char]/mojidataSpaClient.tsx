@@ -24,6 +24,7 @@ export default function MojidataSpaClient(props: { char: string; lang: Language 
   } | null>(null)
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 })
     let cancelled = false
     ;(async () => {
       setLoading(true)
@@ -72,7 +73,7 @@ export default function MojidataSpaClient(props: { char: string; lang: Language 
       bot={bot}
       disableExternalLinks={disableExternalLinks}
       lang={lang}
-      linkMode="server"
+      linkMode="spa"
     />
   )
 }
