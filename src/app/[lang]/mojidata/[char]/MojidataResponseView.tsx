@@ -152,7 +152,9 @@ export default function MojidataResponseView(
       ...hentaigana.keys(),
       ...ivsDuplicates.keys(),
     ]),
-  ).sort((x, y) => compareString(x, y))
+  )
+    .filter((char) => char !== results.char)
+    .sort((x, y) => compareString(x, y))
 
   const aj1Cid =
     results.aj1?.CID != null ? `CID+${results.aj1?.CID}` : undefined
@@ -266,6 +268,29 @@ export default function MojidataResponseView(
     },
   ].filter((row) => row.value)
 
+
+  const tghbNormalizedChars = new Set(results.tghb.map((record) => record.规范字))
+  const tghbTraditionalChars = new Set(
+    results.tghb.flatMap((record) => record.异体字.map((variant) => variant.繁体字)),
+  )
+  const tghbVariantChars = new Set(
+    results.tghb.flatMap((record) => record.异体字.map((variant) => variant.异体字)),
+  )
+
+  const isTghbNormalized = tghbNormalizedChars.has(results.char)
+  const isTghbTraditional =
+    !isTghbNormalized && tghbTraditionalChars.has(results.char)
+  const isTghbVariant =
+    !isTghbNormalized && !isTghbTraditional && tghbVariantChars.has(results.char)
+
+  const summaryBadges = [
+    isCompatibilityCharacter ? getText('summary.compatibility.badge', lang) : null,
+    isTghbNormalized ? 'tghb: 规范字' : null,
+    isTghbTraditional ? 'tghb: 繁体字' : null,
+    isTghbVariant ? 'tghb: 异体字' : null,
+    results.joyo.length > 0 ? 'joyo: 常用漢字' : null,
+  ].filter((badge): badge is string => Boolean(badge))
+
   const tocSections = useMemo(
     () => [
       { id: 'Character_Data', label: getText('character-data.h2', lang) },
@@ -329,15 +354,17 @@ export default function MojidataResponseView(
             </button>
           </div>
           <div className="mojidata-summary-grid">
-            <div>
+            <div className="mojidata-summary-glyph-col">
               <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
                 {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
               </div>
-              {isCompatibilityCharacter && (
+              {summaryBadges.length > 0 && (
                 <div className="mojidata-summary-badge-row">
-                  <span className="mojidata-badge">
-                    {getText('summary.compatibility.badge', lang)}
-                  </span>
+                  {summaryBadges.map((badge) => (
+                    <span key={badge} className="mojidata-badge">
+                      {badge}
+                    </span>
+                  ))}
                 </div>
               )}
             </div>

@@ -26,6 +26,12 @@
   padding-right: 7rem;
 }
 
+.mojidata-summary-glyph-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .mojidata-summary-kv {
   display: grid;
   gap: 0.35rem;
@@ -68,6 +74,9 @@
 
 .mojidata-summary-badge-row {
   margin-top: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
 .mojidata-badge {
@@ -443,8 +452,12 @@
     justify-self: center;
   }
 
+  .mojidata-summary-glyph-col {
+    align-items: center;
+  }
+
   .mojidata-summary-badge-row {
-    text-align: center;
+    justify-content: center;
   }
 
   .mojidata-summary-row {
