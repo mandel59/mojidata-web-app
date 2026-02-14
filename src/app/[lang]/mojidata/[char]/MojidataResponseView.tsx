@@ -271,15 +271,18 @@ export default function MojidataResponseView(
 
   const tghbNormalizedChars = new Set(results.tghb.map((record) => record.规范字))
   const tghbTraditionalChars = new Set(
-    results.tghb.flatMap((record) => record.异体字.map((variant) => variant.繁体字)),
+    results.tghb.flatMap((record) =>
+      record.异体字
+        .filter((variant) => variant.繁体字 === variant.异体字)
+        .map((variant) => variant.繁体字),
+    ),
   )
   const tghbVariantChars = new Set(
     results.tghb.flatMap((record) => record.异体字.map((variant) => variant.异体字)),
   )
 
   const isTghbNormalized = tghbNormalizedChars.has(results.char)
-  const isTghbTraditional =
-    !isTghbNormalized && tghbTraditionalChars.has(results.char)
+  const isTghbTraditional = tghbTraditionalChars.has(results.char)
   const isTghbVariant =
     !isTghbNormalized && !isTghbTraditional && tghbVariantChars.has(results.char)
 
