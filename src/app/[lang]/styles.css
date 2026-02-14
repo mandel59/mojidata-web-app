@@ -175,6 +175,46 @@ article > footer {
   text-decoration-thickness: 2px;
 }
 
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: #fff;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 0.45rem 0.6rem;
+  vertical-align: top;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+th + th,
+td + td {
+  border-left: 1px solid hsl(var(--border));
+}
+
+th {
+  text-align: left;
+  background: hsl(var(--muted));
+  font-weight: 600;
+}
+
+thead th:first-child {
+  border-top-left-radius: 0.6rem;
+}
+
+thead th:last-child {
+  border-top-right-radius: 0.6rem;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 .mojidata-page-main {
   padding-bottom: max(26vh, 10rem);
 }
