@@ -349,8 +349,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
 
                   {helpTab === 'formal-properties-unihan-numerics' && (
                     <>
-                      <tr><td>unihan.kTotalStrokes</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Unihan total strokes</td></tr>
-                      <tr><td>unihan.kAccountingNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Accounting numeric</td></tr>
+                                            <tr><td>unihan.kAccountingNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Accounting numeric</td></tr>
                       <tr><td>unihan.kOtherNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Other numeric</td></tr>
                       <tr><td>unihan.kPrimaryNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Primary numeric</td></tr>
                       <tr><td>unihan.kTayNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Tay numeric</td></tr>
@@ -381,6 +380,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
 
                   {helpTab === 'formal-properties-unihan-others' && (
                     <>
+                      <tr><td>unihan.kTotalStrokes</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Unihan total strokes</td></tr>
                       <tr><td>unihan.kDefinition</td><td>=, !=, ~, !~</td><td>Definition text</td></tr>
                       <tr><td>unihan.kFanqie</td><td>=, !=, ~, !~</td><td>Fanqie</td></tr>
                       <tr><td>unihan.kIICore</td><td>=, !=, ~, !~</td><td>IICore flag</td></tr>
