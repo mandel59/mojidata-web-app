@@ -13,6 +13,8 @@ const formalOpSuffix: Record<string, string> = {
   '~': 'glob',
 }
 
+const standaloneFormalProperties = new Set(['totalStrokes', 'UCS', 'ucs'])
+
 function parseFormalToken(token: string): [string, string] | null {
   const normalized = token.normalize('NFKC')
   const m = normalized.match(
@@ -27,6 +29,12 @@ function parseFormalToken(token: string): [string, string] | null {
 
   if (!property || !op || !value) return null
 
+  if (!source && !standaloneFormalProperties.has(property)) {
+    // Keep backward compatibility: unknown tokens without explicit source
+    // should be treated as IDS query terms, not formal p/q keys.
+    return null
+  }
+
   const baseKey = source ? `${source}.${property}` : property
   const suffix = formalOpSuffix[op]
   if (!suffix) return null
@@ -37,7 +45,7 @@ function parseFormalToken(token: string): [string, string] | null {
   return [`${baseKey}.${suffix}`, value]
 }
 
-export function parseQuery(query: string) {
+function parseQueryInternal(query: string, useFormalSyntax: boolean) {
   const ps: string[] = []
   const qs: string[] = []
   const ids: string[] = []
@@ -47,10 +55,12 @@ export function parseQuery(query: string) {
     qs.push(q)
   }
   for (const p of query.match(/\S+/gu) ?? []) {
-    const formal = parseFormalToken(p)
-    if (formal) {
-      putPQ(formal[0], formal[1])
-      continue
+    if (useFormalSyntax) {
+      const formal = parseFormalToken(p)
+      if (formal) {
+        putPQ(formal[0], formal[1])
+        continue
+      }
     }
 
     if (p.startsWith('U+')) {
@@ -118,4 +128,12 @@ export function parseQuery(query: string) {
     }
   }
   return { ps, qs, ids, whole }
+}
+
+export function parseQuery(query: string) {
+  return parseQueryInternal(query, true)
+}
+
+export function parseQueryLegacy(query: string) {
+  return parseQueryInternal(query, false)
 }

@@ -27,3 +27,10 @@ test('search accepts formal syntax with comparison operator', async ({ page }) =
   await expect(page.locator('.ids-find-response')).toBeVisible()
   await expect(page.locator('.ids-find-result-char a').first()).toBeVisible()
 })
+
+test('unknown token with ~ keeps IDS fallback (no 500)', async ({ page }) => {
+  const res = await page.goto('/ja-JP/search?query=foo~*')
+  expect(res?.status()).toBe(200)
+  await expect(page.getByText('No results found.')).toBeVisible()
+  await expect(page.getByText('Fetch failed: 500')).toHaveCount(0)
+})

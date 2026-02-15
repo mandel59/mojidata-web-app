@@ -60,7 +60,7 @@ export function Modal(props: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-8"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
@@ -70,9 +70,9 @@ export function Modal(props: ModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="max-h-[85vh] w-full max-w-3xl overflow-auto rounded-lg border border-border bg-card p-4 shadow-xl"
+        className="flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-border bg-card p-4 shadow-xl"
       >
-        <div className="mb-3 flex items-center justify-between gap-3 border-b border-border pb-2">
+        <div className="mb-3 flex shrink-0 items-center justify-between gap-3 border-b border-border pb-2">
           <h3 id={titleId} className="m-0 text-lg font-semibold">
             {title}
           </h3>
@@ -80,7 +80,7 @@ export function Modal(props: ModalProps) {
             Close
           </Button>
         </div>
-        <div>{children}</div>
+        <div className="min-h-0 overflow-auto">{children}</div>
       </div>
     </div>
   )

@@ -98,16 +98,20 @@ export default function IdsFindSpaClient() {
       setError(null)
       try {
         const parsed = parseQuery(query)
-        const { results, total } = await idsfindBrowserAllResults({
+        const response = await idsfindBrowserAllResults({
           ids: [...ids, ...parsed.ids.map(normalize)],
           whole: [...whole, ...parsed.whole.map(normalize)],
           ps: parsed.ps,
           qs: parsed.qs,
         })
+
         if (cancelled) return
-        idsfindResultCache.set(cacheKey, { results, total })
-        setResults(results)
-        setTotal(total)
+        idsfindResultCache.set(cacheKey, {
+          results: response.results,
+          total: response.total,
+        })
+        setResults(response.results)
+        setTotal(response.total)
       } catch (e) {
         if (cancelled) return
         setError(e instanceof Error ? e.message : String(e))

@@ -21,16 +21,16 @@ function normalize(s: string) {
 
 const fetchIdsFindAllResults = unstable_cache(
   async (ids: string[], whole: string[], query: string) => {
-    const { ps, qs, ids: ids2, whole: whole2 } = parseQuery(query)
+    const parsed = parseQuery(query)
     const url = new URL('/api/v1/idsfind', 'http://mojidata.local')
-    void [...ids, ...ids2]
+    void [...ids, ...parsed.ids]
       .map(normalize)
       .forEach((value) => url.searchParams.append('ids', value))
-    void [...whole, ...whole2]
+    void [...whole, ...parsed.whole]
       .map(normalize)
       .forEach((value) => url.searchParams.append('whole', value))
-    ps.forEach((p) => url.searchParams.append('p', p))
-    qs.forEach((q) => url.searchParams.append('q', q))
+    parsed.ps.forEach((p) => url.searchParams.append('p', p))
+    parsed.qs.forEach((q) => url.searchParams.append('q', q))
     url.searchParams.set('all_results', '1')
 
     const res = await mojidataApiApp.fetch(
@@ -40,6 +40,7 @@ const fetchIdsFindAllResults = unstable_cache(
         },
       }),
     )
+
     if (!res.ok) {
       throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
     }
