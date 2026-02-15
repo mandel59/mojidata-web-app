@@ -49,6 +49,8 @@ export default function SearchSpaClient(props: { lang: Language }) {
     ;(async () => {
       setLoading(true)
       setError(null)
+      setResults([])
+      setTotal(0)
       try {
         const parsed = parseQuery(currentQuery)
         const { results, total } = await idsfindBrowserAllResults({

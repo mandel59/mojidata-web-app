@@ -4,7 +4,6 @@ import { Pager } from '@/components/Pager'
 import { Spacer } from '@/components/Spacer'
 import ConditionalLink from '@/components/ConditionalLink'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
-import '@/app/[lang]/idsfind/styles.css'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
 
 export type IdsFindLinkMode = 'server' | 'spa'
@@ -22,10 +21,7 @@ function toRefName(char: string) {
   }
 }
 
-function charToHref(
-  char: string,
-  linkMode: IdsFindLinkMode,
-) {
+function charToHref(char: string, linkMode: IdsFindLinkMode) {
   const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
   if (charIsRef) return undefined
   const basePath = linkMode === 'spa' ? '/mojidata-spa/' : '/mojidata/'
@@ -68,7 +64,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       {total > 0 && (
-        <div className="ids-find-response">
+        <div className="mb-2 flex flex-row flex-wrap gap-2">
           {results.slice(offset, offset + size).map((char: string) => {
             const href = charToHref(char, linkMode)
             const glyphHref = href
@@ -78,7 +74,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                 )}`
             return (
               <div
-                className="ids-find-result-char ids-find-char-glyphwiki"
+                className="flex h-16 w-16 shrink-0 items-center justify-center overflow-clip rounded-[0.6rem] border border-border bg-white text-center text-[50px] leading-[55px] transition-[transform,box-shadow,border-color] duration-100 ease-out hover:-translate-y-px hover:border-primary hover:shadow-[0_8px_18px_rgba(15,23,42,0.08)]"
                 lang="ja"
                 key={char}
                 title={toRefName(char)}

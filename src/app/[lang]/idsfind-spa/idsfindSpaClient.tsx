@@ -96,6 +96,8 @@ export default function IdsFindSpaClient() {
     ;(async () => {
       setLoading(true)
       setError(null)
+      setResults([])
+      setTotal(0)
       try {
         const parsed = parseQuery(query)
         const response = await idsfindBrowserAllResults({
