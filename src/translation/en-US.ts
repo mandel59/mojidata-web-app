@@ -57,13 +57,13 @@ export const translationEnUs: Translation = {
     'Search by the MJ Database Serial Number',
   'formal-query-eq.query-type': 'Formal syntax (equality)',
   'formal-query-eq.description':
-    'Format: property<operator>value (operator: =; property may include dot-separated identifiers).',
+    'Format: property<operator>value (operators: =, !=; property may include dot-separated identifiers).',
   'formal-query-range.query-type': 'Formal syntax (comparison)',
   'formal-query-range.description':
     'Format: property<operator>value (operators: <=, >=, <, >; property may include dot-separated identifiers).',
   'formal-query-glob.query-type': 'Formal syntax (glob)',
   'formal-query-glob.description':
-    'Format: property<operator>value (operator: ~; property may include dot-separated identifiers).',
+    'Format: property<operator>value (operators: ~, !~; property may include dot-separated identifiers).',
   'character-data.h2': 'Character Data',
   'ids.h3': 'IDS',
   'glyph-comparison.h3': 'Glyph Comparison',

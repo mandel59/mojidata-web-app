@@ -51,13 +51,13 @@ export const translationJaJp: Translation = {
   'mj-database-serial-number.description': 'MJ文字図形名で検索する',
   'formal-query-eq.query-type': '定型記法（等価）',
   'formal-query-eq.description':
-    '形式: property<operator>value（operator: =、property は . 区切り可）',
+    '形式: property<operator>value（operator: =, !=、property は . 区切り可）',
   'formal-query-range.query-type': '定型記法（比較）',
   'formal-query-range.description':
     '形式: property<operator>value（operator: <=, >=, <, >、property は . 区切り可）',
   'formal-query-glob.query-type': '定型記法（glob）',
   'formal-query-glob.description':
-    '形式: property<operator>value（operator: ~、property は . 区切り可）',
+    '形式: property<operator>value（operator: ~, !~、property は . 区切り可）',
   'character-data.h2': '文字データ',
   'ids.h3': 'IDS',
   'glyph-comparison.h3': '字形比較',
