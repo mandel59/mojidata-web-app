@@ -8,9 +8,11 @@ const formalOpSuffix: Record<string, string> = {
   '<': 'lt',
   '<=': 'le',
   '=': 'eq',
+  '!=': 'ne',
   '>': 'gt',
   '>=': 'ge',
   '~': 'glob',
+  '!~': 'notGlob',
 }
 
 const standaloneFormalProperties = new Set(['totalStrokes', 'UCS', 'ucs'])
@@ -18,7 +20,7 @@ const standaloneFormalProperties = new Set(['totalStrokes', 'UCS', 'ucs'])
 function parseFormalToken(token: string): [string, string] | null {
   const normalized = token.normalize('NFKC')
   const m = normalized.match(
-    /^((?<source>[A-Za-z][A-Za-z0-9_-]*)\.)?(?<property>[^<>=~]+?)(?<op><=|>=|=|<|>|~)(?<value>.+)$/u,
+    /^((?<source>[A-Za-z][A-Za-z0-9_-]*)\.)?(?<property>[^<>=~!]+?)(?<op><=|>=|!=|!~|=|<|>|~)(?<value>.+)$/u,
   )
   if (!m?.groups) return null
 
