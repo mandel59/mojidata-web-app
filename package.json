@@ -16,7 +16,7 @@
     "@mandel59/idsdb": "^1.7.0",
     "@mandel59/idsdb-utils": "^1.7.0",
     "@mandel59/mojidata": "^1.7.2",
-    "@mandel59/mojidata-api": "^1.7.3",
+    "@mandel59/mojidata-api": "^1.7.4",
     "@picocss/pico": "^2.0.6",
     "@types/node": "^20.3.0",
     "@types/react": "^18.2.11",
