@@ -48,6 +48,14 @@ In practice:
 - If rewrites/middleware are configured, keep links canonical and let routing decide the execution mode.
 - E2E tests should verify this contract (e.g. SPA pages still emit canonical `/mojidata/...` links).
 
+### Rewrite Policy (explicit)
+
+- `/search`, `/idsfind`, `/mojidata/{char}` are canonical public URLs regardless of rendering mode.
+- Middleware/proxy may rewrite canonical routes to SPA routes internally (`/search-spa`, `/idsfind-spa`, `/mojidata-spa/{char}`) based on UA class or environment flags.
+- Therefore, "request path" and "execution mode" are not always 1:1.
+- Tests that must assert server/non-SPA behavior should pin conditions (e.g. mobile UA + rewrite setting assumptions) and explicitly assert non-SPA markers.
+- Tests that only assert user-visible contract (canonical links / successful results) should not over-constrain SPA-vs-non-SPA internals.
+
 ## Review Checklist (for PRs)
 
 - [ ] non-SPA routes still use server-side search/lookup.

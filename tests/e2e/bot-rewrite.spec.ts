@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test'
 
+// See ARCHITECTURE.md "Rewrite Policy (explicit)":
+// canonical routes are stable, while execution mode (SPA/non-SPA) can change by UA.
+// This file verifies the UA-based rewrite contract directly.
+
 const BOT_UA =
   'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
 

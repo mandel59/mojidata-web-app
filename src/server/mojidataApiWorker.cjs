@@ -435,6 +435,41 @@ const libsearchQueries = {
     WHERE cast(value as integer) >= cast(? as integer)`,
 }
 
+const unihanVariantProperties = [
+  "kCompatibilityVariant",
+  "kSemanticVariant",
+  "kSimplifiedVariant",
+  "kSpecializedSemanticVariant",
+  "kSpoofingVariant",
+  "kTraditionalVariant",
+  "kZVariant",
+]
+
+for (const property of unihanVariantProperties) {
+  const key = `unihan.${property}`
+  const whereEquals = `property = '${property}' AND (value = ? OR printf('U+%04X', unicode(value)) = upper(?))`
+  const whereGlob = `property = '${property}' AND (value glob ? OR printf('U+%04X', unicode(value)) glob upper(?))`
+
+  libsearchQueries[key] = `
+    SELECT DISTINCT UCS AS r
+    FROM unihan_variant
+    WHERE ${whereEquals}`
+  libsearchQueries[`${key}.ne`] = `
+    SELECT DISTINCT UCS AS r
+    FROM unihan_variant
+    WHERE property = '${property}'
+      AND NOT (value = ? OR printf('U+%04X', unicode(value)) = upper(?))`
+  libsearchQueries[`${key}.glob`] = `
+    SELECT DISTINCT UCS AS r
+    FROM unihan_variant
+    WHERE ${whereGlob}`
+  libsearchQueries[`${key}.notGlob`] = `
+    SELECT DISTINCT UCS AS r
+    FROM unihan_variant
+    WHERE property = '${property}'
+      AND NOT (value glob ? OR printf('U+%04X', unicode(value)) glob upper(?))`
+}
+
 const libsearchQueries2 = {
   totalStrokes: `SELECT * FROM (${libsearchQueries["unihan.kTotalStrokes"].trim()} UNION ${libsearchQueries["mji.総画数"].trim()})`,
   "totalStrokes.lt": `SELECT * FROM (${libsearchQueries["unihan.kTotalStrokes.lt"].trim()} UNION ${libsearchQueries["mji.総画数.lt"].trim()})`,
@@ -446,7 +481,9 @@ const libsearchQueries2 = {
 function getQueryAndArgs(p, q) {
   const query = libsearchQueries[p]
   if (query) {
-    return [query.trim(), [q]]
+    const trimmed = query.trim()
+    const placeholders = (trimmed.match(/\?/g) || []).length
+    return [trimmed, Array.from({ length: placeholders }, () => q)]
   }
   const query2 = libsearchQueries2[p]
   if (query2) {
