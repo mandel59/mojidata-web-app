@@ -18,6 +18,9 @@ const {
   nodeLength,
   tokenizeIDS,
 } = nodeRequire("@mandel59/idsdb-utils")
+const {
+  createLibSearch: createLibSearchFromApi,
+} = nodeRequire("@mandel59/mojidata-api/api/v1/_lib/libsearch")
 
 function resolvePnpVirtualPath(filePath) {
   if (!path.isAbsolute(filePath)) return filePath
@@ -369,164 +372,6 @@ function buildMojidataSelectQuery(selection) {
   return `SELECT json_object(${a.join(",")}) AS vs`
 }
 
-const libsearchQueries = {
-  UCS: `WITH x(x) AS (VALUES (parse_int(?, 16))) SELECT DISTINCT char(x) AS r FROM x WHERE char(x) regexp '^[\\p{L}\\p{N}\\p{S}]$'`,
-  "mji.読み": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-      JOIN mji_reading USING (MJ文字図形名)
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji_reading.読み = ?`,
-  "mji.読み.prefix": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-      JOIN mji_reading USING (MJ文字図形名)
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji_reading.読み glob (replace(?, '*', '') || '*')`,
-  "mji.総画数": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji.総画数 = cast(? as integer)`,
-  "mji.総画数.lt": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji.総画数 < cast(? as integer)`,
-  "mji.総画数.le": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji.総画数 <= cast(? as integer)`,
-  "mji.総画数.gt": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji.総画数 > cast(? as integer)`,
-  "mji.総画数.ge": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji.総画数 >= cast(? as integer)`,
-  "mji.MJ文字図形名": `
-    SELECT DISTINCT mji.対応するUCS AS r
-    FROM mji
-    WHERE mji.対応するUCS IS NOT NULL
-      AND mji.MJ文字図形名 = ?`,
-  "unihan.kTotalStrokes": `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_kTotalStrokes
-    WHERE cast(value as integer) = cast(? as integer)`,
-  "unihan.kTotalStrokes.lt": `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_kTotalStrokes
-    WHERE cast(value as integer) < cast(? as integer)`,
-  "unihan.kTotalStrokes.le": `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_kTotalStrokes
-    WHERE cast(value as integer) <= cast(? as integer)`,
-  "unihan.kTotalStrokes.gt": `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_kTotalStrokes
-    WHERE cast(value as integer) > cast(? as integer)`,
-  "unihan.kTotalStrokes.ge": `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_kTotalStrokes
-    WHERE cast(value as integer) >= cast(? as integer)`,
-}
-
-const unihanVariantProperties = [
-  "kCompatibilityVariant",
-  "kSemanticVariant",
-  "kSimplifiedVariant",
-  "kSpecializedSemanticVariant",
-  "kSpoofingVariant",
-  "kTraditionalVariant",
-  "kZVariant",
-]
-
-for (const property of unihanVariantProperties) {
-  const key = `unihan.${property}`
-  const whereEquals = `property = '${property}' AND (value = ? OR printf('U+%04X', unicode(value)) = upper(?))`
-  const whereGlob = `property = '${property}' AND (value glob ? OR printf('U+%04X', unicode(value)) glob upper(?))`
-
-  libsearchQueries[key] = `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_variant
-    WHERE ${whereEquals}`
-  libsearchQueries[`${key}.ne`] = `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_variant
-    WHERE property = '${property}'
-      AND NOT (value = ? OR printf('U+%04X', unicode(value)) = upper(?))`
-  libsearchQueries[`${key}.glob`] = `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_variant
-    WHERE ${whereGlob}`
-  libsearchQueries[`${key}.notGlob`] = `
-    SELECT DISTINCT UCS AS r
-    FROM unihan_variant
-    WHERE property = '${property}'
-      AND NOT (value glob ? OR printf('U+%04X', unicode(value)) glob upper(?))`
-}
-
-const libsearchQueries2 = {
-  totalStrokes: `SELECT * FROM (${libsearchQueries["unihan.kTotalStrokes"].trim()} UNION ${libsearchQueries["mji.総画数"].trim()})`,
-  "totalStrokes.lt": `SELECT * FROM (${libsearchQueries["unihan.kTotalStrokes.lt"].trim()} UNION ${libsearchQueries["mji.総画数.lt"].trim()})`,
-  "totalStrokes.le": `SELECT * FROM (${libsearchQueries["unihan.kTotalStrokes.le"].trim()} UNION ${libsearchQueries["mji.総画数.le"].trim()})`,
-  "totalStrokes.gt": `SELECT * FROM (${libsearchQueries["unihan.kTotalStrokes.gt"].trim()} UNION ${libsearchQueries["mji.総画数.gt"].trim()})`,
-  "totalStrokes.ge": `SELECT * FROM (${libsearchQueries["unihan.kTotalStrokes.ge"].trim()} UNION ${libsearchQueries["mji.総画数.ge"].trim()})`,
-}
-
-function getQueryAndArgs(p, q) {
-  const query = libsearchQueries[p]
-  if (query) {
-    const trimmed = query.trim()
-    const placeholders = (trimmed.match(/\?/g) || []).length
-    return [trimmed, Array.from({ length: placeholders }, () => q)]
-  }
-  const query2 = libsearchQueries2[p]
-  if (query2) {
-    return [query2.trim(), [q, q]]
-  }
-  throw new Error(`Unknown query key: ${p}`)
-}
-
-async function pluckAll(getDb, query, args) {
-  const db = await getDb()
-  const stmt = db.prepare(query)
-  stmt.bind(args)
-  const out = []
-  while (stmt.step()) {
-    const row = stmt.getAsObject()
-    if (typeof row.r === "string") out.push(row.r)
-  }
-  stmt.free()
-  return out
-}
-
-function createLibSearch(getDb) {
-  return {
-    filterChars: async (chars, ps, qs) => {
-      const queryAndArgs = ps.map((p, i) => getQueryAndArgs(p, qs[i]))
-      const query = `WITH c(char) AS (select value from json_each(?))
-        SELECT c.char AS r
-        FROM c
-        WHERE ${queryAndArgs
-          .map(([query]) => `c.char IN (${query})`)
-          .join(" AND ")}`
-      const args = [].concat(...queryAndArgs.map(([_query, args]) => args))
-      return await pluckAll(getDb, query, [JSON.stringify(chars), ...args])
-    },
-    search: async (ps, qs) => {
-      const queryAndArgs = ps.map((p, i) => getQueryAndArgs(p, qs[i]))
-      const query = queryAndArgs.map(([query]) => query).join("\nINTERSECT\n")
-      const args = [].concat(...queryAndArgs.map(([_query, args]) => args))
-      return await pluckAll(getDb, query, args)
-    },
-  }
-}
-
 const idsfindQueryContext = `
 with tokens as (
     select
@@ -725,7 +570,7 @@ function createIdsfind(getDb) {
 }
 
 function createSqlJsApiDb({ getMojidataDb, getIdsfindDb }) {
-  const { search, filterChars } = createLibSearch(getMojidataDb)
+  const { search, filterChars } = createLibSearchFromApi(getMojidataDb)
   const idsfind = createIdsfind(getIdsfindDb)
 
   const stmtCache = new Map()
