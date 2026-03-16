@@ -1,0 +1,3 @@
+#!/bin/sh
+
+fontforge -script scripts/dump_glyph_id.py | gzip > src/fonts/jigmo/glyph-index.txt.gz

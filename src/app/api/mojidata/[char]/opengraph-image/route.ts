@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og'
 
-import { fetchGlyphWikiSvg, toGlyphWikiName } from '@/glyphwiki/fetchGlyphWikiSvg'
+import { toGlyphWikiName } from '@/glyphwiki/fetchGlyphWikiSvg'
 import { renderMojidataOgImage } from './view'
+import { renderJigumoFont } from '@/glyphwiki/renderJigumoFont'
 
 export const runtime = 'nodejs'
 
@@ -32,7 +33,7 @@ export async function GET(
     ?.toString(16)
     .toUpperCase()
     .padStart(4, '0')
-  const { svgImage } = await fetchGlyphWikiSvg(toGlyphWikiName(ucs))
+  const svgImage = renderJigumoFont(toGlyphWikiName(ucs))
 
   return new ImageResponse(
     renderMojidataOgImage({ codePoint, ucs, svgImage }),

@@ -1,6 +1,7 @@
 import { getRevalidateDuration } from '@/app/config'
 import { customFetch } from '@/customFetch'
 import { insertWhiteLayerToGlyphWikiSvg } from '@/glyphwiki/insertWhiteLayerToGlyphWikiSvg'
+import { renderJigumoFont } from '@/glyphwiki/renderJigumoFont'
 import { NextResponse } from 'next/server'
 import { createHash } from 'node:crypto'
 
@@ -31,23 +32,11 @@ export async function GET(
     return new NextResponse('Bad Request', { status: 400 })
   }
 
-  const url = `https://glyphwiki.org/glyph/${encodeURIComponent(name)}.svg`
-  const upstream = await customFetch(url, {
-    next: {
-      revalidate: REVALIDATE_SECONDS,
-    },
-  })
-
-  if (!upstream.ok) {
-    return new NextResponse('Not Found', {
-      status: 404,
-      headers: {
-        'Cache-Control': 'public, max-age=60, s-maxage=60',
-      },
-    })
+  const jigmoSvg = renderJigumoFont(name)
+  if (jigmoSvg == null) {
+    return new NextResponse('Not Found', { status: 404 })
   }
-
-  const svg = insertWhiteLayerToGlyphWikiSvg(await upstream.text())
+  const svg = insertWhiteLayerToGlyphWikiSvg(jigmoSvg)
   const etag = `W/\"${createHash('sha256').update(svg).digest('base64url')}\"`
   const ifNoneMatch = request.headers.get('if-none-match')
 

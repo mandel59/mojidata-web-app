@@ -46,4 +46,4 @@ cache/*
 
 # fonts
 src/fonts/*.otf
-src/fonts/jigumo/*.ttf
+src/fonts/jigmo/*.ttf
