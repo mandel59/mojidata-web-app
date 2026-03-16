@@ -30,7 +30,7 @@ async function loadIndexFromGz(
   const txtBuffer = await do_gunzip(gzBuffer)
   const decoder = new TextDecoder()
   const index = new Map()
-  for (const line of decoder.decode(txtBuffer).split('\n')) {
+  for (const line of decoder.decode(txtBuffer).split('\n').slice(1)) {
     if (!line) continue
     const [fontPath, name, gid] = line.split(',')
     index.set(name, [fontPath, Number.parseInt(gid, 10)])
