@@ -43,3 +43,7 @@ next-env.d.ts
 cache/*
 !cache/.sha256sum
 !cache/.sha256sum/*
+
+# fonts
+src/fonts/*.otf
+src/fonts/jigumo/*.ttf

@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eux
+
+jigmo_zip="Jigmo-20250912.zip"
+
+# check command dependencies
+if ! type woff2_compress >/dev/null 2>&1; then
+  echo "Please install woff2_compress" >&2
+  exit 1
+fi
+
+cd "$(dirname "$0")/.."
+scripts/download "$jigmo_zip"
+mkdir -p src/fonts/jigmo
+cd src/fonts/jigmo
+unzip -o "../../../cache/$jigmo_zip" 'Jigmo*.ttf'
+gzip -kf Jigmo*.ttf
