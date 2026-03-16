@@ -31,7 +31,7 @@ const fetchIdsFindAllResults = unstable_cache(
       .forEach((value) => url.searchParams.append('whole', value))
     parsed.ps.forEach((p) => url.searchParams.append('p', p))
     parsed.qs.forEach((q) => url.searchParams.append('q', q))
-    url.searchParams.set('all_results', '1')
+    url.searchParams.set('all_results', '') // disable references
 
     const res = await mojidataApiApp.fetch(
       new Request(url, {

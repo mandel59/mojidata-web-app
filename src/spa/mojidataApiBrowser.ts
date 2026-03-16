@@ -61,7 +61,7 @@ export async function idsfindBrowserAllResults(params: {
   params.whole.forEach((value) => url.searchParams.append('whole', value))
   params.ps.forEach((p) => url.searchParams.append('p', p))
   params.qs.forEach((q) => url.searchParams.append('q', q))
-  url.searchParams.set('all_results', '1')
+  url.searchParams.set('all_results', '') // disable references
 
   const res = await app.fetch(
     new Request(url, {
