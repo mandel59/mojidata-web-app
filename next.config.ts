@@ -27,7 +27,13 @@ function getAllowedDevOrigins() {
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: getAllowedDevOrigins(),
-  transpilePackages: ['@mandel59/mojidata-api'],
+  serverExternalPackages: [
+    '@mandel59/idsdb',
+    '@mandel59/idsdb-utils',
+    '@mandel59/mojidata',
+    '@mandel59/mojidata-api',
+    'sql.js',
+  ],
   env: {
     NEXT_PUBLIC_SPA_ASSET_VERSION:
       process.env.NEXT_PUBLIC_SPA_ASSET_VERSION ??
