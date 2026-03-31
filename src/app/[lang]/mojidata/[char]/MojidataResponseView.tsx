@@ -1,6 +1,13 @@
 'use client'
 
-import { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react'
+import {
+  ReactElement,
+  ReactNode,
+  startTransition,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { usePathname } from 'next/navigation'
 import {
   getBabelStoneIdsInverseVariants,
@@ -111,6 +118,8 @@ export default function MojidataResponseView(
   const pathname = usePathname()
   const [permalinkCopied, setPermalinkCopied] = useState(false)
   const [activeSectionId, setActiveSectionId] = useState('Character_Data')
+  const [mojiJohoForceImage, setMojiJohoForceImage] =
+    useState(forceMojiJohoImage)
   const idsfindHref = (whole: string) =>
     `/idsfind?whole=${encodeURIComponent(whole)}`
 
@@ -118,6 +127,28 @@ export default function MojidataResponseView(
     /[\p{Script=Han}\u{20000}-\u{2FFFD}\u{30000}-\u{3FFFD}]/u.test(results.char)
 
   const charIsHentaigana = results.mjih[0]?.文字 === results.char
+
+  useEffect(() => {
+    setMojiJohoForceImage(forceMojiJohoImage)
+  }, [forceMojiJohoImage])
+
+  const setMojiJohoDisplayMode = (nextForceImage: boolean) => {
+    startTransition(() => {
+      setMojiJohoForceImage(nextForceImage)
+    })
+
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const nextUrl = new URL(window.location.href)
+    if (nextForceImage) {
+      nextUrl.searchParams.set('mojiJohoImage', '1')
+    } else {
+      nextUrl.searchParams.delete('mojiJohoImage')
+    }
+    window.history.replaceState(window.history.state, '', nextUrl)
+  }
   const 学術用変体仮名番号 = charIsHentaigana
     ? results.mjih[0]?.学術用変体仮名番号 ?? undefined
     : undefined
@@ -659,7 +690,8 @@ export default function MojidataResponseView(
         <h3 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h3>
         <MojiJohoDisplayModeControl
           lang={lang}
-          forceImage={forceMojiJohoImage}
+          forceImage={mojiJohoForceImage}
+          onChangeForceImage={setMojiJohoDisplayMode}
         />
         {mji.length > 0 && (
           <div className="mojidata-chars-comparison">
@@ -711,7 +743,7 @@ export default function MojidataResponseView(
                 <div className="mojidata-char" lang="ja">
                   <MojiJohoChar
                     char={record.char}
-                    forceImage={forceMojiJohoImage}
+                    forceImage={mojiJohoForceImage}
                     bot={bot}
                   />
                 </div>
@@ -733,7 +765,7 @@ export default function MojidataResponseView(
                     {record.文字 ? (
                       <MojiJohoChar
                         char={record.文字}
-                        forceImage={forceMojiJohoImage}
+                        forceImage={mojiJohoForceImage}
                         bot={bot}
                       />
                     ) : (

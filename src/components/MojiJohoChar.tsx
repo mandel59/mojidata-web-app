@@ -1,8 +1,6 @@
 'use client'
 
-import { ReactElement, useEffect, useMemo, useState } from 'react'
-import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { ReactElement, useEffect, useState } from 'react'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
 import IpamjmCharImg from '@/components/IpamjmCharImg'
@@ -14,21 +12,6 @@ function checkIpamjmFontAvailability(char: string) {
     return false
   }
   return document.fonts.check(`16px ${IPAMJM_FONT_FAMILY}`, char)
-}
-
-function createDisplayModeHref(
-  pathname: string,
-  searchParams: URLSearchParams,
-  forceMojiJohoImage: boolean,
-) {
-  const nextParams = new URLSearchParams(searchParams)
-  if (forceMojiJohoImage) {
-    nextParams.set('mojiJohoImage', '1')
-  } else {
-    nextParams.delete('mojiJohoImage')
-  }
-  const query = nextParams.toString()
-  return query ? `${pathname}?${query}` : pathname
 }
 
 export interface MojiJohoCharProps {
@@ -66,35 +49,27 @@ export function MojiJohoChar(props: MojiJohoCharProps): ReactElement {
 export function MojiJohoDisplayModeControl(props: {
   lang: Language
   forceImage: boolean
+  onChangeForceImage: (forceImage: boolean) => void
 }): ReactElement {
-  const { lang, forceImage } = props
-  const pathname = usePathname() ?? ''
-  const searchParams = useSearchParams()
-  const baseSearchParams = useMemo(
-    () => new URLSearchParams(searchParams.toString()),
-    [searchParams],
-  )
-
-  const autoHref = createDisplayModeHref(pathname, baseSearchParams, false)
-  const imageHref = createDisplayModeHref(pathname, baseSearchParams, true)
+  const { lang, forceImage, onChangeForceImage } = props
 
   return (
     <div className="mojidata-display-mode-control">
       <span>{getText('moji-joho.display.label', lang)}</span>
-      <Link
-        href={autoHref}
+      <button
+        type="button"
         className={!forceImage ? 'is-active' : undefined}
-        scroll={false}
+        onClick={() => onChangeForceImage(false)}
       >
         {getText('moji-joho.display.auto', lang)}
-      </Link>
-      <Link
-        href={imageHref}
+      </button>
+      <button
+        type="button"
         className={forceImage ? 'is-active' : undefined}
-        scroll={false}
+        onClick={() => onChangeForceImage(true)}
       >
         {getText('moji-joho.display.image', lang)}
-      </Link>
+      </button>
     </div>
   )
 }

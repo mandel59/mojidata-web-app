@@ -86,3 +86,33 @@ test('mobile non-SPA mojidata page exposes permalink as link', async ({
 
   await context.close()
 })
+
+test('moji_joho display mode toggles without route refetch', async ({ page }) => {
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  await expect(
+    page.getByRole('heading', { level: 3, name: /Moji_Joho/ }),
+  ).toBeVisible()
+
+  const routeRefetches: string[] = []
+  page.on('request', (request) => {
+    const url = request.url()
+    if (
+      url.includes('_rsc=') ||
+      url.includes('/ja-JP/mojidata/%E6%BC%A2?mojiJohoImage=1')
+    ) {
+      routeRefetches.push(url)
+    }
+  })
+
+  await page.getByRole('button', { name: /画像|Image/ }).click()
+
+  await expect
+    .poll(() => page.url())
+    .toContain('/ja-JP/mojidata/%E6%BC%A2?mojiJohoImage=1')
+  await expect(page.locator('img[src^="/api/ipamjm/svg/"]').first()).toBeVisible()
+  await page.waitForTimeout(300)
+  expect(routeRefetches).toEqual([])
+})

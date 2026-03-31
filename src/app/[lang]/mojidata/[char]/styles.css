@@ -380,7 +380,7 @@
   font-size: 0.9rem;
 }
 
-.mojidata-display-mode-control a {
+.mojidata-display-mode-control button {
   display: inline-block;
   padding: 0.1rem 0.55rem;
   border: 1px solid hsl(var(--border));
@@ -388,9 +388,11 @@
   color: inherit;
   text-decoration: none;
   background: #fff;
+  font: inherit;
+  cursor: pointer;
 }
 
-.mojidata-display-mode-control a.is-active {
+.mojidata-display-mode-control button.is-active {
   border-color: #0a67c7;
   background: #edf5ff;
   color: #0a67c7;
