@@ -1,14 +1,4 @@
-'use client'
-
-import {
-  ReactElement,
-  ReactNode,
-  startTransition,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-import { usePathname } from 'next/navigation'
+import { ReactElement, ReactNode } from 'react'
 import {
   getBabelStoneIdsInverseVariants,
   getBabelStoneIdsVariants,
@@ -35,10 +25,9 @@ import './styles.css'
 import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import { Language, getText } from '@/getText'
-import {
-  MojiJohoChar,
-  MojiJohoDisplayModeControl,
-} from '@/components/MojiJohoChar'
+import MojidataMojiJohoSection from '@/components/MojidataMojiJohoSection'
+import MojidataPermalinkButton from '@/components/MojidataPermalinkButton'
+import MojidataSectionNav from '@/components/MojidataSectionNav'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -119,11 +108,6 @@ export default function MojidataResponseView(
   } = params
 
   const mojidataHref = (char: string) => `/mojidata/${encodeURIComponent(char)}`
-  const pathname = usePathname()
-  const [permalinkCopied, setPermalinkCopied] = useState(false)
-  const [activeSectionId, setActiveSectionId] = useState('Character_Data')
-  const [mojiJohoForceImage, setMojiJohoForceImage] =
-    useState(forceMojiJohoImage)
   const idsfindHref = (whole: string) =>
     `/idsfind?whole=${encodeURIComponent(whole)}`
 
@@ -131,28 +115,6 @@ export default function MojidataResponseView(
     /[\p{Script=Han}\u{20000}-\u{2FFFD}\u{30000}-\u{3FFFD}]/u.test(results.char)
 
   const charIsHentaigana = results.mjih[0]?.文字 === results.char
-
-  useEffect(() => {
-    setMojiJohoForceImage(forceMojiJohoImage)
-  }, [forceMojiJohoImage])
-
-  const setMojiJohoDisplayMode = (nextForceImage: boolean) => {
-    startTransition(() => {
-      setMojiJohoForceImage(nextForceImage)
-    })
-
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    const nextUrl = new URL(window.location.href)
-    if (nextForceImage) {
-      nextUrl.searchParams.set('mojiJohoImage', '1')
-    } else {
-      nextUrl.searchParams.delete('mojiJohoImage')
-    }
-    window.history.replaceState(window.history.state, '', nextUrl)
-  }
   const 学術用変体仮名番号 = charIsHentaigana
     ? results.mjih[0]?.学術用変体仮名番号 ?? undefined
     : undefined
@@ -333,71 +295,18 @@ export default function MojidataResponseView(
     results.joyo.length > 0 ? 'joyo: 常用漢字' : null,
   ].filter((badge): badge is string => Boolean(badge))
 
-  const tocSections = useMemo(
-    () => [
-      { id: 'Character_Data', label: getText('character-data.h2', lang) },
-      { id: 'Glyph_Comparison', label: getText('glyph-comparison.h3', lang) },
-      {
-        id: 'Variants',
-        label: getText('variants-and-relevant-characters.h3', lang),
-      },
-      ...(disableExternalLinks
-        ? []
-        : [{ id: 'External_Links', label: getText('external-links.h3', lang) }]),
-      { id: 'JSON', label: getText('json.h3', lang) },
-    ],
-    [disableExternalLinks, lang],
-  )
-
-  useEffect(() => {
-    const updateActive = () => {
-      const sections = tocSections
-        .map(({ id }) => document.getElementById(id))
-        .filter((el): el is HTMLElement => Boolean(el))
-      if (sections.length === 0) return
-
-      const topOffset = 140
-      const current =
-        sections.filter((el) => el.getBoundingClientRect().top <= topOffset).at(-1) ??
-        sections[0]
-      if (current?.id) setActiveSectionId(current.id)
-    }
-
-    updateActive()
-    window.addEventListener('scroll', updateActive, { passive: true })
-    window.addEventListener('resize', updateActive)
-    window.addEventListener('hashchange', updateActive)
-    return () => {
-      window.removeEventListener('scroll', updateActive)
-      window.removeEventListener('resize', updateActive)
-      window.removeEventListener('hashchange', updateActive)
-    }
-  }, [tocSections])
-
-  useEffect(() => {
-    const scrollToHashAnchor = () => {
-      const rawHash = window.location.hash
-      if (!rawHash || rawHash.length <= 1) return
-      const id = decodeURIComponent(rawHash.slice(1))
-      const target = document.getElementById(id)
-      if (!target) return
-      target.scrollIntoView({ block: 'start' })
-    }
-
-    // When SPA content is hydrated after route rewrite, the browser's initial
-    // fragment jump may happen before the target heading exists.
-    const raf1 = window.requestAnimationFrame(() => {
-      const raf2 = window.requestAnimationFrame(scrollToHashAnchor)
-      window.setTimeout(scrollToHashAnchor, 120)
-      return raf2
-    })
-
-    window.addEventListener('hashchange', scrollToHashAnchor)
-    return () => {
-      window.cancelAnimationFrame(raf1)
-      window.removeEventListener('hashchange', scrollToHashAnchor)
-    }
-  }, [results.char])
+  const tocSections = [
+    { id: 'Character_Data', label: getText('character-data.h2', lang) },
+    { id: 'Glyph_Comparison', label: getText('glyph-comparison.h3', lang) },
+    {
+      id: 'Variants',
+      label: getText('variants-and-relevant-characters.h3', lang),
+    },
+    ...(disableExternalLinks
+      ? []
+      : [{ id: 'External_Links', label: getText('external-links.h3', lang) }]),
+    { id: 'JSON', label: getText('json.h3', lang) },
+  ]
 
 
   return (
@@ -405,22 +314,7 @@ export default function MojidataResponseView(
       <div className="mojidata-response">
         <section className="mojidata-summary-wrap">
           <div className="mojidata-summary-actions">
-            <a
-              href={pathname}
-              className="mojidata-summary-copy-btn"
-              onClick={async (event) => {
-                if (typeof window === 'undefined' || !navigator.clipboard) return
-                const url = `${window.location.origin}${window.location.pathname}`
-                event.preventDefault()
-                await navigator.clipboard.writeText(url)
-                setPermalinkCopied(true)
-                window.setTimeout(() => setPermalinkCopied(false), 1400)
-              }}
-            >
-              {permalinkCopied
-                ? getText('summary.permalink.copied', lang)
-                : getText('summary.permalink.copy', lang)}
-            </a>
+            <MojidataPermalinkButton lang={lang} />
           </div>
           <div className="mojidata-summary-grid">
             <div className="mojidata-summary-glyph-col">
@@ -466,36 +360,9 @@ export default function MojidataResponseView(
           </div>
         </section>
 
-        <nav
-          className="mojidata-section-nav mojidata-section-nav-mobile"
-          aria-label="Mojidata sections"
-        >
-          {tocSections.map((section) => (
-            <a
-              key={section.id}
-              href={`#${section.id}`}
-              className={section.id === activeSectionId ? 'is-active' : undefined}
-            >
-              {section.label}
-            </a>
-          ))}
-        </nav>
+        <MojidataSectionNav sections={tocSections} anchorKey={results.char} />
 
         <div className="mojidata-content-grid">
-          <aside className="mojidata-toc-sidebar" aria-label="Mojidata table of contents">
-            <nav className="mojidata-section-nav mojidata-section-nav-sidebar" aria-label="Mojidata sections">
-              {tocSections.map((section) => (
-                <a
-                  key={section.id}
-                  href={`#${section.id}`}
-                  className={section.id === activeSectionId ? 'is-active' : undefined}
-                >
-                  {section.label}
-                </a>
-              ))}
-            </nav>
-          </aside>
-
           <div className="mojidata-content-main">
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         {isCompatibilityCharacter && (
@@ -691,98 +558,15 @@ export default function MojidataResponseView(
             )}
           </>
         )}
-        <h3 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h3>
-        <MojiJohoDisplayModeControl
+        <MojidataMojiJohoSection
           lang={lang}
-          forceImage={mojiJohoForceImage}
-          onChangeForceImage={setMojiJohoDisplayMode}
+          ucs={ucs}
+          bot={bot}
+          initialForceImage={forceMojiJohoImage}
+          isJISX0213char={isJISX0213char}
+          mji={mji}
+          mjih={results.mjih}
         />
-        {mji.length > 0 && (
-          <div className="mojidata-chars-comparison">
-            {mji.map((record) => (
-              <figure key={record.code}>
-                <figcaption>
-                  <a href={record.href}>{record.code}</a>
-                  {record.ucs === ucs && !record.compat && (
-                    <small title={getText('default-glyph.title', lang)}>
-                      {' '}
-                      {getText('default-glyph.small', lang)}
-                    </small>
-                  )}
-                  {isJISX0213char &&
-                    !record.x0213 &&
-                    record.ucs === ucs &&
-                    !record.compat && (
-                      <small title={getText('not-jp04-glyph.title', lang)}>
-                        {' '}
-                        {getText('not-jp04-glyph.small', lang)}
-                      </small>
-                    )}
-                  {record.x0213 && !record.compat && (
-                    <small title={getText('jp04-glyph.title', lang)}>
-                      {' '}
-                      {getText('jp04-glyph.small', lang)}
-                    </small>
-                  )}
-                  {!(record.ucs === ucs) && !record.compat && record.x0212 && (
-                    <small title={getText('hojo-glyph.title', lang)}>
-                      {' '}
-                      {getText('hojo-glyph.small', lang)}
-                    </small>
-                  )}
-                  {record.compat && (
-                    <small
-                      title={`${getText(
-                        'compatibility-variant.title',
-                        lang,
-                      )} ${toCodePoint(record.ucs!)}`}
-                    >
-                      {' '}
-                      {getText('compatibility-variant.small', lang)}
-                    </small>
-                  )}
-                  <br />
-                  <small>{toCodePoints(record.char)}</small>
-                </figcaption>
-                <div className="mojidata-char" lang="ja">
-                  <MojiJohoChar
-                    char={record.char}
-                    forceImage={mojiJohoForceImage}
-                    bot={bot}
-                  />
-                </div>
-              </figure>
-            ))}
-          </div>
-        )}
-        {results.mjih.length > 0 && (
-          <div className="mojidata-chars-comparison">
-            {results.mjih.map((record) => {
-              return (
-                <figure key={record.MJ文字図形名}>
-                  <figcaption>
-                    {record.MJ文字図形名}
-                    <br />
-                    <small>{record.UCS符号位置}</small>
-                  </figcaption>
-                  <div className="mojidata-char" lang="ja">
-                    {record.文字 ? (
-                      <MojiJohoChar
-                        char={record.文字}
-                        forceImage={mojiJohoForceImage}
-                        bot={bot}
-                      />
-                    ) : (
-                      <span className="mojidata-raw-char mojidata-mojijoho">
-                        {record.UCS符号位置}
-                      </span>
-                    )}
-                  </div>
-                </figure>
-              )
-            })}
-          </div>
-        )}
         <h2 id="Variants">
           {getText('variants-and-relevant-characters.h3', lang)}
         </h2>
