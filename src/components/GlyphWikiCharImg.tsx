@@ -1,5 +1,3 @@
-'use client'
-
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
 
 export interface GlyphWikiCharImgProps {

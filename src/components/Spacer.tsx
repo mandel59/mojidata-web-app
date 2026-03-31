@@ -1,5 +1,3 @@
-'use client'
-
 export interface SpacerProps {
   width: number
   height: number

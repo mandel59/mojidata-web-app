@@ -1,5 +1,3 @@
-'use client'
-
 import { Pager } from '@/components/Pager'
 import { Spacer } from '@/components/Spacer'
 import ConditionalLink from '@/components/ConditionalLink'
