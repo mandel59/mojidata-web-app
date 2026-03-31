@@ -116,3 +116,14 @@ test('moji_joho display mode toggles without route refetch', async ({ page }) =>
   await page.waitForTimeout(300)
   expect(routeRefetches).toEqual([])
 })
+
+test('mojidata server-data can show perf debug panel', async ({ page }) => {
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2?executionMode=server-data&perf=1', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  await expect(
+    page.getByText(/Performance \(server-data\)/),
+  ).toBeVisible()
+  await expect(page.getByText(/total data load/)).toBeVisible()
+})

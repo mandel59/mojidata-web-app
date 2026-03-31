@@ -7,6 +7,7 @@ import LoadingMojidataArticle from '@/components/LoadingMojidataArticle'
 import { mojidataBrowser } from '@/spa/mojidataApiBrowser'
 import MojidataResponseView from '@/app/[lang]/mojidata/[char]/MojidataResponseView'
 import { loadMojidataResultData } from './loadMojidataResultData'
+import PerfDebugPanel, { type PerfDebugMetric } from '@/components/PerfDebugPanel'
 
 export interface MojidataResultsClientProps {
   char: string
@@ -14,13 +15,22 @@ export interface MojidataResultsClientProps {
   bot: boolean
   disableExternalLinks: boolean
   forceMojiJohoImage: boolean
+  perfDebug: boolean
 }
 
 export default function MojidataResultsClient(props: MojidataResultsClientProps) {
-  const { char, lang, bot, disableExternalLinks, forceMojiJohoImage } = props
+  const {
+    char,
+    lang,
+    bot,
+    disableExternalLinks,
+    forceMojiJohoImage,
+    perfDebug,
+  } = props
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [perfMetrics, setPerfMetrics] = useState<PerfDebugMetric[]>([])
   const [data, setData] = useState<{
     results: MojidataResults
     canonicalCharacter: MojidataResults
@@ -32,11 +42,25 @@ export default function MojidataResultsClient(props: MojidataResultsClientProps)
     window.scrollTo({ top: 0, left: 0 })
     let cancelled = false
     ;(async () => {
+      const runStart = performance.now()
+      const nextPerfMetrics: PerfDebugMetric[] = []
       setLoading(true)
       setError(null)
       try {
-        const nextData = await loadMojidataResultData(mojidataBrowser, char)
+        const nextData = await loadMojidataResultData(async (value) => {
+          const startedAt = performance.now()
+          const result = await mojidataBrowser(value)
+          nextPerfMetrics.push({
+            label: `fetch ${value}`,
+            durationMs: performance.now() - startedAt,
+          })
+          return result
+        }, char)
         if (cancelled) return
+        setPerfMetrics([
+          { label: 'total data load', durationMs: performance.now() - runStart },
+          ...nextPerfMetrics,
+        ])
         setData(nextData)
       } catch (e) {
         if (cancelled) return
@@ -55,16 +79,21 @@ export default function MojidataResultsClient(props: MojidataResultsClientProps)
   if (!data) return <p>No results.</p>
 
   return (
-    <MojidataResponseView
-      ucs={char}
-      results={data.results}
-      canonicalCharacter={data.canonicalCharacter}
-      compatibilityCharacters={data.compatibilityCharacters}
-      isCompatibilityCharacter={data.isCompatibilityCharacter}
-      bot={bot}
-      disableExternalLinks={disableExternalLinks}
-      forceMojiJohoImage={forceMojiJohoImage}
-      lang={lang}
-    />
+    <>
+      {perfDebug ? (
+        <PerfDebugPanel mode="client-data" metrics={perfMetrics} />
+      ) : null}
+      <MojidataResponseView
+        ucs={char}
+        results={data.results}
+        canonicalCharacter={data.canonicalCharacter}
+        compatibilityCharacters={data.compatibilityCharacters}
+        isCompatibilityCharacter={data.isCompatibilityCharacter}
+        bot={bot}
+        disableExternalLinks={disableExternalLinks}
+        forceMojiJohoImage={forceMojiJohoImage}
+        lang={lang}
+      />
+    </>
   )
 }

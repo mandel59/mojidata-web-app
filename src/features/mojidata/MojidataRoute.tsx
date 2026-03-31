@@ -49,6 +49,7 @@ export default function MojidataRoute(props: MojidataRouteProps) {
     searchParams.disableExternalLinks,
   )
   const forceMojiJohoImage = castToBooleanFlag(searchParams.mojiJohoImage)
+  const perfDebug = castToBooleanFlag(searchParams.perf)
 
   if (mode === 'client-data') {
     return (
@@ -64,6 +65,7 @@ export default function MojidataRoute(props: MojidataRouteProps) {
             bot={bot}
             disableExternalLinks={disableExternalLinks}
             forceMojiJohoImage={forceMojiJohoImage}
+            perfDebug={perfDebug}
           />
         </Suspense>
       </MojidataPageShell>
@@ -79,6 +81,7 @@ export default function MojidataRoute(props: MojidataRouteProps) {
           disableExternalLinks={disableExternalLinks}
           forceMojiJohoImage={forceMojiJohoImage}
           lang={language}
+          perfDebug={perfDebug}
         />
       </Suspense>
     </MojidataPageShell>
