@@ -58,6 +58,7 @@ export default function IdsfindRoute(props: IdsfindRouteProps) {
               disableExternalLinks={castToBooleanFlag(
                 searchParams.disableExternalLinks,
               )}
+              extraSearchParams={searchParams}
             />
           )
         ) : undefined

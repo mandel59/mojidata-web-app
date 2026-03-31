@@ -51,6 +51,7 @@ export default function SearchRoute(props: SearchRouteProps) {
               disableExternalLinks={castToBooleanFlag(
                 searchParams.disableExternalLinks,
               )}
+              extraSearchParams={searchParams}
             />
           )
         ) : undefined

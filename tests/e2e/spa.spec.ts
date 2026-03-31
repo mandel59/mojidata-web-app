@@ -101,6 +101,25 @@ test('canonical search paging keeps results visible on desktop', async ({
   expect(after?.height ?? 0).toBeGreaterThan(200)
 })
 
+test('server-data search paging works on desktop', async ({ page }) => {
+  await page.goto('/ja-JP/search?executionMode=server-data&query=%E6%97%A5', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  await expect(page.locator('[data-spa="search"]')).toHaveCount(0)
+  await expect(page.getByRole('link', { name: 'Next' })).toBeVisible()
+
+  await page.getByRole('link', { name: 'Next' }).click()
+
+  await expect(page).toHaveURL(
+    /\/(?:ja-JP\/)?search\?executionMode=server-data&query=.*page=2|\/(?:ja-JP\/)?search\?query=.*executionMode=server-data&page=2/,
+  )
+  await expect(page.getByText('No results found.')).toHaveCount(0)
+  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+    timeout: 60_000,
+  })
+})
+
 test('mojidata-spa renders character data in browser', async ({ page }) => {
   page.on('pageerror', (err) => console.log('[pageerror]', err))
   page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))

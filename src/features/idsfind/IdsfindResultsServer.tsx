@@ -11,8 +11,28 @@ function getPrevAndNextPagePath(
   query: string,
   page: number,
   done: boolean,
+  extraSearchParams?: { [key: string]: string | string[] | undefined },
 ) {
   const url = new URL(path, 'http://localhost/')
+  if (extraSearchParams) {
+    for (const [key, value] of Object.entries(extraSearchParams)) {
+      if (
+        value == null ||
+        key === 'ids' ||
+        key === 'whole' ||
+        key === 'query' ||
+        key === 'page'
+      ) {
+        continue
+      }
+      const values = Array.isArray(value) ? value : [value]
+      for (const item of values) {
+        if (item) {
+          url.searchParams.append(key, item)
+        }
+      }
+    }
+  }
   ids.forEach((value) => url.searchParams.append('ids', value))
   whole.forEach((value) => url.searchParams.append('whole', value))
   if (query) url.searchParams.set('query', query)
@@ -42,6 +62,7 @@ interface IdsfindResultsServerProps {
   page?: number
   bot: boolean
   disableExternalLinks: boolean
+  extraSearchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export default async function IdsfindResultsServer(
@@ -55,6 +76,7 @@ export default async function IdsfindResultsServer(
     page,
     bot,
     disableExternalLinks,
+    extraSearchParams,
   } = props
   const size = 50
   const pageNum = page ?? 1
@@ -75,6 +97,7 @@ export default async function IdsfindResultsServer(
     query,
     pageNum,
     done,
+    extraSearchParams,
   )
   return (
     <IdsFindResponseView
@@ -90,6 +113,7 @@ export default async function IdsfindResultsServer(
       whole={whole[0]}
       bot={bot}
       disableExternalLinks={disableExternalLinks}
+      pagerPrefetch={!bot}
     />
   )
 }

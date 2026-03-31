@@ -36,6 +36,7 @@ export interface IdsFindResponseViewProps {
   whole?: string
   bot: boolean
   disableExternalLinks: boolean
+  pagerPrefetch?: boolean
 }
 
 export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
@@ -52,6 +53,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
     whole,
     bot,
     disableExternalLinks,
+    pagerPrefetch,
   } = props
 
   return (
@@ -105,7 +107,13 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
         </p>
       )}
       <footer className="mt-4 border-t border-border pt-3">
-        <Pager prev={prev} next={next} pageNum={pageNum} totalPages={totalPages} />
+        <Pager
+          prev={prev}
+          next={next}
+          pageNum={pageNum}
+          totalPages={totalPages}
+          prefetch={pagerPrefetch}
+        />
       </footer>
     </article>
   )

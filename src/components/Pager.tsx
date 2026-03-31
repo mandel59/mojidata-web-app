@@ -7,10 +7,11 @@ export interface PagerProps {
   next?: string | null
   pageNum: number
   totalPages: number
+  prefetch?: boolean
 }
 
 export function Pager(props: PagerProps) {
-  const { prev, next, pageNum, totalPages } = props
+  const { prev, next, pageNum, totalPages, prefetch } = props
 
   return (
     <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
@@ -18,7 +19,7 @@ export function Pager(props: PagerProps) {
         {prev ? (
           <Link
             href={prev}
-            prefetch={false}
+            prefetch={prefetch}
             scroll={false}
             className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
           >
@@ -35,7 +36,7 @@ export function Pager(props: PagerProps) {
         {next ? (
           <Link
             href={next}
-            prefetch={false}
+            prefetch={prefetch}
             scroll={false}
             className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
           >
