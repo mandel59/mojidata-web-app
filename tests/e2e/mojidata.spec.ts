@@ -138,6 +138,41 @@ test('mojidata server-data can show perf debug panel', async ({ page }) => {
   await expect(page.getByText(/total data load/)).toBeVisible()
 })
 
+test('server-data search-to-mojidata navigation shows loading placeholder', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    userAgent: MOBILE_UA,
+    viewport: { width: 390, height: 844 },
+  })
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
+
+  let delayed = false
+  await page.route('**/*_rsc=*', async (route) => {
+    const url = route.request().url()
+    if (!delayed && url.includes('/ja-JP/mojidata/')) {
+      delayed = true
+      await new Promise((resolve) => setTimeout(resolve, 1200))
+    }
+    await route.continue()
+  })
+
+  await page.goto('/ja-JP/search?query=%E6%97%A5', {
+    waitUntil: 'domcontentloaded',
+  })
+  await expect(page.locator('.ids-find-result-char a').first()).toBeVisible()
+
+  await page.locator('.ids-find-result-char a').first().click()
+
+  await expect(page.getByText(/Loading character data…/)).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 2, name: /文字データ|Character Data/ }),
+  ).toBeVisible({ timeout: 60_000 })
+
+  assertNoBrowserErrors()
+  await context.close()
+})
+
 test('mojidata variants defer the extra glyphs until expanded', async ({
   page,
 }) => {
