@@ -474,9 +474,8 @@ export default function MojidataResponseView(
           </div>
         </section>
 
-        <MojidataSectionNav sections={tocSections} anchorKey={results.char} />
-
         <div className="mojidata-content-grid">
+          <MojidataSectionNav sections={tocSections} anchorKey={results.char} />
           <div className="mojidata-content-main">
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         {isCompatibilityCharacter && (

@@ -19,6 +19,38 @@ test('mojidata page renders', async ({ page }) => {
   )
 })
 
+test('desktop mojidata keeps the TOC sidebar beside the main content', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    userAgent: DESKTOP_UA,
+    viewport: { width: 1280, height: 900 },
+  })
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
+
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const sidebar = page.locator('.mojidata-toc-sidebar')
+  const main = page.locator('.mojidata-content-main')
+  await expect(sidebar).toBeVisible()
+  await expect(main).toBeVisible()
+
+  const [sidebarBox, mainBox] = await Promise.all([
+    sidebar.boundingBox(),
+    main.boundingBox(),
+  ])
+  expect(sidebarBox).not.toBeNull()
+  expect(mainBox).not.toBeNull()
+  expect((sidebarBox?.x ?? 0) + (sidebarBox?.width ?? 0)).toBeLessThan(
+    (mainBox?.x ?? 0),
+  )
+
+  assertNoBrowserErrors()
+  await context.close()
+})
+
 const DESKTOP_UA =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
 const MOBILE_UA =
