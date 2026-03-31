@@ -62,6 +62,7 @@ export default function NavigationPendingIndicator(
 
     const handleClick = (event: MouseEvent) => {
       if (!isUnmodifiedPrimaryClick(event)) return
+      if (event.defaultPrevented) return
       const target = event.target
       if (!(target instanceof Element)) return
       const anchor = target.closest('a[href]')
@@ -82,9 +83,9 @@ export default function NavigationPendingIndicator(
       clearPendingLater()
     }
 
-    document.addEventListener('click', handleClick, true)
+    document.addEventListener('click', handleClick)
     return () => {
-      document.removeEventListener('click', handleClick, true)
+      document.removeEventListener('click', handleClick)
       if (resetTimer.current != null) {
         window.clearTimeout(resetTimer.current)
         resetTimer.current = null

@@ -138,7 +138,7 @@ test('mojidata server-data can show perf debug panel', async ({ page }) => {
   await expect(page.getByText(/total data load/)).toBeVisible()
 })
 
-test('server-data search-to-mojidata navigation shows loading placeholder', async ({
+test('server-data search-to-mojidata navigation shows immediate feedback', async ({
   browser,
 }) => {
   const context = await browser.newContext({
@@ -163,15 +163,40 @@ test('server-data search-to-mojidata navigation shows loading placeholder', asyn
   const firstResultLink = page.locator('.ids-find-result-link').first()
   await expect(firstResultLink).toBeVisible()
 
-  await firstResultLink.dispatchEvent('touchstart')
   await firstResultLink.click()
 
-  await expect(
-    page.locator('[data-navigation-pending="true"]'),
-  ).toBeVisible({
-    timeout: 1000,
-  })
-  await expect(page.getByText(/Loading character data…/)).toBeVisible()
+  await expect
+    .poll(async () => {
+      if (
+        await page
+          .locator('[data-navigation-pending="true"]')
+          .first()
+          .isVisible()
+          .catch(() => false)
+      ) {
+        return 'progress'
+      }
+      if (
+        await page
+          .getByText(/Loading character data…/)
+          .isVisible()
+          .catch(() => false)
+      ) {
+        return 'loading'
+      }
+      if (
+        await page
+          .getByRole('heading', { level: 2, name: /文字データ|Character Data/ })
+          .isVisible()
+          .catch(() => false)
+      ) {
+        return 'heading'
+      }
+      return 'none'
+    }, {
+      timeout: 1000,
+    })
+    .not.toBe('none')
   await expect(
     page.getByRole('heading', { level: 2, name: /文字データ|Character Data/ }),
   ).toBeVisible({ timeout: 60_000 })
@@ -196,4 +221,18 @@ test('mojidata variants defer the extra glyphs until expanded', async ({
 
   await expect(variantCards).not.toHaveCount(6)
   await expect(page.getByRole('button', { name: /折りたたむ|Show less/ })).toBeVisible()
+})
+
+test('search quick examples do not trigger the navigation progress bar', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/search', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const progressBar = page.locator('[data-navigation-pending="true"]')
+  await page.getByRole('link', { name: '⿰日月' }).click()
+
+  await expect(page.locator('input[name="query"]').first()).toHaveValue('⿰日月')
+  await expect(progressBar).toHaveCount(0)
 })
