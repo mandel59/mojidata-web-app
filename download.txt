@@ -9,3 +9,7 @@ AND-Regular.otf 494bfaeeea8993a8f6fc8d21d2a9f4c6036dc51fb6e4938ff6f34ce5ad9dd7f2
 ## Jigumo Font <https://kamichikoichi.github.io/jigmo/>
 ## License: CC0-1.0
 Jigmo-20250912.zip 5744c7386d129475d87607ca66d043c8793c65448adeaedc921b6931890e5d0b https://kamichikoichi.github.io/jigmo/Jigmo-20250912.zip
+
+## IPAmj明朝フォント <https://forest.watch.impress.co.jp/library/software/ipamjfont/>
+## License: IPA
+ipamjm00601.zip 35494e0f2896f38b3f7369a8421a895cea6440a42c0a66ac95eab47d6ed25b68 https://dforest.watch.impress.co.jp/library/i/ipamjfont/10750/ipamjm00601.zip

@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+cd "$(dirname "$0")/.."
+scripts/build-glyph-index \
+  'src/fonts/ipamjm/glyph-index.txt.gz' \
+  'src/fonts/ipamjm/ipamjm.ttf'

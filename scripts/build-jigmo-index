@@ -1,3 +1,9 @@
 #!/bin/sh
+set -eu
 
-fontforge -script scripts/dump_glyph_id.py | gzip > src/fonts/jigmo/glyph-index.txt.gz
+cd "$(dirname "$0")/.."
+scripts/build-glyph-index \
+  'src/fonts/jigmo/glyph-index.txt.gz' \
+  'src/fonts/jigmo/Jigmo.ttf' \
+  'src/fonts/jigmo/Jigmo2.ttf' \
+  'src/fonts/jigmo/Jigmo3.ttf'

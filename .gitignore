@@ -47,3 +47,4 @@ cache/*
 # fonts
 src/fonts/*.otf
 src/fonts/jigmo/*.ttf
+src/fonts/ipamjm/*.ttf

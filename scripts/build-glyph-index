@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+if [ "$#" -lt 2 ]; then
+  echo "usage: $0 output-index.gz font.ttf..." >&2
+  exit 1
+fi
+
+output_index="$1"
+shift
+
+fontforge -script 'scripts/dump_glyph_id.py' "$@" | gzip > "$output_index"

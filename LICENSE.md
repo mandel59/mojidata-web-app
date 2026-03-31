@@ -46,3 +46,10 @@ Copyright 2016-2019 Adobe (http://www.adobe.com/).
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.  
 See [LICENSE.md](https://github.com/adobe-fonts/adobe-notdef/blob/master/LICENSE.md)
+
+## IPAmjMincho
+
+Copyright(c) Information-technology Promotion Agency, Japan (IPA), 2011-2019.  
+
+This font is licensed under the IPA Font License Version 1.0.  
+See [IPA Font License](https://opensource.org/licenses/IPA/)

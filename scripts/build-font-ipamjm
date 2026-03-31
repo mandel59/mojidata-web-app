@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eux
+
+ipamjm_zip="ipamjm00601.zip"
+ipamjm_ttf="ipamjm.ttf"
+ipamjm_outdir="src/fonts/ipamjm"
+
+cd "$(dirname "$0")/.."
+scripts/download "$ipamjm_zip"
+mkdir -p "$ipamjm_outdir"
+unzip -d "$ipamjm_outdir" -o "cache/$ipamjm_zip" "$ipamjm_ttf"
+gzip -kf "$ipamjm_outdir/$ipamjm_ttf"
+scripts/build-ipamjm-index
