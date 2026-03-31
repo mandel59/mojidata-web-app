@@ -43,6 +43,24 @@ That coupling leaks into:
 - tests
 - middleware rewrite assumptions
 
+### Current performance problem
+
+The current refactor improved structural separation, but it also introduced
+two performance regressions for `server-data` routes:
+
+- canonical pages now call `headers()` to select execution mode
+- that makes the page entrypoints dynamic even when the actual content is
+  suitable for caching
+- server-data results are rendered inline, so the page shell often waits for
+  the full result payload before streaming useful HTML
+
+In practice this means:
+
+- data caches may still hit
+- but route-level caching is weaker than expected
+- repeated visits can still feel like "full rerender"
+- users do not see the page shell early enough during server-data rendering
+
 ### Existing shared pieces
 
 These are already good building blocks:
@@ -172,6 +190,13 @@ Example inputs:
 
 This policy should live outside the page components.
 
+For the next refactor phase, this becomes a hard requirement:
+
+- request-header-based mode selection must happen in `proxy.ts`
+- page components should not call `headers()` just to decide delivery mode
+- canonical URLs should remain stable while internal route selection happens
+  through rewrite
+
 ## Phase Plan
 
 ### Phase 1: Extract shared core helpers
@@ -245,15 +270,39 @@ Expected result:
 
 - simpler route model
 
-## Immediate Low-Risk First Step
+### Phase 6: Restore server-data performance characteristics
 
-The safest first code step after this document is:
+This phase is now the immediate priority.
 
-1. extract shared search helpers
-2. introduce `ExecutionMode`
-3. make canonical pages consume the new shared helpers without changing behavior
+Tasks:
 
-Do not start by deleting `*-spa` routes.
+- move default mode selection out of page components and back into `proxy.ts`
+- let canonical pages default to `server-data` unless explicitly overridden
+- use internal rewrite for `client-data` traffic instead of calling
+  `headers()` from canonical pages
+- add server-side `Suspense` boundaries so form/shell content can stream
+  before result rendering completes
+- preserve the existing `idsfind` full-result cache unless profiling proves it
+  is the bottleneck
+
+Expected result:
+
+- canonical server-data pages become eligible for better route-level caching
+- repeated requests stop paying avoidable dynamic-page cost
+- shell markup appears before heavy result rendering completes
+
+## Immediate Next Steps
+
+The current implementation priority is:
+
+1. update `proxy.ts` so delivery policy rewrites canonical requests to
+   internal client-data routes when needed
+2. remove `headers()`-based execution mode selection from canonical pages
+3. add streaming boundaries for server-data result sections
+4. verify the new behavior with build and focused E2E coverage
+
+Do not start by deleting `*-spa` routes. They remain useful as internal
+entrypoints while delivery policy is stabilized.
 
 ## Technical Risks
 
