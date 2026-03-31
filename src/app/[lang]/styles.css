@@ -108,7 +108,7 @@ body {
 }
 
 .container > .grid {
-  align-items: start;
+  align-items: flex-start;
   gap: 1.25rem;
 }
 
@@ -287,7 +287,7 @@ tbody tr:last-child td {
 
 .preview-warning-actions {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.75rem;
 }
@@ -324,7 +324,7 @@ tbody tr:last-child td {
   .responsive-search-shell {
     display: grid;
     grid-template-columns: minmax(20rem, 24rem) minmax(0, 1fr);
-    align-items: start;
+    align-items: flex-start;
     gap: 1rem;
   }
 
