@@ -23,7 +23,7 @@ export default function ConditionalLink(
       return <a href={href}>{children}</a>
     }
     return (
-      <Link prefetch={prefetch} href={href}>
+      <Link prefetch={prefetch ?? false} href={href}>
         {children}
       </Link>
     )
