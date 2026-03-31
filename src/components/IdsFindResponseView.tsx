@@ -58,7 +58,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       {total > 0 && (
         <div className="mb-2 flex flex-row flex-wrap gap-2">
-          {results.slice(offset, offset + size).map((char: string) => {
+          {results.map((char: string) => {
             const href = charToHref(char)
             const glyphHref = href
               ? href

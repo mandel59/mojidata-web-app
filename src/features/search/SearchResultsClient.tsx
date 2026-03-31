@@ -102,11 +102,12 @@ export default function SearchResultsClient() {
           return buildPageHref(url, currentPage + 1)
         })()
       : null
+  const pageResults = results.slice(offset, offset + pageSize)
 
   return (
     <div aria-busy={loading}>
       <IdsFindResponseView
-        results={results}
+        results={pageResults}
         total={total}
         offset={offset}
         size={pageSize}

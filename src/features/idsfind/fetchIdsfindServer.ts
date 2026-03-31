@@ -53,5 +53,6 @@ export async function fetchIdsFindServer(params: IdsFindParams) {
 
   const { results, total } = await fetchIdsFindAllResults(ids, whole, query)
   const done = size ? results.length <= offset + size : true
-  return { results, done, offset, size, total }
+  const pageResults = size ? results.slice(offset, offset + size) : results
+  return { results: pageResults, done, offset, size, total }
 }

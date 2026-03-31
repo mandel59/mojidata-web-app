@@ -127,11 +127,12 @@ export default function IdsfindResultsClient() {
 
   const hasAnyResult = results.length > 0 || total > 0
   if (loading && !hasAnyResult) return <LoadingArticle />
+  const pageResults = results.slice(offset, offset + pageSize)
 
   return (
     <div aria-busy={loading}>
       <IdsFindResponseView
-        results={results}
+        results={pageResults}
         total={total}
         offset={offset}
         size={pageSize}
