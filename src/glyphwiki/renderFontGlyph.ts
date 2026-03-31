@@ -50,25 +50,6 @@ async function loadIndexFromGz(gzPath: string): Promise<GlyphIndex> {
   return index
 }
 
-export function createWinMetricsRenderBox(
-  font: opentype.Font,
-  options: { viewBoxSize?: number; padding?: number } = {},
-): GlyphRenderBox {
-  const viewBoxSize = options.viewBoxSize ?? 1024
-  const padding = options.padding ?? 0
-  const innerSize = viewBoxSize - 2 * padding
-  const { os2 } = font.tables
-  const ascent = os2?.usWinAscent ?? font.tables.head.yMax
-  const descent = os2?.usWinDescent ?? Math.max(0, -font.tables.head.yMin)
-  const scale = innerSize / (ascent + descent)
-  return {
-    viewBoxSize,
-    fontSize: font.unitsPerEm * scale,
-    ascender: padding + ascent * scale,
-    baseline: 0,
-  }
-}
-
 export async function createGlyphFontRenderer(config: GlyphFontRendererConfig) {
   const [loadedFonts, index] = await Promise.all([
     Promise.all(

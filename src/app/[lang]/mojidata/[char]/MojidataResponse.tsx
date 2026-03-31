@@ -7,13 +7,14 @@ interface MojidataResponseParams {
   ucs: string
   bot: boolean
   disableExternalLinks: boolean
+  forceMojiJohoImage: boolean
   lang: Language
 }
 
 export default async function MojidataResponse(
   params: MojidataResponseParams,
 ): Promise<ReactElement> {
-  const { ucs, bot, disableExternalLinks, lang } = params
+  const { ucs, bot, disableExternalLinks, forceMojiJohoImage, lang } = params
 
   const results = await fetchMojidata(ucs)
 
@@ -36,6 +37,7 @@ export default async function MojidataResponse(
       isCompatibilityCharacter={isCompatibilityCharacter}
       bot={bot}
       disableExternalLinks={disableExternalLinks}
+      forceMojiJohoImage={forceMojiJohoImage}
       lang={lang}
       linkMode="server"
     />

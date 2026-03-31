@@ -14,7 +14,10 @@ export default async function Mojidata({ params, searchParams }: Props) {
   const { char, lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { bot, disableExternalLinks } = resolvedSearchParams
+  const { bot, disableExternalLinks, mojiJohoImage } = resolvedSearchParams
+  const forceMojiJohoImage =
+    mojiJohoImage === '1' ||
+    (Array.isArray(mojiJohoImage) && mojiJohoImage.includes('1'))
   const ucs = decodeURIComponent(char)
   if ((ucs.codePointAt(0) ?? 0) <= 0x7f) {
     notFound()
@@ -43,6 +46,7 @@ export default async function Mojidata({ params, searchParams }: Props) {
             ucs={ucs}
             bot={!!bot}
             disableExternalLinks={!!disableExternalLinks}
+            forceMojiJohoImage={forceMojiJohoImage}
             lang={language}
           />
         </Suspense>

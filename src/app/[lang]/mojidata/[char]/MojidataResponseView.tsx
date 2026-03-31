@@ -27,6 +27,10 @@ import './styles.css'
 import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import { Language, getText } from '@/getText'
+import {
+  MojiJohoChar,
+  MojiJohoDisplayModeControl,
+} from '@/components/MojiJohoChar'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -84,6 +88,7 @@ export interface MojidataResponseViewParams {
   isCompatibilityCharacter: boolean
   bot: boolean
   disableExternalLinks: boolean
+  forceMojiJohoImage: boolean
   lang: Language
   linkMode: 'server' | 'spa'
 }
@@ -98,6 +103,7 @@ export default function MojidataResponseView(
     isCompatibilityCharacter,
     bot,
     disableExternalLinks,
+    forceMojiJohoImage,
     lang,
     linkMode,
   } = params
@@ -652,6 +658,10 @@ export default function MojidataResponseView(
           </>
         )}
         <h3 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h3>
+        <MojiJohoDisplayModeControl
+          lang={lang}
+          forceImage={forceMojiJohoImage}
+        />
         {mji.length > 0 && (
           <div className="mojidata-chars-comparison">
             {mji.map((record) => (
@@ -700,9 +710,11 @@ export default function MojidataResponseView(
                   <small>{toCodePoints(record.char)}</small>
                 </figcaption>
                 <div className="mojidata-char" lang="ja">
-                  <span className="mojidata-raw-char mojidata-mojijoho">
-                    {record.char}
-                  </span>
+                  <MojiJohoChar
+                    char={record.char}
+                    forceImage={forceMojiJohoImage}
+                    bot={bot}
+                  />
                 </div>
               </figure>
             ))}
@@ -719,9 +731,11 @@ export default function MojidataResponseView(
                     <small>{record.UCS符号位置}</small>
                   </figcaption>
                   <div className="mojidata-char" lang="ja">
-                    <span className="mojidata-raw-char mojidata-mojijoho">
-                      {record.文字}
-                    </span>
+                    <MojiJohoChar
+                      char={record.文字}
+                      forceImage={forceMojiJohoImage}
+                      bot={bot}
+                    />
                   </div>
                 </figure>
               )

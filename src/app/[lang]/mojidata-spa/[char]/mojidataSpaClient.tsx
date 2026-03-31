@@ -13,6 +13,7 @@ export default function MojidataSpaClient(props: { char: string; lang: Language 
   const searchParams = useSearchParams()
   const bot = searchParams.get('bot') != null
   const disableExternalLinks = searchParams.get('disableExternalLinks') === '1'
+  const forceMojiJohoImage = searchParams.get('mojiJohoImage') === '1'
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -72,6 +73,7 @@ export default function MojidataSpaClient(props: { char: string; lang: Language 
       isCompatibilityCharacter={data.isCompatibilityCharacter}
       bot={bot}
       disableExternalLinks={disableExternalLinks}
+      forceMojiJohoImage={forceMojiJohoImage}
       lang={lang}
       linkMode="server"
     />
