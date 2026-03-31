@@ -87,6 +87,8 @@ export const translationEnUs: Translation = {
   'hojo-glyph.small': 'hojo',
   'compatibility-ideographs.h3': 'Compatibility Ideographs',
   'variants-and-relevant-characters.h3': 'Variants and Relevant Characters',
+  'variants.show-more.button': 'Show remaining {count}',
+  'variants.show-less.button': 'Show less',
   'external-links.h3': 'External Links',
   'json.h3': 'JSON',
   'mojidata-search.placeholder': 'Enter search queries...',

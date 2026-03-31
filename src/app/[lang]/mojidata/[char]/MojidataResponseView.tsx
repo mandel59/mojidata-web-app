@@ -25,9 +25,11 @@ import './styles.css'
 import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import { Language, getText } from '@/getText'
+import MojidataDeferredVariants from '@/components/MojidataDeferredVariants'
 import MojidataMojiJohoSection from '@/components/MojidataMojiJohoSection'
 import MojidataPermalinkButton from '@/components/MojidataPermalinkButton'
 import MojidataSectionNav from '@/components/MojidataSectionNav'
+import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -37,6 +39,8 @@ const irgKeys = {
   'ja-JP': 'kIRG_JSource',
   'ko-KR': 'kIRG_KSource',
 } as const
+
+const INITIAL_VARIANT_RENDER_COUNT = 6
 
 function compareString(x: string, y: string): number {
   if (x > y) {
@@ -308,6 +312,116 @@ export default function MojidataResponseView(
     { id: 'JSON', label: getText('json.h3', lang) },
   ]
 
+  const variantEntries: MojidataVariantEntry[] = allVariantChars.map((char) => {
+    const kdpvRelations = kdpvVariants.get(char)
+    const kdpvForwardRelations = kdpvRelations
+      ? [...kdpvRelations].filter((r) => !r.startsWith('~'))
+      : []
+    const kdpvBackwardRelations = kdpvRelations
+      ? [...kdpvRelations].filter((r) => r.startsWith('~'))
+      : []
+    const unihanRelations = unihanVariants.get(char)
+    const unihanInverseRelations = unihanInverseVariants.get(char)
+    const joyoRelations = joyoVariants.get(char)
+    const mjsmRelations = mjsmVariants.get(char)
+    const mjsmInverseRelations = mjsmInverseVariants.get(char)
+    const nyukanRelations = nyukanVariants.get(char)
+    const nyukanInverseRelations = nyukanInverseVariants.get(char)
+    const tghbRelations = tghbVariants.get(char)
+    const babelStoneIdsRelations = babelStoneIdsVariants.get(char)
+    const idsInverseRelations = idsInverseVariants.get(char)
+    const isIDS = kdpvCharIsIDS(char)
+    const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
+    const charName = getCharNameOfKdpvChar(char)
+    const codePoint = getCodePointOfKdpvChar(char)
+    const hentaiganaRelations = hentaigana.get(char)
+    const ivsDuplicateRelations = ivsDuplicates.get(char)
+
+    const relationLines = [
+      unihanRelations && {
+        label: '→unihan',
+        values: [...unihanRelations].join(', '),
+      },
+      unihanInverseRelations && {
+        label: '←unihan',
+        values: [...unihanInverseRelations].join(', '),
+      },
+      joyoRelations && {
+        label: '→joyo',
+        values: [...joyoRelations].join(', '),
+      },
+      kdpvForwardRelations.length > 0 && {
+        label: '→kdpv',
+        values: kdpvForwardRelations.join(', '),
+      },
+      kdpvBackwardRelations.length > 0 && {
+        label: '←kdpv',
+        values: kdpvBackwardRelations.map((r) => r.slice(1)).join(', '),
+      },
+      mjsmRelations && {
+        label: '→mjsm',
+        values: [...mjsmRelations].join(', '),
+      },
+      mjsmInverseRelations && {
+        label: '←mjsm',
+        values: [...mjsmInverseRelations].join(', '),
+      },
+      nyukanRelations && {
+        label: '→nyukan',
+        values: [...nyukanRelations].join(', '),
+      },
+      nyukanInverseRelations && {
+        label: '←nyukan',
+        values: [...nyukanInverseRelations].join(', '),
+      },
+      tghbRelations && {
+        label: '→tghb',
+        values: [...tghbRelations].join(', '),
+      },
+      babelStoneIdsRelations && {
+        label: '→ids',
+        values: [...babelStoneIdsRelations].join(', '),
+      },
+      idsInverseRelations && {
+        label: '←ids',
+        values: [...idsInverseRelations].join(', '),
+      },
+      hentaiganaRelations && {
+        label: '→mjih',
+        values: [...hentaiganaRelations].join(', '),
+      },
+      ivsDuplicateRelations && {
+        label: '→ivs',
+        values: [...ivsDuplicateRelations].join(', '),
+      },
+    ].filter(Boolean) as MojidataVariantEntry['relationLines']
+
+    return {
+      key: char,
+      heading: charName === char ? charName : `${charName} ${char}`,
+      char,
+      href: codePoint
+        ? mojidataHref(codePoint)
+        : isIDS
+        ? idsfindHref(char)
+        : undefined,
+      className: [
+        isIDS || isNonStandardVariant ? 'mojidata-kdpv-char' : 'mojidata-char',
+        isIDS || codePoint ? 'mojidata-char-link' : '',
+        codePoint ? 'mojidata-char-glyphwiki' : '',
+      ].join(' '),
+      useGlyphImage: !!codePoint && !bot,
+      relationLines,
+    }
+  })
+  const initialVariantEntries = variantEntries.slice(
+    0,
+    INITIAL_VARIANT_RENDER_COUNT,
+  )
+  const deferredVariantEntries = variantEntries.slice(
+    INITIAL_VARIANT_RENDER_COUNT,
+  )
+
 
   return (
     <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
@@ -570,164 +684,38 @@ export default function MojidataResponseView(
         <h2 id="Variants">
           {getText('variants-and-relevant-characters.h3', lang)}
         </h2>
-        {allVariantChars.length > 0 && (
+        {variantEntries.length > 0 && (
           <div className="mojidata-chars-comparison mojidata-variants-comparison">
-            {allVariantChars.map((char) => {
-              const kdpvRelations = kdpvVariants.get(char)
-            const kdpvForwardRelations = kdpvRelations
-              ? [...kdpvRelations].filter((r) => !r.startsWith('~'))
-              : []
-            const kdpvBackwardRelations = kdpvRelations
-              ? [...kdpvRelations].filter((r) => r.startsWith('~'))
-              : []
-            const unihanRelations = unihanVariants.get(char)
-            const unihanInverseRelations = unihanInverseVariants.get(char)
-            const joyoRelations = joyoVariants.get(char)
-            const mjsmRelations = mjsmVariants.get(char)
-            const mjsmInverseRelations = mjsmInverseVariants.get(char)
-            const nyukanRelations = nyukanVariants.get(char)
-            const nyukanInverseRelations = nyukanInverseVariants.get(char)
-            const tghbRelations = tghbVariants.get(char)
-            const babelStoneIdsRelations = babelStoneIdsVariants.get(char)
-            const idsInverseRelations = idsInverseVariants.get(char)
-            const isIDS = kdpvCharIsIDS(char)
-            const isNonStandardVariant = kdpvCharIsNonStandardVariant(char)
-            const charName = getCharNameOfKdpvChar(char)
-            const codePoint = getCodePointOfKdpvChar(char)
-            const hentaiganaRelations = hentaigana.get(char)
-            const ivsDuplicateRelations = ivsDuplicates.get(char)
-            return (
-              <figure key={char}>
+            {initialVariantEntries.map((entry) => (
+              <figure key={entry.key}>
                 <figcaption>
-                  {charName === char ? (
-                    <div>{charName}</div>
-                  ) : (
-                    <div>
-                      {charName} {char}
-                    </div>
-                  )}
-                  {unihanRelations && (
-                    <div>
-                      <small>→unihan: {[...unihanRelations].join(', ')}</small>
-                    </div>
-                  )}
-                  {unihanInverseRelations && (
-                    <div>
+                  <div>{entry.heading}</div>
+                  {entry.relationLines.map((line) => (
+                    <div key={`${entry.key}:${line.label}`}>
                       <small>
-                        ←unihan: {[...unihanInverseRelations].join(', ')}
+                        {line.label}: {line.values}
                       </small>
                     </div>
-                  )}
-                  {joyoRelations && (
-                    <div>
-                      <small>→joyo: {[...joyoRelations].join(', ')}</small>
-                    </div>
-                  )}
-                  {kdpvForwardRelations.length > 0 && (
-                    <div>
-                      <small>→kdpv: {kdpvForwardRelations.join(', ')}</small>
-                    </div>
-                  )}
-                  {kdpvBackwardRelations.length > 0 && (
-                    <div>
-                      <small>
-                        ←kdpv:{' '}
-                        {kdpvBackwardRelations
-                          .map((r) => r.slice(1))
-                          .join(', ')}
-                      </small>
-                    </div>
-                  )}
-                  {mjsmRelations && (
-                    <div>
-                      <small>→mjsm: {[...mjsmRelations].join(', ')}</small>
-                    </div>
-                  )}
-                  {mjsmInverseRelations && (
-                    <div>
-                      <small>
-                        ←mjsm: {[...mjsmInverseRelations].join(', ')}
-                      </small>
-                    </div>
-                  )}
-                  {nyukanRelations && (
-                    <div>
-                      <small>→nyukan: {[...nyukanRelations].join(', ')}</small>
-                    </div>
-                  )}
-                  {nyukanInverseRelations && (
-                    <div>
-                      <small>
-                        ←nyukan: {[...nyukanInverseRelations].join(', ')}
-                      </small>
-                    </div>
-                  )}
-                  {tghbRelations && (
-                    <div>
-                      <small>→tghb: {[...tghbRelations].join(', ')}</small>
-                    </div>
-                  )}
-                  {babelStoneIdsRelations && (
-                    <div>
-                      <small>
-                        →ids: {[...babelStoneIdsRelations].join(', ')}
-                      </small>
-                    </div>
-                  )}
-                  {idsInverseRelations && (
-                    <div>
-                      <small>←ids: {[...idsInverseRelations].join(', ')}</small>
-                    </div>
-                  )}
-                  {hentaiganaRelations && (
-                    <div>
-                      <small>
-                        →mjih: {[...hentaiganaRelations].join(', ')}
-                      </small>
-                    </div>
-                  )}
-                  {ivsDuplicateRelations && (
-                    <div>
-                      <small>
-                        →ivs: {[...ivsDuplicateRelations].join(', ')}
-                      </small>
-                    </div>
-                  )}
+                  ))}
                 </figcaption>
-                <div
-                  className={[
-                    isIDS || isNonStandardVariant
-                      ? 'mojidata-kdpv-char'
-                      : 'mojidata-char',
-                    isIDS || codePoint ? 'mojidata-char-link' : '',
-                    codePoint ? 'mojidata-char-glyphwiki' : '',
-                  ].join(' ')}
-                >
-                  <ConditionalLink
-                    href={
-                      codePoint
-                        ? mojidataHref(codePoint)
-                        : isIDS
-                        ? idsfindHref(char)
-                        : undefined
-                    }
-                  >
-                    {codePoint ? (
-                      bot ? (
-                        char
-                      ) : (
-                        <GlyphWikiCharImg char={char} size={110} alt={char} />
-                      )
+                <div className={entry.className}>
+                  <ConditionalLink href={entry.href}>
+                    {entry.useGlyphImage ? (
+                      <GlyphWikiCharImg
+                        char={entry.char}
+                        size={110}
+                        alt={entry.char}
+                      />
                     ) : (
-                      char
+                      entry.char
                     )}
                   </ConditionalLink>
                 </div>
               </figure>
-            )
-            })}
+            ))}
           </div>
         )}
+        <MojidataDeferredVariants lang={lang} entries={deferredVariantEntries} />
         {!disableExternalLinks && (
           <>
             <h2 id="External_Links">{getText('external-links.h3', lang)}</h2>

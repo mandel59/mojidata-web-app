@@ -75,6 +75,8 @@ export type TranslationKey =
   | 'hojo-glyph.small'
   | 'compatibility-ideographs.h3'
   | 'variants-and-relevant-characters.h3'
+  | 'variants.show-more.button'
+  | 'variants.show-less.button'
   | 'external-links.h3'
   | 'json.h3'
   | 'mojidata-search.placeholder'

@@ -137,3 +137,21 @@ test('mojidata server-data can show perf debug panel', async ({ page }) => {
   ).toBeVisible()
   await expect(page.getByText(/total data load/)).toBeVisible()
 })
+
+test('mojidata variants defer the extra glyphs until expanded', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/mojidata/%E6%B0%B4', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const variantCards = page.locator('.mojidata-variants-comparison > figure')
+  await expect(variantCards).toHaveCount(6)
+
+  const toggle = page.getByRole('button', { name: /残り \d+ 件を表示|Show remaining \d+/ })
+  await expect(toggle).toBeVisible()
+  await toggle.click()
+
+  await expect(variantCards).not.toHaveCount(6)
+  await expect(page.getByRole('button', { name: /折りたたむ|Show less/ })).toBeVisible()
+})

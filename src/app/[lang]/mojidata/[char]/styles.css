@@ -324,6 +324,26 @@
   margin-top: 0.1rem;
 }
 
+.mojidata-variants-actions {
+  margin-top: 0.75rem;
+}
+
+.mojidata-variants-toggle {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.88rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.mojidata-variants-toggle:hover {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
+}
+
 .mojidata-char {
   display: flex;
   justify-content: center;

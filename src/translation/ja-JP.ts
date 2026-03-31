@@ -81,6 +81,8 @@ export const translationJaJp: Translation = {
   'hojo-glyph.small': '補助',
   'compatibility-ideographs.h3': '互換漢字',
   'variants-and-relevant-characters.h3': '異体字と関連字',
+  'variants.show-more.button': '残り {count} 件を表示',
+  'variants.show-less.button': '折りたたむ',
   'external-links.h3': '外部リンク',
   'json.h3': 'JSON',
   'mojidata-search.placeholder': '検索条件を入力...',
