@@ -1,18 +1,11 @@
 # AGENTS.md
 
 - Use **Jujutsu VCS** for version control and commits.  
-- Include agent and model details in the commit-message trailers.  
-  Example:  
-
-  ```text
-  Generated-by: Codex (GPT-5.2, reasoning: high)
-  ```
-
-- When creating multi-line commit messages, do **not** pass `\n` escapes to `jj commit -m` (they will be recorded literally).  
-  Use `$'...'` or a heredoc to include real newlines, e.g.:
+- Commit with multiple `-m` flags to separate the subject line, description, and generated-by trailer. Specify fileset arguments to control which changes are included in the commit.  
+  Example:
 
   ```sh
-  jj commit -m $'Subject line\n\nGenerated-by: Codex (GPT-5.2, reasoning: high)'
+  jj commit -m 'Subject line' -m 'Description' -m 'Generated-by: Codex (GPT-5.4)' fileset
   ```
 
 - When running shell commands, **quote file paths** (prefer single quotes) to avoid `zsh` interpreting special characters and expansions.  
