@@ -77,6 +77,33 @@ test('canonical search uses two-column layout on desktop', async ({ page }) => {
   )
 })
 
+test('canonical search paging keeps results visible on desktop', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/search?query=%E6%97%A5', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const article = page.locator('article').first()
+  await expect(article).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Next' })).toBeVisible()
+
+  const before = await article.boundingBox()
+  await page.getByRole('link', { name: 'Next' }).click()
+
+  await expect(page).toHaveURL(/\/(?:ja-JP\/)?search\?query=.*page=2/)
+  await expect(page.getByText('No results found.')).toHaveCount(0)
+  await expect(article).toBeVisible()
+  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+    timeout: 60_000,
+  })
+
+  const after = await article.boundingBox()
+  expect(before).not.toBeNull()
+  expect(after).not.toBeNull()
+  expect(after?.height ?? 0).toBeGreaterThan(200)
+})
+
 test('mojidata-spa renders character data in browser', async ({ page }) => {
   page.on('pageerror', (err) => console.log('[pageerror]', err))
   page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))

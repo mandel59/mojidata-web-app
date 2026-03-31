@@ -8,6 +8,13 @@ import { idsfindBrowserAllResults } from '@/spa/mojidataApiBrowser'
 import { buildIdsfindAllResultsRequest } from '@/search/idsfindRequest'
 import { buildPageHref, stripLocalePrefix } from '@/search/shared'
 
+interface SearchCachedResult {
+  results: string[]
+  total: number
+}
+
+const searchResultCache = new Map<string, SearchCachedResult>()
+
 export default function SearchResultsClient() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -18,11 +25,13 @@ export default function SearchResultsClient() {
   const pageSize = 50
   const bot = searchParams.get('bot') != null
   const disableExternalLinks = searchParams.get('disableExternalLinks') === '1'
+  const cacheKey = JSON.stringify({ query: currentQuery, bot, disableExternalLinks })
+  const cached = searchResultCache.get(cacheKey)
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(!!currentQuery && !cached)
   const [error, setError] = useState<string | null>(null)
-  const [results, setResults] = useState<string[]>([])
-  const [total, setTotal] = useState<number>(0)
+  const [results, setResults] = useState<string[]>(cached?.results ?? [])
+  const [total, setTotal] = useState<number>(cached?.total ?? 0)
 
   const offset = (currentPage - 1) * pageSize
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
@@ -36,11 +45,19 @@ export default function SearchResultsClient() {
       setLoading(false)
       return
     }
+
+    const cached = searchResultCache.get(cacheKey)
+    if (cached) {
+      setResults(cached.results)
+      setTotal(cached.total)
+      setError(null)
+      setLoading(false)
+      return
+    }
+
     ;(async () => {
       setLoading(true)
       setError(null)
-      setResults([])
-      setTotal(0)
       try {
         const { results, total } = await idsfindBrowserAllResults(
           buildIdsfindAllResultsRequest({
@@ -50,6 +67,7 @@ export default function SearchResultsClient() {
           }),
         )
         if (cancelled) return
+        searchResultCache.set(cacheKey, { results, total })
         setResults(results)
         setTotal(total)
       } catch (e) {
@@ -62,10 +80,10 @@ export default function SearchResultsClient() {
     return () => {
       cancelled = true
     }
-  }, [currentQuery])
+  }, [cacheKey, currentQuery])
 
   if (!currentQuery) return null
-  if (loading) return <LoadingArticle />
+  if (loading && total === 0) return <LoadingArticle />
   if (error) return <p style={{ color: 'red' }}>{error}</p>
 
   const prev =
@@ -86,18 +104,20 @@ export default function SearchResultsClient() {
       : null
 
   return (
-    <IdsFindResponseView
-      results={results}
-      total={total}
-      offset={offset}
-      size={pageSize}
-      pageNum={currentPage}
-      totalPages={totalPages}
-      prev={prev}
-      next={next}
-      wholeSearch={false}
-      bot={bot}
-      disableExternalLinks={disableExternalLinks}
-    />
+    <div aria-busy={loading}>
+      <IdsFindResponseView
+        results={results}
+        total={total}
+        offset={offset}
+        size={pageSize}
+        pageNum={currentPage}
+        totalPages={totalPages}
+        prev={prev}
+        next={next}
+        wholeSearch={false}
+        bot={bot}
+        disableExternalLinks={disableExternalLinks}
+      />
+    </div>
   )
 }

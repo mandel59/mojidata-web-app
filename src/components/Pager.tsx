@@ -2,6 +2,7 @@
 
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 
 export interface PagerProps {
   prev?: string | null
@@ -17,12 +18,14 @@ export function Pager(props: PagerProps) {
     <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
       <div className="w-20 text-center">
         {prev ? (
-          <a
+          <Link
             href={prev}
+            prefetch={false}
+            scroll={false}
             className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
           >
             Prev
-          </a>
+          </Link>
         ) : (
           <span className="inline-block w-full text-muted-foreground">&nbsp;</span>
         )}
@@ -32,12 +35,14 @@ export function Pager(props: PagerProps) {
       </div>
       <div className="w-20 text-center">
         {next ? (
-          <a
+          <Link
             href={next}
+            prefetch={false}
+            scroll={false}
             className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
           >
             Next
-          </a>
+          </Link>
         ) : (
           <span className="inline-block w-full text-muted-foreground">&nbsp;</span>
         )}
