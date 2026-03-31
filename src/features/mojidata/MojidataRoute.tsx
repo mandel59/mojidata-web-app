@@ -72,13 +72,15 @@ export default function MojidataRoute(props: MojidataRouteProps) {
 
   return (
     <MojidataPageShell>
-      <MojidataResultsServer
-        ucs={ucs}
-        bot={bot}
-        disableExternalLinks={disableExternalLinks}
-        forceMojiJohoImage={forceMojiJohoImage}
-        lang={language}
-      />
+      <Suspense fallback={<LoadingMojidataArticle />}>
+        <MojidataResultsServer
+          ucs={ucs}
+          bot={bot}
+          disableExternalLinks={disableExternalLinks}
+          forceMojiJohoImage={forceMojiJohoImage}
+          lang={language}
+        />
+      </Suspense>
     </MojidataPageShell>
   )
 }

@@ -68,6 +68,16 @@ function stripLocale(pathname: string, locale: string | undefined) {
   return pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname
 }
 
+function getExecutionModeOverride(
+  url: URL,
+): 'server-data' | 'client-data' | undefined {
+  const value = url.searchParams.getAll('executionMode').find(
+    (candidate) =>
+      candidate === 'server-data' || candidate === 'client-data',
+  )
+  return value
+}
+
 export async function proxy(
   request: NextRequest,
 ): Promise<NextResponse | undefined> {
@@ -153,13 +163,26 @@ export async function proxy(
   const isLikelyBot = isLikelyBotUserAgent(ua)
   const family = botFamily(ua)
   const pathname2 = stripLocale(url.pathname, getLocaleFromUrl(url))
-  const { isMajorIndexingBot } = resolveExecutionMode({
+  const executionModeOverride = getExecutionModeOverride(url)
+  const { isMajorIndexingBot, internalClientDataPath } = resolveExecutionMode({
     pathnameWithoutLocale: pathname2,
     ua,
     isBot,
     isLikelyBot,
     family,
   })
+
+  if (
+    executionModeOverride !== 'server-data' &&
+    (executionModeOverride === 'client-data' || internalClientDataPath)
+  ) {
+    const locale3 = getLocaleFromUrl(url)
+    if (internalClientDataPath) {
+      url.pathname = locale3
+        ? `/${locale3}${internalClientDataPath}`
+        : internalClientDataPath
+    }
+  }
 
   if (
     (isBot || isLikelyBot) &&

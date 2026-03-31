@@ -3,7 +3,6 @@ import { getLanguage } from '@/getText'
 import IdsfindRoute from '@/features/idsfind/IdsfindRoute'
 import { buildIdsfindMetadata } from '@/features/idsfind/buildIdsfindMetadata'
 import { resolveExecutionModeOverride } from '@/features/resolveExecutionModeOverride'
-import { resolveRequestExecutionMode } from '@/features/resolveRequestExecutionMode'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 
 export default async function IdsFind({
@@ -13,10 +12,9 @@ export default async function IdsFind({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const defaultMode = await resolveRequestExecutionMode('idsfind')
   const mode = resolveExecutionModeOverride(
     resolvedSearchParams,
-    defaultMode,
+    'server-data',
   )
   return (
     <IdsfindRoute

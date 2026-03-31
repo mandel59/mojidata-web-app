@@ -3,7 +3,6 @@ import { getLanguage } from '@/getText'
 import { buildMojidataMetadata } from '@/features/mojidata/buildMojidataMetadata'
 import MojidataRoute from '@/features/mojidata/MojidataRoute'
 import { resolveExecutionModeOverride } from '@/features/resolveExecutionModeOverride'
-import { resolveRequestExecutionMode } from '@/features/resolveRequestExecutionMode'
 
 type Props = {
   params: Promise<{ char: string; lang: string }>
@@ -14,10 +13,9 @@ export default async function Mojidata({ params, searchParams }: Props) {
   const { char, lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const defaultMode = await resolveRequestExecutionMode('mojidata')
   const mode = resolveExecutionModeOverride(
     resolvedSearchParams,
-    defaultMode,
+    'server-data',
   )
 
   return (

@@ -48,17 +48,19 @@ export default function IdsfindRoute(props: IdsfindRouteProps) {
               </Suspense>
             </div>
           ) : (
-            <IdsfindResultsServer
-              path={formAction}
-              ids={idsArray}
-              whole={wholeArray}
-              query={query}
-              page={searchParams.page ? Number(searchParams.page) : undefined}
-              bot={castToBooleanFlag(searchParams.bot)}
-              disableExternalLinks={castToBooleanFlag(
-                searchParams.disableExternalLinks,
-              )}
-            />
+            <Suspense fallback={<LoadingArticle />}>
+              <IdsfindResultsServer
+                path={formAction}
+                ids={idsArray}
+                whole={wholeArray}
+                query={query}
+                page={searchParams.page ? Number(searchParams.page) : undefined}
+                bot={castToBooleanFlag(searchParams.bot)}
+                disableExternalLinks={castToBooleanFlag(
+                  searchParams.disableExternalLinks,
+                )}
+              />
+            </Suspense>
           )
         ) : undefined
       }

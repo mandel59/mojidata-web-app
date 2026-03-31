@@ -4,7 +4,6 @@ import SearchRoute from '@/features/search/SearchRoute'
 import { buildSearchMetadata } from '@/features/search/buildSearchMetadata'
 import { castToString } from '../searchParams'
 import { resolveExecutionModeOverride } from '@/features/resolveExecutionModeOverride'
-import { resolveRequestExecutionMode } from '@/features/resolveRequestExecutionMode'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 
 export default async function Search({
@@ -14,10 +13,9 @@ export default async function Search({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const defaultMode = await resolveRequestExecutionMode('search')
   const mode = resolveExecutionModeOverride(
     resolvedSearchParams,
-    defaultMode,
+    'server-data',
   )
   return (
     <SearchRoute

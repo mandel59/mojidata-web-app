@@ -41,17 +41,19 @@ export default function SearchRoute(props: SearchRouteProps) {
               </Suspense>
             </div>
           ) : (
-            <IdsfindResultsServer
-              path={formAction}
-              ids={[]}
-              whole={[]}
-              query={query}
-              page={searchParams.page ? Number(searchParams.page) : undefined}
-              bot={castToBooleanFlag(searchParams.bot)}
-              disableExternalLinks={castToBooleanFlag(
-                searchParams.disableExternalLinks,
-              )}
-            />
+            <Suspense fallback={<LoadingArticle />}>
+              <IdsfindResultsServer
+                path={formAction}
+                ids={[]}
+                whole={[]}
+                query={query}
+                page={searchParams.page ? Number(searchParams.page) : undefined}
+                bot={castToBooleanFlag(searchParams.bot)}
+                disableExternalLinks={castToBooleanFlag(
+                  searchParams.disableExternalLinks,
+                )}
+              />
+            </Suspense>
           )
         ) : undefined
       }
