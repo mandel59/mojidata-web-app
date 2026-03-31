@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test'
+import type { APIRequestContext } from '@playwright/test'
 
 async function warmGet(
-  request: Parameters<typeof test>[2]['request'],
+  request: APIRequestContext,
   url: string,
   opts?: { headers?: Record<string, string> },
 ) {
@@ -15,7 +16,7 @@ async function warmGet(
     await new Promise((r) => setTimeout(r, 250))
   }
   throw new Error(
-    `warmGet failed: ${url} (status=${lastStatus})\n${lastBody ?? ''}`,
+    `warmGet failed: ${url} (status=${lastStatus ?? 'unknown'})\n${lastBody ?? ''}`,
   )
 }
 
@@ -40,4 +41,3 @@ test('warm up next dev routes', async ({ request }) => {
 
   expect(true).toBeTruthy()
 })
-

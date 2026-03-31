@@ -1,7 +1,7 @@
 'use client'
 
-import { ReactNode, useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { ReactNode, useState, useSyncExternalStore } from 'react'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Drawer } from '@/components/ui/drawer'
 
 export interface MobileFormDrawerProps {
@@ -16,6 +16,24 @@ export default function MobileFormDrawer({
   children,
 }: MobileFormDrawerProps) {
   const [open, setOpen] = useState(false)
+  const hydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  )
+
+  if (!hydrated) {
+    return (
+      <details className="rounded-md border border-border bg-card p-2">
+        <summary
+          className={`${buttonVariants({ size: 'sm' })} w-full cursor-pointer list-none justify-center [&::-webkit-details-marker]:hidden`}
+        >
+          {buttonLabel}
+        </summary>
+        <div className="mt-3">{children}</div>
+      </details>
+    )
+  }
 
   return (
     <div className="rounded-md border border-border bg-card p-2">

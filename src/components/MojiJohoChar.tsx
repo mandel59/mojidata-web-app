@@ -68,7 +68,7 @@ export function MojiJohoDisplayModeControl(props: {
   forceImage: boolean
 }): ReactElement {
   const { lang, forceImage } = props
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ''
   const searchParams = useSearchParams()
   const baseSearchParams = useMemo(
     () => new URLSearchParams(searchParams.toString()),

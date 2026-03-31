@@ -1,9 +1,11 @@
-import { Metadata, ResolvingMetadata } from 'next'
-import MojidataSearchForm from '@/components/MojidataSearchForm'
-import IdsFindResponse from '../idsfind/IdsFindResponse'
-import { getLanguage, getText } from '@/getText'
+import { Metadata } from 'next'
+import { getLanguage } from '@/getText'
+import SearchRoute from '@/features/search/SearchRoute'
+import { buildSearchMetadata } from '@/features/search/buildSearchMetadata'
 import { castToString } from '../searchParams'
-import MobileFormDrawer from '@/components/MobileFormDrawer'
+import { resolveExecutionModeOverride } from '@/features/resolveExecutionModeOverride'
+import { resolveRequestExecutionMode } from '@/features/resolveRequestExecutionMode'
+import { getCanonicalRoutePath } from '@/deliveryPolicy'
 
 export default async function Search({
   params,
@@ -12,69 +14,27 @@ export default async function Search({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { page, bot, disableExternalLinks } = resolvedSearchParams
-  const query = castToString(resolvedSearchParams.query).trim()
-  if (!query) {
-    return (
-      <section>
-        <MojidataSearchForm lang={language} action="/search" />
-      </section>
-    )
-  }
+  const defaultMode = await resolveRequestExecutionMode('search')
+  const mode = resolveExecutionModeOverride(
+    resolvedSearchParams,
+    defaultMode,
+  )
   return (
-    <div className="space-y-4">
-      <section className="md:hidden">
-        <MobileFormDrawer
-          buttonLabel={getText('mojidata-search.nav', language)}
-          title={getText('mojidata-search.nav', language)}
-        >
-          <MojidataSearchForm lang={language} action="/search" />
-        </MobileFormDrawer>
-      </section>
-      <section className="hidden md:block">
-        <MojidataSearchForm lang={language} action="/search" />
-      </section>
-      <section>
-        <IdsFindResponse
-          path="/search"
-          ids={[]}
-          whole={[]}
-          query={query}
-          page={page ? Number(page) : undefined}
-          bot={!!bot}
-          disableExternalLinks={!!disableExternalLinks}
-        />
-      </section>
-    </div>
+    <SearchRoute
+      mode={mode}
+      language={language}
+      formAction={getCanonicalRoutePath('search')}
+      searchParams={resolvedSearchParams}
+    />
   )
 }
 
 export async function generateMetadata(
   { searchParams }: PageProps<'/[lang]/search'>,
-  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const resolvedSearchParams = await searchParams
-  const { page } = resolvedSearchParams
-  const query = castToString(resolvedSearchParams.query)
-  function buildLocalePath(locale: string) {
-    const url = new URL(`https://mojidata.ryusei.dev/${locale}/search`)
-    if (query != null) url.searchParams.append('query', String(query))
-    if (page != null) url.searchParams.append('page', String(page))
-    return url.pathname + url.search
-  }
-  function buildCanonicalPath() {
-    const url = new URL(`https://mojidata.ryusei.dev/search`)
-    if (query != null) url.searchParams.append('query', String(query))
-    if (page != null) url.searchParams.append('page', String(page))
-    return url.pathname + url.search
-  }
-  return {
-    alternates: {
-      canonical: buildCanonicalPath(),
-      languages: {
-        'en-US': buildLocalePath('en-US'),
-        'ja-JP': buildLocalePath('ja-JP'),
-      },
-    },
-  }
+  return buildSearchMetadata({
+    query: castToString(resolvedSearchParams.query),
+    page: resolvedSearchParams.page,
+  })
 }

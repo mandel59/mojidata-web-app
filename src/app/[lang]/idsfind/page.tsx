@@ -1,9 +1,10 @@
-import { Metadata, ResolvingMetadata } from 'next'
-import IdsFinder from '@/components/IdsFinder'
-import { getLanguage, getText } from '@/getText'
-import IdsFindSpaClient from '../idsfind-spa/idsfindSpaClient'
-import { appendArraySearchParams, castToArray, castToString } from '../searchParams'
-import MobileFormDrawer from '@/components/MobileFormDrawer'
+import { Metadata } from 'next'
+import { getLanguage } from '@/getText'
+import IdsfindRoute from '@/features/idsfind/IdsfindRoute'
+import { buildIdsfindMetadata } from '@/features/idsfind/buildIdsfindMetadata'
+import { resolveExecutionModeOverride } from '@/features/resolveExecutionModeOverride'
+import { resolveRequestExecutionMode } from '@/features/resolveRequestExecutionMode'
+import { getCanonicalRoutePath } from '@/deliveryPolicy'
 
 export default async function IdsFind({
   params,
@@ -12,68 +13,24 @@ export default async function IdsFind({
   const { lang } = await params
   const resolvedSearchParams = await searchParams
   const language = getLanguage(lang)
-  const { ids, whole, query } = resolvedSearchParams
-  const idsArray = castToArray(ids)
-  const wholeArray = castToArray(whole)
-  const queryString = castToString(query)
-  if (idsArray.length === 0 && wholeArray.length === 0 && !queryString) {
-    return (
-      <section>
-        <IdsFinder lang={language} action="/idsfind" />
-      </section>
-    )
-  }
+  const defaultMode = await resolveRequestExecutionMode('idsfind')
+  const mode = resolveExecutionModeOverride(
+    resolvedSearchParams,
+    defaultMode,
+  )
   return (
-    <div className="space-y-4">
-      <section className="md:hidden">
-        <MobileFormDrawer
-          buttonLabel={getText('ids-finder.nav', language)}
-          title={getText('ids-finder.nav', language)}
-        >
-          <IdsFinder lang={language} action="/idsfind" />
-        </MobileFormDrawer>
-      </section>
-      <section className="hidden md:block">
-        <IdsFinder lang={language} action="/idsfind" />
-      </section>
-      <section>
-        <IdsFindSpaClient />
-      </section>
-    </div>
+    <IdsfindRoute
+      mode={mode}
+      language={language}
+      formAction={getCanonicalRoutePath('idsfind')}
+      searchParams={resolvedSearchParams}
+    />
   )
 }
 
 export async function generateMetadata(
   { searchParams }: PageProps<'/[lang]/idsfind'>,
-  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const resolvedSearchParams = await searchParams
-  const { ids, whole, query, page } = resolvedSearchParams
-  function buildLocalePath(locale: string) {
-    const url = new URL(`https://mojidata.ryusei.dev/${locale}/idsfind`)
-    appendArraySearchParams(url, 'ids', castToArray(ids))
-    appendArraySearchParams(url, 'whole', castToArray(whole))
-    const queryString = castToString(query)
-    if (queryString) url.searchParams.append('query', queryString)
-    if (page != null) url.searchParams.append('page', String(page))
-    return url.pathname + url.search
-  }
-  function buildCanonicalPath() {
-    const url = new URL(`https://mojidata.ryusei.dev/idsfind`)
-    appendArraySearchParams(url, 'ids', castToArray(ids))
-    appendArraySearchParams(url, 'whole', castToArray(whole))
-    const queryString = castToString(query)
-    if (queryString) url.searchParams.append('query', queryString)
-    if (page != null) url.searchParams.append('page', String(page))
-    return url.pathname + url.search
-  }
-  return {
-    alternates: {
-      canonical: buildCanonicalPath(),
-      languages: {
-        'en-US': buildLocalePath('en-US'),
-        'ja-JP': buildLocalePath('ja-JP'),
-      },
-    },
-  }
+  return buildIdsfindMetadata(resolvedSearchParams)
 }

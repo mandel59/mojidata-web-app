@@ -1,7 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -14,27 +12,17 @@ export interface PagerProps {
 
 export function Pager(props: PagerProps) {
   const { prev, next, pageNum, totalPages } = props
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
-
-  const navigate = (href: string) => {
-    startTransition(() => {
-      router.push(href, { scroll: false })
-    })
-  }
 
   return (
-    <div className="flex flex-row items-center justify-center gap-3 sm:gap-4" aria-busy={isPending}>
+    <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
       <div className="w-20 text-center">
         {prev ? (
-          <button
-            type="button"
-            disabled={isPending}
-            onClick={() => navigate(prev)}
+          <a
+            href={prev}
             className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
           >
             Prev
-          </button>
+          </a>
         ) : (
           <span className="inline-block w-full text-muted-foreground">&nbsp;</span>
         )}
@@ -44,14 +32,12 @@ export function Pager(props: PagerProps) {
       </div>
       <div className="w-20 text-center">
         {next ? (
-          <button
-            type="button"
-            disabled={isPending}
-            onClick={() => navigate(next)}
+          <a
+            href={next}
             className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
           >
             Next
-          </button>
+          </a>
         ) : (
           <span className="inline-block w-full text-muted-foreground">&nbsp;</span>
         )}

@@ -5,20 +5,21 @@ import { useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Language, getText } from '@/getText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Modal } from '@/components/ui/modal'
+import { getCanonicalRoutePath } from '@/deliveryPolicy'
+import Link from 'next/link'
 
 export interface MojidataSearchFormProps {
   lang: Language
   action?: string
 }
 export default function MojidataSearchForm(props: MojidataSearchFormProps) {
-  const { lang, action = '/search' } = props
+  const { lang, action = getCanonicalRoutePath('search') } = props
   const pathname = usePathname()
-  const pathIsIdsfind = pathname.endsWith('/search') || pathname.endsWith('/search-spa')
   const searchParams = useSearchParams()
-  const initialQuery = pathIsIdsfind ? searchParams.get('query') ?? '' : ''
+  const initialQuery = searchParams.get('query') ?? ''
   const [query, setQuery] = useState<string>(initialQuery)
   const [showHelp, setShowHelp] = useState(false)
   const [helpTab, setHelpTab] = useState<
@@ -33,6 +34,13 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
     | 'formal-properties-unihan-others'
     | 'formal-properties-unihan-kstrange'
   >('ids')
+  const buildExampleHref = (example: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('query', example)
+    params.delete('page')
+    const query = params.toString()
+    return query ? `${pathname ?? action}?${query}` : pathname ?? action
+  }
   return (
     <div className="w-full">
       <GetForm action={action}>
@@ -58,14 +66,17 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                   'unihan.kTraditionalVariant=線',
                   'unihan.kStrange.K=カ',
                 ].map((example) => (
-                  <Button
+                  <Link
                     key={example}
-                    type="button"
-                    size="sm"
-                    onClick={() => setQuery(example)}
+                    href={buildExampleHref(example)}
+                    className={buttonVariants({ size: 'sm' })}
+                    onClick={(event) => {
+                      event.preventDefault()
+                      setQuery(example)
+                    }}
                   >
                     {example}
-                  </Button>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -286,36 +297,12 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
 
                   {helpTab === 'formal-properties' && (
                     <>
-                      <tr>
-                        <td>UCS</td>
-                        <td>=, !=</td>
-                        <td>Unicode code point (hex, no U+ prefix)</td>
-                      </tr>
-                      <tr>
-                        <td>totalStrokes</td>
-                        <td>=, !=, &lt;=, &gt;=, &lt;, &gt;</td>
-                        <td>Total strokes (combined Unihan + MJ)</td>
-                      </tr>
-                      <tr>
-                        <td>mji.読み</td>
-                        <td>=, !=, ~, !~</td>
-                        <td>Japanese reading (exact / glob)</td>
-                      </tr>
-                      <tr>
-                        <td>mji.読み.prefix</td>
-                        <td>=, !=</td>
-                        <td>Japanese reading (prefix)</td>
-                      </tr>
-                      <tr>
-                        <td>mji.MJ文字図形名</td>
-                        <td>=, !=</td>
-                        <td>MJ glyph name</td>
-                      </tr>
-                      <tr>
-                        <td>mji.総画数</td>
-                        <td>=, !=, &lt;=, &gt;=, &lt;, &gt;</td>
-                        <td>MJ total strokes</td>
-                      </tr>
+                      <tr><td>UCS</td><td>=, !=</td><td>Unicode code point (hex, no U+ prefix)</td></tr>
+                      <tr><td>totalStrokes</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;</td><td>Total strokes (combined Unihan + MJ)</td></tr>
+                      <tr><td>mji.読み</td><td>=, !=, ~, !~</td><td>Japanese reading (exact / glob)</td></tr>
+                      <tr><td>mji.読み.prefix</td><td>=, !=</td><td>Japanese reading (prefix)</td></tr>
+                      <tr><td>mji.MJ文字図形名</td><td>=, !=</td><td>MJ glyph name</td></tr>
+                      <tr><td>mji.総画数</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;</td><td>MJ total strokes</td></tr>
                     </>
                   )}
 
@@ -349,7 +336,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
 
                   {helpTab === 'formal-properties-unihan-numerics' && (
                     <>
-                                            <tr><td>unihan.kAccountingNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Accounting numeric</td></tr>
+                      <tr><td>unihan.kAccountingNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Accounting numeric</td></tr>
                       <tr><td>unihan.kOtherNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Other numeric</td></tr>
                       <tr><td>unihan.kPrimaryNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Primary numeric</td></tr>
                       <tr><td>unihan.kTayNumeric</td><td>=, !=, &lt;=, &gt;=, &lt;, &gt;, ~, !~</td><td>Tay numeric</td></tr>

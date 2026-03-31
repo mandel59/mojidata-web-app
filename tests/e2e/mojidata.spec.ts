@@ -62,3 +62,27 @@ test.describe('direct open with fragment scrolls to target heading', () => {
     await context.close()
   })
 })
+
+test('mobile non-SPA mojidata page exposes permalink as link', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    userAgent: MOBILE_UA,
+    viewport: { width: 390, height: 844 },
+    javaScriptEnabled: false,
+  })
+  const page = await context.newPage()
+
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  await expect(
+    page.getByRole('link', { name: /固定リンクをコピー|Copy permalink/ }),
+  ).toHaveCount(1)
+  await expect(
+    page.getByRole('button', { name: /固定リンクをコピー|Copy permalink/ }),
+  ).toHaveCount(0)
+
+  await context.close()
+})

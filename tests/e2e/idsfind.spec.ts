@@ -133,6 +133,20 @@ test('idsfind page renders', async ({ page }) => {
   )
 })
 
+test('idsfind page renders as non-SPA on mobile', async ({ browser }) => {
+  const context = await createMobileContext(browser)
+  const page = await context.newPage()
+  const res = await page.goto('/ja-JP/idsfind?whole=%E6%BC%A2')
+  expect(res?.status()).toBe(200)
+  await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(0)
+  await expect(page.locator('article')).toBeVisible()
+  await expect(page.locator('article a[href*="/mojidata/"]').first()).toHaveAttribute(
+    'href',
+    /\/mojidata\//,
+  )
+  await context.close()
+})
+
 test('search accepts formal syntax with eq operator', async ({ page }) => {
   await expectSearchWorks(page, 'totalStrokes=5')
 })

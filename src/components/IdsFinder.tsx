@@ -6,27 +6,37 @@ import { useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Language, getText } from '@/getText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Modal } from '@/components/ui/modal'
+import { getCanonicalRoutePath } from '@/deliveryPolicy'
+import Link from 'next/link'
 
 export interface IdsFinderProps {
   lang: Language
   action?: string
 }
 export default function IdsFinder(props: IdsFinderProps) {
-  const { lang, action = '/idsfind' } = props
+  const { lang, action = getCanonicalRoutePath('idsfind') } = props
   const pathname = usePathname()
-  const pathIsIdsfind =
-    pathname.endsWith('/idsfind') || pathname.endsWith('/idsfind-spa')
   const searchParams = useSearchParams()
-  const initialIds = pathIsIdsfind ? searchParams.getAll('ids') : []
-  const initialWhole = pathIsIdsfind ? searchParams.get('whole') ?? '' : ''
-  const initialQuery = pathIsIdsfind ? searchParams.get('query') ?? '' : ''
+  const initialIds = searchParams.getAll('ids')
+  const initialWhole = searchParams.get('whole') ?? ''
+  const initialQuery = searchParams.get('query') ?? ''
   const [ids, setIds] = useState<string[]>(initialIds)
   const [whole, setWhole] = useState<string>(initialWhole)
   const [query, setQuery] = useState<string>(initialQuery)
   const [showHelp, setShowHelp] = useState(false)
+  const buildExampleHref = (paramsUpdater: (params: URLSearchParams) => void) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete('ids')
+    params.delete('whole')
+    params.delete('query')
+    params.delete('page')
+    paramsUpdater(params)
+    const query = params.toString()
+    return query ? `${pathname ?? action}?${query}` : pathname ?? action
+  }
   return (
     <div className="w-full">
       <GetForm action={action}>
@@ -40,15 +50,42 @@ export default function IdsFinder(props: IdsFinderProps) {
             <div className="rounded-md border border-border bg-muted/40 p-3">
               <p className="mb-2 text-sm text-muted-foreground">Quick examples</p>
               <div className="flex flex-wrap gap-2">
-                <Button type="button" size="sm" onClick={() => setIds(['⿰日月'])}>
+                <Link
+                  href={buildExampleHref((params) => params.append('ids', '⿰日月'))}
+                  className={buttonVariants({ size: 'sm' })}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setIds(['⿰日月'])
+                    setWhole('')
+                    setQuery('')
+                  }}
+                >
                   IDS: ⿰日月
-                </Button>
-                <Button type="button" size="sm" onClick={() => setWhole('⿰？月')}>
+                </Link>
+                <Link
+                  href={buildExampleHref((params) => params.set('whole', '⿰？月'))}
+                  className={buttonVariants({ size: 'sm' })}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setIds([])
+                    setWhole('⿰？月')
+                    setQuery('')
+                  }}
+                >
                   Whole: ⿰？月
-                </Button>
-                <Button type="button" size="sm" onClick={() => setQuery('：日')}>
+                </Link>
+                <Link
+                  href={buildExampleHref((params) => params.set('query', '：日'))}
+                  className={buttonVariants({ size: 'sm' })}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setIds([])
+                    setWhole('')
+                    setQuery('：日')
+                  }}
+                >
                   Query: ：日
-                </Button>
+                </Link>
               </div>
             </div>
             <div className="mt-3">
@@ -92,7 +129,7 @@ export default function IdsFinder(props: IdsFinderProps) {
               </label>
               <Input
                 id="ids-finder-whole-input"
-                name={whole ? 'whole' : undefined}
+                name="whole"
                 value={whole}
                 placeholder={getText('whole-ids.placeholder', lang)}
                 onChange={(e) => setWhole(e.target.value)}
@@ -104,7 +141,7 @@ export default function IdsFinder(props: IdsFinderProps) {
               </label>
               <Input
                 id="ids-finder-query-input"
-                name={query ? 'query' : undefined}
+                name="query"
                 value={query}
                 placeholder={getText('mojidata-search.placeholder', lang)}
                 onChange={(e) => setQuery(e.target.value)}

@@ -1,3 +1,4 @@
+import os from 'node:os'
 import type { NextConfig } from 'next'
 
 const spaAssetCacheControl =
@@ -10,7 +11,22 @@ const spaAssetHeadersCommon = [
   { key: 'Vary', value: 'Accept-Encoding' },
 ]
 
+function getAllowedDevOrigins() {
+  const origins = new Set(['127.0.0.1', 'localhost'])
+  const hostname = os.hostname().trim()
+  if (hostname) origins.add(hostname)
+
+  process.env.MOJIDATA_ALLOWED_DEV_ORIGINS
+    ?.split(',')
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .forEach((value) => origins.add(value))
+
+  return [...origins]
+}
+
 const nextConfig: NextConfig = {
+  allowedDevOrigins: getAllowedDevOrigins(),
   transpilePackages: ['@mandel59/mojidata-api'],
   env: {
     NEXT_PUBLIC_SPA_ASSET_VERSION:

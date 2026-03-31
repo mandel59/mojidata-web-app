@@ -6,8 +6,6 @@ import ConditionalLink from '@/components/ConditionalLink'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
 
-export type IdsFindLinkMode = 'server' | 'spa'
-
 function toRefName(char: string) {
   const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
   if (charIsRef) {
@@ -21,15 +19,13 @@ function toRefName(char: string) {
   }
 }
 
-function charToHref(char: string, linkMode: IdsFindLinkMode) {
+function charToHref(char: string) {
   const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
   if (charIsRef) return undefined
-  const basePath = linkMode === 'spa' ? '/mojidata-spa/' : '/mojidata/'
-  return `${basePath}${encodeURIComponent(char)}`
+  return `/mojidata/${encodeURIComponent(char)}`
 }
 
 export interface IdsFindResponseViewProps {
-  linkMode: IdsFindLinkMode
   results: string[]
   total: number
   offset: number
@@ -46,7 +42,6 @@ export interface IdsFindResponseViewProps {
 
 export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
   const {
-    linkMode,
     results,
     total,
     offset,
@@ -66,7 +61,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
       {total > 0 && (
         <div className="mb-2 flex flex-row flex-wrap gap-2">
           {results.slice(offset, offset + size).map((char: string) => {
-            const href = charToHref(char, linkMode)
+            const href = charToHref(char)
             const glyphHref = href
               ? href
               : `https://glyphwiki.org/wiki/${encodeURIComponent(
@@ -74,7 +69,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                 )}`
             return (
               <div
-                className="flex h-16 w-16 shrink-0 items-center justify-center overflow-clip rounded-[0.6rem] border border-border bg-white text-center text-[50px] leading-[55px] transition-[transform,box-shadow,border-color] duration-100 ease-out hover:-translate-y-px hover:border-primary hover:shadow-[0_8px_18px_rgba(15,23,42,0.08)]"
+                className="ids-find-result-char flex h-16 w-16 shrink-0 items-center justify-center overflow-clip rounded-[0.6rem] border border-border bg-white text-center text-[50px] leading-[55px] transition-[transform,box-shadow,border-color] duration-100 ease-out hover:-translate-y-px hover:border-primary hover:shadow-[0_8px_18px_rgba(15,23,42,0.08)]"
                 lang="ja"
                 key={char}
                 title={toRefName(char)}

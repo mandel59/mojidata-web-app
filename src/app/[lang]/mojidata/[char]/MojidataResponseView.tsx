@@ -1,6 +1,7 @@
 'use client'
 
 import { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import {
   getBabelStoneIdsInverseVariants,
   getBabelStoneIdsVariants,
@@ -90,7 +91,6 @@ export interface MojidataResponseViewParams {
   disableExternalLinks: boolean
   forceMojiJohoImage: boolean
   lang: Language
-  linkMode: 'server' | 'spa'
 }
 export default function MojidataResponseView(
   params: MojidataResponseViewParams,
@@ -105,12 +105,10 @@ export default function MojidataResponseView(
     disableExternalLinks,
     forceMojiJohoImage,
     lang,
-    linkMode,
   } = params
 
-  const mojidataBasePath = linkMode === 'spa' ? '/mojidata-spa/' : '/mojidata/'
-  const mojidataHref = (char: string) =>
-    `${mojidataBasePath}${encodeURIComponent(char)}`
+  const mojidataHref = (char: string) => `/mojidata/${encodeURIComponent(char)}`
+  const pathname = usePathname()
   const [permalinkCopied, setPermalinkCopied] = useState(false)
   const [activeSectionId, setActiveSectionId] = useState('Character_Data')
   const idsfindHref = (whole: string) =>
@@ -372,12 +370,13 @@ export default function MojidataResponseView(
       <div className="mojidata-response">
         <section className="mojidata-summary-wrap">
           <div className="mojidata-summary-actions">
-            <button
-              type="button"
+            <a
+              href={pathname}
               className="mojidata-summary-copy-btn"
-              onClick={async () => {
-                if (typeof window === 'undefined') return
+              onClick={async (event) => {
+                if (typeof window === 'undefined' || !navigator.clipboard) return
                 const url = `${window.location.origin}${window.location.pathname}`
+                event.preventDefault()
                 await navigator.clipboard.writeText(url)
                 setPermalinkCopied(true)
                 window.setTimeout(() => setPermalinkCopied(false), 1400)
@@ -386,7 +385,7 @@ export default function MojidataResponseView(
               {permalinkCopied
                 ? getText('summary.permalink.copied', lang)
                 : getText('summary.permalink.copy', lang)}
-            </button>
+            </a>
           </div>
           <div className="mojidata-summary-grid">
             <div className="mojidata-summary-glyph-col">
@@ -731,11 +730,17 @@ export default function MojidataResponseView(
                     <small>{record.UCS符号位置}</small>
                   </figcaption>
                   <div className="mojidata-char" lang="ja">
-                    <MojiJohoChar
-                      char={record.文字}
-                      forceImage={forceMojiJohoImage}
-                      bot={bot}
-                    />
+                    {record.文字 ? (
+                      <MojiJohoChar
+                        char={record.文字}
+                        forceImage={forceMojiJohoImage}
+                        bot={bot}
+                      />
+                    ) : (
+                      <span className="mojidata-raw-char mojidata-mojijoho">
+                        {record.UCS符号位置}
+                      </span>
+                    )}
                   </div>
                 </figure>
               )
