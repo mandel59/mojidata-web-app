@@ -1,4 +1,5 @@
-import { expect, test } from '@playwright/test'
+import type { BrowserContext } from '@playwright/test'
+import { attachBrowserErrorChecks, expect, test } from './fixtures'
 
 const BOT_UA =
   'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
@@ -16,11 +17,17 @@ async function makePageScrollable(page: import('@playwright/test').Page) {
     .toBeGreaterThan(300)
 }
 
+async function newCheckedPage(context: BrowserContext) {
+  const page = await context.newPage()
+  const assertNoBrowserErrors = attachBrowserErrorChecks(page)
+  return { page, assertNoBrowserErrors }
+}
+
 test('non-SPA (bot route) navigation resets scroll position on link click', async ({
   browser,
 }) => {
   const context = await browser.newContext({ userAgent: BOT_UA })
-  const page = await context.newPage()
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
 
   await page.goto('/ja-JP/search?query=%E6%BC%A2', { waitUntil: 'domcontentloaded' })
   await expect(page.locator('.ids-find-result-char a').first()).toBeVisible({
@@ -40,6 +47,7 @@ test('non-SPA (bot route) navigation resets scroll position on link click', asyn
   ).toBeVisible({ timeout: 60_000 })
   await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20)
 
+  assertNoBrowserErrors()
   await context.close()
 })
 
@@ -70,7 +78,7 @@ test('non-SPA mojidata-to-mojidata links keep canonical URL and reset scroll', a
   browser,
 }) => {
   const context = await browser.newContext({ userAgent: BOT_UA })
-  const page = await context.newPage()
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
 
   await page.goto('/ja-JP/mojidata/%E6%BC%A2', { waitUntil: 'domcontentloaded' })
   await expect(page.locator('.mojidata-response')).toHaveCount(1, {
@@ -109,6 +117,7 @@ test('non-SPA mojidata-to-mojidata links keep canonical URL and reset scroll', a
   ).toBeVisible({ timeout: 60_000 })
   await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20)
 
+  assertNoBrowserErrors()
   await context.close()
 })
 

@@ -23,20 +23,28 @@ export interface MojiJohoCharProps {
 
 export function MojiJohoChar(props: MojiJohoCharProps): ReactElement {
   const { char, size = 110, forceImage, bot } = props
-  const [hasIpamjmFont, setHasIpamjmFont] = useState(() =>
-    forceImage ? false : checkIpamjmFontAvailability(char),
-  )
+  const [hasIpamjmFont, setHasIpamjmFont] = useState(false)
 
   useEffect(() => {
+    let cancelled = false
     if (forceImage) {
       return
     }
     if (typeof document === 'undefined' || !('fonts' in document)) {
       return
     }
-    document.fonts.ready.then(() => {
+
+    const update = () => {
+      if (cancelled) return
       setHasIpamjmFont(checkIpamjmFontAvailability(char))
-    })
+    }
+
+    update()
+    document.fonts.ready.then(update)
+
+    return () => {
+      cancelled = true
+    }
   }, [char, forceImage])
 
   if (bot || (!forceImage && hasIpamjmFont)) {

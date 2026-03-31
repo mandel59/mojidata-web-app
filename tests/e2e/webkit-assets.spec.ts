@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('webkit can fetch and decode SPA sqlite/wasm assets', async ({
   page,

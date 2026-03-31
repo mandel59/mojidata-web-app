@@ -1,9 +1,6 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('search-spa renders results in browser', async ({ page }) => {
-  page.on('pageerror', (err) => console.log('[pageerror]', err))
-  page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))
-
   const sawWasm = page.waitForRequest((req) =>
     req.url().includes('/assets/sql-wasm.wasm'),
   )

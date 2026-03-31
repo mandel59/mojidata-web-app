@@ -1,4 +1,11 @@
-import { expect, test } from '@playwright/test'
+import type { BrowserContext } from '@playwright/test'
+import { attachBrowserErrorChecks, expect, test } from './fixtures'
+
+async function newCheckedPage(context: BrowserContext) {
+  const page = await context.newPage()
+  const assertNoBrowserErrors = attachBrowserErrorChecks(page)
+  return { page, assertNoBrowserErrors }
+}
 
 test('mojidata page renders', async ({ page }) => {
   const res = await page.goto('/ja-JP/mojidata/%E6%BC%A2')
@@ -23,7 +30,7 @@ test.describe('direct open with fragment scrolls to target heading', () => {
       userAgent: DESKTOP_UA,
       viewport: { width: 1280, height: 900 },
     })
-    const page = await context.newPage()
+    const { page, assertNoBrowserErrors } = await newCheckedPage(context)
     await page.goto('/ja-JP/mojidata/%F0%AB%97%82#External_Links', {
       waitUntil: 'domcontentloaded',
     })
@@ -37,6 +44,7 @@ test.describe('direct open with fragment scrolls to target heading', () => {
       )
       .toBeLessThan(220)
 
+    assertNoBrowserErrors()
     await context.close()
   })
 
@@ -45,7 +53,7 @@ test.describe('direct open with fragment scrolls to target heading', () => {
       userAgent: MOBILE_UA,
       viewport: { width: 390, height: 844 },
     })
-    const page = await context.newPage()
+    const { page, assertNoBrowserErrors } = await newCheckedPage(context)
     await page.goto('/ja-JP/mojidata/%F0%AB%97%82#External_Links', {
       waitUntil: 'domcontentloaded',
     })
@@ -59,6 +67,7 @@ test.describe('direct open with fragment scrolls to target heading', () => {
       )
       .toBeLessThan(260)
 
+    assertNoBrowserErrors()
     await context.close()
   })
 })
@@ -71,7 +80,7 @@ test('mobile non-SPA mojidata page exposes permalink as link', async ({
     viewport: { width: 390, height: 844 },
     javaScriptEnabled: false,
   })
-  const page = await context.newPage()
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
 
   await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
@@ -84,6 +93,7 @@ test('mobile non-SPA mojidata page exposes permalink as link', async ({
     page.getByRole('button', { name: /固定リンクをコピー|Copy permalink/ }),
   ).toHaveCount(0)
 
+  assertNoBrowserErrors()
   await context.close()
 })
 

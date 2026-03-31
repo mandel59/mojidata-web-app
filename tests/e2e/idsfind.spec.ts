@@ -1,4 +1,5 @@
-import { devices, expect, test, type Browser, type BrowserContext, type Page } from '@playwright/test'
+import { type Browser, type BrowserContext, type Page, devices } from '@playwright/test'
+import { attachBrowserErrorChecks, expect, test } from './fixtures'
 
 // ARCHITECTURE.md "Rewrite Policy (explicit)":
 // canonical /search may be internally rewritten to /search-spa depending on UA/config.
@@ -119,6 +120,12 @@ async function createMobileContext(browser: Browser): Promise<BrowserContext> {
   })
 }
 
+async function newCheckedPage(context: BrowserContext) {
+  const page = await context.newPage()
+  const assertNoBrowserErrors = attachBrowserErrorChecks(page)
+  return { page, assertNoBrowserErrors }
+}
+
 test('idsfind page renders', async ({ page }) => {
   const res = await page.goto('/ja-JP/idsfind?whole=%E6%BC%A2')
   expect(res?.status()).toBe(200)
@@ -135,7 +142,7 @@ test('idsfind page renders', async ({ page }) => {
 
 test('idsfind page renders as non-SPA on mobile', async ({ browser }) => {
   const context = await createMobileContext(browser)
-  const page = await context.newPage()
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
   const res = await page.goto('/ja-JP/idsfind?whole=%E6%BC%A2')
   expect(res?.status()).toBe(200)
   await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(0)
@@ -144,6 +151,7 @@ test('idsfind page renders as non-SPA on mobile', async ({ browser }) => {
     'href',
     /\/mojidata\//,
   )
+  assertNoBrowserErrors()
   await context.close()
 })
 
@@ -175,7 +183,7 @@ test.describe('formal property coverage', () => {
     test.setTimeout(8 * 60_000)
 
     const context = await createMobileContext(browser)
-    const page = await context.newPage()
+    const { page, assertNoBrowserErrors } = await newCheckedPage(context)
 
     for (const { property, value } of FORMAL_PROPERTY_SMOKE_CASES) {
       const query = `${property}=${value}`
@@ -184,6 +192,7 @@ test.describe('formal property coverage', () => {
       })
     }
 
+    assertNoBrowserErrors()
     await context.close()
   })
 })
@@ -191,29 +200,33 @@ test.describe('formal property coverage', () => {
 test.describe('mobile UA (non-SPA search)', () => {
   test('search accepts formal syntax with eq operator on mobile', async ({ browser }) => {
     const context = await createMobileContext(browser)
-    const page = await context.newPage()
+    const { page, assertNoBrowserErrors } = await newCheckedPage(context)
     await expectSearchWorks(page, 'totalStrokes=5', true)
+    assertNoBrowserErrors()
     await context.close()
   })
 
   test('search accepts formal syntax with comparison operator on mobile', async ({ browser }) => {
     const context = await createMobileContext(browser)
-    const page = await context.newPage()
+    const { page, assertNoBrowserErrors } = await newCheckedPage(context)
     await expectSearchWorks(page, 'totalStrokes<=5', true)
+    assertNoBrowserErrors()
     await context.close()
   })
 
   test('search accepts unihan variant formal syntax on mobile', async ({ browser }) => {
     const context = await createMobileContext(browser)
-    const page = await context.newPage()
+    const { page, assertNoBrowserErrors } = await newCheckedPage(context)
     await expectSearchWorks(page, 'unihan.kTraditionalVariant=線', true)
+    assertNoBrowserErrors()
     await context.close()
   })
 
   test('search accepts unihan kStrange formal syntax on mobile', async ({ browser }) => {
     const context = await createMobileContext(browser)
-    const page = await context.newPage()
+    const { page, assertNoBrowserErrors } = await newCheckedPage(context)
     await expectSearchWorks(page, 'unihan.kStrange.K=カ', true)
+    assertNoBrowserErrors()
     await context.close()
   })
 })
