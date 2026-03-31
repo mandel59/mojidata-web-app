@@ -25,7 +25,7 @@ There are two execution modes for search / lookup:
 
 - `server-data`
   - DB search and mojidata lookup run on the server.
-  - Suitable for indexing bots and constrained clients.
+  - Suitable for major indexing bots and constrained clients.
   - Compatible with ISR / server caching.
 - `client-data`
   - DB search and mojidata lookup run in the browser.
@@ -50,7 +50,7 @@ Current policy target:
 
 - capable desktop clients: prefer `client-data`
 - constrained clients: prefer `server-data`
-- indexing bots: prefer `server-data`
+- major indexing bots: prefer `server-data`
 - other automated clients: choose intentionally; do not rely on accidental behavior
 
 UA-basedq rewriting is only one implementation tool for this policy. It is not the architecture itself.

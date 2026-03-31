@@ -188,6 +188,12 @@ Example inputs:
 - explicit override query param or cookie for debugging
 - environment flags
 
+Current intended policy nuance:
+
+- major indexing bots may use `server-data`
+- other automated clients should prefer `client-data` unless there is a
+  specific reason not to
+
 This policy should live outside the page components.
 
 For the next refactor phase, this becomes a hard requirement:
