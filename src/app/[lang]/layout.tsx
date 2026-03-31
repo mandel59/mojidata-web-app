@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import './styles.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import { canonicalUrlBase, description, siteName } from '@/settings'
@@ -7,6 +8,7 @@ import { getLanguage, getText } from '@/getText'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
 import { SiteHeader } from './SiteHeader'
+import NavigationPendingIndicator from '@/components/NavigationPendingIndicator'
 
 export const metadata: Metadata = {
   title: {
@@ -37,6 +39,11 @@ export default async function RootLayout({
   return (
     <html lang={language} data-theme="light">
       <body className={`${fontCjkSymbols.variable} ${fontNotDef.variable}`}>
+        <Suspense fallback={null}>
+          <NavigationPendingIndicator
+            label={getText('navigation.loading', language)}
+          />
+        </Suspense>
         <div className="container mx-auto my-4 space-y-4">
           <SiteHeader siteName={siteName} language={language} />
           <main>{children}</main>

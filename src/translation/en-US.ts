@@ -6,6 +6,7 @@ export const translationEnUs: Translation = {
   'privacy-policy.nav': 'Privacy Policy',
   'about-this-app.nav': 'About This App',
   'license.nav': 'License',
+  'navigation.loading': 'Loading page…',
   'mojidata-search.caption': 'Mojidata Search',
   'usage.summary': 'Usage',
   'usage.tab.ids': 'IDS & character',

@@ -231,6 +231,43 @@ tbody tr:last-child td {
   pointer-events: none;
 }
 
+.navigation-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.navigation-progress[data-navigation-pending='true'] {
+  opacity: 1;
+}
+
+.navigation-progress__bar {
+  height: 3px;
+  width: 100%;
+  transform-origin: left center;
+  background:
+    linear-gradient(90deg, #0a67c7 0%, #4aa4ff 45%, #0a67c7 100%);
+  box-shadow: 0 0 0 1px rgba(10, 103, 199, 0.06);
+  animation: navigation-progress-slide 1s ease-in-out infinite;
+}
+
+@keyframes navigation-progress-slide {
+  0% {
+    transform: translateX(-65%) scaleX(0.35);
+  }
+
+  50% {
+    transform: translateX(8%) scaleX(0.78);
+  }
+
+  100% {
+    transform: translateX(110%) scaleX(0.28);
+  }
+}
+
 .preview-warning-toast [data-slot='card'] {
   width: min(820px, 100%);
   border-style: dashed;

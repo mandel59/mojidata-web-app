@@ -2,6 +2,7 @@ import { Pager } from '@/components/Pager'
 import { Spacer } from '@/components/Spacer'
 import ConditionalLink from '@/components/ConditionalLink'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
+import IntentPrefetchLink from '@/components/IntentPrefetchLink'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
 
 function toRefName(char: string) {
@@ -37,6 +38,7 @@ export interface IdsFindResponseViewProps {
   bot: boolean
   disableExternalLinks: boolean
   pagerPrefetch?: boolean
+  resultPrefetchOnIntent?: boolean
 }
 
 export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
@@ -54,6 +56,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
     bot,
     disableExternalLinks,
     pagerPrefetch,
+    resultPrefetchOnIntent,
   } = props
 
   return (
@@ -74,17 +77,18 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                 key={char}
                 title={toRefName(char)}
               >
-                <ConditionalLink
-                  prefetch={false}
+                <IntentPrefetchLink
                   href={href ?? glyphHref}
                   disableExternalLinks={disableExternalLinks}
+                  prefetchOnIntent={!!href && resultPrefetchOnIntent}
+                  className="ids-find-result-link"
                 >
                   {bot ? (
                     char
                   ) : (
                     <GlyphWikiCharImg char={char} size={55} alt={char} />
                   )}
-                </ConditionalLink>
+                </IntentPrefetchLink>
               </div>
             )
           })}

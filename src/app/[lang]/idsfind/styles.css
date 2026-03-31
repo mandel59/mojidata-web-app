@@ -28,10 +28,19 @@
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
 }
 
-.ids-find-result-char > a {
+.ids-find-result-link {
   display: block;
   color: #111;
   text-decoration: none;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease,
+    filter 120ms ease;
+}
+
+.ids-find-result-link[data-pending='true'] {
+  opacity: 0.55;
+  filter: saturate(0.7);
 }
 
 .ids-find-char-glyphwiki img {

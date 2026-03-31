@@ -160,10 +160,17 @@ test('server-data search-to-mojidata navigation shows loading placeholder', asyn
   await page.goto('/ja-JP/search?query=%E6%97%A5', {
     waitUntil: 'domcontentloaded',
   })
-  await expect(page.locator('.ids-find-result-char a').first()).toBeVisible()
+  const firstResultLink = page.locator('.ids-find-result-link').first()
+  await expect(firstResultLink).toBeVisible()
 
-  await page.locator('.ids-find-result-char a').first().click()
+  await firstResultLink.dispatchEvent('touchstart')
+  await firstResultLink.click()
 
+  await expect(
+    page.locator('[data-navigation-pending="true"]'),
+  ).toBeVisible({
+    timeout: 1000,
+  })
   await expect(page.getByText(/Loading character data…/)).toBeVisible()
   await expect(
     page.getByRole('heading', { level: 2, name: /文字データ|Character Data/ }),

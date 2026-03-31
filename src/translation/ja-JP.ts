@@ -6,6 +6,7 @@ export const translationJaJp: Translation = {
   'privacy-policy.nav': 'プライバシーポリシー',
   'about-this-app.nav': 'このアプリについて',
   'license.nav': 'ライセンス',
+  'navigation.loading': 'ページを読み込み中…',
   'mojidata-search.caption': 'Mojidata 検索',
   'usage.summary': '使い方',
   'usage.tab.ids': 'IDS・文字指定',

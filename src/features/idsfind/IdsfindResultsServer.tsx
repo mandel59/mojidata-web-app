@@ -114,6 +114,7 @@ export default async function IdsfindResultsServer(
       bot={bot}
       disableExternalLinks={disableExternalLinks}
       pagerPrefetch={!bot}
+      resultPrefetchOnIntent={!bot}
     />
   )
 }

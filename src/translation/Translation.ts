@@ -4,6 +4,7 @@ export type TranslationKey =
   | 'privacy-policy.nav'
   | 'about-this-app.nav'
   | 'license.nav'
+  | 'navigation.loading'
   | 'mojidata-search.caption'
   | 'query-type.th'
   | 'example.th'
