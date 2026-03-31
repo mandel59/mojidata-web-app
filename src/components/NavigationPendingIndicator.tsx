@@ -7,6 +7,8 @@ export interface NavigationPendingIndicatorProps {
   label: string
 }
 
+const SKIP_ATTRIBUTE = 'data-skip-navigation-pending'
+
 function isUnmodifiedPrimaryClick(event: MouseEvent) {
   return (
     event.button === 0 &&
@@ -62,11 +64,11 @@ export default function NavigationPendingIndicator(
 
     const handleClick = (event: MouseEvent) => {
       if (!isUnmodifiedPrimaryClick(event)) return
-      if (event.defaultPrevented) return
       const target = event.target
       if (!(target instanceof Element)) return
       const anchor = target.closest('a[href]')
       if (!(anchor instanceof HTMLAnchorElement)) return
+      if (anchor.getAttribute(SKIP_ATTRIBUTE) === 'true') return
       if (anchor.target && anchor.target !== '_self') return
       if (anchor.hasAttribute('download')) return
       const url = new URL(anchor.href, window.location.href)
@@ -83,9 +85,9 @@ export default function NavigationPendingIndicator(
       clearPendingLater()
     }
 
-    document.addEventListener('click', handleClick)
+    document.addEventListener('click', handleClick, true)
     return () => {
-      document.removeEventListener('click', handleClick)
+      document.removeEventListener('click', handleClick, true)
       if (resetTimer.current != null) {
         window.clearTimeout(resetTimer.current)
         resetTimer.current = null

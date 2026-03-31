@@ -69,6 +69,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                   <Link
                     key={example}
                     href={buildExampleHref(example)}
+                    data-skip-navigation-pending="true"
                     className={buttonVariants({ size: 'sm' })}
                     onClick={(event) => {
                       event.preventDefault()

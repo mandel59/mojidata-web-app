@@ -52,6 +52,7 @@ export default function IdsFinder(props: IdsFinderProps) {
               <div className="flex flex-wrap gap-2">
                 <Link
                   href={buildExampleHref((params) => params.append('ids', '⿰日月'))}
+                  data-skip-navigation-pending="true"
                   className={buttonVariants({ size: 'sm' })}
                   onClick={(event) => {
                     event.preventDefault()
@@ -64,6 +65,7 @@ export default function IdsFinder(props: IdsFinderProps) {
                 </Link>
                 <Link
                   href={buildExampleHref((params) => params.set('whole', '⿰？月'))}
+                  data-skip-navigation-pending="true"
                   className={buttonVariants({ size: 'sm' })}
                   onClick={(event) => {
                     event.preventDefault()
@@ -76,6 +78,7 @@ export default function IdsFinder(props: IdsFinderProps) {
                 </Link>
                 <Link
                   href={buildExampleHref((params) => params.set('query', '：日'))}
+                  data-skip-navigation-pending="true"
                   className={buttonVariants({ size: 'sm' })}
                   onClick={(event) => {
                     event.preventDefault()
