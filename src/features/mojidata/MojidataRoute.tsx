@@ -5,7 +5,6 @@ import type { ExecutionMode } from '@/deliveryPolicy'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import LoadingMojidataArticle from '@/components/LoadingMojidataArticle'
 import MojidataPageShell from './MojidataPageShell'
-import SpaAssetsPrefetcher from '@/spa/SpaAssetsPrefetcher'
 import { castToBooleanFlag } from '@/app/[lang]/searchParams'
 import MojidataResultsServer from './MojidataResultsServer'
 import MojidataResultsClient from './MojidataResultsClient'
@@ -53,11 +52,7 @@ export default function MojidataRoute(props: MojidataRouteProps) {
 
   if (mode === 'client-data') {
     return (
-      <MojidataPageShell
-        spaMarker
-        requireJavaScript
-        prelude={<SpaAssetsPrefetcher kind="mojidata" />}
-      >
+      <MojidataPageShell spaMarker requireJavaScript>
         <Suspense fallback={<LoadingMojidataArticle />}>
           <MojidataResultsClient
             char={ucs}
