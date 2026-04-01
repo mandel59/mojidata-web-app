@@ -1,10 +1,12 @@
 'use client'
 
+import { cn } from '@/lib/utils'
+import surfaceStyles from './Surface.module.css'
 import styles from './LoadingArticle.module.css'
 
 export default function LoadingArticle() {
   return (
-    <article className={styles.article}>
+    <article className={cn(surfaceStyles.cardSurface, styles.article)}>
       <div className={styles.chips} aria-hidden>
         {Array.from({ length: 12 }).map((_, i) => (
           <span key={i} className={styles.chip} />

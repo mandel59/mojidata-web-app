@@ -3,6 +3,8 @@ import { Spacer } from '@/components/Spacer'
 import ConditionalLink from '@/components/ConditionalLink'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import IntentPrefetchLink from '@/components/IntentPrefetchLink'
+import surfaceStyles from '@/components/Surface.module.css'
+import { cn } from '@/lib/utils'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
 import styles from './IdsFindResponseView.module.css'
 
@@ -61,7 +63,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
   } = props
 
   return (
-    <article className={styles.article}>
+    <article className={cn(surfaceStyles.cardSurface, styles.article)}>
       {total > 0 && (
         <div className={styles.results}>
           {results.map((char: string) => {

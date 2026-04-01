@@ -1,10 +1,12 @@
 'use client'
 
+import { cn } from '@/lib/utils'
+import surfaceStyles from './Surface.module.css'
 import styles from './LoadingMojidataArticle.module.css'
 
 export default function LoadingMojidataArticle() {
   return (
-    <article className={styles.article}>
+    <article className={cn(surfaceStyles.cardSurface, styles.article)}>
       <div className={styles.heading} aria-hidden />
       <div className={styles.summary}>
         <div className={styles.glyph} aria-hidden />

@@ -1,13 +1,14 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import surfaceStyles from '@/components/Surface.module.css'
 import styles from './card.module.css'
 
 function Card({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card"
-      className={cn(styles.card, className)}
+      className={cn(surfaceStyles.cardSurface, styles.card, className)}
       {...props}
     />
   )

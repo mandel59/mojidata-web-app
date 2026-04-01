@@ -36,6 +36,7 @@ import comparisonStyles from '@/components/MojidataComparison.module.css'
 import tableStyles from '@/components/DataTable.module.css'
 import cardStyles from '@/components/ArticleCard.module.css'
 import richTextStyles from '@/components/RichText.module.css'
+import surfaceStyles from '@/components/Surface.module.css'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -456,7 +457,7 @@ export default function MojidataResponseView(
 
 
   return (
-    <article className={`${cardStyles.card} ${styles.article}`}>
+    <article className={`${surfaceStyles.cardSurface} ${cardStyles.card} ${styles.article}`}>
       <div className={styles.response} data-testid="mojidata-response">
         <section className={styles.summaryWrap} data-testid="mojidata-summary-wrap">
           <div
