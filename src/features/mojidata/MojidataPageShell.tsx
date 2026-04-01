@@ -30,11 +30,9 @@ export default function MojidataPageShell(props: MojidataPageShellProps) {
   )
 
   return (
-    <div>
-      <main className={`container ${styles.main}`}>
-        {prelude}
-        {content}
-      </main>
+    <div className={styles.main}>
+      {prelude}
+      {content}
     </div>
   )
 }

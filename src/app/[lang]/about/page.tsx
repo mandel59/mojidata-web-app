@@ -8,10 +8,8 @@ export default async function AboutPage({
   const { lang } = await params
   const language = getLanguage(lang)
   return (
-    <main className="container">
-      <article className={styles.article}>
-        <About lang={language} />
-      </article>
-    </main>
+    <article className={styles.article}>
+      <About lang={language} />
+    </article>
   )
 }

@@ -10,27 +10,26 @@ export default function PrivacyPage(
   props: PageProps<'/[lang]/privacy-policy'>,
 ) {
   return (
-    <main className="container">
-      <article className={styles.article}>
-        <h1>Privacy Policy</h1>
-        <p>Last updated: 2025-12-09</p>
+    <article className={styles.article}>
+      <h1>Privacy Policy</h1>
+      <p>Last updated: 2025-12-09</p>
 
-        <section>
-          <h2>1. Overview</h2>
-          <p>
-            This Privacy Policy explains how we collect, use, and protect
-            information when you use our website. Our site is hosted on Vercel
-            and uses Vercel Web Analytics, Vercel Speed Insights, and Vercel
-            Firewall and related security features.
-          </p>
-          <p>
-            We aim to respect your privacy while still monitoring performance
-            and protecting our service from abuse.
-          </p>
-        </section>
+      <section>
+        <h2>1. Overview</h2>
+        <p>
+          This Privacy Policy explains how we collect, use, and protect
+          information when you use our website. Our site is hosted on Vercel
+          and uses Vercel Web Analytics, Vercel Speed Insights, and Vercel
+          Firewall and related security features.
+        </p>
+        <p>
+          We aim to respect your privacy while still monitoring performance and
+          protecting our service from abuse.
+        </p>
+      </section>
 
-        <section>
-          <h2>2. Data We Collect and Process</h2>
+      <section>
+        <h2>2. Data We Collect and Process</h2>
 
           <h3>2.1 Data collected automatically through Vercel services</h3>
           <p>
@@ -77,7 +76,7 @@ export default function PrivacyPage(
             purposes and is processed by Vercel in accordance with their own
             privacy and security policies.
           </p>
-        </section>
+      </section>
 
         <section>
           <h2>3. Use of Vercel Web Analytics and Vercel Speed Insights</h2>
@@ -291,15 +290,14 @@ export default function PrivacyPage(
           </ul>
         </section>
 
-        <section>
-          <h2>8. Contact</h2>
-          <p>
-            If you have any questions about this Privacy Policy or how we handle
-            data, you can contact us at:
-          </p>
-          <p>mandel59@gmail.com</p>
-        </section>
-      </article>
-    </main>
+      <section>
+        <h2>8. Contact</h2>
+        <p>
+          If you have any questions about this Privacy Policy or how we handle
+          data, you can contact us at:
+        </p>
+        <p>mandel59@gmail.com</p>
+      </section>
+    </article>
   )
 }
