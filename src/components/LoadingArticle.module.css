@@ -25,11 +25,6 @@
   color: hsl(var(--muted-foreground));
 }
 
-.footer {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid hsl(var(--border));
-}
 
 .footerBar {
   width: 12rem;

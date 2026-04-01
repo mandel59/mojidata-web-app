@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
+import dividerStyles from './SectionDivider.module.css'
 import surfaceStyles from './Surface.module.css'
 import styles from './LoadingArticle.module.css'
 
@@ -15,7 +16,7 @@ export default function LoadingArticle() {
       <p className={styles.message} aria-live="polite">
         Loading...
       </p>
-      <footer className={styles.footer}>
+      <footer className={dividerStyles.dividerTop}>
         <div className={styles.footerBar} aria-hidden />
       </footer>
     </article>

@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Modal } from '@/components/ui/modal'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import Link from 'next/link'
+import dividerStyles from './SectionDivider.module.css'
 import styles from './SearchFormPanel.module.css'
 
 export interface IdsFinderProps {
@@ -157,7 +158,7 @@ export default function IdsFinder(props: IdsFinderProps) {
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
-            <footer className={styles.footer}>
+            <footer className={`${dividerStyles.compactDividerTop} ${styles.footer}`}>
               <Button type="submit">{getText('search.button', lang)}</Button>
             </footer>
           </CardContent>

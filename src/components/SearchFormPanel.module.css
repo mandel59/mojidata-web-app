@@ -62,7 +62,4 @@
 .footer {
   display: flex;
   justify-content: flex-start;
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid hsl(var(--border));
 }

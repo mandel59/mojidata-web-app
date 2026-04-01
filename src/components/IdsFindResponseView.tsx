@@ -3,6 +3,7 @@ import { Spacer } from '@/components/Spacer'
 import ConditionalLink from '@/components/ConditionalLink'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import IntentPrefetchLink from '@/components/IntentPrefetchLink'
+import dividerStyles from '@/components/SectionDivider.module.css'
 import surfaceStyles from '@/components/Surface.module.css'
 import { cn } from '@/lib/utils'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
@@ -113,7 +114,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
           </ConditionalLink>
         </p>
       )}
-      <footer className={styles.footer}>
+      <footer className={dividerStyles.dividerTop}>
         <Pager
           prev={prev}
           next={next}
