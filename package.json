@@ -16,7 +16,10 @@
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "compare:styles": "node scripts/compare-rendered-styles.mjs"
+    "compare:styles": "node scripts/compare-rendered-styles.mjs",
+    "compare:mojidata:layout": "node scripts/compare-mojidata-layout.mjs",
+    "compare:mojidata:sections": "node scripts/compare-mojidata-sections.mjs",
+    "compare:mojidata:regional": "node scripts/compare-mojidata-regional-section.mjs"
   },
   "dependencies": {
     "@mandel59/idsdb": "^1.7.0",
