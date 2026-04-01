@@ -23,6 +23,7 @@
 }
 
 .response pre {
+  margin: 0;
   overflow: auto;
   max-height: 32rem;
   padding: 0.75rem;
@@ -137,7 +138,7 @@
   font-size: 1.35rem;
 }
 
-.contentMain h2:first-child {
+.contentMain > h2:first-child {
   margin-top: 0.25rem;
   padding-top: 0;
   border-top: 0;

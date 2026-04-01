@@ -66,7 +66,7 @@ export default function MojidataMojiJohoSection(
   }
 
   return (
-    <>
+    <section data-testid="mojidata-mojijoho-section">
       <h3 id="Moji_Joho">{getText('moji-joho.h4', lang)}</h3>
       <MojiJohoDisplayModeControl
         lang={lang}
@@ -158,6 +158,6 @@ export default function MojidataMojiJohoSection(
             </figure>
           ))}
         </div>}
-    </>
+    </section>
   )
 }

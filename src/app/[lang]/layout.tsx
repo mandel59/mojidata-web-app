@@ -49,8 +49,8 @@ export default async function RootLayout({
         </Suspense>
         <div className={styles.page}>
           <div className={styles.stack}>
-          <SiteHeader siteName={siteName} language={language} />
-          <main>{children}</main>
+            <SiteHeader siteName={siteName} language={language} />
+            <main>{children}</main>
           </div>
         </div>
         <PreviewWarning />

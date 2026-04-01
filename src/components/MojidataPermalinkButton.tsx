@@ -21,6 +21,7 @@ export default function MojidataPermalinkButton(
     <a
       href={pathname}
       className={styles.button}
+      data-testid="mojidata-permalink-button"
       onClick={async (event) => {
         if (typeof window === 'undefined' || !navigator.clipboard) return
         const url = `${window.location.origin}${window.location.pathname}`

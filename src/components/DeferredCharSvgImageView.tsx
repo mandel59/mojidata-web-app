@@ -9,6 +9,8 @@ export interface DeferredCharSvgImageViewProps {
   loaded: boolean
   renderImage: boolean
   imageSrc: string
+  loading?: 'eager' | 'lazy'
+  fetchPriority?: 'high' | 'low' | 'auto'
   onImageLoad?: () => void
 }
 
@@ -24,6 +26,8 @@ const DeferredCharSvgImageView = forwardRef<
     loaded,
     renderImage,
     imageSrc,
+    loading = 'lazy',
+    fetchPriority,
     onImageLoad,
   } = props
   const fallbackSize = Math.max(size - 10, 1)
@@ -55,9 +59,9 @@ const DeferredCharSvgImageView = forwardRef<
           src={imageSrc}
           width={size}
           height={size}
-          loading="lazy"
+          loading={loading}
           decoding="async"
-          fetchPriority="low"
+          fetchPriority={fetchPriority}
           alt={alt ?? char}
           className={styles.img}
           data-testid="deferred-char-image-img"

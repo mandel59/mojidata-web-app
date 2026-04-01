@@ -1,12 +1,13 @@
 .root {
   position: relative;
-  display: inline-grid;
+  display: grid;
   place-items: center;
   overflow: hidden;
-  line-height: 1;
+  line-height: 0;
+  font-size: 0;
   isolation: isolate;
   padding: 5px;
-  box-sizing: content-box;
+  box-sizing: border-box;
 }
 
 .fallback {

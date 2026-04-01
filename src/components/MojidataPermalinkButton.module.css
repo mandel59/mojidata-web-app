@@ -1,5 +1,4 @@
 .button {
-  display: inline-block;
   margin-left: 0.5rem;
   padding: 0.1rem 0.55rem;
   border: 1px solid hsl(var(--border));

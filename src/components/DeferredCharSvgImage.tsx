@@ -9,6 +9,9 @@ export interface DeferredCharSvgImageProps {
   size: number
   alt?: string
   source: 'glyphwiki' | 'ipamjm'
+  eager?: boolean
+  loading?: 'eager' | 'lazy'
+  fetchPriority?: 'high' | 'low' | 'auto'
   debugLoadState?: 'auto' | 'fallback' | 'loaded'
   debugSrc?: string
 }
@@ -29,10 +32,13 @@ export default function DeferredCharSvgImage(
     size,
     alt,
     source,
+    eager = false,
+    loading,
+    fetchPriority,
     debugLoadState = 'auto',
     debugSrc,
   } = props
-  const [shouldLoadImage, setShouldLoadImage] = useState(false)
+  const [shouldLoadImage, setShouldLoadImage] = useState(eager)
   const [loadedImageKey, setLoadedImageKey] = useState<string | null>(null)
   const rootRef = useRef<HTMLSpanElement | null>(null)
   const imageKey = `${source}:${char}`
@@ -43,6 +49,7 @@ export default function DeferredCharSvgImage(
 
   useEffect(() => {
     if (debugLoadState !== 'auto') return
+    if (eager) return
     const root = rootRef.current
     if (!root) return
     if (typeof IntersectionObserver === 'undefined') {
@@ -68,9 +75,9 @@ export default function DeferredCharSvgImage(
     return () => {
       observer.disconnect()
     }
-  }, [char, source, debugLoadState])
+  }, [char, source, debugLoadState, eager])
 
-  const renderImage = forcedLoaded || shouldLoadImage
+  const renderImage = forcedLoaded || eager || shouldLoadImage
 
   return (
     <DeferredCharSvgImageView
@@ -82,6 +89,8 @@ export default function DeferredCharSvgImage(
       loaded={loaded}
       renderImage={renderImage && !forcedFallback}
       imageSrc={imageSrc}
+      loading={loading ?? (eager ? 'eager' : 'lazy')}
+      fetchPriority={fetchPriority}
       onImageLoad={() => setLoadedImageKey(imageKey)}
     />
   )

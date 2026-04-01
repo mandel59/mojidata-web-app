@@ -24,7 +24,6 @@ import type { MojidataResults } from '@/mojidata/mojidataShared'
 import styles from './MojidataResponseView.module.css'
 import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
-import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
 import { Language, getText } from '@/getText'
 import MojidataDeferredVariants from '@/components/MojidataDeferredVariants'
 import MojidataMojiJohoSection from '@/components/MojidataMojiJohoSection'
@@ -460,7 +459,10 @@ export default function MojidataResponseView(
     <article className={`${cardStyles.card} ${styles.article}`}>
       <div className={styles.response} data-testid="mojidata-response">
         <section className={styles.summaryWrap} data-testid="mojidata-summary-wrap">
-          <div className={styles.summaryActions}>
+          <div
+            className={styles.summaryActions}
+            data-testid="mojidata-summary-actions"
+          >
             <MojidataPermalinkButton lang={lang} />
           </div>
           <div className={styles.summaryGrid}>
@@ -547,11 +549,12 @@ export default function MojidataResponseView(
                     {bot ? (
                       canonicalCharacter.char
                     ) : (
-                      <DeferredCharSvgImage
+                      <GlyphWikiCharImg
                         char={canonicalCharacter.char}
                         size={110}
                         alt={canonicalCharacter.char}
-                        source="glyphwiki"
+                        loading="eager"
+                        fetchPriority="high"
                       />
                     )}
                   </Link>
@@ -588,11 +591,11 @@ export default function MojidataResponseView(
                         {bot ? (
                           record.CJKCI_char
                         ) : (
-                          <DeferredCharSvgImage
+                          <GlyphWikiCharImg
                             char={record.CJKCI_char}
                             size={110}
                             alt={record.CJKCI}
-                            source="glyphwiki"
+                            loading="eager"
                           />
                         )}
                       </Link>
@@ -747,44 +750,46 @@ export default function MojidataResponseView(
           mji={mji}
           mjih={results.mjih}
         />
-        <h2 id="Variants">
-          {getText('variants-and-relevant-characters.h3', lang)}
-        </h2>
-        {variantEntries.length > 0 && (
+        <section data-testid="mojidata-variants-section">
+          <h2 id="Variants">
+            {getText('variants-and-relevant-characters.h3', lang)}
+          </h2>
+          {variantEntries.length > 0 && (
             <div
               className={`${comparisonStyles.comparison} ${comparisonStyles.variantsComparison}`}
               data-testid="mojidata-variants-comparison"
             >
-            {initialVariantEntries.map((entry) => (
-              <figure key={entry.key}>
-                <figcaption>
-                  <div>{entry.heading}</div>
-                  {entry.relationLines.map((line) => (
-                    <div key={`${entry.key}:${line.label}`}>
-                      <small>
-                        {line.label}: {line.values}
-                      </small>
-                    </div>
-                  ))}
-                </figcaption>
-                <div className={entry.className}>
-                  <ConditionalLink href={entry.href}>
-                    {entry.useGlyphImage ? (
-                      <DeferredCharSvgImage
-                        char={entry.char}
-                        size={110}
-                        alt={entry.char}
-                        source="glyphwiki"
-                      />
-                    ) : (
-                      entry.char
-                    )}
-                  </ConditionalLink>
-                </div>
-              </figure>
-            ))}
-          </div>
-        )}
+              {initialVariantEntries.map((entry) => (
+                <figure key={entry.key}>
+                  <figcaption>
+                    <div>{entry.heading}</div>
+                    {entry.relationLines.map((line) => (
+                      <div key={`${entry.key}:${line.label}`}>
+                        <small>
+                          {line.label}: {line.values}
+                        </small>
+                      </div>
+                    ))}
+                  </figcaption>
+                  <div className={entry.className}>
+                    <ConditionalLink href={entry.href}>
+                      {entry.useGlyphImage ? (
+                        <GlyphWikiCharImg
+                          char={entry.char}
+                          size={110}
+                          alt={entry.char}
+                          loading="eager"
+                        />
+                      ) : (
+                        entry.char
+                      )}
+                    </ConditionalLink>
+                  </div>
+                </figure>
+              ))}
+            </div>
+          )}
+        </section>
         <MojidataDeferredVariants lang={lang} entries={deferredVariantEntries} />
         {!disableExternalLinks && (
           <>
