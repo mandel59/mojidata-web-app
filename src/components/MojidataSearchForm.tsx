@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Modal } from '@/components/ui/modal'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import Link from 'next/link'
+import styles from './SearchFormPanel.module.css'
 
 export interface MojidataSearchFormProps {
   lang: Language
@@ -41,21 +42,24 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
     const query = params.toString()
     return query ? `${pathname ?? action}?${query}` : pathname ?? action
   }
+  const applyExampleHref = (href: string) => {
+    window.history.replaceState(window.history.state, '', href)
+  }
   return (
-    <div className="w-full">
+    <div className={styles.root}>
       <GetForm action={action}>
-        <Card className="h-full">
+        <Card className={styles.card}>
           <CardHeader>
             <CardTitle>
               <h2>{getText('mojidata-search.caption', lang)}</h2>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="rounded-md border border-border bg-muted/40 p-3">
-              <p className="mb-2 text-sm text-muted-foreground">
+            <div className={styles.examples}>
+              <p className={styles.examplesHelp}>
                 {getText('mojidata-search.placeholder', lang)}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className={styles.examplesActions}>
                 {[
                   '⿰日月',
                   '＠⿰？月',
@@ -74,6 +78,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                     onClick={(event) => {
                       event.preventDefault()
                       setQuery(example)
+                      applyExampleHref(buildExampleHref(example))
                     }}
                   >
                     {example}
@@ -81,7 +86,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 ))}
               </div>
             </div>
-            <div className="mt-3">
+            <div className={styles.helpTrigger}>
               <Button
                 type="button"
                 variant="ghost"
@@ -96,7 +101,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
               onClose={() => setShowHelp(false)}
               title={getText('usage.summary', lang)}
             >
-              <div className="mb-3 flex flex-wrap gap-2">
+              <div className={styles.tabBar}>
                 <Button
                   type="button"
                   size="sm"
@@ -408,7 +413,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
-            <footer className="mt-3 flex justify-start border-t border-border pt-3">
+            <footer className={styles.footer}>
               <Button type="submit">{getText('search.button', lang)}</Button>
             </footer>
           </CardContent>

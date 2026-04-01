@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import styles from './MultiInput.module.css'
 
 interface MultiInputProps {
   /** values of the each input fields. the last empty input is not included. */
@@ -37,12 +38,12 @@ export default function MultiInput(props: MultiInputProps) {
     return values
   }
   return (
-    <span ref={refMultiInput} className="grid gap-2">
+    <span ref={refMultiInput} className={styles.root}>
       {[...values, ''].map((value, index) => {
         return (
           <input
             key={index}
-            className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:text-sm"
+            className={styles.input}
             name={value === '' ? undefined : name}
             value={value}
             placeholder={placeholder?.(index)}
