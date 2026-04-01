@@ -11,6 +11,7 @@ import { Modal } from '@/components/ui/modal'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import Link from 'next/link'
 import styles from './SearchFormPanel.module.css'
+import tableStyles from './DataTable.module.css'
 
 export interface MojidataSearchFormProps {
   lang: Language
@@ -184,7 +185,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 </Button>
               </div>
 
-              <table>
+              <table className={tableStyles.table}>
                 <thead>
                   <tr>
                     {[

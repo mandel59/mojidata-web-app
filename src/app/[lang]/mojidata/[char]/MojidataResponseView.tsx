@@ -34,6 +34,7 @@ import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
 import charFrameStyles from '@/components/MojidataCharFrame.module.css'
 import comparisonStyles from '@/components/MojidataComparison.module.css'
+import tableStyles from '@/components/DataTable.module.css'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -591,7 +592,7 @@ export default function MojidataResponseView(
         {charIsHan && results.ids.length > 0 && (
           <>
             <h3 id="IDS">{getText('ids.h3', lang)}</h3>
-            <table>
+            <table className={tableStyles.table}>
               <thead>
                 <tr>
                   <th>IDS</th>
