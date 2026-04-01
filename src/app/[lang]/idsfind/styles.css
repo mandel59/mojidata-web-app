@@ -25,7 +25,7 @@
 .ids-find-result-char:hover {
   transform: translateY(-1px);
   border-color: hsl(var(--primary));
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 18px rgb(15 23 42 / 8%);
 }
 
 .ids-find-result-link {

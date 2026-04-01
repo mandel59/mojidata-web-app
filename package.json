@@ -9,7 +9,9 @@
     "prebuild": "npm run prepare:spa-assets",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint",
+    "lint:css": "stylelint 'src/**/*.css'",
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -50,6 +52,8 @@
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.0",
     "eslint-plugin-storybook": "^10.3.3",
-    "storybook": "^10.3.3"
+    "storybook": "^10.3.3",
+    "stylelint": "^17.6.0",
+    "stylelint-config-standard": "^40.0.0"
   }
 }
