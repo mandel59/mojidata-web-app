@@ -4,6 +4,7 @@ import ConditionalLink from '@/components/ConditionalLink'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import IntentPrefetchLink from '@/components/IntentPrefetchLink'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
+import styles from './IdsFindResponseView.module.css'
 
 function toRefName(char: string) {
   const charIsRef = char[0] === '&' && char[char.length - 1] === ';'
@@ -60,9 +61,9 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
   } = props
 
   return (
-    <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
+    <article className={styles.article}>
       {total > 0 && (
-        <div className="mb-2 flex flex-row flex-wrap gap-2">
+        <div className={styles.results}>
           {results.map((char: string) => {
             const href = charToHref(char)
             const glyphHref = href
@@ -72,7 +73,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                 )}`
             return (
               <div
-                className="ids-find-result-char flex h-16 w-16 shrink-0 items-center justify-center overflow-clip rounded-[0.6rem] border border-border bg-white text-center text-[50px] leading-[55px] transition-[transform,box-shadow,border-color] duration-100 ease-out hover:-translate-y-px hover:border-primary hover:shadow-[0_8px_18px_rgba(15,23,42,0.08)]"
+                className={`ids-find-result-char ${styles.resultChar}`}
                 lang="ja"
                 key={char}
                 title={toRefName(char)}
@@ -99,7 +100,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
             ))}
         </div>
       )}
-      {total === 0 && <p className="text-muted-foreground">No results found.</p>}
+      {total === 0 && <p className={styles.empty}>No results found.</p>}
       {total === 0 && wholeSearch && whole && (
         <p>
           <ConditionalLink
@@ -110,7 +111,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
           </ConditionalLink>
         </p>
       )}
-      <footer className="mt-4 border-t border-border pt-3">
+      <footer className={styles.footer}>
         <Pager
           prev={prev}
           next={next}

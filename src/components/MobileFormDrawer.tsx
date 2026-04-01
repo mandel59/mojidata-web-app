@@ -3,6 +3,7 @@
 import { ReactNode, useState, useSyncExternalStore } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Drawer } from '@/components/ui/drawer'
+import styles from './MobileFormDrawer.module.css'
 
 export interface MobileFormDrawerProps {
   buttonLabel: string
@@ -24,23 +25,23 @@ export default function MobileFormDrawer({
 
   if (!hydrated) {
     return (
-      <details className="rounded-md border border-border bg-card p-2">
+      <details className={styles.fallback}>
         <summary
-          className={`${buttonVariants({ size: 'sm' })} w-full cursor-pointer list-none justify-center [&::-webkit-details-marker]:hidden`}
+          className={`${buttonVariants({ size: 'sm' })} ${styles.fallbackSummary}`}
         >
           {buttonLabel}
         </summary>
-        <div className="mt-3">{children}</div>
+        <div className={styles.fallbackContent}>{children}</div>
       </details>
     )
   }
 
   return (
-    <div className="rounded-md border border-border bg-card p-2">
+    <div className={styles.container}>
       <Button
         type="button"
         size="sm"
-        className="w-full justify-center"
+        className={styles.trigger}
         onClick={() => setOpen(true)}
       >
         {buttonLabel}

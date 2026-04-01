@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect, useId, useRef } from 'react'
 import { Button } from '@/components/ui/button'
+import styles from './Modal.module.css'
 
 export interface ModalProps {
   open: boolean
@@ -60,7 +61,7 @@ export function Modal(props: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-8"
+      className={styles.overlay}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
@@ -70,17 +71,17 @@ export function Modal(props: ModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-border bg-card p-4 shadow-xl"
+        className={styles.dialog}
       >
-        <div className="mb-3 flex shrink-0 items-center justify-between gap-3 border-b border-border pb-2">
-          <h3 id={titleId} className="m-0 text-lg font-semibold">
+        <div className={styles.header}>
+          <h3 id={titleId} className={styles.title}>
             {title}
           </h3>
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>
             Close
           </Button>
         </div>
-        <div className="min-h-0 overflow-auto">{children}</div>
+        <div className={styles.body}>{children}</div>
       </div>
     </div>
   )
