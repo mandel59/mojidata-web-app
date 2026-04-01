@@ -1,33 +1,45 @@
 import * as React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 import styles from './button.module.css'
 
-const buttonVariants = cva(
-  styles.button,
-  {
-    variants: {
-      variant: {
-        default: styles.variantDefault,
-        ghost: styles.variantGhost,
-        outline: styles.variantOutline,
-        link: styles.variantLink,
-      },
-      size: {
-        default: styles.sizeDefault,
-        sm: styles.sizeSm,
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'default',
-    },
-  },
-)
+const variantClasses = {
+  default: styles.variantDefault,
+  ghost: styles.variantGhost,
+  outline: styles.variantOutline,
+  link: styles.variantLink,
+} as const
+
+const sizeClasses = {
+  default: styles.sizeDefault,
+  sm: styles.sizeSm,
+} as const
+
+type ButtonVariant = keyof typeof variantClasses
+type ButtonSize = keyof typeof sizeClasses
+
+function buttonVariants({
+  variant = 'default',
+  size = 'default',
+  className,
+}: {
+  variant?: ButtonVariant | null
+  size?: ButtonSize | null
+  className?: string
+} = {}) {
+  return cn(
+    styles.button,
+    variant ? variantClasses[variant] : undefined,
+    size ? sizeClasses[size] : undefined,
+    className,
+  )
+}
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
-  VariantProps<typeof buttonVariants>
+  {
+    variant?: ButtonVariant
+    size?: ButtonSize
+  }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
