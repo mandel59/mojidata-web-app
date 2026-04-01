@@ -26,6 +26,7 @@ import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import { Language, getText } from '@/getText'
 import MojidataDeferredVariants from '@/components/MojidataDeferredVariants'
+import MojidataJsonSection from '@/components/MojidataJsonSection'
 import MojidataMojiJohoSection from '@/components/MojidataMojiJohoSection'
 import MojidataPermalinkButton from '@/components/MojidataPermalinkButton'
 import MojidataSectionNav from '@/components/MojidataSectionNav'
@@ -799,7 +800,7 @@ export default function MojidataResponseView(
           </>
         )}
             <h2 id="JSON">{getText('json.h3', lang)}</h2>
-            <pre>{JSON.stringify(results, null, 2)}</pre>
+            <MojidataJsonSection char={results.char} lang={lang} />
           </div>
         </div>
       </div>

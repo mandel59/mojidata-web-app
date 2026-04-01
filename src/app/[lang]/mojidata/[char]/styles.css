@@ -248,6 +248,38 @@
   line-height: 1.5;
 }
 
+.mojidata-json-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.mojidata-json-toggle {
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0.35rem 0.75rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.88rem;
+}
+
+.mojidata-json-toggle:hover:not(:disabled) {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
+}
+
+.mojidata-json-toggle:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.mojidata-json-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.88rem;
+}
+
 
 .mojidata-response ul,
 .mojidata-response ol {

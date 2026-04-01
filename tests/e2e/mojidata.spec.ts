@@ -170,6 +170,22 @@ test('mojidata server-data can show perf debug panel', async ({ page }) => {
   await expect(page.getByText(/total data load/)).toBeVisible()
 })
 
+test('mojidata json is loaded on demand', async ({ page }) => {
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  await expect(
+    page.locator('pre').filter({ hasText: '"UCS"' }),
+  ).toHaveCount(0)
+
+  await page.getByRole('button', { name: /JSONを表示|Show JSON/ }).click()
+
+  await expect(
+    page.locator('pre').filter({ hasText: '"UCS"' }),
+  ).toBeVisible()
+})
+
 test('server-data search-to-mojidata navigation shows immediate feedback', async ({
   browser,
 }) => {
