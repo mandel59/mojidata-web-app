@@ -21,7 +21,6 @@ import {
   toCodePoint,
 } from '@/mojidata/mojidataShared'
 import type { MojidataResults } from '@/mojidata/mojidataShared'
-import './styles.css'
 import styles from './MojidataResponseView.module.css'
 import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
@@ -34,6 +33,7 @@ import MojidataSectionNav from '@/components/MojidataSectionNav'
 import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
 import charFrameStyles from '@/components/MojidataCharFrame.module.css'
+import comparisonStyles from '@/components/MojidataComparison.module.css'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -513,7 +513,9 @@ export default function MojidataResponseView(
         {isCompatibilityCharacter && (
           <>
             <h3 id="Unified_Ideograph">{getText('unified-ideograph.h3', lang)}</h3>
-            <div className="mojidata-chars-comparison">
+            <div
+              className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
+            >
               <figure>
                 <figcaption>
                   {canonicalCharacter.UCS} {canonicalCharacter.char}
@@ -547,7 +549,9 @@ export default function MojidataResponseView(
             <h3 id="Compatibility_Ideographs">
               {getText('compatibility-ideographs.h3', lang)}
             </h3>
-            <div className="mojidata-chars-comparison">
+            <div
+              className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
+            >
               {results.svs_cjkci.map((record) => {
                 return (
                   <figure key={record.SVS}>
@@ -611,7 +615,9 @@ export default function MojidataResponseView(
             <h3 id="Regional_Differences">
               {getText('regional-differences.h4', lang)}
             </h3>
-            <div className="mojidata-chars-comparison">
+            <div
+              className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
+            >
               {langTags.map((lang) => (
                 <figure key={lang}>
                   <figcaption>
@@ -632,7 +638,9 @@ export default function MojidataResponseView(
             </div>
             <h3 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h3>
             {ivsAj1.length > 0 && (
-              <div className="mojidata-chars-comparison">
+              <div
+                className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
+              >
                 {ivsAj1.map((record) => {
                   const compat = unihanAj1CompatibilityCid?.find(
                     ({ cid }) => record.code === cid,
@@ -689,7 +697,9 @@ export default function MojidataResponseView(
               </div>
             )}
             {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
-              <div className="mojidata-chars-comparison">
+              <div
+                className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
+              >
                 <figure key={aj1Cid}>
                   <figcaption>
                     {aj1Cid}
@@ -729,7 +739,9 @@ export default function MojidataResponseView(
           {getText('variants-and-relevant-characters.h3', lang)}
         </h2>
         {variantEntries.length > 0 && (
-          <div className="mojidata-chars-comparison mojidata-variants-comparison">
+          <div
+            className={`mojidata-chars-comparison mojidata-variants-comparison ${comparisonStyles.comparison} ${comparisonStyles.variantsComparison}`}
+          >
             {initialVariantEntries.map((entry) => (
               <figure key={entry.key}>
                 <figcaption>

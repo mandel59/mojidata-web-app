@@ -6,6 +6,7 @@ import { getText, type Language } from '@/getText'
 import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
 import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 import styles from './MojidataDeferredVariants.module.css'
+import comparisonStyles from './MojidataComparison.module.css'
 
 export interface MojidataDeferredVariantsProps {
   lang: Language
@@ -38,7 +39,9 @@ export default function MojidataDeferredVariants(
         </button>
       </div>
       {expanded && (
-        <div className="mojidata-chars-comparison mojidata-variants-comparison">
+        <div
+          className={`mojidata-chars-comparison mojidata-variants-comparison ${comparisonStyles.comparison} ${comparisonStyles.variantsComparison}`}
+        >
           {entries.map((entry) => (
             <figure key={entry.key}>
               <figcaption>

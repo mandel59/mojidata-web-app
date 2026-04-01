@@ -7,6 +7,7 @@ import { toCodePoint } from '@/mojidata/mojidataShared'
 import { MojiJohoChar, MojiJohoDisplayModeControl } from '@/components/MojiJohoChar'
 import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
 import charFrameStyles from '@/components/MojidataCharFrame.module.css'
+import comparisonStyles from '@/components/MojidataComparison.module.css'
 
 function toCodePoints(s: string) {
   return [...s].map((c) => toCodePoint(c)).join(' ')
@@ -73,7 +74,9 @@ export default function MojidataMojiJohoSection(
         onChangeForceImage={setDisplayMode}
       />
       {mji.length > 0 && (
-        <div className="mojidata-chars-comparison">
+        <div
+          className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
+        >
           {mji.map((record) => (
             <figure key={record.code}>
               <figcaption>
@@ -131,7 +134,9 @@ export default function MojidataMojiJohoSection(
         </div>
       )}
       {mjih.length > 0 && (
-        <div className="mojidata-chars-comparison">
+        <div
+          className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
+        >
           {mjih.map((record) => (
             <figure key={record.MJ文字図形名}>
               <figcaption>
