@@ -35,6 +35,8 @@ import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
 import charFrameStyles from '@/components/MojidataCharFrame.module.css'
 import comparisonStyles from '@/components/MojidataComparison.module.css'
 import tableStyles from '@/components/DataTable.module.css'
+import cardStyles from '@/components/ArticleCard.module.css'
+import richTextStyles from '@/components/RichText.module.css'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -455,7 +457,7 @@ export default function MojidataResponseView(
 
 
   return (
-    <article className={styles.article}>
+    <article className={`${cardStyles.card} ${styles.article}`}>
       <div className={styles.response} data-testid="mojidata-response">
         <section className={styles.summaryWrap} data-testid="mojidata-summary-wrap">
           <div className={styles.summaryActions}>
@@ -520,7 +522,10 @@ export default function MojidataResponseView(
 
         <div className={styles.contentGrid}>
           <MojidataSectionNav sections={tocSections} anchorKey={results.char} />
-          <div className={styles.contentMain} data-testid="mojidata-content-main">
+          <div
+            className={`${styles.contentMain} ${richTextStyles.richText}`}
+            data-testid="mojidata-content-main"
+          >
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         {isCompatibilityCharacter && (
           <>

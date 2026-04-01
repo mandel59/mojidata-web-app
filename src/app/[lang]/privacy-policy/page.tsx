@@ -1,6 +1,8 @@
 // app/privacy/page.tsx
 import type { Metadata } from 'next'
 import styles from '../DocsPage.module.css'
+import cardStyles from '@/components/ArticleCard.module.css'
+import richTextStyles from '@/components/RichText.module.css'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -10,7 +12,7 @@ export default function PrivacyPage(
   props: PageProps<'/[lang]/privacy-policy'>,
 ) {
   return (
-    <article className={styles.article}>
+    <article className={`${cardStyles.card} ${richTextStyles.richText} ${styles.article}`}>
       <h1>Privacy Policy</h1>
       <p>Last updated: 2025-12-09</p>
 

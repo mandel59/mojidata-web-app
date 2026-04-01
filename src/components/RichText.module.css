@@ -1,0 +1,26 @@
+.richText p,
+.richText li {
+  color: hsl(var(--foreground));
+}
+
+.richText ul,
+.richText ol {
+  padding-left: var(--rich-text-list-indent, 1.25rem);
+}
+
+.richText ul {
+  list-style: disc;
+}
+
+.richText ol {
+  list-style: decimal;
+}
+
+.richText a {
+  color: hsl(var(--primary));
+  text-underline-offset: 2px;
+}
+
+.richText a:hover {
+  text-decoration-thickness: 2px;
+}

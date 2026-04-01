@@ -1,11 +1,8 @@
 .article {
   padding: 1.25rem;
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.5rem;
-  background: hsl(var(--card));
-  color: hsl(var(--card-foreground));
-  box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
   line-height: 1.8;
+
+  --rich-text-list-indent: 1.35rem;
 }
 
 .article h1 {
@@ -30,31 +27,4 @@
   margin-bottom: 0.35rem;
   font-size: 1rem;
   color: hsl(var(--muted-foreground));
-}
-
-.article p,
-.article li {
-  color: hsl(var(--foreground));
-}
-
-.article ul,
-.article ol {
-  padding-left: 1.35rem;
-}
-
-.article ul {
-  list-style: disc;
-}
-
-.article ol {
-  list-style: decimal;
-}
-
-.article a {
-  color: hsl(var(--primary));
-  text-underline-offset: 2px;
-}
-
-.article a:hover {
-  text-decoration-thickness: 2px;
 }
