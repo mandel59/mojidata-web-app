@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
+import DeferredCharSvgImageView from './DeferredCharSvgImageView'
 
 export interface DeferredCharSvgImageProps {
   char: string
@@ -74,32 +75,18 @@ export default function DeferredCharSvgImage(
   return (
     <span
       ref={rootRef}
-      className="mojidata-deferred-char-image"
-      data-loaded={loaded ? 'true' : 'false'}
-      style={{ width: size, height: size }}
+      style={{ display: 'contents' }}
     >
-      <span
-        className={`mojidata-deferred-char-image__fallback mojidata-raw-char${
-          source === 'ipamjm' ? ' mojidata-mojijoho' : ''
-        }`}
-        aria-hidden={loaded}
-      >
-        {char}
-      </span>
-      {renderImage && !forcedFallback ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={imageSrc}
-          width={size}
-          height={size}
-          loading="lazy"
-          decoding="async"
-          fetchPriority="low"
-          alt={alt ?? char}
-          className="mojidata-deferred-char-image__img"
-          onLoad={() => setLoadedImageKey(imageKey)}
-        />
-      ) : null}
+      <DeferredCharSvgImageView
+        char={char}
+        size={size}
+        alt={alt}
+        source={source}
+        loaded={loaded}
+        renderImage={renderImage && !forcedFallback}
+        imageSrc={imageSrc}
+        onImageLoad={() => setLoadedImageKey(imageKey)}
+      />
     </span>
   )
 }

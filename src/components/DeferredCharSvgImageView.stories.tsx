@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import DeferredCharSvgImage from './DeferredCharSvgImage'
+import DeferredCharSvgImageView from './DeferredCharSvgImageView'
 
 function makeMockSvgDataUrl(label: string) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" width="110" height="110"><rect width="110" height="110" fill="white"/><rect x="5" y="5" width="100" height="100" fill="none" stroke="#222" stroke-width="2"/><text x="55" y="72" text-anchor="middle" font-size="72" font-family="serif" fill="#111">${label}</text></svg>`
@@ -7,8 +7,8 @@ function makeMockSvgDataUrl(label: string) {
 }
 
 const meta = {
-  title: 'Mojidata/DeferredCharSvgImage',
-  component: DeferredCharSvgImage,
+  title: 'Mojidata/DeferredCharSvgImageView',
+  component: DeferredCharSvgImageView,
   parameters: {
     layout: 'centered',
   },
@@ -17,6 +17,9 @@ const meta = {
     size: 110,
     alt: '漢',
     source: 'glyphwiki',
+    loaded: false,
+    renderImage: false,
+    imageSrc: makeMockSvgDataUrl('漢'),
   },
   decorators: [
     (Story: () => ReactNode) => (
@@ -40,7 +43,9 @@ export const GlyphWikiFallback = {
   args: {
     char: '漢',
     source: 'glyphwiki',
-    debugLoadState: 'fallback',
+    loaded: false,
+    renderImage: false,
+    imageSrc: makeMockSvgDataUrl('漢'),
   },
 }
 
@@ -48,8 +53,9 @@ export const GlyphWikiLoaded = {
   args: {
     char: '漢',
     source: 'glyphwiki',
-    debugLoadState: 'loaded',
-    debugSrc: makeMockSvgDataUrl('漢'),
+    loaded: true,
+    renderImage: true,
+    imageSrc: makeMockSvgDataUrl('漢'),
   },
 }
 
@@ -58,7 +64,9 @@ export const IpamjmFallback = {
     char: '𪜈',
     alt: '𪜈',
     source: 'ipamjm',
-    debugLoadState: 'fallback',
+    loaded: false,
+    renderImage: false,
+    imageSrc: makeMockSvgDataUrl('MJ'),
   },
 }
 
@@ -67,7 +75,8 @@ export const IpamjmLoaded = {
     char: '𪜈',
     alt: '𪜈',
     source: 'ipamjm',
-    debugLoadState: 'loaded',
-    debugSrc: makeMockSvgDataUrl('MJ'),
+    loaded: true,
+    renderImage: true,
+    imageSrc: makeMockSvgDataUrl('MJ'),
   },
 }
