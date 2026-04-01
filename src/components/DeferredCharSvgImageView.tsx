@@ -1,3 +1,6 @@
+import { forwardRef } from 'react'
+import styles from './DeferredCharSvgImageView.module.css'
+
 export interface DeferredCharSvgImageViewProps {
   char: string
   size: number
@@ -9,21 +12,36 @@ export interface DeferredCharSvgImageViewProps {
   onImageLoad?: () => void
 }
 
-export default function DeferredCharSvgImageView(
-  props: DeferredCharSvgImageViewProps,
-) {
-  const { char, size, alt, source, loaded, renderImage, imageSrc, onImageLoad } =
-    props
+const DeferredCharSvgImageView = forwardRef<
+  HTMLSpanElement,
+  DeferredCharSvgImageViewProps
+>(function DeferredCharSvgImageView(props, ref) {
+  const {
+    char,
+    size,
+    alt,
+    source,
+    loaded,
+    renderImage,
+    imageSrc,
+    onImageLoad,
+  } = props
+  const fallbackSize = Math.max(size - 10, 1)
 
   return (
     <span
-      className="mojidata-deferred-char-image"
+      ref={ref}
+      className={`mojidata-deferred-char-image ${styles.root}${loaded ? ` ${styles.loaded}` : ''}`}
       data-loaded={loaded ? 'true' : 'false'}
-      style={{ width: size, height: size }}
+      style={{
+        width: size,
+        height: size,
+        ['--deferred-char-fallback-size' as string]: `${fallbackSize}px`,
+      }}
     >
       <span
-        className={`mojidata-deferred-char-image__fallback mojidata-raw-char${
-          source === 'ipamjm' ? ' mojidata-mojijoho' : ''
+        className={`mojidata-deferred-char-image__fallback ${styles.fallback}${
+          source === 'ipamjm' ? ` ${styles.ipamjmFallback}` : ''
         }`}
         aria-hidden={loaded}
       >
@@ -39,10 +57,12 @@ export default function DeferredCharSvgImageView(
           decoding="async"
           fetchPriority="low"
           alt={alt ?? char}
-          className="mojidata-deferred-char-image__img"
+          className={`mojidata-deferred-char-image__img ${styles.img}`}
           onLoad={onImageLoad}
         />
       ) : null}
     </span>
   )
-}
+})
+
+export default DeferredCharSvgImageView

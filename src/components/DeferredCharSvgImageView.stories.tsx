@@ -11,6 +11,12 @@ const meta = {
   component: DeferredCharSvgImageView,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Pure view for deferred SVG glyphs. Shared design tokens still come from app-level CSS variables, while fallback layering, image stacking, and IPAmj fallback font rules are local to the component.',
+      },
+    },
   },
   args: {
     char: '漢',
@@ -29,7 +35,22 @@ const meta = {
           padding: '24px',
         }}
       >
-        <div className="mojidata-char" lang="ja">
+        <div
+          lang="ja"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '120px',
+            height: '120px',
+            margin: '0.25rem 0 0',
+            border: '1px solid hsl(var(--border))',
+            borderRadius: '0.6rem',
+            background: '#fff',
+            color: '#000',
+            overflow: 'clip',
+          }}
+        >
           <Story />
         </div>
       </div>

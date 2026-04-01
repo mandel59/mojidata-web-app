@@ -73,20 +73,16 @@ export default function DeferredCharSvgImage(
   const renderImage = forcedLoaded || shouldLoadImage
 
   return (
-    <span
+    <DeferredCharSvgImageView
       ref={rootRef}
-      style={{ display: 'contents' }}
-    >
-      <DeferredCharSvgImageView
-        char={char}
-        size={size}
-        alt={alt}
-        source={source}
-        loaded={loaded}
-        renderImage={renderImage && !forcedFallback}
-        imageSrc={imageSrc}
-        onImageLoad={() => setLoadedImageKey(imageKey)}
-      />
-    </span>
+      char={char}
+      size={size}
+      alt={alt}
+      source={source}
+      loaded={loaded}
+      renderImage={renderImage && !forcedFallback}
+      imageSrc={imageSrc}
+      onImageLoad={() => setLoadedImageKey(imageKey)}
+    />
   )
 }
