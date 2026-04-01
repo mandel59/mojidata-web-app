@@ -94,14 +94,24 @@ function buildCharFrameClassName(options: {
   kdpv?: boolean
   link?: boolean
   glyphwiki?: boolean
+  comparison?: boolean
+  variant?: boolean
 }): string {
-  const { kdpv = false, link = false, glyphwiki = false } = options
+  const {
+    kdpv = false,
+    link = false,
+    glyphwiki = false,
+    comparison = false,
+    variant = false,
+  } = options
   const baseClass = kdpv
-    ? `mojidata-kdpv-char ${charFrameStyles.kdpvChar}`
-    : `mojidata-char ${charFrameStyles.char}`
+    ? charFrameStyles.kdpvChar
+    : charFrameStyles.char
   return [baseClass]
-    .concat(link ? `mojidata-char-link ${charFrameStyles.charLink}` : [])
-    .concat(glyphwiki ? `mojidata-char-glyphwiki ${charFrameStyles.glyphwiki}` : [])
+    .concat(link ? charFrameStyles.charLink : [])
+    .concat(glyphwiki ? charFrameStyles.glyphwiki : [])
+    .concat(comparison ? comparisonStyles.frame : [])
+    .concat(variant ? comparisonStyles.variantFrame : [])
     .join(' ')
 }
 
@@ -429,6 +439,7 @@ export default function MojidataResponseView(
         kdpv: isIDS || isNonStandardVariant,
         link: isIDS || !!codePoint,
         glyphwiki: !!codePoint,
+        variant: true,
       }),
       useGlyphImage: !!codePoint && !bot,
       relationLines,
@@ -447,11 +458,11 @@ export default function MojidataResponseView(
     <article className={styles.article}>
       <div className={styles.response} data-testid="mojidata-response">
         <section className={styles.summaryWrap} data-testid="mojidata-summary-wrap">
-          <div className={`mojidata-summary-actions ${styles.summaryActions}`}>
+          <div className={styles.summaryActions}>
             <MojidataPermalinkButton lang={lang} />
           </div>
-          <div className={`mojidata-summary-grid ${styles.summaryGrid}`}>
-            <div className={`mojidata-summary-glyph-col ${styles.summaryGlyphCol}`}>
+          <div className={styles.summaryGrid}>
+            <div className={styles.summaryGlyphCol}>
               <div
                 className={buildCharFrameClassName({ glyphwiki: true })}
                 lang="ja"
@@ -469,36 +480,36 @@ export default function MojidataResponseView(
                 )}
               </div>
               {summaryBadges.length > 0 && (
-                <div className={`mojidata-summary-badge-row ${styles.summaryBadgeRow}`}>
+                <div className={styles.summaryBadgeRow}>
                   {summaryBadges.map((badge) => (
-                    <span key={badge} className={`mojidata-badge ${styles.badge}`}>
+                    <span key={badge} className={styles.badge}>
                       {badge}
                     </span>
                   ))}
                 </div>
               )}
             </div>
-            <dl className={`mojidata-summary-kv ${styles.summaryKv}`}>
-              <div className={`mojidata-summary-row ${styles.summaryRow}`}>
+            <dl className={styles.summaryKv}>
+              <div className={styles.summaryRow}>
                 <dt>{getText('summary.unicode.dt', lang)}</dt>
                 <dd>
                   {results.UCS} {results.char}
                 </dd>
               </div>
             {rsSummary && (
-              <div className={`mojidata-summary-row ${styles.summaryRow}`}>
+              <div className={styles.summaryRow}>
                 <dt>{getText('summary.rs-index.dt', lang)}</dt>
                 <dd>{rsSummary}</dd>
               </div>
             )}
             {totalStrokes && (
-              <div className={`mojidata-summary-row ${styles.summaryRow}`}>
+              <div className={styles.summaryRow}>
                 <dt>{getText('summary.total-strokes.dt', lang)}</dt>
                 <dd>{totalStrokes}</dd>
               </div>
             )}
             {readings.map((row) => (
-              <div className={`mojidata-summary-row ${styles.summaryRow}`} key={row.label}>
+              <div className={styles.summaryRow} key={row.label}>
                 <dt>{row.label}</dt>
                 <dd>{row.value}</dd>
               </div>
@@ -514,9 +525,7 @@ export default function MojidataResponseView(
         {isCompatibilityCharacter && (
           <>
             <h3 id="Unified_Ideograph">{getText('unified-ideograph.h3', lang)}</h3>
-            <div
-              className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
-            >
+            <div className={comparisonStyles.comparison}>
               <figure>
                 <figcaption>
                   {canonicalCharacter.UCS} {canonicalCharacter.char}
@@ -525,6 +534,7 @@ export default function MojidataResponseView(
                   className={buildCharFrameClassName({
                     link: true,
                     glyphwiki: true,
+                    comparison: true,
                   })}
                   lang="ja"
                 >
@@ -550,9 +560,7 @@ export default function MojidataResponseView(
             <h3 id="Compatibility_Ideographs">
               {getText('compatibility-ideographs.h3', lang)}
             </h3>
-            <div
-              className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
-            >
+            <div className={comparisonStyles.comparison}>
               {results.svs_cjkci.map((record) => {
                 return (
                   <figure key={record.SVS}>
@@ -567,6 +575,7 @@ export default function MojidataResponseView(
                       className={buildCharFrameClassName({
                         link: true,
                         glyphwiki: true,
+                        comparison: true,
                       })}
                       lang="ja"
                     >
@@ -616,9 +625,7 @@ export default function MojidataResponseView(
             <h3 id="Regional_Differences">
               {getText('regional-differences.h4', lang)}
             </h3>
-            <div
-              className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
-            >
+            <div className={comparisonStyles.comparison}>
               {langTags.map((lang) => (
                 <figure key={lang}>
                   <figcaption>
@@ -626,10 +633,10 @@ export default function MojidataResponseView(
                     <br />
                     <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
                   </figcaption>
-                  <div className={buildCharFrameClassName({})}>
+                  <div className={buildCharFrameClassName({ comparison: true })}>
                     <span
                       lang={lang}
-                      className={`mojidata-raw-char mojidata-source-han-serif ${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
+                      className={`${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
                     >
                       {results.char}
                     </span>
@@ -639,9 +646,7 @@ export default function MojidataResponseView(
             </div>
             <h3 id="Adobe-Japan1">{getText('adobe-japan1.h4', lang)}</h3>
             {ivsAj1.length > 0 && (
-              <div
-                className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
-              >
+              <div className={comparisonStyles.comparison}>
                 {ivsAj1.map((record) => {
                   const compat = unihanAj1CompatibilityCid?.find(
                     ({ cid }) => record.code === cid,
@@ -684,10 +689,10 @@ export default function MojidataResponseView(
                         <br />
                         <small>{toCodePoints(record.char)}</small>
                       </figcaption>
-                      <div className={buildCharFrameClassName({})}>
+                      <div className={buildCharFrameClassName({ comparison: true })}>
                         <span
                           lang="ja"
-                          className={`mojidata-raw-char mojidata-source-han-serif ${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
+                          className={`${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
                         >
                           {record.char}
                         </span>
@@ -698,9 +703,7 @@ export default function MojidataResponseView(
               </div>
             )}
             {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
-              <div
-                className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
-              >
+              <div className={comparisonStyles.comparison}>
                 <figure key={aj1Cid}>
                   <figcaption>
                     {aj1Cid}
@@ -715,9 +718,12 @@ export default function MojidataResponseView(
                     <br />
                     <small>{results.UCS}</small>
                   </figcaption>
-                  <div className={buildCharFrameClassName({})} lang="ja">
+                  <div
+                    className={buildCharFrameClassName({ comparison: true })}
+                    lang="ja"
+                  >
                     <span
-                      className={`mojidata-raw-char mojidata-source-han-serif ${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
+                      className={`${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
                     >
                       {results.char}
                     </span>
@@ -831,9 +837,7 @@ export default function MojidataResponseView(
                       <li key={MJ文字図形名}>
                         <a href={href}>
                           文字情報基盤検索システム {MJ文字図形名}{' '}
-                          <span
-                            className={`mojidata-mojijoho ${mojiJohoStyles.mojiJoho}`}
-                          >
+                          <span className={mojiJohoStyles.mojiJoho}>
                             {char && ` (${char})`}
                           </span>
                         </a>

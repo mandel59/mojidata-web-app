@@ -73,10 +73,7 @@ export default function MojidataMojiJohoSection(
         forceImage={forceImage}
         onChangeForceImage={setDisplayMode}
       />
-      {mji.length > 0 && (
-        <div
-          className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
-        >
+      {mji.length > 0 && <div className={comparisonStyles.comparison}>
           {mji.map((record) => (
             <figure key={record.code}>
               <figcaption>
@@ -120,7 +117,7 @@ export default function MojidataMojiJohoSection(
                 <small>{toCodePoints(record.char)}</small>
               </figcaption>
               <div
-                className={`mojidata-char ${charFrameStyles.char}`}
+                className={`${charFrameStyles.char} ${comparisonStyles.frame}`}
                 lang="ja"
               >
                 <MojiJohoChar
@@ -131,12 +128,8 @@ export default function MojidataMojiJohoSection(
               </div>
             </figure>
           ))}
-        </div>
-      )}
-      {mjih.length > 0 && (
-        <div
-          className={`mojidata-chars-comparison ${comparisonStyles.comparison}`}
-        >
+        </div>}
+      {mjih.length > 0 && <div className={comparisonStyles.comparison}>
           {mjih.map((record) => (
             <figure key={record.MJ文字図形名}>
               <figcaption>
@@ -145,7 +138,7 @@ export default function MojidataMojiJohoSection(
                 <small>{record.UCS符号位置}</small>
               </figcaption>
               <div
-                className={`mojidata-char ${charFrameStyles.char}`}
+                className={`${charFrameStyles.char} ${comparisonStyles.frame}`}
                 lang="ja"
               >
                 {record.文字 ? (
@@ -156,7 +149,7 @@ export default function MojidataMojiJohoSection(
                   />
                 ) : (
                   <span
-                    className={`mojidata-raw-char mojidata-mojijoho ${charFrameStyles.rawChar} ${mojiJohoStyles.mojiJoho}`}
+                    className={`${charFrameStyles.rawChar} ${mojiJohoStyles.mojiJoho}`}
                   >
                     {record.UCS符号位置}
                   </span>
@@ -164,8 +157,7 @@ export default function MojidataMojiJohoSection(
               </div>
             </figure>
           ))}
-        </div>
-      )}
+        </div>}
     </>
   )
 }

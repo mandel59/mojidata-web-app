@@ -25,8 +25,7 @@
   color: hsl(var(--muted-foreground));
 }
 
-.comparison > figure > .mojidata-char,
-.comparison > figure > .mojidata-kdpv-char {
+.frame {
   margin-top: 0.45rem;
 }
 
@@ -50,8 +49,7 @@
   padding-bottom: 0.45rem;
 }
 
-.variantsComparison > figure > .mojidata-char,
-.variantsComparison > figure > .mojidata-kdpv-char {
+.variantFrame {
   margin-top: auto;
 }
 
