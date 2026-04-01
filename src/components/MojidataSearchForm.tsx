@@ -10,7 +10,9 @@ import { Input } from '@/components/ui/input'
 import { Modal } from '@/components/ui/modal'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 import dividerStyles from './SectionDivider.module.css'
+import surfaceStyles from './Surface.module.css'
 import styles from './SearchFormPanel.module.css'
 import tableStyles from './DataTable.module.css'
 
@@ -57,7 +59,13 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={styles.examples}>
+            <div
+              className={cn(
+                surfaceStyles.mutedSurface,
+                surfaceStyles.radiusInset,
+                styles.examples,
+              )}
+            >
               <p className={styles.examplesHelp}>
                 {getText('mojidata-search.placeholder', lang)}
               </p>

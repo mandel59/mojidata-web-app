@@ -7,9 +7,6 @@
 }
 
 .examples {
-  border: 1px solid hsl(var(--border));
-  border-radius: calc(var(--radius) - 2px);
-  background: hsl(var(--muted) / 40%);
   padding: 0.75rem;
 }
 

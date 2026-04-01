@@ -11,7 +11,9 @@ import { Input } from '@/components/ui/input'
 import { Modal } from '@/components/ui/modal'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 import dividerStyles from './SectionDivider.module.css'
+import surfaceStyles from './Surface.module.css'
 import styles from './SearchFormPanel.module.css'
 
 export interface IdsFinderProps {
@@ -52,7 +54,13 @@ export default function IdsFinder(props: IdsFinderProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={styles.examples}>
+            <div
+              className={cn(
+                surfaceStyles.mutedSurface,
+                surfaceStyles.radiusInset,
+                styles.examples,
+              )}
+            >
               <p className={styles.examplesHelp}>Quick examples</p>
               <div className={styles.examplesActions}>
                 <Link
