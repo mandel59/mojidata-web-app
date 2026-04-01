@@ -137,11 +137,11 @@ test('mojidata-spa renders character data in browser', async ({ page }) => {
     'href',
     /\/mojidata\/%E6%BC%A2$/,
   )
-  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
     timeout: 60_000,
   })
   await expect(
-    page.locator('.mojidata-response figure').first().locator('figcaption'),
+    page.getByTestId('mojidata-response').locator('figure').first().locator('figcaption'),
   ).toContainText('U+6F22', {
     timeout: 60_000,
   })
@@ -155,7 +155,7 @@ test('canonical mojidata can render client-data mode in browser', async ({
   })
 
   await expect(page.locator('[data-spa="mojidata"]')).toHaveCount(1)
-  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
     timeout: 60_000,
   })
 })

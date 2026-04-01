@@ -445,8 +445,8 @@ export default function MojidataResponseView(
 
   return (
     <article className={styles.article}>
-      <div className={`mojidata-response ${styles.response}`}>
-        <section className={`mojidata-summary-wrap ${styles.summaryWrap}`}>
+      <div className={styles.response} data-testid="mojidata-response">
+        <section className={styles.summaryWrap} data-testid="mojidata-summary-wrap">
           <div className={`mojidata-summary-actions ${styles.summaryActions}`}>
             <MojidataPermalinkButton lang={lang} />
           </div>
@@ -507,9 +507,9 @@ export default function MojidataResponseView(
           </div>
         </section>
 
-        <div className={`mojidata-content-grid ${styles.contentGrid}`}>
+        <div className={styles.contentGrid}>
           <MojidataSectionNav sections={tocSections} anchorKey={results.char} />
-          <div className={`mojidata-content-main ${styles.contentMain}`}>
+          <div className={styles.contentMain} data-testid="mojidata-content-main">
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         {isCompatibilityCharacter && (
           <>
@@ -740,9 +740,10 @@ export default function MojidataResponseView(
           {getText('variants-and-relevant-characters.h3', lang)}
         </h2>
         {variantEntries.length > 0 && (
-          <div
-            className={`mojidata-chars-comparison mojidata-variants-comparison ${comparisonStyles.comparison} ${comparisonStyles.variantsComparison}`}
-          >
+            <div
+              className={`${comparisonStyles.comparison} ${comparisonStyles.variantsComparison}`}
+              data-testid="mojidata-variants-comparison"
+            >
             {initialVariantEntries.map((entry) => (
               <figure key={entry.key}>
                 <figcaption>

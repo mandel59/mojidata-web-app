@@ -38,7 +38,7 @@ test('desktop mojidata top view matches baseline', async ({ browser }) => {
   const page = await context.newPage()
 
   await gotoVisual(page, '/ja-JP/mojidata/%E6%BC%A2')
-  await expect(page.locator('.mojidata-summary-wrap')).toBeVisible()
+  await expect(page.getByTestId('mojidata-summary-wrap')).toBeVisible()
   await expectStableScreenshot(page, 'desktop-mojidata-top.png')
 
   await context.close()
@@ -67,7 +67,7 @@ test('mobile mojidata top view matches baseline', async ({ browser }) => {
   const page = await context.newPage()
 
   await gotoVisual(page, '/ja-JP/mojidata/%E6%BC%A2')
-  await expect(page.locator('.mojidata-summary-wrap')).toBeVisible()
+  await expect(page.getByTestId('mojidata-summary-wrap')).toBeVisible()
   await expectStableScreenshot(page, 'mobile-mojidata-top.png')
 
   await context.close()

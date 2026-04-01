@@ -45,10 +45,16 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
   useEffect(() => {
     const scrollToHashAnchor = () => {
       const rawHash = window.location.hash
-      if (!rawHash || rawHash.length <= 1) return
+      if (!rawHash || rawHash.length <= 1) {
+        window.scrollTo({ top: 0, left: 0 })
+        return
+      }
       const id = decodeURIComponent(rawHash.slice(1))
       const target = document.getElementById(id)
-      if (!target) return
+      if (!target) {
+        window.scrollTo({ top: 0, left: 0 })
+        return
+      }
       target.scrollIntoView({ block: 'start' })
     }
 
@@ -80,8 +86,9 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
   return (
     <>
       <nav
-        className={`mojidata-section-nav mojidata-section-nav-mobile ${styles.nav} ${styles.mobile}`}
+        className={`${styles.nav} ${styles.mobile}`}
         aria-label="Mojidata sections"
+        data-testid="mojidata-section-nav-mobile"
       >
         {sections.map((section) => (
           <a
@@ -96,12 +103,14 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
         ))}
       </nav>
       <aside
-        className={`mojidata-toc-sidebar ${styles.sidebar}`}
+        className={styles.sidebar}
         aria-label="Mojidata table of contents"
+        data-testid="mojidata-toc-sidebar"
       >
         <nav
-          className={`mojidata-section-nav mojidata-section-nav-sidebar ${styles.nav} ${styles.sidebarNav}`}
+          className={`${styles.nav} ${styles.sidebarNav}`}
           aria-label="Mojidata sections"
+          data-testid="mojidata-section-nav-sidebar"
         >
           {sections.map((section) => (
             <a

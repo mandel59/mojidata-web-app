@@ -71,7 +71,7 @@ test('SPA navigation resets scroll position on link click', async ({ page }) => 
 
   await firstMojidataResultLink(page).click()
   await page.waitForURL(/\/mojidata\//)
-  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
     timeout: 60_000,
   })
   await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20)
@@ -85,11 +85,11 @@ test('non-SPA mojidata-to-mojidata links keep canonical URL and reset scroll', a
   const { page, assertNoBrowserErrors } = await newCheckedPage(context)
 
   await page.goto('/ja-JP/mojidata/%E6%BC%A2', { waitUntil: 'domcontentloaded' })
-  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
     timeout: 60_000,
   })
 
-  const linkSelector = '.mojidata-response a[href*="/mojidata/"]'
+  const linkSelector = '[data-testid="mojidata-response"] a[href*="/mojidata/"]'
   const linkCount = await page.locator(linkSelector).count()
   expect(linkCount).toBeGreaterThan(0)
 
@@ -129,11 +129,11 @@ test('SPA mojidata-to-mojidata links use canonical URL and reset scroll', async 
   await page.goto('/ja-JP/mojidata-spa/%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
   })
-  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
     timeout: 60_000,
   })
 
-  const linkSelector = '.mojidata-response a[href*="/mojidata/"]'
+  const linkSelector = '[data-testid="mojidata-response"] a[href*="/mojidata/"]'
   const linkCount = await page.locator(linkSelector).count()
   expect(linkCount).toBeGreaterThan(0)
 
@@ -160,7 +160,7 @@ test('SPA mojidata-to-mojidata links use canonical URL and reset scroll', async 
 
   await page.locator(`${linkSelector}[href="${targetHref}"]`).first().click()
   await page.waitForURL(/\/mojidata\//)
-  await expect(page.locator('.mojidata-response')).toHaveCount(1, {
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
     timeout: 60_000,
   })
   await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20)

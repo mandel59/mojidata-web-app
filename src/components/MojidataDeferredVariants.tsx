@@ -40,7 +40,8 @@ export default function MojidataDeferredVariants(
       </div>
       {expanded && (
         <div
-          className={`mojidata-chars-comparison mojidata-variants-comparison ${comparisonStyles.comparison} ${comparisonStyles.variantsComparison}`}
+          className={`${comparisonStyles.comparison} ${comparisonStyles.variantsComparison}`}
+          data-testid="mojidata-variants-comparison"
         >
           {entries.map((entry) => (
             <figure key={entry.key}>

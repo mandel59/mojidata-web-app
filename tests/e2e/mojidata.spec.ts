@@ -32,8 +32,8 @@ test('desktop mojidata keeps the TOC sidebar beside the main content', async ({
     waitUntil: 'domcontentloaded',
   })
 
-  const sidebar = page.locator('.mojidata-toc-sidebar')
-  const main = page.locator('.mojidata-content-main')
+  const sidebar = page.getByTestId('mojidata-toc-sidebar')
+  const main = page.getByTestId('mojidata-content-main')
   await expect(sidebar).toBeVisible()
   await expect(main).toBeVisible()
 
@@ -193,13 +193,13 @@ test('mojidata defers offscreen variant glyph images until scrolled', async ({
     waitUntil: 'domcontentloaded',
   })
 
-  const variants = page.locator('.mojidata-variants-comparison')
+  const variants = page.getByTestId('mojidata-variants-comparison')
   await expect(variants).toBeVisible()
   await expect(
     variants.locator('img[src^="/api/glyphwiki/svg/"]'),
   ).toHaveCount(0)
   await expect(
-    variants.locator('.mojidata-deferred-char-image__fallback').first(),
+    variants.getByTestId('deferred-char-fallback').first(),
   ).toHaveCSS('opacity', '0.42')
 
   await page.locator('#Variants').scrollIntoViewIfNeeded()
@@ -212,16 +212,16 @@ test('mojidata defers offscreen variant glyph images until scrolled', async ({
   await expect
     .poll(async () => {
       return await variants
-        .locator('.mojidata-deferred-char-image')
+        .getByTestId('deferred-char-image')
         .first()
         .getAttribute('data-loaded')
     })
     .toBe('true')
   await expect(
-    variants.locator('.mojidata-deferred-char-image__fallback').first(),
+    variants.getByTestId('deferred-char-fallback').first(),
   ).toHaveCSS('opacity', '0')
   await expect(
-    variants.locator('.mojidata-deferred-char-image__img').first(),
+    variants.getByTestId('deferred-char-image-img').first(),
   ).toHaveCSS('z-index', '1')
 
   assertNoBrowserErrors()
@@ -302,7 +302,9 @@ test('mojidata variants defer the extra glyphs until expanded', async ({
     waitUntil: 'domcontentloaded',
   })
 
-  const variantCards = page.locator('.mojidata-variants-comparison > figure')
+  const variantCards = page
+    .getByTestId('mojidata-variants-comparison')
+    .locator('> figure')
   await expect(variantCards).toHaveCount(6)
 
   const toggle = page.getByRole('button', { name: /残り \d+ 件を表示|Show remaining \d+/ })
@@ -336,7 +338,7 @@ test('mojidata section links do not trigger the navigation progress bar', async 
 
   const progressBar = page.locator('[data-navigation-pending="true"]')
   await page
-    .locator('.mojidata-section-nav a[href="#Glyph_Comparison"]')
+    .locator('a[href="#Glyph_Comparison"]:visible')
     .first()
     .click()
 

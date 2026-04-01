@@ -6,9 +6,9 @@ test('storybook deferred SVG fallback story renders', async ({ page }) => {
     { waitUntil: 'domcontentloaded' },
   )
 
-  const glyph = page.locator('.mojidata-deferred-char-image')
+  const glyph = page.getByTestId('deferred-char-image')
   await expect(glyph).toBeVisible()
-  await expect(glyph.locator('.mojidata-deferred-char-image__fallback')).toHaveText(
+  await expect(glyph.getByTestId('deferred-char-fallback')).toHaveText(
     '漢',
   )
 })
@@ -19,7 +19,7 @@ test('storybook deferred SVG loaded story renders image', async ({ page }) => {
     { waitUntil: 'domcontentloaded' },
   )
 
-  const glyph = page.locator('.mojidata-deferred-char-image')
+  const glyph = page.getByTestId('deferred-char-image')
   await expect(glyph).toHaveAttribute('data-loaded', 'true')
-  await expect(glyph.locator('.mojidata-deferred-char-image__img')).toBeVisible()
+  await expect(glyph.getByTestId('deferred-char-image-img')).toBeVisible()
 })

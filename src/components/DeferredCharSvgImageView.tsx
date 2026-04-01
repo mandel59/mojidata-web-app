@@ -31,8 +31,9 @@ const DeferredCharSvgImageView = forwardRef<
   return (
     <span
       ref={ref}
-      className={`mojidata-deferred-char-image ${styles.root}${loaded ? ` ${styles.loaded}` : ''}`}
+      className={`${styles.root}${loaded ? ` ${styles.loaded}` : ''}`}
       data-loaded={loaded ? 'true' : 'false'}
+      data-testid="deferred-char-image"
       style={{
         width: size,
         height: size,
@@ -40,10 +41,11 @@ const DeferredCharSvgImageView = forwardRef<
       }}
     >
       <span
-        className={`mojidata-deferred-char-image__fallback ${styles.fallback}${
+        className={`${styles.fallback}${
           source === 'ipamjm' ? ` ${styles.ipamjmFallback}` : ''
         }`}
         aria-hidden={loaded}
+        data-testid="deferred-char-fallback"
       >
         {char}
       </span>
@@ -57,7 +59,8 @@ const DeferredCharSvgImageView = forwardRef<
           decoding="async"
           fetchPriority="low"
           alt={alt ?? char}
-          className={`mojidata-deferred-char-image__img ${styles.img}`}
+          className={styles.img}
+          data-testid="deferred-char-image-img"
           onLoad={onImageLoad}
         />
       ) : null}
