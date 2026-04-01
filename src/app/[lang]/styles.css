@@ -230,46 +230,6 @@ tbody tr:last-child td {
   padding-bottom: max(26vh, 10rem);
 }
 
-.responsive-search-shell {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.responsive-results-pane {
-  min-width: 0;
-}
-
-.responsive-desktop-only {
-  display: none;
-}
-
-.responsive-mobile-only {
-  display: block;
-}
-
-@media (width >= 768px) {
-  .responsive-search-shell {
-    display: grid;
-    grid-template-columns: minmax(20rem, 24rem) minmax(0, 1fr);
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .responsive-desktop-only {
-    display: block;
-  }
-
-  .responsive-mobile-only {
-    display: none;
-  }
-
-  .responsive-desktop-sticky {
-    position: sticky;
-    top: 1rem;
-  }
-}
-
 @media (width <= 900px) {
   :root {
     --pico-font-size: 17px;

@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import type { Language } from '@/getText'
 import MojidataSearchForm from '@/components/MojidataSearchForm'
 import MobileFormDrawer from '@/components/MobileFormDrawer'
+import styles from '@/features/formResultsShell.module.css'
 
 export interface SearchPageShellProps {
   language: Language
@@ -36,23 +37,23 @@ export default function SearchPageShell(props: SearchPageShellProps) {
   }
 
   return (
-    <div className="responsive-search-shell">
+    <div className={styles.shell}>
       {prelude}
       {mobileResultsFormMode === 'drawer' && formNavLabel ? (
         <>
-          <section className="responsive-mobile-only">
+          <section className={styles.mobileOnly}>
             <MobileFormDrawer buttonLabel={formNavLabel} title={formNavLabel}>
               {form}
             </MobileFormDrawer>
           </section>
-          <section className="responsive-desktop-sticky responsive-desktop-only">
+          <section className={`${styles.desktopSticky} ${styles.desktopOnly}`}>
             {form}
           </section>
         </>
       ) : (
-        <section className="responsive-desktop-sticky">{form}</section>
+        <section className={styles.desktopSticky}>{form}</section>
       )}
-      {results ? <section className="responsive-results-pane">{results}</section> : null}
+      {results ? <section className={styles.resultsPane}>{results}</section> : null}
     </div>
   )
 }

@@ -1,0 +1,39 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resultsPane {
+  min-width: 0;
+}
+
+.desktopOnly {
+  display: none;
+}
+
+.mobileOnly {
+  display: block;
+}
+
+@media (width >= 768px) {
+  .shell {
+    display: grid;
+    grid-template-columns: minmax(20rem, 24rem) minmax(0, 1fr);
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .desktopOnly {
+    display: block;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+
+  .desktopSticky {
+    position: sticky;
+    top: 1rem;
+  }
+}
