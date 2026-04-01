@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
+import styles from './MojidataPermalinkButton.module.css'
 
 export interface MojidataPermalinkButtonProps {
   lang: Language
@@ -19,7 +20,7 @@ export default function MojidataPermalinkButton(
   return (
     <a
       href={pathname}
-      className="mojidata-summary-copy-btn"
+      className={styles.button}
       onClick={async (event) => {
         if (typeof window === 'undefined' || !navigator.clipboard) return
         const url = `${window.location.origin}${window.location.pathname}`

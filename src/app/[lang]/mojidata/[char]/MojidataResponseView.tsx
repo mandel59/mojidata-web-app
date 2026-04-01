@@ -427,13 +427,13 @@ export default function MojidataResponseView(
 
   return (
     <article className={styles.article}>
-      <div className="mojidata-response">
-        <section className="mojidata-summary-wrap">
-          <div className="mojidata-summary-actions">
+      <div className={`mojidata-response ${styles.response}`}>
+        <section className={`mojidata-summary-wrap ${styles.summaryWrap}`}>
+          <div className={`mojidata-summary-actions ${styles.summaryActions}`}>
             <MojidataPermalinkButton lang={lang} />
           </div>
-          <div className="mojidata-summary-grid">
-            <div className="mojidata-summary-glyph-col">
+          <div className={`mojidata-summary-grid ${styles.summaryGrid}`}>
+            <div className={`mojidata-summary-glyph-col ${styles.summaryGlyphCol}`}>
               <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
                 {bot ? (
                   results.char
@@ -448,36 +448,36 @@ export default function MojidataResponseView(
                 )}
               </div>
               {summaryBadges.length > 0 && (
-                <div className="mojidata-summary-badge-row">
+                <div className={`mojidata-summary-badge-row ${styles.summaryBadgeRow}`}>
                   {summaryBadges.map((badge) => (
-                    <span key={badge} className="mojidata-badge">
+                    <span key={badge} className={`mojidata-badge ${styles.badge}`}>
                       {badge}
                     </span>
                   ))}
                 </div>
               )}
             </div>
-            <dl className="mojidata-summary-kv">
-              <div className="mojidata-summary-row">
+            <dl className={`mojidata-summary-kv ${styles.summaryKv}`}>
+              <div className={`mojidata-summary-row ${styles.summaryRow}`}>
                 <dt>{getText('summary.unicode.dt', lang)}</dt>
                 <dd>
                   {results.UCS} {results.char}
                 </dd>
               </div>
             {rsSummary && (
-              <div className="mojidata-summary-row">
+              <div className={`mojidata-summary-row ${styles.summaryRow}`}>
                 <dt>{getText('summary.rs-index.dt', lang)}</dt>
                 <dd>{rsSummary}</dd>
               </div>
             )}
             {totalStrokes && (
-              <div className="mojidata-summary-row">
+              <div className={`mojidata-summary-row ${styles.summaryRow}`}>
                 <dt>{getText('summary.total-strokes.dt', lang)}</dt>
                 <dd>{totalStrokes}</dd>
               </div>
             )}
             {readings.map((row) => (
-              <div className="mojidata-summary-row" key={row.label}>
+              <div className={`mojidata-summary-row ${styles.summaryRow}`} key={row.label}>
                 <dt>{row.label}</dt>
                 <dd>{row.value}</dd>
               </div>
@@ -486,9 +486,9 @@ export default function MojidataResponseView(
           </div>
         </section>
 
-        <div className="mojidata-content-grid">
+        <div className={`mojidata-content-grid ${styles.contentGrid}`}>
           <MojidataSectionNav sections={tocSections} anchorKey={results.char} />
-          <div className="mojidata-content-main">
+          <div className={`mojidata-content-main ${styles.contentMain}`}>
             <h2 id="Character_Data">{getText('character-data.h2', lang)}</h2>
         {isCompatibilityCharacter && (
           <>

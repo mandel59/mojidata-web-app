@@ -1,0 +1,24 @@
+.button {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.55rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  background: rgb(255 255 255);
+  color: hsl(var(--muted-foreground));
+  font-size: 0.74rem;
+  text-decoration: none;
+}
+
+.button:hover {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
+}
+
+@media (width <= 767px) {
+  .button {
+    margin-left: 0;
+    padding: 0.08rem 0.5rem;
+    font-size: 0.7rem;
+  }
+}

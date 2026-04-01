@@ -6,3 +6,206 @@
   color: hsl(var(--card-foreground));
   box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
 }
+
+.response {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.response > h2 {
+  margin-bottom: 0.2rem;
+}
+
+.response > h3 {
+  margin-top: 0.65rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.response figure {
+  margin: 0;
+}
+
+.response pre {
+  overflow: auto;
+  max-height: 32rem;
+  padding: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: hsl(var(--muted));
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.response ul,
+.response ol {
+  padding-left: 1.25rem;
+}
+
+.response ul {
+  list-style: disc;
+}
+
+.response ol {
+  list-style: decimal;
+}
+
+.summaryWrap {
+  position: relative;
+  padding: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  background: hsl(var(--muted));
+}
+
+.summaryActions {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.65rem;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.8rem;
+  padding-right: 7rem;
+}
+
+.summaryGlyphCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.summaryKv {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.93rem;
+}
+
+.summaryRow {
+  display: grid;
+  grid-template-columns: 6.2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.18rem 0;
+}
+
+.summaryRow dt {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-weight: 600;
+}
+
+.summaryRow dd {
+  margin: 0;
+}
+
+.summaryBadgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  background: rgb(255 255 255);
+  color: hsl(var(--muted-foreground));
+  font-size: 0.72rem;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.contentMain {
+  min-width: 0;
+  line-height: 1.75;
+}
+
+.contentMain h2 {
+  margin-top: 1.35rem;
+  margin-bottom: 0.55rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid hsl(var(--border));
+  font-size: 1.35rem;
+}
+
+.contentMain h2:first-child {
+  margin-top: 0.25rem;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.contentMain h3 {
+  margin-top: 1.15rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.1rem;
+}
+
+.contentMain h4 {
+  margin-top: 0.9rem;
+  margin-bottom: 0.35rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.97rem;
+}
+
+.contentMain p,
+.contentMain li {
+  color: hsl(var(--foreground));
+}
+
+.contentMain a {
+  color: hsl(var(--primary));
+  text-underline-offset: 2px;
+}
+
+.contentMain a:hover {
+  text-decoration-thickness: 2px;
+}
+
+@media (width >= 1024px) {
+  .contentGrid {
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+@media (width <= 767px) {
+  .summaryActions {
+    position: static;
+    margin-bottom: 0.35rem;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    padding-right: 0;
+  }
+
+  .summaryGrid > div:first-child {
+    justify-self: center;
+  }
+
+  .summaryGlyphCol {
+    align-items: center;
+  }
+
+  .summaryBadgeRow {
+    justify-content: center;
+  }
+
+  .summaryRow {
+    grid-template-columns: 1fr;
+    gap: 0.08rem;
+  }
+}
