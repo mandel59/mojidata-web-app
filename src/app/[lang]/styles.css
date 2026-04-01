@@ -76,18 +76,6 @@
 }
 
 :root {
-  --pico-font-size: 18px;
-  --pico-border-radius: 12px;
-  --pico-form-element-spacing-vertical: 0.9rem;
-  --pico-form-element-spacing-horizontal: 1rem;
-  --pico-spacing: 1rem;
-  --pico-muted-border-color: #dde2ea;
-  --pico-card-border-color: #e5e9f0;
-  --pico-card-background-color: #fcfdff;
-  --pico-primary: #0a67c7;
-  --pico-primary-hover: #0956a5;
-
-  /* shadcn/ui token baseline */
   --background: 210 33% 97%;
   --foreground: 217 30% 17%;
   --card: 0 0% 100%;
@@ -116,10 +104,4 @@ body {
     Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
     Mojidata-SourceHanSerifKR, var(--font-cjksymbols), serif;
   color: #1f2a3a;
-}
-
-@media (width <= 900px) {
-  :root {
-    --pico-font-size: 17px;
-  }
 }
