@@ -1,11 +1,6 @@
 import type { ReactNode } from 'react'
 import DeferredCharSvgImageView from './DeferredCharSvgImageView'
 
-function makeMockSvgDataUrl(label: string) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" width="110" height="110"><rect width="110" height="110" fill="white"/><rect x="5" y="5" width="100" height="100" fill="none" stroke="#222" stroke-width="2"/><text x="55" y="72" text-anchor="middle" font-size="72" font-family="serif" fill="#111">${label}</text></svg>`
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
-}
-
 const meta = {
   title: 'Mojidata/DeferredCharSvgImageView',
   component: DeferredCharSvgImageView,
@@ -25,7 +20,7 @@ const meta = {
     source: 'glyphwiki',
     loaded: false,
     renderImage: false,
-    imageSrc: makeMockSvgDataUrl('漢'),
+    imageSrc: '/storybook-fixtures/glyphwiki-u6f22.svg',
   },
   decorators: [
     (Story: () => ReactNode) => (
@@ -69,7 +64,7 @@ export const GlyphWikiFallback = {
     source: 'glyphwiki',
     loaded: false,
     renderImage: false,
-    imageSrc: makeMockSvgDataUrl('漢'),
+    imageSrc: '/storybook-fixtures/glyphwiki-u6f22.svg',
   },
 }
 
@@ -79,28 +74,28 @@ export const GlyphWikiLoaded = {
     source: 'glyphwiki',
     loaded: true,
     renderImage: true,
-    imageSrc: makeMockSvgDataUrl('漢'),
+    imageSrc: '/storybook-fixtures/glyphwiki-u6f22.svg',
   },
 }
 
 export const IpamjmFallback = {
   args: {
-    char: '𪜈',
-    alt: '𪜈',
+    char: '㐂',
+    alt: '㐂',
     source: 'ipamjm',
     loaded: false,
     renderImage: false,
-    imageSrc: makeMockSvgDataUrl('MJ'),
+    imageSrc: '/storybook-fixtures/ipamjm-u3402.svg',
   },
 }
 
 export const IpamjmLoaded = {
   args: {
-    char: '𪜈',
-    alt: '𪜈',
+    char: '㐂',
+    alt: '㐂',
     source: 'ipamjm',
     loaded: true,
     renderImage: true,
-    imageSrc: makeMockSvgDataUrl('MJ'),
+    imageSrc: '/storybook-fixtures/ipamjm-u3402.svg',
   },
 }

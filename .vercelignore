@@ -10,6 +10,7 @@ node_modules
 out
 playwright-report
 public/assets
+public/storybook-fixtures
 storybook-static
 test-results
 tests

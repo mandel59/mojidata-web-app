@@ -12,6 +12,7 @@
     "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint",
     "lint:css": "stylelint 'src/**/*.css'",
+    "refresh:storybook-fixtures": "./scripts/refresh-storybook-svg-fixtures.sh",
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
