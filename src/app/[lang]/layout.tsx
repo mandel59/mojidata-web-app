@@ -9,6 +9,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
 import { SiteHeader } from './SiteHeader'
 import NavigationPendingIndicator from '@/components/NavigationPendingIndicator'
+import styles from './layout.module.css'
 
 export const metadata: Metadata = {
   title: {
@@ -44,9 +45,11 @@ export default async function RootLayout({
             label={getText('navigation.loading', language)}
           />
         </Suspense>
-        <div className="container mx-auto my-4 space-y-4">
+        <div className={`container ${styles.page}`}>
+          <div className={styles.stack}>
           <SiteHeader siteName={siteName} language={language} />
           <main>{children}</main>
+          </div>
         </div>
         <PreviewWarning />
         <SpeedInsights />

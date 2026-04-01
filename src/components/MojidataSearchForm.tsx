@@ -401,8 +401,8 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 </tbody>
               </table>
             </Modal>
-            <div key="query" className="mt-2">
-              <label htmlFor="mojidata-query-input" className="sr-only">
+            <div key="query" className={styles.section}>
+              <label htmlFor="mojidata-query-input" className={styles.srOnly}>
                 {getText('mojidata-search.placeholder', lang)}
               </label>
               <Input

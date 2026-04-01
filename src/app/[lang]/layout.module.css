@@ -1,0 +1,8 @@
+.page {
+  margin: 1rem auto;
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+}
