@@ -74,34 +74,3 @@
   ascent-override: calc(100% - 100% * 246 / 2048);
   descent-override: calc(100% * 246 / 2048);
 }
-
-:root {
-  --background: 210 33% 97%;
-  --foreground: 217 30% 17%;
-  --card: 0 0% 100%;
-  --card-foreground: 217 30% 17%;
-  --primary: 210 90% 41%;
-  --primary-foreground: 0 0% 100%;
-  --muted: 210 24% 93%;
-  --muted-foreground: 215 16% 35%;
-  --border: 214 26% 88%;
-  --input: 214 26% 88%;
-  --ring: 210 90% 41%;
-  --radius: 0.75rem;
-}
-
-html,
-body {
-  min-height: 100%;
-  background-color: #f3f5f8 !important;
-}
-
-body {
-  min-height: 100vh;
-
-  /* TODO: consider font preference */
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
-    Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
-    Mojidata-SourceHanSerifKR, var(--font-cjksymbols), serif;
-  color: #1f2a3a;
-}

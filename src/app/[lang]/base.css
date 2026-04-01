@@ -1,0 +1,15 @@
+html,
+body {
+  min-height: 100%;
+  background-color: #f3f5f8 !important;
+}
+
+body {
+  min-height: 100vh;
+
+  /* TODO: consider font preference */
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
+    Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
+    Mojidata-SourceHanSerifKR, var(--font-cjksymbols), serif;
+  color: #1f2a3a;
+}
