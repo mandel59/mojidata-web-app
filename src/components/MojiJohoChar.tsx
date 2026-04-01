@@ -5,6 +5,7 @@ import type { Language } from '@/getText'
 import { getText } from '@/getText'
 import IpamjmCharImg from '@/components/IpamjmCharImg'
 import styles from './MojiJohoChar.module.css'
+import charFrameStyles from './MojidataCharFrame.module.css'
 
 const IPAMJM_FONT_FAMILY = '"Mojidata-IPAmjMincho"'
 
@@ -50,7 +51,9 @@ export function MojiJohoChar(props: MojiJohoCharProps): ReactElement {
 
   if (bot || (!forceImage && hasIpamjmFont)) {
     return (
-      <span className={`mojidata-raw-char mojidata-mojijoho ${styles.mojiJoho}`}>
+      <span
+        className={`mojidata-raw-char mojidata-mojijoho ${charFrameStyles.rawChar} ${styles.mojiJoho}`}
+      >
         {char}
       </span>
     )

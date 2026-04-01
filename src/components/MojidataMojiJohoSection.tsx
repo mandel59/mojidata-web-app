@@ -6,6 +6,7 @@ import { getText } from '@/getText'
 import { toCodePoint } from '@/mojidata/mojidataShared'
 import { MojiJohoChar, MojiJohoDisplayModeControl } from '@/components/MojiJohoChar'
 import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
+import charFrameStyles from '@/components/MojidataCharFrame.module.css'
 
 function toCodePoints(s: string) {
   return [...s].map((c) => toCodePoint(c)).join(' ')
@@ -115,7 +116,10 @@ export default function MojidataMojiJohoSection(
                 <br />
                 <small>{toCodePoints(record.char)}</small>
               </figcaption>
-              <div className="mojidata-char" lang="ja">
+              <div
+                className={`mojidata-char ${charFrameStyles.char}`}
+                lang="ja"
+              >
                 <MojiJohoChar
                   char={record.char}
                   forceImage={forceImage}
@@ -135,7 +139,10 @@ export default function MojidataMojiJohoSection(
                 <br />
                 <small>{record.UCS符号位置}</small>
               </figcaption>
-              <div className="mojidata-char" lang="ja">
+              <div
+                className={`mojidata-char ${charFrameStyles.char}`}
+                lang="ja"
+              >
                 {record.文字 ? (
                   <MojiJohoChar
                     char={record.文字}
@@ -144,7 +151,7 @@ export default function MojidataMojiJohoSection(
                   />
                 ) : (
                   <span
-                    className={`mojidata-raw-char mojidata-mojijoho ${mojiJohoStyles.mojiJoho}`}
+                    className={`mojidata-raw-char mojidata-mojijoho ${charFrameStyles.rawChar} ${mojiJohoStyles.mojiJoho}`}
                   >
                     {record.UCS符号位置}
                   </span>

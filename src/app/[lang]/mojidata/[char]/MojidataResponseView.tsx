@@ -33,6 +33,7 @@ import MojidataPermalinkButton from '@/components/MojidataPermalinkButton'
 import MojidataSectionNav from '@/components/MojidataSectionNav'
 import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
+import charFrameStyles from '@/components/MojidataCharFrame.module.css'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -86,6 +87,21 @@ function ConditionalLink(props: ConditionalLinkProps): ReactElement {
   } else {
     return <span>{children}</span>
   }
+}
+
+function buildCharFrameClassName(options: {
+  kdpv?: boolean
+  link?: boolean
+  glyphwiki?: boolean
+}): string {
+  const { kdpv = false, link = false, glyphwiki = false } = options
+  const baseClass = kdpv
+    ? `mojidata-kdpv-char ${charFrameStyles.kdpvChar}`
+    : `mojidata-char ${charFrameStyles.char}`
+  return [baseClass]
+    .concat(link ? `mojidata-char-link ${charFrameStyles.charLink}` : [])
+    .concat(glyphwiki ? `mojidata-char-glyphwiki ${charFrameStyles.glyphwiki}` : [])
+    .join(' ')
 }
 
 export interface MojidataResponseViewParams {
@@ -408,11 +424,11 @@ export default function MojidataResponseView(
         : isIDS
         ? idsfindHref(char)
         : undefined,
-      className: [
-        isIDS || isNonStandardVariant ? 'mojidata-kdpv-char' : 'mojidata-char',
-        isIDS || codePoint ? 'mojidata-char-link' : '',
-        codePoint ? 'mojidata-char-glyphwiki' : '',
-      ].join(' '),
+      className: buildCharFrameClassName({
+        kdpv: isIDS || isNonStandardVariant,
+        link: isIDS || !!codePoint,
+        glyphwiki: !!codePoint,
+      }),
       useGlyphImage: !!codePoint && !bot,
       relationLines,
     }
@@ -435,7 +451,10 @@ export default function MojidataResponseView(
           </div>
           <div className={`mojidata-summary-grid ${styles.summaryGrid}`}>
             <div className={`mojidata-summary-glyph-col ${styles.summaryGlyphCol}`}>
-              <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
+              <div
+                className={buildCharFrameClassName({ glyphwiki: true })}
+                lang="ja"
+              >
                 {bot ? (
                   results.char
                 ) : (
@@ -499,7 +518,13 @@ export default function MojidataResponseView(
                 <figcaption>
                   {canonicalCharacter.UCS} {canonicalCharacter.char}
                 </figcaption>
-                <div className="mojidata-char mojidata-char-link mojidata-char-glyphwiki" lang="ja">
+                <div
+                  className={buildCharFrameClassName({
+                    link: true,
+                    glyphwiki: true,
+                  })}
+                  lang="ja"
+                >
                   <Link href={mojidataHref(canonicalCharacter.char)}>
                     {bot ? (
                       canonicalCharacter.char
@@ -534,7 +559,10 @@ export default function MojidataResponseView(
                       </small>
                     </figcaption>
                     <div
-                      className="mojidata-char mojidata-char-link mojidata-char-glyphwiki"
+                      className={buildCharFrameClassName({
+                        link: true,
+                        glyphwiki: true,
+                      })}
                       lang="ja"
                     >
                       <Link href={mojidataHref(record.CJKCI_char)}>
@@ -591,10 +619,10 @@ export default function MojidataResponseView(
                     <br />
                     <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
                   </figcaption>
-                  <div className="mojidata-char">
+                  <div className={buildCharFrameClassName({})}>
                     <span
                       lang={lang}
-                      className="mojidata-raw-char mojidata-source-han-serif"
+                      className={`mojidata-raw-char mojidata-source-han-serif ${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
                     >
                       {results.char}
                     </span>
@@ -647,10 +675,10 @@ export default function MojidataResponseView(
                         <br />
                         <small>{toCodePoints(record.char)}</small>
                       </figcaption>
-                      <div className="mojidata-char">
+                      <div className={buildCharFrameClassName({})}>
                         <span
                           lang="ja"
-                          className="mojidata-raw-char mojidata-source-han-serif"
+                          className={`mojidata-raw-char mojidata-source-han-serif ${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
                         >
                           {record.char}
                         </span>
@@ -676,8 +704,10 @@ export default function MojidataResponseView(
                     <br />
                     <small>{results.UCS}</small>
                   </figcaption>
-                  <div className="mojidata-char" lang="ja">
-                    <span className="mojidata-raw-char mojidata-source-han-serif">
+                  <div className={buildCharFrameClassName({})} lang="ja">
+                    <span
+                      className={`mojidata-raw-char mojidata-source-han-serif ${charFrameStyles.rawChar} ${charFrameStyles.sourceHanSerif}`}
+                    >
                       {results.char}
                     </span>
                   </div>

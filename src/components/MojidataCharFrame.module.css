@@ -1,0 +1,78 @@
+.char {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0.25rem 0 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: #fff;
+  color: #000;
+  font-size: 100px;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  overflow: clip;
+}
+
+.charLink {
+  border: 1px solid #88f;
+}
+
+.charLink a {
+  display: block;
+  width: fit-content;
+  color: #000;
+  text-decoration: none;
+}
+
+.glyphwiki img,
+.char > img {
+  display: block;
+  padding: 5px;
+}
+
+.rawChar {
+  display: inline-block;
+  height: 100px;
+  line-height: 100px;
+}
+
+.kdpvChar {
+  flex-shrink: 0;
+  margin: 0.25rem 0 0;
+  padding: 0 0.7rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: #fff;
+  font-size: 100px;
+  width: fit-content;
+  height: 120px;
+  line-height: 110px;
+}
+
+.sourceHanSerif {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
+    Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
+    Mojidata-SourceHanSerifKR, serif;
+}
+
+.sourceHanSerif:lang(ja) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP, serif;
+}
+
+.sourceHanSerif:lang(ko) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifKR, serif;
+}
+
+.sourceHanSerif:lang(zh-CN) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifSC, serif;
+}
+
+.sourceHanSerif:lang(zh-TW) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifTC, serif;
+}
+
+.sourceHanSerif:lang(zh-HK) {
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifHK, serif;
+}
