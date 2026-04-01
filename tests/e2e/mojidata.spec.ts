@@ -198,6 +198,9 @@ test('mojidata defers offscreen variant glyph images until scrolled', async ({
   await expect(
     variants.locator('img[src^="/api/glyphwiki/svg/"]'),
   ).toHaveCount(0)
+  await expect(
+    variants.locator('.mojidata-deferred-char-image__fallback').first(),
+  ).toHaveCSS('opacity', '0.42')
 
   await page.locator('#Variants').scrollIntoViewIfNeeded()
 
@@ -217,6 +220,9 @@ test('mojidata defers offscreen variant glyph images until scrolled', async ({
   await expect(
     variants.locator('.mojidata-deferred-char-image__fallback').first(),
   ).toHaveCSS('opacity', '0')
+  await expect(
+    variants.locator('.mojidata-deferred-char-image__img').first(),
+  ).toHaveCSS('z-index', '1')
 
   assertNoBrowserErrors()
   await context.close()
