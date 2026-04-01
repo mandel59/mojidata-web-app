@@ -1,15 +1,13 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import styles from './card.module.css'
 
 function Card({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card"
-      className={cn(
-        'rounded-lg border border-border bg-card text-card-foreground shadow-sm',
-        className,
-      )}
+      className={cn(styles.card, className)}
       {...props}
     />
   )
@@ -19,7 +17,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card-header"
-      className={cn('flex flex-col space-y-1.5 p-6', className)}
+      className={cn(styles.header, className)}
       {...props}
     />
   )
@@ -29,16 +27,14 @@ function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card-title"
-      className={cn('font-semibold leading-none tracking-tight', className)}
+      className={cn(styles.title, className)}
       {...props}
     />
   )
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div data-slot="card-content" className={cn('p-6 pt-0', className)} {...props} />
-  )
+  return <div data-slot="card-content" className={cn(styles.content, className)} {...props} />
 }
 
 export { Card, CardHeader, CardTitle, CardContent }
