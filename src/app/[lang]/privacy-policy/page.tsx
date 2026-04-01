@@ -1,5 +1,6 @@
 // app/privacy/page.tsx
 import type { Metadata } from 'next'
+import styles from '../DocsPage.module.css'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -10,7 +11,7 @@ export default function PrivacyPage(
 ) {
   return (
     <main className="container">
-      <article className="docs-article rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm">
+      <article className={`docs-article ${styles.article}`}>
         <h1>Privacy Policy</h1>
         <p>Last updated: 2025-12-09</p>
 

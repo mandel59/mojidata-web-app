@@ -1,5 +1,6 @@
 import { About } from './About'
 import { getLanguage } from '@/getText'
+import styles from '../DocsPage.module.css'
 
 export default async function AboutPage({
   params,
@@ -8,7 +9,7 @@ export default async function AboutPage({
   const language = getLanguage(lang)
   return (
     <main className="container">
-      <article className="docs-article rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm">
+      <article className={`docs-article ${styles.article}`}>
         <About lang={language} />
       </article>
     </main>
