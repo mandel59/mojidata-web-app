@@ -41,6 +41,8 @@ const meta = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            flexShrink: 0,
+            fontSize: '100px',
             width: '120px',
             height: '120px',
             margin: '0.25rem 0 0',
@@ -48,6 +50,7 @@ const meta = {
             borderRadius: '0.6rem',
             background: '#fff',
             color: '#000',
+            textAlign: 'center',
             overflow: 'clip',
           }}
         >
