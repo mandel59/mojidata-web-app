@@ -46,12 +46,20 @@ Options:
   --config <path>           Read options from a JSON file.
   --current-url <url>       URL to inspect in the current workspace.
   --baseline-url <url>      URL to inspect in the baseline workspace.
+  --user-agent <string>     Browser user agent to use while capturing.
   --wait-for <selector>     Selector to wait for before snapshotting.
   --selector <name=css>     Repeated named selector entries to capture.
   --property <name>         Repeated computed-style property to capture.
   --viewport <width>x<height>
   --delay-ms <number>       Extra delay after the page is ready.
   --child-limit <number>    Number of direct children to include per node.
+  --diff-only               Output only the computed diff object.
+  --changed-only            Omit selectors whose diff is null.
+  --omit-class-name         Do not include className in snapshots.
+  --omit-text               Do not include text excerpts in snapshots.
+  --omit-children           Do not include child snapshots.
+  --compact                 Shorthand for: --diff-only --changed-only
+                            --omit-class-name --omit-text --omit-children
   --output <path>           Write JSON result to a file instead of stdout.
   --help                    Show this help.
 `)
@@ -75,6 +83,9 @@ function parseArgs(argv) {
       case '--baseline-url':
         options.baselineUrl = argv[++i]
         break
+      case '--user-agent':
+        options.userAgent = argv[++i]
+        break
       case '--wait-for':
         options.waitFor = argv[++i]
         break
@@ -92,6 +103,24 @@ function parseArgs(argv) {
         break
       case '--child-limit':
         options.childLimit = Number(argv[++i])
+        break
+      case '--diff-only':
+        options.diffOnly = true
+        break
+      case '--changed-only':
+        options.changedOnly = true
+        break
+      case '--omit-class-name':
+        options.omitClassName = true
+        break
+      case '--omit-text':
+        options.omitText = true
+        break
+      case '--omit-children':
+        options.omitChildren = true
+        break
+      case '--compact':
+        options.compact = true
         break
       case '--output':
         options.output = argv[++i]
@@ -146,6 +175,7 @@ function normalizeOptions(options) {
   return {
     currentUrl: options.currentUrl,
     baselineUrl: options.baselineUrl,
+    userAgent: options.userAgent,
     waitFor: options.waitFor,
     selectorEntries,
     properties: options.properties.length
@@ -156,7 +186,17 @@ function normalizeOptions(options) {
       height: Number(viewportMatch[2]),
     },
     delayMs: Number.isFinite(options.delayMs) ? options.delayMs : 400,
-    childLimit: Number.isFinite(options.childLimit) ? options.childLimit : 6,
+    childLimit:
+      options.compact || options.omitChildren
+        ? 0
+        : Number.isFinite(options.childLimit)
+          ? options.childLimit
+          : 6,
+    includeClassName: !options.compact && !options.omitClassName,
+    includeText: !options.compact && !options.omitText,
+    includeChildren: !options.compact && !options.omitChildren,
+    diffOnly: !!options.diffOnly || !!options.compact,
+    changedOnly: !!options.changedOnly || !!options.compact,
     output: options.output,
   }
 }
@@ -197,6 +237,7 @@ async function capture(url, options) {
   const browser = await chromium.launch()
   const context = await browser.newContext({
     viewport: options.viewport,
+    userAgent: options.userAgent,
   })
   const page = await context.newPage()
   await page.goto(url, { waitUntil: 'domcontentloaded' })
@@ -218,7 +259,14 @@ async function capture(url, options) {
   }
 
   const result = await page.evaluate(
-    ({ selectorEntries, properties, childLimit }) => {
+    ({
+      selectorEntries,
+      properties,
+      childLimit,
+      includeClassName,
+      includeText,
+      includeChildren,
+    }) => {
       function round(value) {
         return Math.round(value * 100) / 100
       }
@@ -228,10 +276,8 @@ async function capture(url, options) {
         if (!node) return null
         const style = getComputedStyle(node)
         const rect = node.getBoundingClientRect()
-        return {
+        const result = {
           tag: node.tagName.toLowerCase(),
-          className: node.className,
-          text: node.textContent?.trim().slice(0, 160) ?? '',
           rect: {
             x: round(rect.x),
             y: round(rect.y),
@@ -241,15 +287,22 @@ async function capture(url, options) {
           styles: Object.fromEntries(
             properties.map((name) => [name, style.getPropertyValue(name)]),
           ),
-          children: Array.from(node.children)
+        }
+
+        if (includeClassName) {
+          result.className = node.className
+        }
+        if (includeText) {
+          result.text = node.textContent?.trim().slice(0, 160) ?? ''
+        }
+        if (includeChildren) {
+          result.children = Array.from(node.children)
             .slice(0, childLimit)
             .map((child) => {
               const childStyle = getComputedStyle(child)
               const childRect = child.getBoundingClientRect()
-              return {
+              const childResult = {
                 tag: child.tagName.toLowerCase(),
-                className: child.className,
-                text: child.textContent?.trim().slice(0, 120) ?? '',
                 rect: {
                   x: round(childRect.x),
                   y: round(childRect.y),
@@ -260,8 +313,17 @@ async function capture(url, options) {
                   properties.map((name) => [name, childStyle.getPropertyValue(name)]),
                 ),
               }
-            }),
+              if (includeClassName) {
+                childResult.className = child.className
+              }
+              if (includeText) {
+                childResult.text = child.textContent?.trim().slice(0, 120) ?? ''
+              }
+              return childResult
+            })
         }
+
+        return result
       }
 
       return Object.fromEntries(
@@ -272,6 +334,9 @@ async function capture(url, options) {
       selectorEntries: options.selectorEntries,
       properties: options.properties,
       childLimit: options.childLimit,
+      includeClassName: options.includeClassName,
+      includeText: options.includeText,
+      includeChildren: options.includeChildren,
     },
   )
 
@@ -301,15 +366,21 @@ const diff = Object.fromEntries(
   ]),
 )
 
-const output = JSON.stringify(
-  {
-    current,
-    baseline,
-    diff,
-  },
-  null,
-  2,
-)
+const selectedKeys = options.changedOnly
+  ? Object.keys(diff).filter((key) => diff[key] !== null)
+  : Object.keys(diff)
+
+const outputPayload = options.diffOnly
+  ? {
+      diff: Object.fromEntries(selectedKeys.map((key) => [key, diff[key]])),
+    }
+  : {
+      current: Object.fromEntries(selectedKeys.map((key) => [key, current[key]])),
+      baseline: Object.fromEntries(selectedKeys.map((key) => [key, baseline[key]])),
+      diff: Object.fromEntries(selectedKeys.map((key) => [key, diff[key]])),
+    }
+
+const output = JSON.stringify(outputPayload, null, 2)
 
 if (options.output) {
   await fs.writeFile(options.output, output)
