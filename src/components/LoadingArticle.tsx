@@ -1,21 +1,20 @@
 'use client'
 
+import styles from './LoadingArticle.module.css'
+
 export default function LoadingArticle() {
   return (
-    <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
-      <div className="mb-3 flex flex-wrap gap-2" aria-hidden>
+    <article className={styles.article}>
+      <div className={styles.chips} aria-hidden>
         {Array.from({ length: 12 }).map((_, i) => (
-          <span
-            key={i}
-            className="h-16 w-16 animate-pulse rounded-md border border-border bg-muted"
-          />
+          <span key={i} className={styles.chip} />
         ))}
       </div>
-      <p className="text-sm text-muted-foreground" aria-live="polite">
+      <p className={styles.message} aria-live="polite">
         Loading...
       </p>
-      <footer className="mt-4 border-t border-border pt-3">
-        <div className="h-8 w-48 animate-pulse rounded bg-muted" aria-hidden />
+      <footer className={styles.footer}>
+        <div className={styles.footerBar} aria-hidden />
       </footer>
     </article>
   )

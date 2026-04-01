@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import styles from './PerfDebugPanel.module.css'
 
 export interface PerfDebugMetric {
   label: string
@@ -21,17 +22,14 @@ export default function PerfDebugPanel(
   const { title = 'Performance', mode, metrics } = props
 
   return (
-    <details
-      open
-      className="rounded-md border border-border bg-card p-3 text-sm text-card-foreground"
-    >
-      <summary className="cursor-pointer font-medium">
+    <details open className={styles.panel}>
+      <summary className={styles.summary}>
         {title} ({mode})
       </summary>
-      <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+      <dl className={styles.metrics}>
         {metrics.map((metric) => (
-          <div key={metric.label} className="contents">
-            <dt className="text-muted-foreground">{metric.label}</dt>
+          <div key={metric.label} className={styles.metricRow}>
+            <dt className={styles.metricLabel}>{metric.label}</dt>
             <dd>{formatDuration(metric.durationMs)}</dd>
           </div>
         ))}

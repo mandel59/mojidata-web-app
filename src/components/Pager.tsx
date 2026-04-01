@@ -1,6 +1,5 @@
-import { buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import styles from './Pager.module.css'
 
 export interface PagerProps {
   prev?: string | null
@@ -14,36 +13,36 @@ export function Pager(props: PagerProps) {
   const { prev, next, pageNum, totalPages, prefetch } = props
 
   return (
-    <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
-      <div className="w-20 text-center">
+    <div className={styles.root}>
+      <div className={styles.side}>
         {prev ? (
           <Link
             href={prev}
             prefetch={prefetch}
             scroll={false}
-            className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
+            className={styles.link}
           >
             Prev
           </Link>
         ) : (
-          <span className="inline-block w-full text-muted-foreground">&nbsp;</span>
+          <span className={styles.placeholder}>&nbsp;</span>
         )}
       </div>
-      <div className="w-40 text-center text-sm font-medium text-muted-foreground">
+      <div className={styles.status}>
         page {pageNum} of {totalPages || 1}
       </div>
-      <div className="w-20 text-center">
+      <div className={styles.side}>
         {next ? (
           <Link
             href={next}
             prefetch={prefetch}
             scroll={false}
-            className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
+            className={styles.link}
           >
             Next
           </Link>
         ) : (
-          <span className="inline-block w-full text-muted-foreground">&nbsp;</span>
+          <span className={styles.placeholder}>&nbsp;</span>
         )}
       </div>
     </div>
