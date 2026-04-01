@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import styles from './MojidataPageShell.module.css'
 
 export interface MojidataPageShellProps {
   spaMarker?: boolean
@@ -30,7 +31,7 @@ export default function MojidataPageShell(props: MojidataPageShellProps) {
 
   return (
     <div>
-      <main className="container mojidata-page-main">
+      <main className={`container ${styles.main}`}>
         {prelude}
         {content}
       </main>

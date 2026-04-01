@@ -11,7 +11,7 @@ export default function PrivacyPage(
 ) {
   return (
     <main className="container">
-      <article className={`docs-article ${styles.article}`}>
+      <article className={styles.article}>
         <h1>Privacy Policy</h1>
         <p>Last updated: 2025-12-09</p>
 

@@ -131,61 +131,6 @@ article > footer {
   border-top: 1px solid #e8ecf2;
 }
 
-.docs-article {
-  line-height: 1.8;
-}
-
-.docs-article h1 {
-  margin-bottom: 0.6rem;
-  font-size: clamp(1.7rem, 2.1vw, 2.1rem);
-}
-
-.docs-article h2 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-}
-
-.docs-article hr {
-  margin: 1.1rem 0;
-  border: 0;
-  border-top: 1px solid hsl(var(--border));
-}
-
-.docs-article h3 {
-  margin-top: 1rem;
-  margin-bottom: 0.35rem;
-  font-size: 1rem;
-  color: hsl(var(--muted-foreground));
-}
-
-.docs-article p,
-.docs-article li {
-  color: hsl(var(--foreground));
-}
-
-.docs-article ul,
-.docs-article ol {
-  padding-left: 1.35rem;
-}
-
-.docs-article ul {
-  list-style: disc;
-}
-
-.docs-article ol {
-  list-style: decimal;
-}
-
-.docs-article a {
-  color: hsl(var(--primary));
-  text-underline-offset: 2px;
-}
-
-.docs-article a:hover {
-  text-decoration-thickness: 2px;
-}
-
 table {
   width: 100%;
   border-collapse: separate;
@@ -224,10 +169,6 @@ thead th:last-child {
 
 tbody tr:last-child td {
   border-bottom: 0;
-}
-
-.mojidata-page-main {
-  padding-bottom: max(26vh, 10rem);
 }
 
 @media (width <= 900px) {

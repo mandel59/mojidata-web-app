@@ -9,7 +9,7 @@ export default async function AboutPage({
   const language = getLanguage(lang)
   return (
     <main className="container">
-      <article className={`docs-article ${styles.article}`}>
+      <article className={styles.article}>
         <About lang={language} />
       </article>
     </main>
