@@ -268,3 +268,20 @@ test('search quick examples do not trigger the navigation progress bar', async (
   await expect(page.locator('input[name="query"]').first()).toHaveValue('⿰日月')
   await expect(progressBar).toHaveCount(0)
 })
+
+test('mojidata section links do not trigger the navigation progress bar', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const progressBar = page.locator('[data-navigation-pending="true"]')
+  await page
+    .locator('.mojidata-section-nav a[href="#Glyph_Comparison"]')
+    .first()
+    .click()
+
+  await expect.poll(() => page.url()).toContain('#Glyph_Comparison')
+  await expect(progressBar).toHaveCount(0)
+})

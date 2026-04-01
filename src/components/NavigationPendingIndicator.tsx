@@ -75,8 +75,7 @@ export default function NavigationPendingIndicator(
       if (url.origin !== window.location.origin) return
       if (
         url.pathname === window.location.pathname &&
-        url.search === window.location.search &&
-        url.hash === window.location.hash
+        url.search === window.location.search
       ) {
         return
       }
