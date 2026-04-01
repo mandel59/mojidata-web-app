@@ -48,3 +48,6 @@ cache/*
 src/fonts/*.otf
 src/fonts/jigmo/*.ttf
 src/fonts/ipamjm/*.ttf
+
+*storybook.log
+storybook-static

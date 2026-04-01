@@ -8,6 +8,8 @@ export interface DeferredCharSvgImageProps {
   size: number
   alt?: string
   source: 'glyphwiki' | 'ipamjm'
+  debugLoadState?: 'auto' | 'fallback' | 'loaded'
+  debugSrc?: string
 }
 
 function buildSrc(source: DeferredCharSvgImageProps['source'], char: string) {
@@ -21,14 +23,25 @@ function buildSrc(source: DeferredCharSvgImageProps['source'], char: string) {
 export default function DeferredCharSvgImage(
   props: DeferredCharSvgImageProps,
 ) {
-  const { char, size, alt, source } = props
+  const {
+    char,
+    size,
+    alt,
+    source,
+    debugLoadState = 'auto',
+    debugSrc,
+  } = props
   const [shouldLoadImage, setShouldLoadImage] = useState(false)
   const [loadedImageKey, setLoadedImageKey] = useState<string | null>(null)
   const rootRef = useRef<HTMLSpanElement | null>(null)
   const imageKey = `${source}:${char}`
-  const loaded = loadedImageKey === imageKey
+  const forcedFallback = debugLoadState === 'fallback'
+  const forcedLoaded = debugLoadState === 'loaded'
+  const loaded = forcedLoaded || loadedImageKey === imageKey
+  const imageSrc = debugSrc ?? buildSrc(source, char)
 
   useEffect(() => {
+    if (debugLoadState !== 'auto') return
     const root = rootRef.current
     if (!root) return
     if (typeof IntersectionObserver === 'undefined') {
@@ -54,7 +67,9 @@ export default function DeferredCharSvgImage(
     return () => {
       observer.disconnect()
     }
-  }, [char, source])
+  }, [char, source, debugLoadState])
+
+  const renderImage = forcedLoaded || shouldLoadImage
 
   return (
     <span
@@ -71,10 +86,10 @@ export default function DeferredCharSvgImage(
       >
         {char}
       </span>
-      {shouldLoadImage ? (
+      {renderImage && !forcedFallback ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={buildSrc(source, char)}
+          src={imageSrc}
           width={size}
           height={size}
           loading="lazy"
