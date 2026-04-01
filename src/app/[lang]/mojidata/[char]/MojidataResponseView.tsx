@@ -81,7 +81,7 @@ function ConditionalLink(props: ConditionalLinkProps): ReactElement {
   if (href) {
     // FIXME: Next.js bug? Navigation history is not recorded correctly when using Link.
     return (
-      <Link href={href} prefetch={false}>
+      <Link href={href} prefetch={false} scroll>
         {children}
       </Link>
     )
@@ -528,7 +528,7 @@ export default function MojidataResponseView(
                   })}
                   lang="ja"
                 >
-                  <Link href={mojidataHref(canonicalCharacter.char)}>
+                  <Link href={mojidataHref(canonicalCharacter.char)} scroll>
                     {bot ? (
                       canonicalCharacter.char
                     ) : (
@@ -570,7 +570,7 @@ export default function MojidataResponseView(
                       })}
                       lang="ja"
                     >
-                      <Link href={mojidataHref(record.CJKCI_char)}>
+                      <Link href={mojidataHref(record.CJKCI_char)} scroll>
                         {bot ? (
                           record.CJKCI_char
                         ) : (
