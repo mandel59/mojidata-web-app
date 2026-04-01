@@ -1,6 +1,6 @@
 .article {
   border: 1px solid hsl(var(--border));
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
   background: hsl(var(--card));
   padding: 1rem;
   color: hsl(var(--card-foreground));
@@ -25,6 +25,7 @@
 
 .message {
   font-size: 0.875rem;
+  line-height: 1.25rem;
   color: hsl(var(--muted-foreground));
 }
 

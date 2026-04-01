@@ -57,7 +57,15 @@ export function MojiJohoChar(props: MojiJohoCharProps): ReactElement {
     )
   }
 
-  return <IpamjmCharImg char={char} size={size} alt={char} />
+  return (
+    <IpamjmCharImg
+      char={char}
+      size={size}
+      alt={char}
+      loading="eager"
+      fetchPriority="high"
+    />
+  )
 }
 
 export function MojiJohoDisplayModeControl(props: {
