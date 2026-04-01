@@ -118,19 +118,6 @@ body {
   color: #1f2a3a;
 }
 
-.container > .grid {
-  align-items: flex-start;
-  gap: 1.25rem;
-}
-
-article h2 {
-  margin-bottom: 0.7rem;
-}
-
-article > footer {
-  border-top: 1px solid #e8ecf2;
-}
-
 @media (width <= 900px) {
   :root {
     --pico-font-size: 17px;
