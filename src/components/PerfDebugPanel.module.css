@@ -1,10 +1,5 @@
 .panel {
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.375rem;
-  background: hsl(var(--card));
-  padding: 0.75rem;
   font-size: 0.875rem;
-  color: hsl(var(--card-foreground));
 }
 
 .summary {

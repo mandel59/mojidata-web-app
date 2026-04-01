@@ -3,6 +3,8 @@
 import { ReactNode, useState, useSyncExternalStore } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Drawer } from '@/components/ui/drawer'
+import { cn } from '@/lib/utils'
+import surfaceStyles from './Surface.module.css'
 import styles from './MobileFormDrawer.module.css'
 
 export interface MobileFormDrawerProps {
@@ -25,9 +27,15 @@ export default function MobileFormDrawer({
 
   if (!hydrated) {
     return (
-      <details className={styles.fallback}>
+      <details
+        className={cn(
+          surfaceStyles.cardSurface,
+          surfaceStyles.radiusSm,
+          surfaceStyles.paddingSm,
+        )}
+      >
         <summary
-          className={`${buttonVariants({ size: 'sm' })} ${styles.fallbackSummary}`}
+          className={cn(buttonVariants({ size: 'sm' }), styles.fallbackSummary)}
         >
           {buttonLabel}
         </summary>
@@ -37,7 +45,13 @@ export default function MobileFormDrawer({
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={cn(
+        surfaceStyles.cardSurface,
+        surfaceStyles.radiusSm,
+        surfaceStyles.paddingSm,
+      )}
+    >
       <Button
         type="button"
         size="sm"

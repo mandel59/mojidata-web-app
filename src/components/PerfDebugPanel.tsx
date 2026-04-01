@@ -1,4 +1,6 @@
 import type { ReactElement } from 'react'
+import { cn } from '@/lib/utils'
+import surfaceStyles from './Surface.module.css'
 import styles from './PerfDebugPanel.module.css'
 
 export interface PerfDebugMetric {
@@ -22,7 +24,15 @@ export default function PerfDebugPanel(
   const { title = 'Performance', mode, metrics } = props
 
   return (
-    <details open className={styles.panel}>
+    <details
+      open
+      className={cn(
+        surfaceStyles.cardSurface,
+        surfaceStyles.radiusSm,
+        surfaceStyles.paddingMd,
+        styles.panel,
+      )}
+    >
       <summary className={styles.summary}>
         {title} ({mode})
       </summary>
