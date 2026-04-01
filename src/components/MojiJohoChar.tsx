@@ -3,7 +3,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
-import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
+import IpamjmCharImg from '@/components/IpamjmCharImg'
 
 const IPAMJM_FONT_FAMILY = '"Mojidata-IPAmjMincho"'
 
@@ -51,9 +51,7 @@ export function MojiJohoChar(props: MojiJohoCharProps): ReactElement {
     return <span className="mojidata-raw-char mojidata-mojijoho">{char}</span>
   }
 
-  return (
-    <DeferredCharSvgImage char={char} size={size} alt={char} source="ipamjm" />
-  )
+  return <IpamjmCharImg char={char} size={size} alt={char} />
 }
 
 export function MojiJohoDisplayModeControl(props: {
