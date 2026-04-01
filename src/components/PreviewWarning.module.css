@@ -1,0 +1,45 @@
+.toast {
+  position: fixed;
+  right: 0;
+  bottom: 0.8rem;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.8rem;
+  pointer-events: none;
+}
+
+.card {
+  width: min(820px, 100%);
+  border-style: dashed;
+  background: #f9fbfe;
+  pointer-events: auto;
+  box-shadow: 0 8px 28px rgb(20 32 52 / 15%);
+}
+
+.content {
+  padding-top: 0.7rem;
+  padding-bottom: 0.55rem;
+}
+
+.content p {
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.actions p {
+  flex: 1 1 auto;
+}
+
+@media (width <= 640px) {
+  .actions {
+    flex-direction: column;
+  }
+}

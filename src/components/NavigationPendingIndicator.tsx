@@ -2,6 +2,7 @@
 
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import styles from './NavigationPendingIndicator.module.css'
 
 export interface NavigationPendingIndicatorProps {
   label: string
@@ -96,12 +97,12 @@ export default function NavigationPendingIndicator(
 
   return (
     <div
-      className="navigation-progress"
+      className={styles.progress}
       data-navigation-pending={pending ? 'true' : 'false'}
       aria-hidden={!pending}
     >
-      <div className="navigation-progress__bar" />
-      <span className="sr-only" aria-live="polite">
+      <div className={styles.bar} />
+      <span className={styles.srOnly} aria-live="polite">
         {pending ? label : ''}
       </span>
     </div>

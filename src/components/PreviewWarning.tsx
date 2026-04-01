@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ReactElement, useMemo, useSyncExternalStore } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button, buttonVariants } from '@/components/ui/button'
+import styles from './PreviewWarning.module.css'
 
 const DISMISS_EVENT = 'preview-warning-dismiss'
 
@@ -56,10 +57,10 @@ export default function PreviewWarning(): ReactElement {
     window.dispatchEvent(new Event(DISMISS_EVENT))
   }
   return (
-    <div className="preview-warning-toast" role="status" aria-live="polite">
-      <Card>
-        <CardContent className="preview-warning-content">
-          <div className="preview-warning-actions">
+    <div className={styles.toast} role="status" aria-live="polite">
+      <Card className={styles.card}>
+        <CardContent className={styles.content}>
+          <div className={styles.actions}>
             <p>
               This is a preview of the site. The production site is at &lt;
               <Link href="https://mojidata.ryusei.dev/">
