@@ -473,6 +473,12 @@
   padding: 5px;
 }
 
+.mojidata-char > .mojidata-deferred-char-image,
+.mojidata-kdpv-char > .mojidata-deferred-char-image {
+  display: block;
+  padding: 5px;
+}
+
 .mojidata-char > img {
   display: block;
   padding: 5px;
