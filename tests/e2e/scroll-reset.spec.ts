@@ -23,6 +23,10 @@ async function newCheckedPage(context: BrowserContext) {
   return { page, assertNoBrowserErrors }
 }
 
+function firstMojidataResultLink(page: import('@playwright/test').Page) {
+  return page.locator('article a[href*="/mojidata/"]').first()
+}
+
 test('non-SPA (bot route) navigation resets scroll position on link click', async ({
   browser,
 }) => {
@@ -30,17 +34,17 @@ test('non-SPA (bot route) navigation resets scroll position on link click', asyn
   const { page, assertNoBrowserErrors } = await newCheckedPage(context)
 
   await page.goto('/ja-JP/search?query=%E6%BC%A2', { waitUntil: 'domcontentloaded' })
-  await expect(page.locator('.ids-find-result-char a').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
-  await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
+  await expect(firstMojidataResultLink(page)).toHaveAttribute(
     'href',
     /\/mojidata\//,
   )
 
   await makePageScrollable(page)
 
-  await page.locator('.ids-find-result-char a').first().click()
+  await firstMojidataResultLink(page).click()
   await page.waitForURL(/\/mojidata\//)
   await expect(
     page.getByRole('heading', { level: 2, name: /文字データ|Character Data/ }),
@@ -55,17 +59,17 @@ test('SPA navigation resets scroll position on link click', async ({ page }) => 
   await page.goto('/ja-JP/search-spa?query=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
   })
-  await expect(page.locator('.ids-find-result-char a').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
-  await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
+  await expect(firstMojidataResultLink(page)).toHaveAttribute(
     'href',
     /\/mojidata\//,
   )
 
   await makePageScrollable(page)
 
-  await page.locator('.ids-find-result-char a').first().click()
+  await firstMojidataResultLink(page).click()
   await page.waitForURL(/\/mojidata\//)
   await expect(page.locator('.mojidata-response')).toHaveCount(1, {
     timeout: 60_000,

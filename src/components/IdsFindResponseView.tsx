@@ -73,7 +73,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                 )}`
             return (
               <div
-                className={`ids-find-result-char ${styles.resultChar}`}
+                className={styles.resultChar}
                 lang="ja"
                 key={char}
                 title={toRefName(char)}
@@ -82,7 +82,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                   href={href ?? glyphHref}
                   disableExternalLinks={disableExternalLinks}
                   prefetchOnIntent={!!href && resultPrefetchOnIntent}
-                  className={`ids-find-result-link ${styles.resultLink} ${styles.resultGlyphImage}`}
+                  className={`${styles.resultLink} ${styles.resultGlyphImage}`}
                 >
                   {bot ? (
                     char

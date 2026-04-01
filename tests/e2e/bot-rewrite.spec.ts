@@ -142,7 +142,7 @@ test('mobile non-SPA search keeps drawer trigger above results', async ({
   })
 
   const trigger = page.getByText(/Mojidata Search|Mojidata 検索/).first()
-  const result = page.locator('.ids-find-result-char:visible').first()
+  const result = page.locator('article a[href*="/mojidata/"]:visible').first()
 
   await expect(page.locator('#mojidata-query-input:visible')).toHaveCount(0)
   await expect(trigger).toBeVisible()

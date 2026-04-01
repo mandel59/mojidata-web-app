@@ -1,5 +1,9 @@
 import { expect, test } from './fixtures'
 
+function firstMojidataResultLink(page: import('@playwright/test').Page) {
+  return page.locator('article a[href*="/mojidata/"]').first()
+}
+
 test('search-spa renders results in browser', async ({ page }) => {
   const sawWasm = page.waitForRequest((req) =>
     req.url().includes('/assets/sql-wasm.wasm'),
@@ -20,10 +24,10 @@ test('search-spa renders results in browser', async ({ page }) => {
     'href',
     /\/search\?query=/,
   )
-  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
-  await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
+  await expect(firstMojidataResultLink(page)).toHaveAttribute(
     'href',
     /\/mojidata\//,
   )
@@ -35,7 +39,7 @@ test('canonical search defaults to client-data in browser', async ({ page }) => 
   })
 
   await expect(page.locator('[data-spa="search"]')).toHaveCount(1)
-  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
 })
@@ -48,7 +52,7 @@ test('canonical search can render client-data mode in browser', async ({
   })
 
   await expect(page.locator('[data-spa="search"]')).toHaveCount(1)
-  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
 })
@@ -59,7 +63,7 @@ test('canonical search uses two-column layout on desktop', async ({ page }) => {
   })
 
   const input = page.locator('#mojidata-query-input:visible').first()
-  const result = page.locator('.ids-find-result-char:visible').first()
+  const result = firstMojidataResultLink(page)
 
   await expect(input).toBeVisible()
   await expect(result).toBeVisible({ timeout: 60_000 })
@@ -91,7 +95,7 @@ test('canonical search paging keeps results visible on desktop', async ({
   await expect(page).toHaveURL(/\/(?:ja-JP\/)?search\?query=.*page=2/)
   await expect(page.getByText('No results found.')).toHaveCount(0)
   await expect(article).toBeVisible()
-  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
 
@@ -115,7 +119,7 @@ test('server-data search paging works on desktop', async ({ page }) => {
     /\/(?:ja-JP\/)?search\?executionMode=server-data&query=.*page=2|\/(?:ja-JP\/)?search\?query=.*executionMode=server-data&page=2/,
   )
   await expect(page.getByText('No results found.')).toHaveCount(0)
-  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
 })
@@ -179,10 +183,10 @@ test('idsfind-spa renders results in browser', async ({ page }) => {
     'href',
     /\/idsfind\?whole=/,
   )
-  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
-  await expect(page.locator('.ids-find-result-char a').first()).toHaveAttribute(
+  await expect(firstMojidataResultLink(page)).toHaveAttribute(
     'href',
     /\/mojidata\//,
   )
@@ -199,7 +203,7 @@ test('canonical idsfind can render client-data mode in browser', async ({
   )
 
   await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(1)
-  await expect(page.locator('.ids-find-result-char').first()).toBeVisible({
+  await expect(firstMojidataResultLink(page)).toBeVisible({
     timeout: 60_000,
   })
 })

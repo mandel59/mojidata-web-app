@@ -250,7 +250,7 @@ test('server-data search-to-mojidata navigation shows immediate feedback', async
   await page.goto('/ja-JP/search?query=%E6%97%A5', {
     waitUntil: 'domcontentloaded',
   })
-  const firstResultLink = page.locator('.ids-find-result-link').first()
+  const firstResultLink = page.locator('article a[href*="/mojidata/"]').first()
   await expect(firstResultLink).toBeVisible()
 
   await firstResultLink.click()
