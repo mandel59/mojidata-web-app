@@ -15,6 +15,8 @@ globalIgnores([
   'test-results/**',
   'playwright-report/**',
   'storybook-static/**',
+  // Repo-local comparison workspaces:
+  'workspaces/**',
 ]), ...storybook.configs["flat/recommended"]])
 
 export default eslintConfig

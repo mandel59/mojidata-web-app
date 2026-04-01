@@ -15,7 +15,8 @@
     "refresh:storybook-fixtures": "./scripts/refresh-storybook-svg-fixtures.sh",
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "compare:styles": "node scripts/compare-rendered-styles.mjs"
   },
   "dependencies": {
     "@mandel59/idsdb": "^1.7.0",
