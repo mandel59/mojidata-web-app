@@ -3,29 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { getText, type Language } from '@/getText'
-import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
+import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
 import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 
 export interface MojidataDeferredVariantsProps {
   lang: Language
   entries: MojidataVariantEntry[]
-}
-
-function GlyphImage(props: { char: string }) {
-  const { char } = props
-  const name = toGlyphWikiName(char)
-  const src = `/api/glyphwiki/svg/${encodeURIComponent(name)}`
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      width={110}
-      height={110}
-      loading="lazy"
-      decoding="async"
-      alt={char}
-    />
-  )
 }
 
 export default function MojidataDeferredVariants(
@@ -71,13 +54,23 @@ export default function MojidataDeferredVariants(
                 {entry.href ? (
                   <Link href={entry.href} prefetch={false}>
                     {entry.useGlyphImage ? (
-                      <GlyphImage char={entry.char} />
+                      <DeferredCharSvgImage
+                        char={entry.char}
+                        size={110}
+                        alt={entry.char}
+                        source="glyphwiki"
+                      />
                     ) : (
                       entry.char
                     )}
                   </Link>
                 ) : entry.useGlyphImage ? (
-                  <GlyphImage char={entry.char} />
+                  <DeferredCharSvgImage
+                    char={entry.char}
+                    size={110}
+                    alt={entry.char}
+                    source="glyphwiki"
+                  />
                 ) : (
                   entry.char
                 )}

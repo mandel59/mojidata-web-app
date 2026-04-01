@@ -24,9 +24,9 @@ import type { MojidataResults } from '@/mojidata/mojidataShared'
 import './styles.css'
 import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
+import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
 import { Language, getText } from '@/getText'
 import MojidataDeferredVariants from '@/components/MojidataDeferredVariants'
-import MojidataJsonSection from '@/components/MojidataJsonSection'
 import MojidataMojiJohoSection from '@/components/MojidataMojiJohoSection'
 import MojidataPermalinkButton from '@/components/MojidataPermalinkButton'
 import MojidataSectionNav from '@/components/MojidataSectionNav'
@@ -434,7 +434,17 @@ export default function MojidataResponseView(
           <div className="mojidata-summary-grid">
             <div className="mojidata-summary-glyph-col">
               <div className="mojidata-char mojidata-char-glyphwiki" lang="ja">
-                {bot ? results.char : <GlyphWikiCharImg char={results.char} size={110} alt={results.char} />}
+                {bot ? (
+                  results.char
+                ) : (
+                  <GlyphWikiCharImg
+                    char={results.char}
+                    size={110}
+                    alt={results.char}
+                    loading="eager"
+                    fetchPriority="high"
+                  />
+                )}
               </div>
               {summaryBadges.length > 0 && (
                 <div className="mojidata-summary-badge-row">
@@ -492,10 +502,11 @@ export default function MojidataResponseView(
                     {bot ? (
                       canonicalCharacter.char
                     ) : (
-                      <GlyphWikiCharImg
+                      <DeferredCharSvgImage
                         char={canonicalCharacter.char}
                         size={110}
                         alt={canonicalCharacter.char}
+                        source="glyphwiki"
                       />
                     )}
                   </Link>
@@ -528,10 +539,11 @@ export default function MojidataResponseView(
                         {bot ? (
                           record.CJKCI_char
                         ) : (
-                          <GlyphWikiCharImg
+                          <DeferredCharSvgImage
                             char={record.CJKCI_char}
                             size={110}
                             alt={record.CJKCI}
+                            source="glyphwiki"
                           />
                         )}
                       </Link>
@@ -701,10 +713,11 @@ export default function MojidataResponseView(
                 <div className={entry.className}>
                   <ConditionalLink href={entry.href}>
                     {entry.useGlyphImage ? (
-                      <GlyphWikiCharImg
+                      <DeferredCharSvgImage
                         char={entry.char}
                         size={110}
                         alt={entry.char}
+                        source="glyphwiki"
                       />
                     ) : (
                       entry.char
@@ -800,7 +813,7 @@ export default function MojidataResponseView(
           </>
         )}
             <h2 id="JSON">{getText('json.h3', lang)}</h2>
-            <MojidataJsonSection char={results.char} lang={lang} />
+            <pre>{JSON.stringify(results, null, 2)}</pre>
           </div>
         </div>
       </div>

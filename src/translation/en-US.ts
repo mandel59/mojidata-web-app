@@ -92,9 +92,6 @@ export const translationEnUs: Translation = {
   'variants.show-less.button': 'Show less',
   'external-links.h3': 'External Links',
   'json.h3': 'JSON',
-  'json.show.button': 'Show JSON',
-  'json.loading': 'Loading JSON…',
-  'json.error': 'Failed to load JSON.',
   'mojidata-search.placeholder': 'Enter search queries...',
   'ids-multiple-sequences-can-be-entered.label':
     'IDS (Multiple sequences can be entered)',

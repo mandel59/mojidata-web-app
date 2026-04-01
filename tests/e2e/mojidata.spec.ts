@@ -170,20 +170,45 @@ test('mojidata server-data can show perf debug panel', async ({ page }) => {
   await expect(page.getByText(/total data load/)).toBeVisible()
 })
 
-test('mojidata json is loaded on demand', async ({ page }) => {
+test('mojidata json is visible on initial render', async ({ page }) => {
   await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
   })
 
   await expect(
     page.locator('pre').filter({ hasText: '"UCS"' }),
+  ).toBeVisible()
+})
+
+test('mojidata defers offscreen variant glyph images until scrolled', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    userAgent: MOBILE_UA,
+    viewport: { width: 390, height: 844 },
+  })
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
+
+  await page.goto('/ja-JP/mojidata/%E6%B0%B4', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const variants = page.locator('.mojidata-variants-comparison')
+  await expect(variants).toBeVisible()
+  await expect(
+    variants.locator('img[src^="/api/glyphwiki/svg/"]'),
   ).toHaveCount(0)
 
-  await page.getByRole('button', { name: /JSONを表示|Show JSON/ }).click()
+  await page.locator('#Variants').scrollIntoViewIfNeeded()
 
-  await expect(
-    page.locator('pre').filter({ hasText: '"UCS"' }),
-  ).toBeVisible()
+  await expect
+    .poll(async () => {
+      return await variants.locator('img[src^="/api/glyphwiki/svg/"]').count()
+    })
+    .toBeGreaterThan(0)
+
+  assertNoBrowserErrors()
+  await context.close()
 })
 
 test('server-data search-to-mojidata navigation shows immediate feedback', async ({
