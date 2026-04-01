@@ -1,6 +1,7 @@
 .DS_Store
 .jj
 .next
+.storybook
 .vercel
 build
 cache
@@ -9,10 +10,16 @@ node_modules
 out
 playwright-report
 public/assets
+storybook-static
 test-results
+tests
+workspaces
 *.pem
 *.tsbuildinfo
 next-env.d.ts
 npm-debug.log*
+playwright.visual.config.ts
+src/**/*.stories.ts
+src/**/*.stories.tsx
 yarn-debug.log*
 yarn-error.log*
