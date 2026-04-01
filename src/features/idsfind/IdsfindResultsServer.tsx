@@ -1,5 +1,4 @@
 import { ReactElement } from 'react'
-import '@/app/[lang]/idsfind/styles.css'
 import IdsFindResponseView from '@/components/IdsFindResponseView'
 import { fetchIdsFindServer } from './fetchIdsfindServer'
 import { getCanonicalRoutePath } from '@/deliveryPolicy'

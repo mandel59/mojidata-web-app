@@ -10,34 +10,53 @@
 .results {
   display: flex;
   flex-flow: row wrap;
-  gap: 0.5rem;
+  gap: 0.45rem;
   margin-bottom: 0.5rem;
 }
 
 .resultChar {
   display: flex;
-  width: 4rem;
-  height: 4rem;
-  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  overflow: clip;
+  flex-shrink: 0;
   border: 1px solid hsl(var(--border));
   border-radius: 0.6rem;
-  background: rgb(255 255 255);
-  text-align: center;
+  background: #fff;
   font-size: 50px;
+  width: 64px;
+  height: 64px;
   line-height: 55px;
+  text-align: center;
+  overflow: clip;
   transition:
-    transform 100ms ease-out,
-    box-shadow 100ms ease-out,
-    border-color 100ms ease-out;
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease;
 }
 
 .resultChar:hover {
   transform: translateY(-1px);
   border-color: hsl(var(--primary));
   box-shadow: 0 8px 18px rgb(15 23 42 / 8%);
+}
+
+.resultLink {
+  display: block;
+  color: #111;
+  text-decoration: none;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease,
+    filter 120ms ease;
+}
+
+.resultLink[data-pending='true'] {
+  opacity: 0.55;
+  filter: saturate(0.7);
+}
+
+.resultGlyphImage img {
+  display: block;
 }
 
 .empty {

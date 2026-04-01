@@ -82,7 +82,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                   href={href ?? glyphHref}
                   disableExternalLinks={disableExternalLinks}
                   prefetchOnIntent={!!href && resultPrefetchOnIntent}
-                  className="ids-find-result-link"
+                  className={`ids-find-result-link ${styles.resultLink} ${styles.resultGlyphImage}`}
                 >
                   {bot ? (
                     char
