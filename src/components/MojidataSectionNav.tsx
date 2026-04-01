@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import styles from './MojidataSectionNav.module.css'
 
 export interface MojidataSectionNavSection {
   id: string
@@ -68,7 +69,9 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
     <a
       key={section.id}
       href={`#${section.id}`}
-      className={section.id === activeSectionId ? 'is-active' : undefined}
+      className={`${styles.link}${
+        section.id === activeSectionId ? ` ${styles.active}` : ''
+      }`}
     >
       {section.label}
     </a>
@@ -77,17 +80,40 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
   return (
     <>
       <nav
-        className="mojidata-section-nav mojidata-section-nav-mobile"
+        className={`mojidata-section-nav mojidata-section-nav-mobile ${styles.nav} ${styles.mobile}`}
         aria-label="Mojidata sections"
       >
-        {links}
+        {sections.map((section) => (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            className={`${styles.link} ${styles.mobileLink}${
+              section.id === activeSectionId ? ` ${styles.active}` : ''
+            }`}
+          >
+            {section.label}
+          </a>
+        ))}
       </nav>
-      <aside className="mojidata-toc-sidebar" aria-label="Mojidata table of contents">
+      <aside
+        className={`mojidata-toc-sidebar ${styles.sidebar}`}
+        aria-label="Mojidata table of contents"
+      >
         <nav
-          className="mojidata-section-nav mojidata-section-nav-sidebar"
+          className={`mojidata-section-nav mojidata-section-nav-sidebar ${styles.nav} ${styles.sidebarNav}`}
           aria-label="Mojidata sections"
         >
-          {links}
+          {sections.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className={`${styles.link} ${styles.sidebarLink}${
+                section.id === activeSectionId ? ` ${styles.active}` : ''
+              }`}
+            >
+              {section.label}
+            </a>
+          ))}
         </nav>
       </aside>
     </>

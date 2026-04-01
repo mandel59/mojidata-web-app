@@ -1,0 +1,76 @@
+.sidebar {
+  display: none;
+}
+
+.nav {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.mobile {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.link {
+  display: inline-block;
+  flex: 0 0 auto;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  background: rgb(255 255 255);
+  color: hsl(var(--muted-foreground));
+  white-space: nowrap;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
+}
+
+.active {
+  background: hsl(var(--background));
+  color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.mobileLink {
+  padding: 0.4rem 0.55rem;
+  border-radius: 0.6rem;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.25;
+}
+
+@media (width <= 420px) {
+  .mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width >= 1024px) {
+  .sidebar {
+    position: sticky;
+    top: 1rem;
+    display: block;
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  .sidebarNav {
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-right: 0.4rem;
+  }
+
+  .sidebarLink {
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.6rem;
+  }
+}

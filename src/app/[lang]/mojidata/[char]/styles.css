@@ -141,85 +141,10 @@
   text-decoration-thickness: 2px;
 }
 
-.mojidata-toc-sidebar {
-  display: none;
-}
-
-.mojidata-section-nav {
-  display: flex;
-  gap: 0.45rem;
-}
-
-.mojidata-section-nav-mobile {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.4rem;
-}
-
-.mojidata-section-nav a {
-  display: inline-block;
-  flex: 0 0 auto;
-  white-space: nowrap;
-  border: 1px solid hsl(var(--border));
-  border-radius: 9999px;
-  padding: 0.2rem 0.65rem;
-  font-size: 0.8rem;
-  text-decoration: none;
-  color: hsl(var(--muted-foreground));
-  background: #fff;
-}
-
-.mojidata-section-nav-mobile a {
-  white-space: normal;
-  text-align: center;
-  border-radius: 0.6rem;
-  padding: 0.4rem 0.55rem;
-  line-height: 1.25;
-}
-
-.mojidata-section-nav a:hover {
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--primary));
-}
-
-.mojidata-section-nav a.is-active {
-  color: hsl(var(--primary));
-  border-color: hsl(var(--primary));
-  background: hsl(var(--background));
-  font-weight: 600;
-}
-
-@media (width <= 420px) {
-  .mojidata-section-nav-mobile {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (width >= 1024px) {
   .mojidata-content-grid {
     grid-template-columns: 220px minmax(0, 1fr);
     align-items: start;
-  }
-
-  .mojidata-toc-sidebar {
-    display: block;
-    position: sticky;
-    top: 1rem;
-  }
-
-  .mojidata-section-nav-mobile {
-    display: none;
-  }
-
-  .mojidata-section-nav-sidebar {
-    flex-direction: column;
-    gap: 0.4rem;
-    padding-right: 0.4rem;
-  }
-
-  .mojidata-section-nav-sidebar a {
-    border-radius: 0.6rem;
-    padding: 0.35rem 0.55rem;
   }
 }
 
@@ -320,26 +245,6 @@
 
 .mojidata-variants-comparison > figure > figcaption > div {
   margin-top: 0.1rem;
-}
-
-.mojidata-variants-actions {
-  margin-top: 0.75rem;
-}
-
-.mojidata-variants-toggle {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid hsl(var(--border));
-  border-radius: 9999px;
-  background: #fff;
-  padding: 0.3rem 0.8rem;
-  font-size: 0.88rem;
-  color: hsl(var(--muted-foreground));
-}
-
-.mojidata-variants-toggle:hover {
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--primary));
 }
 
 .mojidata-char {

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { getText, type Language } from '@/getText'
 import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
 import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
+import styles from './MojidataDeferredVariants.module.css'
 
 export interface MojidataDeferredVariantsProps {
   lang: Language
@@ -21,10 +22,10 @@ export default function MojidataDeferredVariants(
 
   return (
     <>
-      <div className="mojidata-variants-actions">
+      <div className={styles.actions}>
         <button
           type="button"
-          className="mojidata-variants-toggle"
+          className={styles.toggle}
           onClick={() => setExpanded((value) => !value)}
           aria-expanded={expanded}
         >
