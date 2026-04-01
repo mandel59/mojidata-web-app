@@ -24,6 +24,9 @@
   - `file:"path"` or `cwd-file:"path"`: matches cwd-relative exact file path
   Example: `jj diff 'cwd-file:"src/app/[lang]/mojidata/[char]/page.tsx"'`
 
+- When creating temporary `jj workspace` checkouts for comparison or debugging, place them under `workspaces/` in this repository instead of `/tmp`.  
+  Example: `jj workspace add 'workspaces/visual-baseline' --name 'visual-baseline' -r '...'`
+
 - Sandbox/approval note: in restricted environments, these typically require permission escalation:
   - `jj commit` (needs to write to `.git/objects` to create commit objects)
   - Integration tests that start local servers / bind ports (e.g. Vite) or launch browsers (e.g. Playwright)
