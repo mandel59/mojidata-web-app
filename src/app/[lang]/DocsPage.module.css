@@ -1,4 +1,6 @@
 .article {
+  width: calc(100% - 2rem);
+  margin: 0 auto;
   padding: 1.25rem;
   line-height: 1.8;
 
