@@ -32,6 +32,7 @@ import MojidataMojiJohoSection from '@/components/MojidataMojiJohoSection'
 import MojidataPermalinkButton from '@/components/MojidataPermalinkButton'
 import MojidataSectionNav from '@/components/MojidataSectionNav'
 import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
+import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -786,7 +787,9 @@ export default function MojidataResponseView(
                       <li key={MJ文字図形名}>
                         <a href={href}>
                           文字情報基盤検索システム {MJ文字図形名}{' '}
-                          <span className="mojidata-mojijoho">
+                          <span
+                            className={`mojidata-mojijoho ${mojiJohoStyles.mojiJoho}`}
+                          >
                             {char && ` (${char})`}
                           </span>
                         </a>

@@ -5,6 +5,7 @@ import type { Language } from '@/getText'
 import { getText } from '@/getText'
 import { toCodePoint } from '@/mojidata/mojidataShared'
 import { MojiJohoChar, MojiJohoDisplayModeControl } from '@/components/MojiJohoChar'
+import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
 
 function toCodePoints(s: string) {
   return [...s].map((c) => toCodePoint(c)).join(' ')
@@ -142,7 +143,9 @@ export default function MojidataMojiJohoSection(
                     bot={bot}
                   />
                 ) : (
-                  <span className="mojidata-raw-char mojidata-mojijoho">
+                  <span
+                    className={`mojidata-raw-char mojidata-mojijoho ${mojiJohoStyles.mojiJoho}`}
+                  >
                     {record.UCS符号位置}
                   </span>
                 )}

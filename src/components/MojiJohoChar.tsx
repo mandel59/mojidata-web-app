@@ -4,6 +4,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
 import IpamjmCharImg from '@/components/IpamjmCharImg'
+import styles from './MojiJohoChar.module.css'
 
 const IPAMJM_FONT_FAMILY = '"Mojidata-IPAmjMincho"'
 
@@ -48,7 +49,11 @@ export function MojiJohoChar(props: MojiJohoCharProps): ReactElement {
   }, [char, forceImage])
 
   if (bot || (!forceImage && hasIpamjmFont)) {
-    return <span className="mojidata-raw-char mojidata-mojijoho">{char}</span>
+    return (
+      <span className={`mojidata-raw-char mojidata-mojijoho ${styles.mojiJoho}`}>
+        {char}
+      </span>
+    )
   }
 
   return <IpamjmCharImg char={char} size={size} alt={char} />
@@ -62,18 +67,24 @@ export function MojiJohoDisplayModeControl(props: {
   const { lang, forceImage, onChangeForceImage } = props
 
   return (
-    <div className="mojidata-display-mode-control">
+    <div
+      className={`mojidata-display-mode-control ${styles.displayModeControl}`}
+    >
       <span>{getText('moji-joho.display.label', lang)}</span>
       <button
         type="button"
-        className={!forceImage ? 'is-active' : undefined}
+        className={`${
+          styles.button
+        }${!forceImage ? ` is-active ${styles.buttonActive}` : ''}`}
         onClick={() => onChangeForceImage(false)}
       >
         {getText('moji-joho.display.auto', lang)}
       </button>
       <button
         type="button"
-        className={forceImage ? 'is-active' : undefined}
+        className={`${
+          styles.button
+        }${forceImage ? ` is-active ${styles.buttonActive}` : ''}`}
         onClick={() => onChangeForceImage(true)}
       >
         {getText('moji-joho.display.image', lang)}

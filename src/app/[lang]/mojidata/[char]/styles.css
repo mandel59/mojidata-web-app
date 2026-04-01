@@ -103,36 +103,6 @@
   font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifHK, serif;
 }
 
-.mojidata-mojijoho {
-  font-family: Mojidata-IPAmjMincho, var(--font-notdef);
-}
-
-.mojidata-display-mode-control {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin: -0.2rem 0 1rem;
-  font-size: 0.9rem;
-}
-
-.mojidata-display-mode-control button {
-  display: inline-block;
-  padding: 0.1rem 0.55rem;
-  border: 1px solid hsl(var(--border));
-  border-radius: 999px;
-  color: inherit;
-  text-decoration: none;
-  background: #fff;
-  font: inherit;
-  cursor: pointer;
-}
-
-.mojidata-display-mode-control button.is-active {
-  border-color: #0a67c7;
-  background: #edf5ff;
-  color: #0a67c7;
-}
-
 .mojidata-char-link a {
   display: block;
   color: #000;
