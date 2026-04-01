@@ -22,6 +22,7 @@ import {
 } from '@/mojidata/mojidataShared'
 import type { MojidataResults } from '@/mojidata/mojidataShared'
 import './styles.css'
+import styles from './MojidataResponseView.module.css'
 import Link from 'next/link'
 import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
@@ -425,7 +426,7 @@ export default function MojidataResponseView(
 
 
   return (
-    <article className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
+    <article className={styles.article}>
       <div className="mojidata-response">
         <section className="mojidata-summary-wrap">
           <div className="mojidata-summary-actions">
