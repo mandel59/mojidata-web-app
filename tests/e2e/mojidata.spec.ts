@@ -206,9 +206,43 @@ test('mojidata defers offscreen variant glyph images until scrolled', async ({
       return await variants.locator('img[src^="/api/glyphwiki/svg/"]').count()
     })
     .toBeGreaterThan(0)
+  await expect
+    .poll(async () => {
+      return await variants
+        .locator('.mojidata-deferred-char-image')
+        .first()
+        .getAttribute('data-loaded')
+    })
+    .toBe('true')
+  await expect(
+    variants.locator('.mojidata-deferred-char-image__fallback').first(),
+  ).toHaveCSS('opacity', '0')
 
   assertNoBrowserErrors()
   await context.close()
+})
+
+test('moji_joho deferred image hides its fallback after load', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2?mojiJohoImage=1', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const section = page.locator('#Moji_Joho').locator('..')
+  await section.scrollIntoViewIfNeeded()
+
+  await expect
+    .poll(async () => {
+      return await section
+        .locator('.mojidata-deferred-char-image')
+        .first()
+        .getAttribute('data-loaded')
+    })
+    .toBe('true')
+  await expect(
+    section.locator('.mojidata-deferred-char-image__fallback').first(),
+  ).toHaveCSS('opacity', '0')
 })
 
 test('server-data search-to-mojidata navigation shows immediate feedback', async ({

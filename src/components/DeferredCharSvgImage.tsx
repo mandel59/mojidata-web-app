@@ -60,10 +60,13 @@ export default function DeferredCharSvgImage(
     <span
       ref={rootRef}
       className="mojidata-deferred-char-image"
+      data-loaded={loaded ? 'true' : 'false'}
       style={{ width: size, height: size }}
     >
       <span
-        className="mojidata-deferred-char-image__fallback mojidata-raw-char"
+        className={`mojidata-deferred-char-image__fallback mojidata-raw-char${
+          source === 'ipamjm' ? ' mojidata-mojijoho' : ''
+        }`}
         aria-hidden={loaded}
       >
         {char}
