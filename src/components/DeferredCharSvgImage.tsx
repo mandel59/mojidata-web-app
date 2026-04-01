@@ -1,6 +1,5 @@
 'use client'
 
-import type { CSSProperties } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
 
@@ -28,11 +27,6 @@ export default function DeferredCharSvgImage(
   const rootRef = useRef<HTMLSpanElement | null>(null)
   const imageKey = `${source}:${char}`
   const loaded = loadedImageKey === imageKey
-  const style = {
-    width: size,
-    height: size,
-    '--mojidata-deferred-char-inner-size': `${Math.max(size - 10, 0)}px`,
-  } as CSSProperties
 
   useEffect(() => {
     const root = rootRef.current
@@ -67,7 +61,7 @@ export default function DeferredCharSvgImage(
       ref={rootRef}
       className="mojidata-deferred-char-image"
       data-loaded={loaded ? 'true' : 'false'}
-      style={style}
+      style={{ width: size, height: size }}
     >
       <span
         className={`mojidata-deferred-char-image__fallback mojidata-raw-char${
