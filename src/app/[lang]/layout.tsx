@@ -45,7 +45,7 @@ export default async function RootLayout({
             label={getText('navigation.loading', language)}
           />
         </Suspense>
-        <div className={`container ${styles.page}`}>
+        <div className={styles.page}>
           <div className={styles.stack}>
           <SiteHeader siteName={siteName} language={language} />
           <main>{children}</main>
