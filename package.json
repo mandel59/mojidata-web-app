@@ -16,6 +16,8 @@
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "visual:compare": "node scripts/run-visual-suite.mjs compare",
+    "visual:refresh-baseline": "node scripts/run-visual-suite.mjs refresh-baseline",
     "compare:styles": "node scripts/compare-rendered-styles.mjs",
     "compare:mojidata:layout": "node scripts/compare-mojidata-layout.mjs",
     "compare:mojidata:sections": "node scripts/compare-mojidata-sections.mjs",
