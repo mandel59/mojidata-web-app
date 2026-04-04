@@ -315,6 +315,30 @@ test('mojidata variants defer the extra glyphs until expanded', async ({
   await expect(page.getByRole('button', { name: /折りたたむ|Show less/ })).toBeVisible()
 })
 
+test('mojidata comparison captions share the muted label color', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/mojidata/%E6%B0%B4', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const summaryLabel = page.locator('dl dt').first()
+  const variantCaption = page
+    .getByTestId('mojidata-variants-comparison')
+    .locator('small')
+    .first()
+
+  await expect(summaryLabel).toBeVisible()
+  await expect(variantCaption).toBeVisible()
+
+  const [summaryColor, captionColor] = await Promise.all([
+    summaryLabel.evaluate((node) => window.getComputedStyle(node).color),
+    variantCaption.evaluate((node) => window.getComputedStyle(node).color),
+  ])
+
+  expect(captionColor).toBe(summaryColor)
+})
+
 test('search quick examples do not trigger the navigation progress bar', async ({
   page,
 }) => {

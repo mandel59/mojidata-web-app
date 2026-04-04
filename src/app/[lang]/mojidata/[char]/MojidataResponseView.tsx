@@ -615,7 +615,7 @@ export default function MojidataResponseView(
                     <figcaption>
                       {record.CJKCI} {record.CJKCI_char}
                       <br />
-                      <small>
+                      <small className={textStyles.mutedFg}>
                         {toCodePoints(record.SVS_char)} {record.SVS_char}
                       </small>
                     </figcaption>
@@ -688,7 +688,9 @@ export default function MojidataResponseView(
                   <figcaption>
                     {lang}
                     <br />
-                    <small>{results.unihan[irgKeys[lang]] ?? 'N/A'}</small>
+                    <small className={textStyles.mutedFg}>
+                      {results.unihan[irgKeys[lang]] ?? 'N/A'}
+                    </small>
                   </figcaption>
                   <div className={buildCharFrameClassName({ comparison: true })}>
                     <span
@@ -717,6 +719,7 @@ export default function MojidataResponseView(
                         {record.code}
                         {record.code === aj1Jp04 && (
                           <small
+                            className={textStyles.mutedFg}
                             title={
                               record.code !== aj1Jp90
                                 ? getText('jp04-glyph.title', lang)
@@ -730,13 +733,17 @@ export default function MojidataResponseView(
                           </small>
                         )}
                         {record.code === aj1Jp90 && record.code !== aj1Jp04 && (
-                          <small title={getText('jp90-glyph.title', lang)}>
+                          <small
+                            className={textStyles.mutedFg}
+                            title={getText('jp90-glyph.title', lang)}
+                          >
                             {' '}
                             {getText('jp90-glyph.small', lang)}
                           </small>
                         )}
                         {compat && (
                           <small
+                            className={textStyles.mutedFg}
                             title={`${getText(
                               'compatibility-variant.title',
                               lang,
@@ -747,7 +754,9 @@ export default function MojidataResponseView(
                           </small>
                         )}
                         <br />
-                        <small>{toCodePoints(record.char)}</small>
+                        <small className={textStyles.mutedFg}>
+                          {toCodePoints(record.char)}
+                        </small>
                       </figcaption>
                       <div className={buildCharFrameClassName({ comparison: true })}>
                         <span
@@ -771,6 +780,7 @@ export default function MojidataResponseView(
                   <figcaption>
                     {aj1Cid}
                     <small
+                      className={textStyles.mutedFg}
                       title={`${getText('compatibility-variant.title', lang)} ${
                         results.UCS
                       }`}
@@ -779,7 +789,7 @@ export default function MojidataResponseView(
                       {getText('compatibility-variant.small', lang)}
                     </small>
                     <br />
-                    <small>{results.UCS}</small>
+                    <small className={textStyles.mutedFg}>{results.UCS}</small>
                   </figcaption>
                   <div
                     className={buildCharFrameClassName({ comparison: true })}
@@ -823,7 +833,7 @@ export default function MojidataResponseView(
                     <div>{entry.heading}</div>
                     {entry.relationLines.map((line) => (
                       <div key={`${entry.key}:${line.label}`}>
-                        <small>
+                        <small className={textStyles.mutedFg}>
                           {line.label}: {line.values}
                         </small>
                       </div>
