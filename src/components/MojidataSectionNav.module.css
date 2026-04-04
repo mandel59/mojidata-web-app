@@ -27,7 +27,6 @@
 
 .mobileLink {
   padding: 0.4rem 0.55rem;
-  border-radius: 0.6rem;
   text-align: center;
   white-space: normal;
   line-height: 1.25;
@@ -58,6 +57,5 @@
 
   .sidebarLink {
     padding: 0.35rem 0.55rem;
-    border-radius: 0.6rem;
   }
 }

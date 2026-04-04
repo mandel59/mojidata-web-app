@@ -103,6 +103,7 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
             className={cn(
               surfaceStyles.pillBase,
               surfaceStyles.pillInteractive,
+              surfaceStyles.radiusFrame,
               styles.link,
               styles.mobileLink,
               section.id === activeSectionId &&
@@ -130,6 +131,7 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
               className={cn(
                 surfaceStyles.pillBase,
                 surfaceStyles.pillInteractive,
+                surfaceStyles.radiusFrame,
                 styles.link,
                 styles.sidebarLink,
                 section.id === activeSectionId &&
