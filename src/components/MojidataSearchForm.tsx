@@ -63,6 +63,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
               className={cn(
                 surfaceStyles.mutedSurface,
                 surfaceStyles.radiusInset,
+                surfaceStyles.paddingMd,
                 styles.examples,
               )}
             >

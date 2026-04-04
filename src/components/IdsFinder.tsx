@@ -58,6 +58,7 @@ export default function IdsFinder(props: IdsFinderProps) {
               className={cn(
                 surfaceStyles.mutedSurface,
                 surfaceStyles.radiusInset,
+                surfaceStyles.paddingMd,
                 styles.examples,
               )}
             >
