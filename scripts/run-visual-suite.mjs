@@ -5,6 +5,8 @@ import { spawn } from 'node:child_process'
 const DEFAULT_COMPARE_PORT = 3300
 const DEFAULT_COMPARE_URL = `http://127.0.0.1:${DEFAULT_COMPARE_PORT}`
 const DEFAULT_BASELINE_URL = 'http://127.0.0.1:3002'
+const FALLBACK_COMPARE_PORT = 3000
+const FALLBACK_COMPARE_URL = `http://127.0.0.1:${FALLBACK_COMPARE_PORT}`
 
 function parseArgs(argv) {
   const [mode, ...rest] = argv
@@ -73,6 +75,31 @@ async function ensureReachable(targetUrl) {
   }
 }
 
+async function selectCompareTarget({ port, targetUrl }) {
+  const explicitTarget =
+    targetUrl !== DEFAULT_COMPARE_URL || port !== DEFAULT_COMPARE_PORT
+
+  if (explicitTarget) {
+    return { port, targetUrl }
+  }
+
+  const fallbackReachable = await ensureReachable(FALLBACK_COMPARE_URL)
+  if (fallbackReachable) {
+    console.error(
+      [
+        `Reusing an existing local dev server at ${FALLBACK_COMPARE_URL}.`,
+        `Use --port ${DEFAULT_COMPARE_PORT} or --target-url to force a different compare target.`,
+      ].join('\n'),
+    )
+    return {
+      port: FALLBACK_COMPARE_PORT,
+      targetUrl: FALLBACK_COMPARE_URL,
+    }
+  }
+
+  return { port, targetUrl }
+}
+
 function printFailureHint(output, targetUrl) {
   const failureChecks = [
     {
@@ -122,6 +149,12 @@ function printFailureHint(output, targetUrl) {
 }
 
 async function runVisualSuite({ mode, port, targetUrl }) {
+  if (mode === 'compare') {
+    const selected = await selectCompareTarget({ port, targetUrl })
+    port = selected.port
+    targetUrl = selected.targetUrl
+  }
+
   if (mode === 'refresh-baseline') {
     const reachable = await ensureReachable(targetUrl)
     if (!reachable) {
