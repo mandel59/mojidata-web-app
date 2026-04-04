@@ -15,6 +15,7 @@ import dividerStyles from './SectionDivider.module.css'
 import surfaceStyles from './Surface.module.css'
 import styles from './SearchFormPanel.module.css'
 import tableStyles from './DataTable.module.css'
+import textStyles from './Text.module.css'
 
 export interface MojidataSearchFormProps {
   lang: Language
@@ -67,7 +68,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 styles.examples,
               )}
             >
-              <p className={styles.examplesHelp}>
+              <p className={cn(textStyles.mutedBodySm, styles.examplesHelp)}>
                 {getText('mojidata-search.placeholder', lang)}
               </p>
               <div className={styles.examplesActions}>

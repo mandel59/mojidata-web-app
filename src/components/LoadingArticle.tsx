@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import skeletonStyles from './Skeleton.module.css'
 import dividerStyles from './SectionDivider.module.css'
 import surfaceStyles from './Surface.module.css'
+import textStyles from './Text.module.css'
 import styles from './LoadingArticle.module.css'
 
 export default function LoadingArticle() {
@@ -27,7 +28,7 @@ export default function LoadingArticle() {
           />
         ))}
       </div>
-      <p className={styles.message} aria-live="polite">
+      <p className={cn(textStyles.mutedBodySm, styles.message)} aria-live="polite">
         Loading...
       </p>
       <footer className={dividerStyles.dividerTop}>

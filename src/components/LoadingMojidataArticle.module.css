@@ -61,7 +61,4 @@
 
 .message {
   margin: 0.75rem 0 0;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: hsl(var(--muted-foreground));
 }

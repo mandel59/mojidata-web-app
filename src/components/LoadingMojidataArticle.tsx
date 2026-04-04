@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils'
 import skeletonStyles from './Skeleton.module.css'
 import surfaceStyles from './Surface.module.css'
+import textStyles from './Text.module.css'
 import styles from './LoadingMojidataArticle.module.css'
 
 export default function LoadingMojidataArticle() {
@@ -76,7 +77,7 @@ export default function LoadingMojidataArticle() {
           aria-hidden
         />
       </div>
-      <p className={styles.message} aria-live="polite">
+      <p className={cn(textStyles.mutedBodySm, styles.message)} aria-live="polite">
         Loading character data…
       </p>
     </article>

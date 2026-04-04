@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils'
 import dividerStyles from './SectionDivider.module.css'
 import surfaceStyles from './Surface.module.css'
 import styles from './SearchFormPanel.module.css'
+import textStyles from './Text.module.css'
 
 export interface IdsFinderProps {
   lang: Language
@@ -62,7 +63,9 @@ export default function IdsFinder(props: IdsFinderProps) {
                 styles.examples,
               )}
             >
-              <p className={styles.examplesHelp}>Quick examples</p>
+              <p className={cn(textStyles.mutedBodySm, styles.examplesHelp)}>
+                Quick examples
+              </p>
               <div className={styles.examplesActions}>
                 <Link
                   href={buildExampleHref((params) => params.append('ids', '⿰日月'))}

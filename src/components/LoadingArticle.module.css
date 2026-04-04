@@ -10,13 +10,6 @@
   height: 4rem;
 }
 
-.message {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: hsl(var(--muted-foreground));
-}
-
-
 .footerBar {
   width: 12rem;
   height: 2rem;
