@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import surfaceStyles from '@/components/Surface.module.css'
+import textStyles from '@/components/Text.module.css'
 import styles from './button.module.css'
 
 const variantClasses = {
@@ -39,6 +40,7 @@ function buttonVariants({
   return cn(
     surfaceStyles.radiusInset,
     surfaceStyles.focusRing,
+    textStyles.labelSm,
     styles.button,
     variant ? variantClasses[variant] : undefined,
     size ? sizeClasses[size] : undefined,

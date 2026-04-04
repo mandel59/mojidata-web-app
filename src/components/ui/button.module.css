@@ -5,9 +5,6 @@
   margin: 0;
   border: 0;
   white-space: nowrap;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.25rem;
   transition:
     color 150ms ease,
     background-color 150ms ease,
