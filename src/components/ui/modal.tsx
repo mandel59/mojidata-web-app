@@ -2,6 +2,8 @@
 
 import { ReactNode, useEffect, useId, useRef } from 'react'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import surfaceStyles from '@/components/Surface.module.css'
 import styles from './Modal.module.css'
 
 export interface ModalProps {
@@ -71,9 +73,9 @@ export function Modal(props: ModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={styles.dialog}
+        className={cn(surfaceStyles.outlinedSurface, styles.dialog)}
       >
-        <div className={styles.header}>
+        <div className={cn(surfaceStyles.headerDivider, styles.header)}>
           <h3 id={titleId} className={styles.title}>
             {title}
           </h3>

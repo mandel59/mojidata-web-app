@@ -1,3 +1,9 @@
+.outlinedSurface {
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+}
+
 .cardSurface {
   border: 1px solid hsl(var(--border));
   background: hsl(var(--card));
@@ -28,4 +34,10 @@
 
 .paddingMd {
   padding: 0.75rem;
+}
+
+.headerDivider {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid hsl(var(--border));
 }

@@ -2,6 +2,8 @@
 
 import { ReactNode, useEffect, useId, useRef } from 'react'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import surfaceStyles from '@/components/Surface.module.css'
 import styles from './Drawer.module.css'
 
 export interface DrawerProps {
@@ -39,9 +41,9 @@ export function Drawer({ open, title, onClose, children }: DrawerProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={styles.drawer}
+        className={cn(surfaceStyles.outlinedSurface, styles.drawer)}
       >
-        <div className={styles.header}>
+        <div className={cn(surfaceStyles.headerDivider, styles.header)}>
           <h3 id={titleId} className={styles.title}>{title}</h3>
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>Close</Button>
         </div>
