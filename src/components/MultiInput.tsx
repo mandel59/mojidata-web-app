@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { cn } from '@/lib/utils'
 import surfaceStyles from '@/components/Surface.module.css'
+import textStyles from '@/components/Text.module.css'
 import styles from './MultiInput.module.css'
 
 interface MultiInputProps {
@@ -49,6 +50,7 @@ export default function MultiInput(props: MultiInputProps) {
               surfaceStyles.textFieldBase,
               surfaceStyles.textFieldFocus,
               surfaceStyles.radiusSm,
+              textStyles.placeholderMuted,
               styles.input,
             )}
             name={value === '' ? undefined : name}

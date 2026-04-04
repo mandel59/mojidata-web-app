@@ -3,10 +3,6 @@
   line-height: 1.25rem;
 }
 
-.input::placeholder {
-  color: hsl(var(--muted-foreground));
-}
-
 .input:disabled {
   cursor: not-allowed;
   opacity: 0.5;

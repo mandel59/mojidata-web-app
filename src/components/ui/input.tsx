@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import surfaceStyles from '@/components/Surface.module.css'
+import textStyles from '@/components/Text.module.css'
 import styles from './input.module.css'
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
@@ -16,6 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           surfaceStyles.textFieldBase,
           surfaceStyles.textFieldFocus,
           surfaceStyles.radiusInset,
+          textStyles.placeholderMuted,
           styles.input,
           className,
         )}
