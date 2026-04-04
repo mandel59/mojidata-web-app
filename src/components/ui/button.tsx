@@ -33,6 +33,7 @@ function buttonVariants({
   className?: string
 } = {}) {
   return cn(
+    surfaceStyles.radiusInset,
     surfaceStyles.focusRing,
     styles.button,
     variant ? variantClasses[variant] : undefined,

@@ -48,6 +48,7 @@ export default function MultiInput(props: MultiInputProps) {
             className={cn(
               surfaceStyles.textFieldBase,
               surfaceStyles.textFieldFocus,
+              surfaceStyles.radiusSm,
               styles.input,
             )}
             name={value === '' ? undefined : name}

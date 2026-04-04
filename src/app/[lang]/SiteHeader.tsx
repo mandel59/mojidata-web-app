@@ -18,7 +18,7 @@ export function SiteHeader(props: SiteHeaderProps) {
   const idsfindPath = getCanonicalRoutePath('idsfind')
 
   return (
-    <header className={styles.header}>
+    <header className={cn(surfaceStyles.radiusInset, styles.header)}>
       <div className={styles.layout}>
         <div className={styles.primary}>
           <Link
@@ -31,6 +31,7 @@ export function SiteHeader(props: SiteHeaderProps) {
           <nav aria-label="Primary" className={styles.nav}>
             <Link
               className={cn(
+                surfaceStyles.compactControlBase,
                 surfaceStyles.radiusXs,
                 surfaceStyles.mutedHoverBg,
                 surfaceStyles.mutedHoverFg,
@@ -42,6 +43,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             </Link>
             <Link
               className={cn(
+                surfaceStyles.compactControlBase,
                 surfaceStyles.radiusXs,
                 surfaceStyles.mutedHoverBg,
                 surfaceStyles.mutedHoverFg,
@@ -57,6 +59,7 @@ export function SiteHeader(props: SiteHeaderProps) {
         <details className={styles.more}>
           <summary
             className={cn(
+              surfaceStyles.compactControlBase,
               surfaceStyles.radiusSm,
               surfaceStyles.focusRing,
               surfaceStyles.mutedHoverBg,

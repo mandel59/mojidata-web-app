@@ -134,6 +134,19 @@
   box-shadow: 0 0 0 2px hsl(var(--ring));
 }
 
+.compactControlBase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  margin: 0;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
 .mutedHoverBg:hover {
   background: hsl(var(--muted));
 }

@@ -23,6 +23,7 @@ export function Pager(props: PagerProps) {
             prefetch={prefetch}
             scroll={false}
             className={cn(
+              surfaceStyles.compactControlBase,
               surfaceStyles.radiusSm,
               surfaceStyles.focusRing,
               surfaceStyles.mutedHoverBg,
@@ -46,6 +47,7 @@ export function Pager(props: PagerProps) {
             prefetch={prefetch}
             scroll={false}
             className={cn(
+              surfaceStyles.compactControlBase,
               surfaceStyles.radiusSm,
               surfaceStyles.focusRing,
               surfaceStyles.mutedHoverBg,

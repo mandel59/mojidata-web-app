@@ -1,7 +1,6 @@
 .header {
   padding: 0.5rem 0.75rem;
   border: 1px solid hsl(var(--border) / 70%);
-  border-radius: calc(var(--radius) - 2px);
   background: hsl(var(--background) / 80%);
 }
 
@@ -40,17 +39,8 @@
 
 .navLink,
 .moreSummary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 2.25rem;
-  margin: 0;
   padding: 0 0.5rem;
   color: hsl(var(--muted-foreground));
-  line-height: 1;
-  transition:
-    color 150ms ease,
-    background-color 150ms ease;
 }
 
 .navLink {
