@@ -19,10 +19,6 @@
   line-height: 1.35;
 }
 
-.figureCard > figcaption small {
-  color: hsl(var(--muted-foreground));
-}
-
 .frame {
   margin-top: 0.45rem;
 }

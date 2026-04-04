@@ -80,7 +80,6 @@
 
 .summaryRow dt {
   margin: 0;
-  color: hsl(var(--muted-foreground));
   font-weight: 600;
 }
 

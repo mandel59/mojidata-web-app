@@ -9,6 +9,7 @@ import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 import styles from './MojidataDeferredVariants.module.css'
 import comparisonStyles from './MojidataComparison.module.css'
 import surfaceStyles from './Surface.module.css'
+import textStyles from './Text.module.css'
 
 export interface MojidataDeferredVariantsProps {
   lang: Language
@@ -62,7 +63,7 @@ export default function MojidataDeferredVariants(
                 <div>{entry.heading}</div>
                 {entry.relationLines.map((line) => (
                   <div key={`${entry.key}:${line.label}`}>
-                    <small>
+                    <small className={textStyles.mutedFg}>
                       {line.label}: {line.values}
                     </small>
                   </div>

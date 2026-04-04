@@ -37,6 +37,7 @@ import tableStyles from '@/components/DataTable.module.css'
 import cardStyles from '@/components/ArticleCard.module.css'
 import richTextStyles from '@/components/RichText.module.css'
 import surfaceStyles from '@/components/Surface.module.css'
+import textStyles from '@/components/Text.module.css'
 import { cn } from '@/lib/utils'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
@@ -525,26 +526,32 @@ export default function MojidataResponseView(
             </div>
             <dl className={styles.summaryKv}>
               <div className={styles.summaryRow}>
-                <dt>{getText('summary.unicode.dt', lang)}</dt>
+                <dt className={textStyles.mutedFg}>
+                  {getText('summary.unicode.dt', lang)}
+                </dt>
                 <dd>
                   {results.UCS} {results.char}
                 </dd>
               </div>
             {rsSummary && (
               <div className={styles.summaryRow}>
-                <dt>{getText('summary.rs-index.dt', lang)}</dt>
+                <dt className={textStyles.mutedFg}>
+                  {getText('summary.rs-index.dt', lang)}
+                </dt>
                 <dd>{rsSummary}</dd>
               </div>
             )}
             {totalStrokes && (
               <div className={styles.summaryRow}>
-                <dt>{getText('summary.total-strokes.dt', lang)}</dt>
+                <dt className={textStyles.mutedFg}>
+                  {getText('summary.total-strokes.dt', lang)}
+                </dt>
                 <dd>{totalStrokes}</dd>
               </div>
             )}
             {readings.map((row) => (
               <div className={styles.summaryRow} key={row.label}>
-                <dt>{row.label}</dt>
+                <dt className={textStyles.mutedFg}>{row.label}</dt>
                 <dd>{row.value}</dd>
               </div>
             ))}
