@@ -78,11 +78,12 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
       key={section.id}
       href={`#${section.id}`}
       className={cn(
-        surfaceStyles.pillBase,
-        surfaceStyles.pillInteractive,
-        styles.link,
-        section.id === activeSectionId && styles.active,
-      )}
+              surfaceStyles.pillBase,
+              surfaceStyles.pillInteractive,
+              styles.link,
+              section.id === activeSectionId &&
+                cn(surfaceStyles.pillActive, styles.active),
+            )}
     >
       {section.label}
     </a>
@@ -104,7 +105,8 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
               surfaceStyles.pillInteractive,
               styles.link,
               styles.mobileLink,
-              section.id === activeSectionId && styles.active,
+              section.id === activeSectionId &&
+                cn(surfaceStyles.pillActive, styles.active),
             )}
           >
             {section.label}
@@ -130,7 +132,8 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
                 surfaceStyles.pillInteractive,
                 styles.link,
                 styles.sidebarLink,
-                section.id === activeSectionId && styles.active,
+                section.id === activeSectionId &&
+                  cn(surfaceStyles.pillActive, styles.active),
               )}
             >
               {section.label}

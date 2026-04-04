@@ -11,7 +11,11 @@ const variantClasses = {
     surfaceStyles.mutedHoverFg,
     styles.variantGhost,
   ),
-  outline: cn(surfaceStyles.mutedHoverBg, styles.variantOutline),
+  outline: cn(
+    surfaceStyles.outlinedControl,
+    surfaceStyles.mutedHoverBg,
+    styles.variantOutline,
+  ),
   link: styles.variantLink,
 } as const
 

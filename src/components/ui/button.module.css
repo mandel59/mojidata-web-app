@@ -34,12 +34,6 @@
   color: inherit;
 }
 
-.variantOutline {
-  border: 1px solid hsl(var(--border));
-  background: hsl(var(--background));
-  color: inherit;
-}
-
 .variantLink {
   background: transparent;
   color: hsl(var(--primary));
