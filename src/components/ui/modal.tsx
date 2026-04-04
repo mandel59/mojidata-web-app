@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useId, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import surfaceStyles from '@/components/Surface.module.css'
+import overlayStyles from './OverlayChrome.module.css'
 import styles from './Modal.module.css'
 
 export interface ModalProps {
@@ -63,7 +64,7 @@ export function Modal(props: ModalProps) {
 
   return (
     <div
-      className={styles.overlay}
+      className={cn(overlayStyles.backdrop, styles.overlay)}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
@@ -80,7 +81,13 @@ export function Modal(props: ModalProps) {
           styles.dialog,
         )}
       >
-        <div className={cn(surfaceStyles.headerDivider, styles.header)}>
+        <div
+          className={cn(
+            surfaceStyles.headerDivider,
+            overlayStyles.headerRow,
+            styles.header,
+          )}
+        >
           <h3 id={titleId} className={styles.title}>
             {title}
           </h3>

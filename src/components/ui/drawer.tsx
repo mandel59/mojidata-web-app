@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useId, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import surfaceStyles from '@/components/Surface.module.css'
+import overlayStyles from './OverlayChrome.module.css'
 import styles from './Drawer.module.css'
 
 export interface DrawerProps {
@@ -31,7 +32,7 @@ export function Drawer({ open, title, onClose, children }: DrawerProps) {
 
   return (
     <div
-      className={styles.overlay}
+      className={overlayStyles.backdrop}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
@@ -47,7 +48,13 @@ export function Drawer({ open, title, onClose, children }: DrawerProps) {
           styles.drawer,
         )}
       >
-        <div className={cn(surfaceStyles.headerDivider, styles.header)}>
+        <div
+          className={cn(
+            surfaceStyles.headerDivider,
+            overlayStyles.headerRow,
+            styles.header,
+          )}
+        >
           <h3 id={titleId} className={styles.title}>{title}</h3>
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>Close</Button>
         </div>
