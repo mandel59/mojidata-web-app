@@ -14,16 +14,11 @@
 .placeholder {
   display: inline-block;
   width: 100%;
-  color: hsl(var(--muted-foreground));
 }
 
 .status {
   width: 10rem;
   text-align: center;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-  color: hsl(var(--muted-foreground));
 }
 
 .link {

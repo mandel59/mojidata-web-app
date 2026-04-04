@@ -17,7 +17,3 @@
 .metricRow {
   display: contents;
 }
-
-.metricLabel {
-  color: hsl(var(--muted-foreground));
-}

@@ -1,3 +1,13 @@
+.labelSm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+.mutedFg {
+  color: hsl(var(--muted-foreground));
+}
+
 .mutedBodySm {
   font-size: 0.875rem;
   line-height: 1.25rem;

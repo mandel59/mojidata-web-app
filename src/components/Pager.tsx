@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import surfaceStyles from '@/components/Surface.module.css'
+import textStyles from '@/components/Text.module.css'
 import styles from './Pager.module.css'
 
 export interface PagerProps {
@@ -34,10 +35,12 @@ export function Pager(props: PagerProps) {
             Prev
           </Link>
         ) : (
-          <span className={styles.placeholder}>&nbsp;</span>
+          <span className={cn(textStyles.mutedFg, styles.placeholder)}>
+            &nbsp;
+          </span>
         )}
       </div>
-      <div className={styles.status}>
+      <div className={cn(textStyles.labelSm, textStyles.mutedFg, styles.status)}>
         page {pageNum} of {totalPages || 1}
       </div>
       <div className={styles.side}>
@@ -58,7 +61,9 @@ export function Pager(props: PagerProps) {
             Next
           </Link>
         ) : (
-          <span className={styles.placeholder}>&nbsp;</span>
+          <span className={cn(textStyles.mutedFg, styles.placeholder)}>
+            &nbsp;
+          </span>
         )}
       </div>
     </div>

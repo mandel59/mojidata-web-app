@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import { cn } from '@/lib/utils'
 import surfaceStyles from './Surface.module.css'
+import textStyles from './Text.module.css'
 import styles from './PerfDebugPanel.module.css'
 
 export interface PerfDebugMetric {
@@ -39,7 +40,7 @@ export default function PerfDebugPanel(
       <dl className={styles.metrics}>
         {metrics.map((metric) => (
           <div key={metric.label} className={styles.metricRow}>
-            <dt className={styles.metricLabel}>{metric.label}</dt>
+            <dt className={textStyles.mutedFg}>{metric.label}</dt>
             <dd>{formatDuration(metric.durationMs)}</dd>
           </div>
         ))}
