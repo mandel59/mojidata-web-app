@@ -41,16 +41,6 @@
     color 150ms ease;
 }
 
-.link:hover {
-  background: hsl(var(--muted));
-  color: hsl(var(--foreground));
-}
-
-.link:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--ring));
-}
-
 @media (width >= 640px) {
   .root {
     gap: 1rem;

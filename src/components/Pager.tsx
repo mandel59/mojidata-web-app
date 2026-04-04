@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import surfaceStyles from '@/components/Surface.module.css'
 import styles from './Pager.module.css'
 
 export interface PagerProps {
@@ -20,7 +22,12 @@ export function Pager(props: PagerProps) {
             href={prev}
             prefetch={prefetch}
             scroll={false}
-            className={styles.link}
+            className={cn(
+              surfaceStyles.focusRing,
+              surfaceStyles.mutedHoverBg,
+              surfaceStyles.mutedHoverFg,
+              styles.link,
+            )}
           >
             Prev
           </Link>
@@ -37,7 +44,12 @@ export function Pager(props: PagerProps) {
             href={next}
             prefetch={prefetch}
             scroll={false}
-            className={styles.link}
+            className={cn(
+              surfaceStyles.focusRing,
+              surfaceStyles.mutedHoverBg,
+              surfaceStyles.mutedHoverFg,
+              styles.link,
+            )}
           >
             Next
           </Link>

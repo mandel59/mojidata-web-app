@@ -16,11 +16,6 @@
     opacity 150ms ease;
 }
 
-.button:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--ring));
-}
-
 .button:disabled {
   pointer-events: none;
   opacity: 0.5;
@@ -40,19 +35,10 @@
   color: inherit;
 }
 
-.variantGhost:hover {
-  background: hsl(var(--muted));
-  color: hsl(var(--foreground));
-}
-
 .variantOutline {
   border: 1px solid hsl(var(--border));
   background: hsl(var(--background));
   color: inherit;
-}
-
-.variantOutline:hover {
-  background: hsl(var(--muted));
 }
 
 .variantLink {

@@ -30,13 +30,21 @@ export function SiteHeader(props: SiteHeaderProps) {
 
           <nav aria-label="Primary" className={styles.nav}>
             <Link
-              className={styles.navLink}
+              className={cn(
+                surfaceStyles.mutedHoverBg,
+                surfaceStyles.mutedHoverFg,
+                styles.navLink,
+              )}
               href={searchPath}
             >
               {getText('mojidata-search.nav', language)}
             </Link>
             <Link
-              className={styles.navLink}
+              className={cn(
+                surfaceStyles.mutedHoverBg,
+                surfaceStyles.mutedHoverFg,
+                styles.navLink,
+              )}
               href={idsfindPath}
             >
               {getText('ids-finder.nav', language)}
@@ -45,7 +53,14 @@ export function SiteHeader(props: SiteHeaderProps) {
         </div>
 
         <details className={styles.more}>
-          <summary className={styles.moreSummary}>
+          <summary
+            className={cn(
+              surfaceStyles.focusRing,
+              surfaceStyles.mutedHoverBg,
+              surfaceStyles.mutedHoverFg,
+              styles.moreSummary,
+            )}
+          >
             More
           </summary>
           <div
@@ -55,7 +70,11 @@ export function SiteHeader(props: SiteHeaderProps) {
           >
             <Link
               role="menuitem"
-              className={styles.menuLink}
+              className={cn(
+                surfaceStyles.focusRing,
+                surfaceStyles.mutedHoverBg,
+                styles.menuLink,
+              )}
               href="/about"
             >
               {getText('about-this-app.nav', language)}
@@ -63,14 +82,22 @@ export function SiteHeader(props: SiteHeaderProps) {
             <div className={styles.menuSpacer} aria-hidden="true"></div>
             <Link
               role="menuitem"
-              className={styles.menuLink}
+              className={cn(
+                surfaceStyles.focusRing,
+                surfaceStyles.mutedHoverBg,
+                styles.menuLink,
+              )}
               href="/license"
             >
               {getText('license.nav', language)}
             </Link>
             <Link
               role="menuitem"
-              className={styles.menuLink}
+              className={cn(
+                surfaceStyles.focusRing,
+                surfaceStyles.mutedHoverBg,
+                styles.menuLink,
+              )}
               href="/privacy-policy"
             >
               {getText('privacy-policy.nav', language)}

@@ -1,12 +1,17 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import surfaceStyles from '@/components/Surface.module.css'
 import styles from './button.module.css'
 
 const variantClasses = {
   default: styles.variantDefault,
-  ghost: styles.variantGhost,
-  outline: styles.variantOutline,
+  ghost: cn(
+    surfaceStyles.mutedHoverBg,
+    surfaceStyles.mutedHoverFg,
+    styles.variantGhost,
+  ),
+  outline: cn(surfaceStyles.mutedHoverBg, styles.variantOutline),
   link: styles.variantLink,
 } as const
 
@@ -28,6 +33,7 @@ function buttonVariants({
   className?: string
 } = {}) {
   return cn(
+    surfaceStyles.focusRing,
     styles.button,
     variant ? variantClasses[variant] : undefined,
     size ? sizeClasses[size] : undefined,

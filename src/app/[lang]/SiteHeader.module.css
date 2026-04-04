@@ -60,11 +60,6 @@
 }
 
 .navLink:hover,
-.moreSummary:hover {
-  background: hsl(var(--muted));
-  color: hsl(var(--foreground));
-}
-
 .more {
   position: relative;
   display: flex;
@@ -78,11 +73,6 @@
   list-style: none;
   font-size: 0.875rem;
   font-weight: 500;
-}
-
-.moreSummary:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--ring));
 }
 
 .menu {
@@ -107,15 +97,6 @@
 .menuLink {
   color: inherit;
   text-decoration: none;
-}
-
-.menuLink:hover {
-  background: hsl(var(--muted));
-}
-
-.menuLink:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--ring));
 }
 
 @media (width >= 640px) {
