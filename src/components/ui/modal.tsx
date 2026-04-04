@@ -88,7 +88,10 @@ export function Modal(props: ModalProps) {
             styles.header,
           )}
         >
-          <h3 id={titleId} className={styles.title}>
+          <h3
+            id={titleId}
+            className={cn(overlayStyles.titleBase, styles.title)}
+          >
             {title}
           </h3>
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>

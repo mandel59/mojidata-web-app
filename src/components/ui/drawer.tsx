@@ -55,7 +55,12 @@ export function Drawer({ open, title, onClose, children }: DrawerProps) {
             styles.header,
           )}
         >
-          <h3 id={titleId} className={styles.title}>{title}</h3>
+          <h3
+            id={titleId}
+            className={cn(overlayStyles.titleBase, styles.title)}
+          >
+            {title}
+          </h3>
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>Close</Button>
         </div>
         {children}
