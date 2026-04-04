@@ -1,16 +1,13 @@
 import type { Locator, Page } from '@playwright/test'
 import { expect, test } from './fixtures'
 
-const VISUAL_TARGET_URL =
-  process.env.VISUAL_TARGET_URL ?? 'http://127.0.0.1:3000'
-
 const DESKTOP_UA =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
 const MOBILE_UA =
   'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
 
 async function gotoVisual(page: Page, path: string) {
-  await page.goto(new URL(path, VISUAL_TARGET_URL).href, {
+  await page.goto(path, {
     waitUntil: 'domcontentloaded',
   })
   await page.waitForLoadState('networkidle')
