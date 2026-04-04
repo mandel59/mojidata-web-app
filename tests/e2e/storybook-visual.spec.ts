@@ -80,3 +80,35 @@ test('storybook ipamjm loaded matches baseline', async ({ page }) => {
     },
   )
 })
+
+test('storybook mojidata section nav mobile matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 430, height: 960 })
+  await gotoStory(page, 'mojidata-mojidatasectionnav--mobile')
+
+  await expect(page.getByTestId('mojidata-section-nav-mobile')).toHaveScreenshot(
+    'storybook-mojidata-section-nav-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook mojidata section nav desktop matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1200 })
+  await gotoStory(page, 'mojidata-mojidatasectionnav--desktop')
+
+  await expect(page.getByTestId('mojidata-toc-sidebar')).toHaveScreenshot(
+    'storybook-mojidata-section-nav-desktop.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
