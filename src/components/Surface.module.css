@@ -27,6 +27,11 @@
   background: hsl(var(--muted) / 40%);
 }
 
+.mutedPanelSurface {
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--muted));
+}
+
 .radiusSm {
   border-radius: 0.375rem;
 }
@@ -41,6 +46,10 @@
 
 .radiusCard {
   border-radius: var(--radius);
+}
+
+.radiusLg {
+  border-radius: 0.75rem;
 }
 
 .radiusFrame {

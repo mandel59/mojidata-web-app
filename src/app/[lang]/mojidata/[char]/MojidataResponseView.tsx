@@ -477,7 +477,15 @@ export default function MojidataResponseView(
       )}
     >
       <div className={styles.response} data-testid="mojidata-response">
-        <section className={styles.summaryWrap} data-testid="mojidata-summary-wrap">
+        <section
+          className={cn(
+            surfaceStyles.mutedPanelSurface,
+            surfaceStyles.radiusLg,
+            surfaceStyles.paddingMd,
+            styles.summaryWrap,
+          )}
+          data-testid="mojidata-summary-wrap"
+        >
           <div
             className={styles.summaryActions}
             data-testid="mojidata-summary-actions"
