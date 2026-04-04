@@ -54,12 +54,10 @@
 }
 
 .navLink {
-  border-radius: 0.25rem;
   color: hsl(var(--muted-foreground));
   text-decoration: none;
 }
 
-.navLink:hover,
 .more {
   position: relative;
   display: flex;
@@ -68,7 +66,6 @@
 }
 
 .moreSummary {
-  border-radius: 0.375rem;
   cursor: pointer;
   list-style: none;
   font-size: 0.875rem;
@@ -82,7 +79,6 @@
   z-index: 30;
   min-width: 11rem;
   padding: 0.25rem;
-  border-radius: 0.375rem;
   font-size: 0.875rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%);
 }
@@ -91,7 +87,6 @@
 .menuSpacer {
   display: block;
   padding: 0.375rem 0.5rem;
-  border-radius: 0.25rem;
 }
 
 .menuLink {

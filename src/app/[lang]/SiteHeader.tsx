@@ -31,6 +31,7 @@ export function SiteHeader(props: SiteHeaderProps) {
           <nav aria-label="Primary" className={styles.nav}>
             <Link
               className={cn(
+                surfaceStyles.radiusXs,
                 surfaceStyles.mutedHoverBg,
                 surfaceStyles.mutedHoverFg,
                 styles.navLink,
@@ -41,6 +42,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             </Link>
             <Link
               className={cn(
+                surfaceStyles.radiusXs,
                 surfaceStyles.mutedHoverBg,
                 surfaceStyles.mutedHoverFg,
                 styles.navLink,
@@ -55,6 +57,7 @@ export function SiteHeader(props: SiteHeaderProps) {
         <details className={styles.more}>
           <summary
             className={cn(
+              surfaceStyles.radiusSm,
               surfaceStyles.focusRing,
               surfaceStyles.mutedHoverBg,
               surfaceStyles.mutedHoverFg,
@@ -66,11 +69,16 @@ export function SiteHeader(props: SiteHeaderProps) {
           <div
             role="menu"
             aria-label="Secondary navigation"
-            className={cn(surfaceStyles.outlinedSurface, styles.menu)}
+            className={cn(
+              surfaceStyles.outlinedSurface,
+              surfaceStyles.radiusSm,
+              styles.menu,
+            )}
           >
             <Link
               role="menuitem"
               className={cn(
+                surfaceStyles.radiusXs,
                 surfaceStyles.focusRing,
                 surfaceStyles.mutedHoverBg,
                 styles.menuLink,
@@ -83,6 +91,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             <Link
               role="menuitem"
               className={cn(
+                surfaceStyles.radiusXs,
                 surfaceStyles.focusRing,
                 surfaceStyles.mutedHoverBg,
                 styles.menuLink,
@@ -94,6 +103,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             <Link
               role="menuitem"
               className={cn(
+                surfaceStyles.radiusXs,
                 surfaceStyles.focusRing,
                 surfaceStyles.mutedHoverBg,
                 styles.menuLink,
