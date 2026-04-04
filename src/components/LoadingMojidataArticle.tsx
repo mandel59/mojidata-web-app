@@ -14,18 +14,67 @@ export default function LoadingMojidataArticle() {
         surfaceStyles.paddingLg,
       )}
     >
-      <div className={cn(skeletonStyles.pulseBlock, styles.heading)} aria-hidden />
+      <div
+        className={cn(
+          skeletonStyles.pulseBlock,
+          surfaceStyles.radiusXs,
+          styles.heading,
+        )}
+        aria-hidden
+      />
       <div className={styles.summary}>
-        <div className={cn(skeletonStyles.pulseBlock, styles.glyph)} aria-hidden />
+        <div
+          className={cn(
+            skeletonStyles.pulseBlock,
+            surfaceStyles.outlinedFrameSm,
+            styles.glyph,
+          )}
+          aria-hidden
+        />
         <div className={styles.meta}>
-          <div className={cn(skeletonStyles.pulseBlock, styles.metaLineWide)} aria-hidden />
-          <div className={cn(skeletonStyles.pulseBlock, styles.metaLineNarrow)} aria-hidden />
+          <div
+            className={cn(
+              skeletonStyles.pulseBlock,
+              surfaceStyles.radiusXs,
+              styles.metaLineWide,
+            )}
+            aria-hidden
+          />
+          <div
+            className={cn(
+              skeletonStyles.pulseBlock,
+              surfaceStyles.radiusXs,
+              styles.metaLineNarrow,
+            )}
+            aria-hidden
+          />
         </div>
       </div>
       <div className={styles.body}>
-        <div className={cn(skeletonStyles.pulseBlock, styles.bodyLineFull)} aria-hidden />
-        <div className={cn(skeletonStyles.pulseBlock, styles.bodyLineWide)} aria-hidden />
-        <div className={cn(skeletonStyles.pulseBlock, styles.bodyLineMedium)} aria-hidden />
+        <div
+          className={cn(
+            skeletonStyles.pulseBlock,
+            surfaceStyles.radiusXs,
+            styles.bodyLineFull,
+          )}
+          aria-hidden
+        />
+        <div
+          className={cn(
+            skeletonStyles.pulseBlock,
+            surfaceStyles.radiusXs,
+            styles.bodyLineWide,
+          )}
+          aria-hidden
+        />
+        <div
+          className={cn(
+            skeletonStyles.pulseBlock,
+            surfaceStyles.radiusXs,
+            styles.bodyLineMedium,
+          )}
+          aria-hidden
+        />
       </div>
       <p className={styles.message} aria-live="polite">
         Loading character data…

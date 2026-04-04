@@ -17,14 +17,28 @@ export default function LoadingArticle() {
     >
       <div className={styles.chips} aria-hidden>
         {Array.from({ length: 12 }).map((_, i) => (
-          <span key={i} className={cn(skeletonStyles.pulseBlock, styles.chip)} />
+          <span
+            key={i}
+            className={cn(
+              skeletonStyles.pulseBlock,
+              surfaceStyles.outlinedFrameSm,
+              styles.chip,
+            )}
+          />
         ))}
       </div>
       <p className={styles.message} aria-live="polite">
         Loading...
       </p>
       <footer className={dividerStyles.dividerTop}>
-        <div className={cn(skeletonStyles.pulseBlock, styles.footerBar)} aria-hidden />
+        <div
+          className={cn(
+            skeletonStyles.pulseBlock,
+            surfaceStyles.radiusXs,
+            styles.footerBar,
+          )}
+          aria-hidden
+        />
       </footer>
     </article>
   )

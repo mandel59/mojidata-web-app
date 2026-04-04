@@ -2,7 +2,6 @@
   width: 12rem;
   height: 1.75rem;
   margin-bottom: 0.75rem;
-  border-radius: 0.25rem;
 }
 
 .summary {
@@ -15,8 +14,6 @@
 .glyph {
   width: 120px;
   height: 120px;
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.375rem;
 }
 
 .meta {
@@ -26,19 +23,16 @@
 
 .metaLine {
   height: 1rem;
-  border-radius: 0.25rem;
 }
 
 .metaLineWide {
   height: 1rem;
   width: 10rem;
-  border-radius: 0.25rem;
 }
 
 .metaLineNarrow {
   height: 1rem;
   width: 7rem;
-  border-radius: 0.25rem;
 }
 
 .body {
@@ -48,25 +42,21 @@
 
 .bodyLine {
   height: 1rem;
-  border-radius: 0.25rem;
 }
 
 .bodyLineFull {
   height: 1rem;
   width: 100%;
-  border-radius: 0.25rem;
 }
 
 .bodyLineWide {
   height: 1rem;
   width: 92%;
-  border-radius: 0.25rem;
 }
 
 .bodyLineMedium {
   height: 1rem;
   width: 78%;
-  border-radius: 0.25rem;
 }
 
 .message {
