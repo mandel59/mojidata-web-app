@@ -22,10 +22,6 @@
   margin: 0;
   overflow: auto;
   max-height: 32rem;
-  padding: 0.75rem;
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.6rem;
-  background: hsl(var(--muted));
   font-size: 0.88rem;
   line-height: 1.5;
 }

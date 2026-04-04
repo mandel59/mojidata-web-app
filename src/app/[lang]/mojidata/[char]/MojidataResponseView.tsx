@@ -926,7 +926,15 @@ export default function MojidataResponseView(
           </>
         )}
             <h2 id="JSON">{getText('json.h3', lang)}</h2>
-            <pre>{JSON.stringify(results, null, 2)}</pre>
+            <pre
+              className={cn(
+                surfaceStyles.mutedPanelSurface,
+                surfaceStyles.radiusFrame,
+                surfaceStyles.paddingMd,
+              )}
+            >
+              {JSON.stringify(results, null, 2)}
+            </pre>
           </div>
         </div>
       </div>
