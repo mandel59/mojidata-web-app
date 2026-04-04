@@ -499,7 +499,10 @@ export default function MojidataResponseView(
               {summaryBadges.length > 0 && (
                 <div className={styles.summaryBadgeRow}>
                   {summaryBadges.map((badge) => (
-                    <span key={badge} className={styles.badge}>
+                    <span
+                      key={badge}
+                      className={cn(surfaceStyles.pillBase, styles.badge)}
+                    >
                       {badge}
                     </span>
                   ))}
