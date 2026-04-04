@@ -1,6 +1,8 @@
 'use client'
 
 import { useRef } from 'react'
+import { cn } from '@/lib/utils'
+import surfaceStyles from '@/components/Surface.module.css'
 import styles from './MultiInput.module.css'
 
 interface MultiInputProps {
@@ -43,7 +45,11 @@ export default function MultiInput(props: MultiInputProps) {
         return (
           <input
             key={index}
-            className={styles.input}
+            className={cn(
+              surfaceStyles.textFieldBase,
+              surfaceStyles.textFieldFocus,
+              styles.input,
+            )}
             name={value === '' ? undefined : name}
             value={value}
             placeholder={placeholder?.(index)}
