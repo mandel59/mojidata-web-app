@@ -5,6 +5,7 @@ import net from 'node:net'
 
 const DEFAULT_PORT = 6006
 const DEFAULT_HOST = '127.0.0.1'
+const DEFAULT_PORT_BLOCK_SIZE = 2
 
 function printUsageAndExit(message) {
   if (message) {
@@ -71,12 +72,33 @@ function parseArgs(argv) {
   return { preferredPort, host, config, spec, updateSnapshots }
 }
 
-function findAvailablePort(host, startingPort, attempts = 20) {
+function probePort(host, port) {
+  return new Promise((resolve, reject) => {
+    const probe = net.createServer()
+
+    probe.once('error', (error) => {
+      reject(error)
+    })
+
+    probe.listen(port, host, () => {
+      const address = probe.address()
+      probe.close((closeError) => {
+        if (closeError) {
+          reject(closeError)
+          return
+        }
+        resolve(address.port)
+      })
+    })
+  })
+}
+
+function findAvailablePort(host, startingPort, attempts = 20, blockSize = DEFAULT_PORT_BLOCK_SIZE) {
   return new Promise((resolve, reject) => {
     let candidate = startingPort
     let lastError = null
 
-    const tryListen = () => {
+    const tryListen = async () => {
       if (candidate >= startingPort + attempts) {
         reject(
           new Error(
@@ -92,32 +114,21 @@ function findAvailablePort(host, startingPort, attempts = 20) {
         return
       }
 
-      const probe = net.createServer()
-
-      probe.once('error', (error) => {
+      try {
+        for (let offset = 0; offset < blockSize; offset += 1) {
+          await probePort(host, candidate + offset)
+        }
+        resolve(candidate)
+        return
+      } catch (error) {
         lastError = error
-        if (error.code === 'EPERM' || error.code === 'EACCES') {
-          reject(
-            new Error(`${error.code} ${error.message}`),
-          )
+        if (error?.code === 'EPERM' || error?.code === 'EACCES') {
+          reject(new Error(`${error.code} ${error.message}`))
           return
         }
-        probe.close(() => {
-          candidate += 1
-          tryListen()
-        })
-      })
-
-      probe.listen(candidate, host, () => {
-        const { port } = probe.address()
-        probe.close((closeError) => {
-          if (closeError) {
-            reject(closeError)
-            return
-          }
-          resolve(port)
-        })
-      })
+        candidate += blockSize
+        tryListen()
+      }
     }
 
     tryListen()

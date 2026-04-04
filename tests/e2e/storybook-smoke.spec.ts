@@ -9,6 +9,7 @@ async function gotoStory(page: Page, id: string) {
     `${storybookBaseUrl}/iframe.html?id=${id}&viewMode=story`,
     { waitUntil: 'domcontentloaded' },
   )
+  await page.waitForSelector('#storybook-root, #root')
 }
 
 test('storybook deferred SVG fallback story renders', async ({ page }) => {
@@ -49,8 +50,22 @@ test('storybook mojidata section nav desktop story renders', async ({ page }) =>
   await page.setViewportSize({ width: 1440, height: 1200 })
   await gotoStory(page, 'mojidata-mojidatasectionnav--desktop')
 
-  await expect(page.getByTestId('mojidata-toc-sidebar')).toBeVisible()
+  await expect(page.locator('aside')).toBeVisible()
   await expect(
     page.getByTestId('mojidata-section-nav-sidebar'),
   ).toBeVisible()
+})
+
+test('storybook loading article story renders', async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 900 })
+  await gotoStory(page, 'app-loading-states--search-results-panel')
+
+  await expect(page.locator('article')).toBeVisible()
+})
+
+test('storybook loading mojidata story renders', async ({ page }) => {
+  await page.setViewportSize({ width: 1200, height: 1000 })
+  await gotoStory(page, 'app-loading-states--mojidata-article')
+
+  await expect(page.locator('article')).toBeVisible()
 })

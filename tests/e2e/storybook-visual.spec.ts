@@ -112,3 +112,33 @@ test('storybook mojidata section nav desktop matches baseline', async ({
     },
   )
 })
+
+test('storybook loading article matches baseline', async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 900 })
+  await gotoStory(page, 'app-loading-states--search-results-panel')
+
+  await expect(page.locator('article')).toHaveScreenshot(
+    'storybook-loading-article.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook loading mojidata article matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 1000 })
+  await gotoStory(page, 'app-loading-states--mojidata-article')
+
+  await expect(page.locator('article')).toHaveScreenshot(
+    'storybook-loading-mojidata-article.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
