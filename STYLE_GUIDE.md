@@ -68,6 +68,9 @@ Before and after structural CSS cleanup:
 
 - run `npm run visual:compare` for app screenshots
 - run `npm run storybook:smoke` for isolated component rendering
+- run `npm run storybook:visual` for isolated component screenshots
 - run `npm run verify:style-system` when you want the full style verification path
 
-`visual:compare` covers the app-level baseline. `storybook:smoke` is the component-level guardrail.
+`visual:compare` covers the app-level baseline.
+`storybook:smoke` is the component-level render guardrail.
+`storybook:visual` is the component-level screenshot baseline.

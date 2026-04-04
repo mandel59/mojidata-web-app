@@ -27,6 +27,7 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
       testMatch: '*-visual.spec.ts',
+      testIgnore: 'storybook-visual.spec.ts',
     },
   ],
   webServer: useLocalVisualServer

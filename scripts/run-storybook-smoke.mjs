@@ -14,7 +14,7 @@ function printUsageAndExit(message) {
   console.error(
     [
       'Usage:',
-      '  node scripts/run-storybook-smoke.mjs [--port 6006] [--host 127.0.0.1]',
+      '  node scripts/run-storybook-smoke.mjs [--port 6006] [--host 127.0.0.1] [--config playwright.storybook.config.ts] [--spec tests/e2e/storybook-smoke.spec.ts] [--update-snapshots]',
     ].join('\n'),
   )
   process.exit(1)
@@ -23,6 +23,9 @@ function printUsageAndExit(message) {
 function parseArgs(argv) {
   let preferredPort = DEFAULT_PORT
   let host = DEFAULT_HOST
+  let config = 'playwright.storybook.config.ts'
+  let spec = 'tests/e2e/storybook-smoke.spec.ts'
+  let updateSnapshots = false
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i]
@@ -44,10 +47,28 @@ function parseArgs(argv) {
       i += 1
       continue
     }
+    if (arg === '--spec') {
+      const value = argv[i + 1]
+      if (value == null) printUsageAndExit('Missing value for --spec')
+      spec = value
+      i += 1
+      continue
+    }
+    if (arg === '--config') {
+      const value = argv[i + 1]
+      if (value == null) printUsageAndExit('Missing value for --config')
+      config = value
+      i += 1
+      continue
+    }
+    if (arg === '--update-snapshots') {
+      updateSnapshots = true
+      continue
+    }
     printUsageAndExit(`Unknown argument: ${arg}`)
   }
 
-  return { preferredPort, host }
+  return { preferredPort, host, config, spec, updateSnapshots }
 }
 
 function findAvailablePort(host, startingPort, attempts = 20) {
@@ -153,7 +174,9 @@ function classifyFailure(output) {
 }
 
 async function run() {
-  const { preferredPort, host } = parseArgs(process.argv.slice(2))
+  const { preferredPort, host, config, spec, updateSnapshots } = parseArgs(
+    process.argv.slice(2),
+  )
   let port
   try {
     port = await findAvailablePort(host, preferredPort)
@@ -230,7 +253,15 @@ async function run() {
 
   const testChild = spawn(
     'npx',
-    ['playwright', 'test', 'tests/e2e/storybook-smoke.spec.ts', '--project=chromium'],
+    [
+      'playwright',
+      'test',
+      '-c',
+      config,
+      spec,
+      '--project=chromium',
+      ...(updateSnapshots ? ['--update-snapshots'] : []),
+    ],
     {
       stdio: ['inherit', 'pipe', 'pipe'],
       env: {
