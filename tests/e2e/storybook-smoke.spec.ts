@@ -10,6 +10,9 @@ async function gotoStory(page: Page, id: string) {
     { waitUntil: 'domcontentloaded' },
   )
   await page.waitForSelector('#storybook-root, #root')
+  await page.waitForFunction(
+    () => !document.body.classList.contains('sb-show-preparing-story'),
+  )
 }
 
 test('storybook deferred SVG fallback story renders', async ({ page }) => {
@@ -60,12 +63,58 @@ test('storybook loading article story renders', async ({ page }) => {
   await page.setViewportSize({ width: 900, height: 900 })
   await gotoStory(page, 'app-pure-views-loading-states--search-results-panel')
 
-  await expect(page.locator('article')).toBeVisible()
+  await expect(page.getByTestId('loading-article')).toBeVisible()
 })
 
 test('storybook loading mojidata story renders', async ({ page }) => {
   await page.setViewportSize({ width: 1200, height: 1000 })
   await gotoStory(page, 'app-pure-views-loading-states--mojidata-article')
 
-  await expect(page.locator('article')).toBeVisible()
+  await expect(page.getByTestId('loading-mojidata-article')).toBeVisible()
+})
+
+test('storybook deferred variants pure collapsed story renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 1000 })
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojidatadeferredvariantsview--collapsed',
+  )
+
+  await expect(
+    page.getByRole('button', { name: /Show 2 more variants/ }),
+  ).toBeVisible()
+  await expect(
+    page.getByTestId('mojidata-variants-comparison'),
+  ).toHaveCount(0)
+})
+
+test('storybook deferred variants pure expanded story renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 1000 })
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojidatadeferredvariantsview--expanded',
+  )
+
+  await expect(
+    page.getByRole('button', { name: /Show fewer variants/ }),
+  ).toBeVisible()
+  await expect(
+    page.getByTestId('mojidata-variants-comparison'),
+  ).toBeVisible()
+})
+
+test('storybook deferred variants interactive story renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 1000 })
+  await gotoStory(
+    page,
+    'mojidata-interactive-mojidatadeferredvariants--default',
+  )
+
+  await expect(page.getByRole('button')).toBeVisible()
 })

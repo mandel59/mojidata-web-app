@@ -10,6 +10,7 @@ import styles from './LoadingArticle.module.css'
 export default function LoadingArticle() {
   return (
     <article
+      data-testid="loading-article"
       className={cn(
         surfaceStyles.cardSurface,
         surfaceStyles.radiusCard,

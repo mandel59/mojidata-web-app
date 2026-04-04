@@ -9,6 +9,7 @@ import styles from './LoadingMojidataArticle.module.css'
 export default function LoadingMojidataArticle() {
   return (
     <article
+      data-testid="loading-mojidata-article"
       className={cn(
         surfaceStyles.cardSurface,
         surfaceStyles.radiusMd,

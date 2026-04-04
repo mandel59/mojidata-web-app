@@ -9,6 +9,10 @@ async function gotoStory(page: Page, id: string) {
     `${storybookBaseUrl}/iframe.html?id=${id}&viewMode=story`,
     { waitUntil: 'domcontentloaded' },
   )
+  await page.waitForSelector('#storybook-root, #root')
+  await page.waitForFunction(
+    () => !document.body.classList.contains('sb-show-preparing-story'),
+  )
   await page.evaluate(async () => {
     if ('fonts' in document) {
       await document.fonts.ready
@@ -117,7 +121,7 @@ test('storybook loading article matches baseline', async ({ page }) => {
   await page.setViewportSize({ width: 900, height: 900 })
   await gotoStory(page, 'app-pure-views-loading-states--search-results-panel')
 
-  await expect(page.locator('article')).toHaveScreenshot(
+  await expect(page.getByTestId('loading-article')).toHaveScreenshot(
     'storybook-loading-article.png',
     {
       animations: 'disabled',
@@ -133,8 +137,46 @@ test('storybook loading mojidata article matches baseline', async ({
   await page.setViewportSize({ width: 1200, height: 1000 })
   await gotoStory(page, 'app-pure-views-loading-states--mojidata-article')
 
-  await expect(page.locator('article')).toHaveScreenshot(
+  await expect(page.getByTestId('loading-mojidata-article')).toHaveScreenshot(
     'storybook-loading-mojidata-article.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook deferred variants collapsed matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 1000 })
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojidatadeferredvariantsview--collapsed',
+  )
+
+  await expect(page.getByTestId('mojidata-deferred-variants-view')).toHaveScreenshot(
+    'storybook-mojidata-deferred-variants-collapsed.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook deferred variants expanded matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 1000 })
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojidatadeferredvariantsview--expanded',
+  )
+
+  await expect(page.getByTestId('mojidata-deferred-variants-view')).toHaveScreenshot(
+    'storybook-mojidata-deferred-variants-expanded.png',
     {
       animations: 'disabled',
       caret: 'hide',
