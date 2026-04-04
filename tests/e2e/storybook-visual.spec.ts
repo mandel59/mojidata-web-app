@@ -20,7 +20,7 @@ async function gotoStory(page: Page, id: string) {
 test('storybook glyph wiki fallback matches baseline', async ({ page }) => {
   await gotoStory(
     page,
-    'mojidata-deferredcharsvgimageview--glyph-wiki-fallback',
+    'mojidata-pure-views-deferredcharsvgimageview--glyph-wiki-fallback',
   )
 
   await expect(page.getByTestId('deferred-char-image')).toHaveScreenshot(
@@ -36,7 +36,7 @@ test('storybook glyph wiki fallback matches baseline', async ({ page }) => {
 test('storybook glyph wiki loaded matches baseline', async ({ page }) => {
   await gotoStory(
     page,
-    'mojidata-deferredcharsvgimageview--glyph-wiki-loaded',
+    'mojidata-pure-views-deferredcharsvgimageview--glyph-wiki-loaded',
   )
 
   await expect(page.getByTestId('deferred-char-image')).toHaveScreenshot(
@@ -52,7 +52,7 @@ test('storybook glyph wiki loaded matches baseline', async ({ page }) => {
 test('storybook ipamjm fallback matches baseline', async ({ page }) => {
   await gotoStory(
     page,
-    'mojidata-deferredcharsvgimageview--ipamjm-fallback',
+    'mojidata-pure-views-deferredcharsvgimageview--ipamjm-fallback',
   )
 
   await expect(page.getByTestId('deferred-char-image')).toHaveScreenshot(
@@ -68,7 +68,7 @@ test('storybook ipamjm fallback matches baseline', async ({ page }) => {
 test('storybook ipamjm loaded matches baseline', async ({ page }) => {
   await gotoStory(
     page,
-    'mojidata-deferredcharsvgimageview--ipamjm-loaded',
+    'mojidata-pure-views-deferredcharsvgimageview--ipamjm-loaded',
   )
 
   await expect(page.getByTestId('deferred-char-image')).toHaveScreenshot(
@@ -85,7 +85,7 @@ test('storybook mojidata section nav mobile matches baseline', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 430, height: 960 })
-  await gotoStory(page, 'mojidata-mojidatasectionnav--mobile')
+  await gotoStory(page, 'mojidata-pure-views-mojidatasectionnavview--mobile')
 
   await expect(page.getByTestId('mojidata-section-nav-mobile')).toHaveScreenshot(
     'storybook-mojidata-section-nav-mobile.png',
@@ -101,7 +101,7 @@ test('storybook mojidata section nav desktop matches baseline', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1200 })
-  await gotoStory(page, 'mojidata-mojidatasectionnav--desktop')
+  await gotoStory(page, 'mojidata-pure-views-mojidatasectionnavview--desktop')
 
   await expect(page.getByTestId('mojidata-toc-sidebar')).toHaveScreenshot(
     'storybook-mojidata-section-nav-desktop.png',
@@ -115,7 +115,7 @@ test('storybook mojidata section nav desktop matches baseline', async ({
 
 test('storybook loading article matches baseline', async ({ page }) => {
   await page.setViewportSize({ width: 900, height: 900 })
-  await gotoStory(page, 'app-loading-states--search-results-panel')
+  await gotoStory(page, 'app-pure-views-loading-states--search-results-panel')
 
   await expect(page.locator('article')).toHaveScreenshot(
     'storybook-loading-article.png',
@@ -131,7 +131,7 @@ test('storybook loading mojidata article matches baseline', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 1000 })
-  await gotoStory(page, 'app-loading-states--mojidata-article')
+  await gotoStory(page, 'app-pure-views-loading-states--mojidata-article')
 
   await expect(page.locator('article')).toHaveScreenshot(
     'storybook-loading-mojidata-article.png',

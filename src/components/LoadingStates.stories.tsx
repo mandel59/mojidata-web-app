@@ -23,7 +23,7 @@ function StoryFrame(props: {
 }
 
 const meta = {
-  title: 'App/Loading States',
+  title: 'App/Pure Views/Loading States',
   parameters: {
     layout: 'fullscreen',
     docs: {

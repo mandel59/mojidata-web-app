@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import DeferredCharSvgImageView from './DeferredCharSvgImageView'
 
 const meta = {
-  title: 'Mojidata/DeferredCharSvgImageView',
+  title: 'Mojidata/Pure Views/DeferredCharSvgImageView',
   component: DeferredCharSvgImageView,
   parameters: {
     layout: 'centered',

@@ -1,9 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
-import styles from './MojidataSectionNav.module.css'
-import surfaceStyles from './Surface.module.css'
+import MojidataSectionNavView from './MojidataSectionNavView'
 
 export interface MojidataSectionNavSection {
   id: string
@@ -73,76 +71,10 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
     }
   }, [anchorKey])
 
-  const links = sections.map((section) => (
-    <a
-      key={section.id}
-      href={`#${section.id}`}
-      className={cn(
-              surfaceStyles.pillBase,
-              surfaceStyles.pillInteractive,
-              styles.link,
-              section.id === activeSectionId &&
-                cn(surfaceStyles.pillActive, styles.active),
-            )}
-    >
-      {section.label}
-    </a>
-  ))
-
   return (
-    <>
-      <nav
-        className={`${styles.nav} ${styles.mobile}`}
-        aria-label="Mojidata sections"
-        data-testid="mojidata-section-nav-mobile"
-      >
-        {sections.map((section) => (
-          <a
-            key={section.id}
-            href={`#${section.id}`}
-            className={cn(
-              surfaceStyles.pillBase,
-              surfaceStyles.pillInteractive,
-              surfaceStyles.radiusFrame,
-              styles.link,
-              styles.mobileLink,
-              section.id === activeSectionId &&
-                cn(surfaceStyles.pillActive, styles.active),
-            )}
-          >
-            {section.label}
-          </a>
-        ))}
-      </nav>
-      <aside
-        className={styles.sidebar}
-        aria-label="Mojidata table of contents"
-        data-testid="mojidata-toc-sidebar"
-      >
-        <nav
-          className={`${styles.nav} ${styles.sidebarNav}`}
-          aria-label="Mojidata sections"
-          data-testid="mojidata-section-nav-sidebar"
-        >
-          {sections.map((section) => (
-            <a
-              key={section.id}
-              href={`#${section.id}`}
-              className={cn(
-                surfaceStyles.pillBase,
-                surfaceStyles.pillInteractive,
-                surfaceStyles.radiusFrame,
-                styles.link,
-                styles.sidebarLink,
-                section.id === activeSectionId &&
-                  cn(surfaceStyles.pillActive, styles.active),
-              )}
-            >
-              {section.label}
-            </a>
-          ))}
-        </nav>
-      </aside>
-    </>
+    <MojidataSectionNavView
+      sections={sections}
+      activeSectionId={activeSectionId}
+    />
   )
 }

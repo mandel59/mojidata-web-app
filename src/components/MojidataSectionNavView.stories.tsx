@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import MojidataSectionNav from './MojidataSectionNav'
+import MojidataSectionNavView from './MojidataSectionNavView'
 
 const sections = [
   { id: 'Character_Data', label: 'Character Data' },
@@ -52,20 +52,20 @@ function StoryFrame(props: {
 }
 
 const meta = {
-  title: 'Mojidata/Interactive/MojidataSectionNav',
-  component: MojidataSectionNav,
+  title: 'Mojidata/Pure Views/MojidataSectionNavView',
+  component: MojidataSectionNavView,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Interactive controller for Mojidata section navigation. These stories keep the browser scroll/hash behavior wired up, so they sit in the Interactive category instead of Pure Views.',
+          'Pure view for Mojidata section navigation. The active section is injected as data, so Storybook can verify the mobile and sidebar chrome without browser scroll/hash behavior.',
       },
     },
   },
   args: {
     sections,
-    anchorKey: 'storybook-nav',
+    activeSectionId: 'Character_Data',
   },
 }
 

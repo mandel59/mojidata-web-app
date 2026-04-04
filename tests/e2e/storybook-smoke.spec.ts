@@ -15,7 +15,7 @@ async function gotoStory(page: Page, id: string) {
 test('storybook deferred SVG fallback story renders', async ({ page }) => {
   await gotoStory(
     page,
-    'mojidata-deferredcharsvgimageview--glyph-wiki-fallback',
+    'mojidata-pure-views-deferredcharsvgimageview--glyph-wiki-fallback',
   )
 
   const glyph = page.getByTestId('deferred-char-image')
@@ -28,7 +28,7 @@ test('storybook deferred SVG fallback story renders', async ({ page }) => {
 test('storybook deferred SVG loaded story renders image', async ({ page }) => {
   await gotoStory(
     page,
-    'mojidata-deferredcharsvgimageview--glyph-wiki-loaded',
+    'mojidata-pure-views-deferredcharsvgimageview--glyph-wiki-loaded',
   )
 
   const glyph = page.getByTestId('deferred-char-image')
@@ -38,7 +38,7 @@ test('storybook deferred SVG loaded story renders image', async ({ page }) => {
 
 test('storybook mojidata section nav mobile story renders', async ({ page }) => {
   await page.setViewportSize({ width: 430, height: 960 })
-  await gotoStory(page, 'mojidata-mojidatasectionnav--mobile')
+  await gotoStory(page, 'mojidata-interactive-mojidatasectionnav--mobile')
 
   await expect(
     page.getByTestId('mojidata-section-nav-mobile'),
@@ -48,7 +48,7 @@ test('storybook mojidata section nav mobile story renders', async ({ page }) => 
 
 test('storybook mojidata section nav desktop story renders', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 })
-  await gotoStory(page, 'mojidata-mojidatasectionnav--desktop')
+  await gotoStory(page, 'mojidata-interactive-mojidatasectionnav--desktop')
 
   await expect(page.locator('aside')).toBeVisible()
   await expect(
@@ -58,14 +58,14 @@ test('storybook mojidata section nav desktop story renders', async ({ page }) =>
 
 test('storybook loading article story renders', async ({ page }) => {
   await page.setViewportSize({ width: 900, height: 900 })
-  await gotoStory(page, 'app-loading-states--search-results-panel')
+  await gotoStory(page, 'app-pure-views-loading-states--search-results-panel')
 
   await expect(page.locator('article')).toBeVisible()
 })
 
 test('storybook loading mojidata story renders', async ({ page }) => {
   await page.setViewportSize({ width: 1200, height: 1000 })
-  await gotoStory(page, 'app-loading-states--mojidata-article')
+  await gotoStory(page, 'app-pure-views-loading-states--mojidata-article')
 
   await expect(page.locator('article')).toBeVisible()
 })
