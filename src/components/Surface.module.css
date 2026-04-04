@@ -69,3 +69,22 @@
   color: hsl(var(--foreground));
   border-color: hsl(var(--primary));
 }
+
+.interactiveTileBase {
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  background: #fff;
+}
+
+.interactiveTileHover {
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease;
+}
+
+.interactiveTileHover:hover {
+  transform: translateY(-1px);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 8px 18px rgb(15 23 42 / 8%);
+}

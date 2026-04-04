@@ -15,25 +15,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.6rem;
-  background: #fff;
   font-size: 50px;
   width: 64px;
   height: 64px;
   line-height: 55px;
   text-align: center;
   overflow: clip;
-  transition:
-    transform 120ms ease,
-    box-shadow 120ms ease,
-    border-color 120ms ease;
-}
-
-.resultChar:hover {
-  transform: translateY(-1px);
-  border-color: hsl(var(--primary));
-  box-shadow: 0 8px 18px rgb(15 23 42 / 8%);
 }
 
 .resultLink {

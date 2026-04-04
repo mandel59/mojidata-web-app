@@ -76,7 +76,11 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                 )}`
             return (
               <div
-                className={styles.resultChar}
+                className={cn(
+                  surfaceStyles.interactiveTileBase,
+                  surfaceStyles.interactiveTileHover,
+                  styles.resultChar,
+                )}
                 lang="ja"
                 key={char}
                 title={toRefName(char)}
