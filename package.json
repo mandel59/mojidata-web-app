@@ -14,6 +14,8 @@
     "lint:css": "stylelint 'src/**/*.css'",
     "refresh:storybook-fixtures": "./scripts/refresh-storybook-svg-fixtures.sh",
     "test:e2e": "playwright test",
+    "test:sequential": "node scripts/run-sequential.mjs",
+    "verify:ui:sequential": "node scripts/run-sequential.mjs --cmd \"npx playwright test 'tests/e2e/chrome-visual.spec.ts' --project=chromium\" --cmd \"npx playwright test 'tests/e2e/search-visual.spec.ts' --project=chromium\" --cmd \"npx playwright test 'tests/e2e/mojidata.spec.ts' --project=chromium --grep 'desktop mojidata keeps the TOC sidebar beside the main content|moji_joho display mode toggles without route refetch'\" --cmd \"npx playwright test 'tests/e2e/bot-rewrite.spec.ts' --project=chromium --grep 'mobile non-SPA search page can use search examples|mobile non-SPA search results page keeps form usable|mobile non-SPA idsfind results page keeps form usable'\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "visual:compare": "node scripts/run-visual-suite.mjs compare",

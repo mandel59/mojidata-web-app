@@ -30,3 +30,6 @@
 - Sandbox/approval note: in restricted environments, these typically require permission escalation:
   - `jj commit` (needs to write to `.git/objects` to create commit objects)
   - Integration tests that start local servers / bind ports (e.g. Vite) or launch browsers (e.g. Playwright)
+
+- When running multiple Playwright commands that each rely on `config.webServer`, prefer a **sequential** entrypoint instead of parallel shell execution to avoid local port conflicts.  
+  Example: `npm run verify:ui:sequential`
