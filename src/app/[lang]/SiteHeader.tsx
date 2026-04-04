@@ -67,6 +67,7 @@ export function SiteHeader(props: SiteHeaderProps) {
               surfaceStyles.focusRing,
               surfaceStyles.mutedHoverBg,
               surfaceStyles.mutedHoverFg,
+              textStyles.labelSm,
               textStyles.mutedFg,
               styles.moreSummary,
             )}
@@ -79,6 +80,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             className={cn(
               surfaceStyles.outlinedSurface,
               surfaceStyles.radiusSm,
+              textStyles.bodySm,
               styles.menu,
             )}
           >

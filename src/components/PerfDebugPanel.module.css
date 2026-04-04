@@ -1,10 +1,5 @@
-.panel {
-  font-size: 0.875rem;
-}
-
 .summary {
   cursor: pointer;
-  font-weight: 500;
 }
 
 .metrics {

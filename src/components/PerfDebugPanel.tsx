@@ -31,10 +31,11 @@ export default function PerfDebugPanel(
         surfaceStyles.cardSurface,
         surfaceStyles.radiusSm,
         surfaceStyles.paddingMd,
+        textStyles.bodySm,
         styles.panel,
       )}
     >
-      <summary className={styles.summary}>
+      <summary className={cn(textStyles.labelSm, styles.summary)}>
         {title} ({mode})
       </summary>
       <dl className={styles.metrics}>

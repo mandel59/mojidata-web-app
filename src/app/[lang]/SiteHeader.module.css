@@ -56,8 +56,6 @@
 .moreSummary {
   cursor: pointer;
   list-style: none;
-  font-size: 0.875rem;
-  font-weight: 500;
 }
 
 .menu {
@@ -67,7 +65,6 @@
   z-index: 30;
   min-width: 11rem;
   padding: 0.25rem;
-  font-size: 0.875rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%);
 }
 
