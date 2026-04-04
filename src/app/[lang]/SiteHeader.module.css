@@ -40,11 +40,9 @@
 .navLink,
 .moreSummary {
   padding: 0 0.5rem;
-  color: hsl(var(--muted-foreground));
 }
 
 .navLink {
-  color: hsl(var(--muted-foreground));
   text-decoration: none;
 }
 

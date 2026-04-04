@@ -4,6 +4,7 @@ import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import { getText, Language } from '@/getText'
 import { cn } from '@/lib/utils'
 import surfaceStyles from '@/components/Surface.module.css'
+import textStyles from '@/components/Text.module.css'
 import Link from 'next/link'
 import styles from './SiteHeader.module.css'
 
@@ -35,6 +36,7 @@ export function SiteHeader(props: SiteHeaderProps) {
                 surfaceStyles.radiusXs,
                 surfaceStyles.mutedHoverBg,
                 surfaceStyles.mutedHoverFg,
+                textStyles.mutedFg,
                 styles.navLink,
               )}
               href={searchPath}
@@ -47,6 +49,7 @@ export function SiteHeader(props: SiteHeaderProps) {
                 surfaceStyles.radiusXs,
                 surfaceStyles.mutedHoverBg,
                 surfaceStyles.mutedHoverFg,
+                textStyles.mutedFg,
                 styles.navLink,
               )}
               href={idsfindPath}
@@ -64,6 +67,7 @@ export function SiteHeader(props: SiteHeaderProps) {
               surfaceStyles.focusRing,
               surfaceStyles.mutedHoverBg,
               surfaceStyles.mutedHoverFg,
+              textStyles.mutedFg,
               styles.moreSummary,
             )}
           >

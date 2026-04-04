@@ -36,7 +36,3 @@
 .resultGlyphImage img {
   display: block;
 }
-
-.empty {
-  color: hsl(var(--muted-foreground));
-}

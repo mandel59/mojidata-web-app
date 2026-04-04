@@ -5,6 +5,7 @@ import GlyphWikiCharImg from '@/components/GlyphWikiCharImg'
 import IntentPrefetchLink from '@/components/IntentPrefetchLink'
 import dividerStyles from '@/components/SectionDivider.module.css'
 import surfaceStyles from '@/components/Surface.module.css'
+import textStyles from '@/components/Text.module.css'
 import { cn } from '@/lib/utils'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
 import styles from './IdsFindResponseView.module.css'
@@ -113,7 +114,9 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
             ))}
         </div>
       )}
-      {total === 0 && <p className={styles.empty}>No results found.</p>}
+      {total === 0 && (
+        <p className={textStyles.mutedBodySm}>No results found.</p>
+      )}
       {total === 0 && wholeSearch && whole && (
         <p>
           <ConditionalLink
