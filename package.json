@@ -17,6 +17,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "visual:compare": "node scripts/run-visual-suite.mjs compare",
+    "visual:compare:3000": "node scripts/run-visual-suite.mjs compare --port 3000",
     "visual:refresh-baseline": "node scripts/run-visual-suite.mjs refresh-baseline",
     "compare:styles": "node scripts/compare-rendered-styles.mjs",
     "compare:mojidata:layout": "node scripts/compare-mojidata-layout.mjs",

@@ -1,10 +1,11 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const visualServerPort = process.env.VISUAL_SERVER_PORT ?? '3300'
 const visualTargetUrl =
-  process.env.VISUAL_TARGET_URL ?? 'http://127.0.0.1:3000'
+  process.env.VISUAL_TARGET_URL ?? `http://127.0.0.1:${visualServerPort}`
 const useLocalVisualServer = (() => {
   try {
-    return new URL(visualTargetUrl).origin === 'http://127.0.0.1:3000'
+    return new URL(visualTargetUrl).origin === `http://127.0.0.1:${visualServerPort}`
   } catch {
     return false
   }
@@ -30,8 +31,8 @@ export default defineConfig({
   ],
   webServer: useLocalVisualServer
     ? {
-        command: 'npm run dev -- --port 3000',
-        url: 'http://127.0.0.1:3000',
+        command: `npm run dev -- --port ${visualServerPort}`,
+        url: `http://127.0.0.1:${visualServerPort}`,
         env: {
           BOT_DELAY_DISABLE: '1',
         },

@@ -2,7 +2,8 @@
 
 import { spawn } from 'node:child_process'
 
-const DEFAULT_COMPARE_URL = 'http://127.0.0.1:3000'
+const DEFAULT_COMPARE_PORT = 3300
+const DEFAULT_COMPARE_URL = `http://127.0.0.1:${DEFAULT_COMPARE_PORT}`
 const DEFAULT_BASELINE_URL = 'http://127.0.0.1:3002'
 
 function parseArgs(argv) {
@@ -13,6 +14,7 @@ function parseArgs(argv) {
 
   let targetUrl =
     mode === 'compare' ? DEFAULT_COMPARE_URL : DEFAULT_BASELINE_URL
+  let port = mode === 'compare' ? DEFAULT_COMPARE_PORT : null
 
   for (let i = 0; i < rest.length; i += 1) {
     const arg = rest[i]
@@ -25,10 +27,26 @@ function parseArgs(argv) {
       i += 1
       continue
     }
+    if (arg === '--port') {
+      const value = rest[i + 1]
+      if (value == null) {
+        printUsageAndExit('Missing value for --port')
+      }
+      const parsed = Number.parseInt(value, 10)
+      if (!Number.isInteger(parsed) || parsed <= 0) {
+        printUsageAndExit(`Invalid port: ${value}`)
+      }
+      port = parsed
+      if (mode === 'compare') {
+        targetUrl = `http://127.0.0.1:${parsed}`
+      }
+      i += 1
+      continue
+    }
     printUsageAndExit(`Unknown argument: ${arg}`)
   }
 
-  return { mode, targetUrl }
+  return { mode, port, targetUrl }
 }
 
 function printUsageAndExit(message) {
@@ -39,7 +57,7 @@ function printUsageAndExit(message) {
   console.error(
     [
       'Usage:',
-      '  node scripts/run-visual-suite.mjs compare [--target-url http://127.0.0.1:3000]',
+      '  node scripts/run-visual-suite.mjs compare [--port 3300] [--target-url http://127.0.0.1:3300]',
       '  node scripts/run-visual-suite.mjs refresh-baseline [--target-url http://127.0.0.1:3002]',
     ].join('\n'),
   )
@@ -103,7 +121,7 @@ function printFailureHint(output, targetUrl) {
   console.error(matched.details)
 }
 
-async function runVisualSuite({ mode, targetUrl }) {
+async function runVisualSuite({ mode, port, targetUrl }) {
   if (mode === 'refresh-baseline') {
     const reachable = await ensureReachable(targetUrl)
     if (!reachable) {
@@ -123,6 +141,7 @@ async function runVisualSuite({ mode, targetUrl }) {
   const env = {
     ...process.env,
     VISUAL_TARGET_URL: targetUrl,
+    VISUAL_SERVER_PORT: port == null ? '' : String(port),
   }
 
   console.error(
@@ -130,7 +149,7 @@ async function runVisualSuite({ mode, targetUrl }) {
       `Running visual suite in ${mode} mode.`,
       `Target URL: ${targetUrl}`,
       mode === 'compare'
-        ? 'Local current runs auto-start the app when target-url is 127.0.0.1:3000.'
+        ? `Local current runs auto-start the app when target-url stays on 127.0.0.1:${port ?? DEFAULT_COMPARE_PORT}.`
         : 'Baseline mode expects the target app to already be running.',
     ].join('\n'),
   )
