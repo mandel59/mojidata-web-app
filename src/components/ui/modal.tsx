@@ -73,7 +73,12 @@ export function Modal(props: ModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={cn(surfaceStyles.outlinedSurface, styles.dialog)}
+        className={cn(
+          surfaceStyles.outlinedSurface,
+          surfaceStyles.paddingLg,
+          surfaceStyles.radiusMd,
+          styles.dialog,
+        )}
       >
         <div className={cn(surfaceStyles.headerDivider, styles.header)}>
           <h3 id={titleId} className={styles.title}>

@@ -41,7 +41,11 @@ export function Drawer({ open, title, onClose, children }: DrawerProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={cn(surfaceStyles.outlinedSurface, styles.drawer)}
+        className={cn(
+          surfaceStyles.outlinedSurface,
+          surfaceStyles.paddingLg,
+          styles.drawer,
+        )}
       >
         <div className={cn(surfaceStyles.headerDivider, styles.header)}>
           <h3 id={titleId} className={styles.title}>{title}</h3>

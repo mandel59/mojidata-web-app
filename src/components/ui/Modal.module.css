@@ -16,8 +16,6 @@
   max-height: 85vh;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 0.5rem;
-  padding: 1rem;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%);
 }
 

@@ -15,6 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         className={cn(
           surfaceStyles.textFieldBase,
           surfaceStyles.textFieldFocus,
+          surfaceStyles.radiusInset,
           styles.input,
           className,
         )}
