@@ -7,7 +7,13 @@ import styles from './LoadingMojidataArticle.module.css'
 
 export default function LoadingMojidataArticle() {
   return (
-    <article className={cn(surfaceStyles.cardSurface, styles.article)}>
+    <article
+      className={cn(
+        surfaceStyles.cardSurface,
+        surfaceStyles.radiusMd,
+        surfaceStyles.paddingLg,
+      )}
+    >
       <div className={cn(skeletonStyles.pulseBlock, styles.heading)} aria-hidden />
       <div className={styles.summary}>
         <div className={cn(skeletonStyles.pulseBlock, styles.glyph)} aria-hidden />

@@ -469,7 +469,13 @@ export default function MojidataResponseView(
 
 
   return (
-    <article className={`${surfaceStyles.cardSurface} ${cardStyles.card} ${styles.article}`}>
+    <article
+      className={cn(
+        surfaceStyles.cardSurface,
+        surfaceStyles.paddingLg,
+        cardStyles.card,
+      )}
+    >
       <div className={styles.response} data-testid="mojidata-response">
         <section className={styles.summaryWrap} data-testid="mojidata-summary-wrap">
           <div

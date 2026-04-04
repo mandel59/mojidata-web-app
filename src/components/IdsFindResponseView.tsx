@@ -64,7 +64,13 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
   } = props
 
   return (
-    <article className={cn(surfaceStyles.cardSurface, styles.article)}>
+    <article
+      className={cn(
+        surfaceStyles.cardSurface,
+        surfaceStyles.radiusCard,
+        surfaceStyles.paddingLg,
+      )}
+    >
       {total > 0 && (
         <div className={styles.results}>
           {results.map((char: string) => {

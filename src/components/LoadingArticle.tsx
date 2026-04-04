@@ -8,7 +8,13 @@ import styles from './LoadingArticle.module.css'
 
 export default function LoadingArticle() {
   return (
-    <article className={cn(surfaceStyles.cardSurface, styles.article)}>
+    <article
+      className={cn(
+        surfaceStyles.cardSurface,
+        surfaceStyles.radiusCard,
+        surfaceStyles.paddingLg,
+      )}
+    >
       <div className={styles.chips} aria-hidden>
         {Array.from({ length: 12 }).map((_, i) => (
           <span key={i} className={cn(skeletonStyles.pulseBlock, styles.chip)} />

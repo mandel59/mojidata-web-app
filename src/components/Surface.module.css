@@ -39,6 +39,10 @@
   border-radius: 0.5rem;
 }
 
+.radiusCard {
+  border-radius: var(--radius);
+}
+
 .radiusFrame {
   border-radius: 0.6rem;
 }
@@ -49,6 +53,10 @@
 
 .paddingMd {
   padding: 0.75rem;
+}
+
+.paddingLg {
+  padding: 1rem;
 }
 
 .headerDivider {
