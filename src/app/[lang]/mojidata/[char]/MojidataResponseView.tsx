@@ -625,7 +625,13 @@ export default function MojidataResponseView(
         {charIsHan && results.ids.length > 0 && (
           <>
             <h3 id="IDS">{getText('ids.h3', lang)}</h3>
-            <table className={tableStyles.table}>
+            <table
+              className={cn(
+                surfaceStyles.whitePanelSurface,
+                surfaceStyles.radiusFrame,
+                tableStyles.table,
+              )}
+            >
               <thead>
                 <tr>
                   <th>IDS</th>

@@ -2,9 +2,6 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.6rem;
-  background: #fff;
   font-size: 0.95rem;
 }
 

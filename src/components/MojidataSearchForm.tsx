@@ -194,7 +194,13 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                 </Button>
               </div>
 
-              <table className={tableStyles.table}>
+              <table
+                className={cn(
+                  surfaceStyles.whitePanelSurface,
+                  surfaceStyles.radiusFrame,
+                  tableStyles.table,
+                )}
+              >
                 <thead>
                   <tr>
                     {[
