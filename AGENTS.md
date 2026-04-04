@@ -33,3 +33,6 @@
 
 - When running multiple Playwright commands that each rely on `config.webServer`, prefer a **sequential** entrypoint instead of parallel shell execution to avoid local port conflicts.  
   Example: `npm run verify:ui:sequential`
+
+- For partial Playwright runs, prefer the dedicated wrapper so the spec gets its own local server port.  
+  Example: `npm run test:e2e:target -- -- 'tests/e2e/mojidata.spec.ts' --project=chromium --grep '...'`
