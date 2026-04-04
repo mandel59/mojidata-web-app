@@ -224,3 +224,67 @@ test('storybook moji_joho display control image matches baseline', async ({
     maxDiffPixelRatio: 0.001,
   })
 })
+
+test('storybook mojidata page composition desktop matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1200 })
+  await gotoStory(page, 'app-layout-compositions-mojidatapage--desktop')
+
+  await expect(page.getByTestId('mojidata-layout-composition')).toHaveScreenshot(
+    'storybook-mojidata-layout-composition-desktop.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook mojidata page composition mobile matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 430, height: 960 })
+  await gotoStory(page, 'app-layout-compositions-mojidatapage--mobile')
+
+  await expect(page.getByTestId('mojidata-layout-composition')).toHaveScreenshot(
+    'storybook-mojidata-layout-composition-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook search page composition desktop matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1200 })
+  await gotoStory(page, 'app-layout-compositions-searchresultspage--desktop')
+
+  await expect(page.getByTestId('search-layout-page-composition')).toHaveScreenshot(
+    'storybook-search-layout-composition-desktop.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook search page composition mobile matches baseline', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 430, height: 960 })
+  await gotoStory(page, 'app-layout-compositions-searchresultspage--mobile')
+
+  await expect(page.getByTestId('search-layout-page-composition')).toHaveScreenshot(
+    'storybook-search-layout-composition-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})

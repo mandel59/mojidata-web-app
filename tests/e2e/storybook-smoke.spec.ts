@@ -163,3 +163,45 @@ test('storybook moji_joho display control interactive story toggles', async ({
   await imageButton.click()
   await expect(imageButton).toBeFocused()
 })
+
+test('storybook mojidata layout composition desktop story renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1200 })
+  await gotoStory(page, 'app-layout-compositions-mojidatapage--desktop')
+
+  await expect(page.getByTestId('mojidata-layout-composition')).toBeVisible()
+  await expect(page.getByTestId('mojidata-toc-sidebar')).toBeVisible()
+})
+
+test('storybook mojidata layout composition mobile story renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 430, height: 960 })
+  await gotoStory(page, 'app-layout-compositions-mojidatapage--mobile')
+
+  await expect(page.getByTestId('mojidata-layout-composition')).toBeVisible()
+  await expect(
+    page.getByTestId('mojidata-section-nav-mobile'),
+  ).toBeVisible()
+})
+
+test('storybook search layout composition desktop story renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1200 })
+  await gotoStory(page, 'app-layout-compositions-searchresultspage--desktop')
+
+  await expect(page.getByTestId('search-layout-page-composition')).toBeVisible()
+  await expect(page.getByTestId('search-layout-form-pane')).toBeVisible()
+})
+
+test('storybook search layout composition mobile story renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 430, height: 960 })
+  await gotoStory(page, 'app-layout-compositions-searchresultspage--mobile')
+
+  await expect(page.getByTestId('search-layout-page-composition')).toBeVisible()
+  await expect(page.getByTestId('search-layout-form-pane')).toBeVisible()
+})

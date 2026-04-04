@@ -1,0 +1,151 @@
+.storyFrame {
+  min-height: 100vh;
+  padding: 24px;
+  background: hsl(var(--muted) / 25%);
+}
+
+.page {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+}
+
+.pageMain {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.summaryCard {
+  display: block;
+}
+
+.summaryGlyph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.articleSurface {
+  min-width: 0;
+}
+
+.searchShell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.fieldStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.label {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.helper {
+  font-size: 0.82rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+}
+
+.examplesPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.examplesRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.resultList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.resultCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.resultTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.resultGlyph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  font-size: 52px;
+  color: #000;
+}
+
+.resultMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.resultTitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.resultSubtitle {
+  font-size: 0.86rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.resultBody {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.pagerRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+@media (width >= 768px) {
+  .storyFrame {
+    padding: 32px;
+  }
+
+  .searchShell {
+    display: grid;
+    grid-template-columns: minmax(20rem, 24rem) minmax(0, 1fr);
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .stickyPane {
+    position: sticky;
+    top: 1rem;
+  }
+}
