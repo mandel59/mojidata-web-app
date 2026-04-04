@@ -37,6 +37,7 @@ import tableStyles from '@/components/DataTable.module.css'
 import cardStyles from '@/components/ArticleCard.module.css'
 import richTextStyles from '@/components/RichText.module.css'
 import surfaceStyles from '@/components/Surface.module.css'
+import { cn } from '@/lib/utils'
 
 const langTags = ['zh-CN', 'zh-TW', 'zh-HK', 'ja-JP', 'ko-KR'] as const
 const irgKeys = {
@@ -109,12 +110,23 @@ function buildCharFrameClassName(options: {
   const baseClass = kdpv
     ? charFrameStyles.kdpvChar
     : charFrameStyles.char
-  return [baseClass]
-    .concat(link ? charFrameStyles.charLink : [])
-    .concat(glyphwiki ? charFrameStyles.glyphwiki : [])
-    .concat(comparison ? comparisonStyles.frame : [])
-    .concat(variant ? comparisonStyles.variantFrame : [])
-    .join(' ')
+  return cn(
+    surfaceStyles.whiteGlyphSurface,
+    surfaceStyles.radiusFrame,
+    baseClass,
+    link ? charFrameStyles.charLink : undefined,
+    glyphwiki ? charFrameStyles.glyphwiki : undefined,
+    comparison ? comparisonStyles.frame : undefined,
+    variant ? comparisonStyles.variantFrame : undefined,
+  )
+}
+
+function buildComparisonFigureClassName(variant = false): string {
+  return cn(
+    surfaceStyles.whitePanelSurface,
+    comparisonStyles.figureCard,
+    variant ? comparisonStyles.variantsFigureCard : undefined,
+  )
 }
 
 export interface MojidataResponseViewParams {
@@ -534,7 +546,7 @@ export default function MojidataResponseView(
           <>
             <h3 id="Unified_Ideograph">{getText('unified-ideograph.h3', lang)}</h3>
             <div className={comparisonStyles.comparison}>
-              <figure>
+              <figure className={buildComparisonFigureClassName()}>
                 <figcaption>
                   {canonicalCharacter.UCS} {canonicalCharacter.char}
                 </figcaption>
@@ -572,7 +584,10 @@ export default function MojidataResponseView(
             <div className={comparisonStyles.comparison}>
               {results.svs_cjkci.map((record) => {
                 return (
-                  <figure key={record.SVS}>
+                  <figure
+                    key={record.SVS}
+                    className={buildComparisonFigureClassName()}
+                  >
                     <figcaption>
                       {record.CJKCI} {record.CJKCI_char}
                       <br />
@@ -636,7 +651,10 @@ export default function MojidataResponseView(
             </h3>
             <div className={comparisonStyles.comparison}>
               {langTags.map((lang) => (
-                <figure key={lang}>
+                <figure
+                  key={lang}
+                  className={buildComparisonFigureClassName()}
+                >
                   <figcaption>
                     {lang}
                     <br />
@@ -661,7 +679,10 @@ export default function MojidataResponseView(
                     ({ cid }) => record.code === cid,
                   )
                   return (
-                    <figure key={record.code}>
+                    <figure
+                      key={record.code}
+                      className={buildComparisonFigureClassName()}
+                    >
                       <figcaption>
                         {record.code}
                         {record.code === aj1Jp04 && (
@@ -713,7 +734,10 @@ export default function MojidataResponseView(
             )}
             {isCompatibilityCharacter && ivsAj1.length === 0 && aj1Cid && (
               <div className={comparisonStyles.comparison}>
-                <figure key={aj1Cid}>
+                <figure
+                  key={aj1Cid}
+                  className={buildComparisonFigureClassName()}
+                >
                   <figcaption>
                     {aj1Cid}
                     <small
@@ -761,7 +785,10 @@ export default function MojidataResponseView(
               data-testid="mojidata-variants-comparison"
             >
               {initialVariantEntries.map((entry) => (
-                <figure key={entry.key}>
+                <figure
+                  key={entry.key}
+                  className={buildComparisonFigureClassName(true)}
+                >
                   <figcaption>
                     <div>{entry.heading}</div>
                     {entry.relationLines.map((line) => (

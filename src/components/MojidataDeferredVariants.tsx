@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { getText, type Language } from '@/getText'
+import { cn } from '@/lib/utils'
 import DeferredCharSvgImage from '@/components/DeferredCharSvgImage'
 import type { MojidataVariantEntry } from '@/components/mojidataVariantEntry'
 import styles from './MojidataDeferredVariants.module.css'
 import comparisonStyles from './MojidataComparison.module.css'
+import surfaceStyles from './Surface.module.css'
 
 export interface MojidataDeferredVariantsProps {
   lang: Language
@@ -44,7 +46,14 @@ export default function MojidataDeferredVariants(
           data-testid="mojidata-variants-comparison"
         >
           {entries.map((entry) => (
-            <figure key={entry.key}>
+            <figure
+              key={entry.key}
+              className={cn(
+                surfaceStyles.whitePanelSurface,
+                comparisonStyles.figureCard,
+                comparisonStyles.variantsFigureCard,
+              )}
+            >
               <figcaption>
                 <div>{entry.heading}</div>
                 {entry.relationLines.map((line) => (

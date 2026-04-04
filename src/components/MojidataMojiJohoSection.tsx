@@ -3,11 +3,13 @@
 import { startTransition, useEffect, useState } from 'react'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
+import { cn } from '@/lib/utils'
 import { toCodePoint } from '@/mojidata/mojidataShared'
 import { MojiJohoChar, MojiJohoDisplayModeControl } from '@/components/MojiJohoChar'
 import mojiJohoStyles from '@/components/MojiJohoChar.module.css'
 import charFrameStyles from '@/components/MojidataCharFrame.module.css'
 import comparisonStyles from '@/components/MojidataComparison.module.css'
+import surfaceStyles from '@/components/Surface.module.css'
 
 function toCodePoints(s: string) {
   return [...s].map((c) => toCodePoint(c)).join(' ')
@@ -75,7 +77,10 @@ export default function MojidataMojiJohoSection(
       />
       {mji.length > 0 && <div className={comparisonStyles.comparison}>
           {mji.map((record) => (
-            <figure key={record.code}>
+            <figure
+              key={record.code}
+              className={cn(surfaceStyles.whitePanelSurface, comparisonStyles.figureCard)}
+            >
               <figcaption>
                 <a href={record.href}>{record.code}</a>
                 {record.ucs === ucs && !record.compat && (
@@ -117,7 +122,12 @@ export default function MojidataMojiJohoSection(
                 <small>{toCodePoints(record.char)}</small>
               </figcaption>
               <div
-                className={`${charFrameStyles.char} ${comparisonStyles.frame}`}
+                className={cn(
+                  surfaceStyles.whiteGlyphSurface,
+                  surfaceStyles.radiusFrame,
+                  charFrameStyles.char,
+                  comparisonStyles.frame,
+                )}
                 lang="ja"
               >
                 <MojiJohoChar
@@ -131,14 +141,22 @@ export default function MojidataMojiJohoSection(
         </div>}
       {mjih.length > 0 && <div className={comparisonStyles.comparison}>
           {mjih.map((record) => (
-            <figure key={record.MJ文字図形名}>
+            <figure
+              key={record.MJ文字図形名}
+              className={cn(surfaceStyles.whitePanelSurface, comparisonStyles.figureCard)}
+            >
               <figcaption>
                 {record.MJ文字図形名}
                 <br />
                 <small>{record.UCS符号位置}</small>
               </figcaption>
               <div
-                className={`${charFrameStyles.char} ${comparisonStyles.frame}`}
+                className={cn(
+                  surfaceStyles.whiteGlyphSurface,
+                  surfaceStyles.radiusFrame,
+                  charFrameStyles.char,
+                  comparisonStyles.frame,
+                )}
                 lang="ja"
               >
                 {record.文字 ? (

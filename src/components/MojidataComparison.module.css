@@ -4,16 +4,14 @@
   gap: 0.65rem;
 }
 
-.comparison > figure {
+.figureCard {
   margin: 0;
   min-width: 132px;
   padding: 0.5rem;
-  border: 1px solid hsl(var(--border));
   border-radius: 0.7rem;
-  background: #fff;
 }
 
-.comparison > figure > figcaption {
+.figureCard > figcaption {
   margin: 0;
   padding: 0;
   border-bottom: 0;
@@ -21,7 +19,7 @@
   line-height: 1.35;
 }
 
-.comparison > figure > figcaption small {
+.figureCard > figcaption small {
   color: hsl(var(--muted-foreground));
 }
 
@@ -35,14 +33,14 @@
   gap: 0.65rem;
 }
 
-.variantsComparison > figure {
+.variantsFigureCard {
   display: flex;
   flex-direction: column;
   min-width: 0;
   height: 100%;
 }
 
-.variantsComparison > figure > figcaption {
+.variantsFigureCard > figcaption {
   min-height: 4.5rem;
   overflow: visible;
   margin-bottom: 0.45rem;
@@ -53,6 +51,6 @@
   margin-top: auto;
 }
 
-.variantsComparison > figure > figcaption > div {
+.variantsFigureCard > figcaption > div {
   margin-top: 0.1rem;
 }

@@ -4,6 +4,17 @@
   color: hsl(var(--card-foreground));
 }
 
+.whitePanelSurface {
+  border: 1px solid hsl(var(--border));
+  background: #fff;
+}
+
+.whiteGlyphSurface {
+  border: 1px solid hsl(var(--border));
+  background: #fff;
+  color: #000;
+}
+
 .cardSurface {
   border: 1px solid hsl(var(--border));
   background: hsl(var(--card));
@@ -26,6 +37,10 @@
 
 .radiusMd {
   border-radius: 0.5rem;
+}
+
+.radiusFrame {
+  border-radius: 0.6rem;
 }
 
 .paddingSm {
