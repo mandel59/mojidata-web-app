@@ -184,3 +184,43 @@ test('storybook deferred variants expanded matches baseline', async ({
     },
   )
 })
+
+test('storybook moji_joho display control auto matches baseline', async ({
+  page,
+}) => {
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojijohodisplaymodecontrolview--auto-selected',
+  )
+
+  await expect(
+    page.getByTestId('moji-joho-display-mode-control'),
+  ).toBeVisible()
+  await expect(
+    page.getByTestId('moji-joho-display-mode-control'),
+  ).toHaveScreenshot('storybook-moji-joho-display-control-auto.png', {
+    animations: 'disabled',
+    caret: 'hide',
+    maxDiffPixelRatio: 0.001,
+  })
+})
+
+test('storybook moji_joho display control image matches baseline', async ({
+  page,
+}) => {
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojijohodisplaymodecontrolview--image-selected',
+  )
+
+  await expect(
+    page.getByTestId('moji-joho-display-mode-control'),
+  ).toBeVisible()
+  await expect(
+    page.getByTestId('moji-joho-display-mode-control'),
+  ).toHaveScreenshot('storybook-moji-joho-display-control-image.png', {
+    animations: 'disabled',
+    caret: 'hide',
+    maxDiffPixelRatio: 0.001,
+  })
+})

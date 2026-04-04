@@ -118,3 +118,48 @@ test('storybook deferred variants interactive story renders', async ({
 
   await expect(page.getByRole('button')).toBeVisible()
 })
+
+test('storybook moji_joho display control pure auto story renders', async ({
+  page,
+}) => {
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojijohodisplaymodecontrolview--auto-selected',
+  )
+
+  await expect(
+    page.getByTestId('moji-joho-display-mode-control'),
+  ).toBeVisible()
+  await expect(
+    page.getByTestId('moji-joho-display-mode-auto'),
+  ).toBeVisible()
+})
+
+test('storybook moji_joho display control pure image story renders', async ({
+  page,
+}) => {
+  await gotoStory(
+    page,
+    'mojidata-pure-views-mojijohodisplaymodecontrolview--image-selected',
+  )
+
+  await expect(
+    page.getByTestId('moji-joho-display-mode-image'),
+  ).toBeVisible()
+})
+
+test('storybook moji_joho display control interactive story toggles', async ({
+  page,
+}) => {
+  await gotoStory(
+    page,
+    'mojidata-interactive-mojijohodisplaymodecontrol--interactive',
+  )
+
+  const autoButton = page.getByTestId('moji-joho-display-mode-auto')
+  const imageButton = page.getByTestId('moji-joho-display-mode-image')
+
+  await expect(autoButton).toBeVisible()
+  await imageButton.click()
+  await expect(imageButton).toBeFocused()
+})

@@ -4,10 +4,9 @@ import { ReactElement, useEffect, useState } from 'react'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
 import IpamjmCharImg from '@/components/IpamjmCharImg'
-import { cn } from '@/lib/utils'
 import styles from './MojiJohoChar.module.css'
 import charFrameStyles from './MojidataCharFrame.module.css'
-import surfaceStyles from './Surface.module.css'
+import MojiJohoDisplayModeControlView from './MojiJohoDisplayModeControlView'
 
 const IPAMJM_FONT_FAMILY = '"Mojidata-IPAmjMincho"'
 
@@ -78,30 +77,13 @@ export function MojiJohoDisplayModeControl(props: {
   const { lang, forceImage, onChangeForceImage } = props
 
   return (
-    <div className={styles.displayModeControl}>
-      <span>{getText('moji-joho.display.label', lang)}</span>
-      <button
-        type="button"
-        className={cn(
-          surfaceStyles.pillBase,
-          styles.button,
-          !forceImage && styles.buttonActive,
-        )}
-        onClick={() => onChangeForceImage(false)}
-      >
-        {getText('moji-joho.display.auto', lang)}
-      </button>
-      <button
-        type="button"
-        className={cn(
-          surfaceStyles.pillBase,
-          styles.button,
-          forceImage && styles.buttonActive,
-        )}
-        onClick={() => onChangeForceImage(true)}
-      >
-        {getText('moji-joho.display.image', lang)}
-      </button>
-    </div>
+    <MojiJohoDisplayModeControlView
+      label={getText('moji-joho.display.label', lang)}
+      autoLabel={getText('moji-joho.display.auto', lang)}
+      imageLabel={getText('moji-joho.display.image', lang)}
+      forceImage={forceImage}
+      onSelectAuto={() => onChangeForceImage(false)}
+      onSelectImage={() => onChangeForceImage(true)}
+    />
   )
 }
