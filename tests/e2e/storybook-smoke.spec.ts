@@ -1,8 +1,11 @@
 import { expect, test } from '@playwright/test'
 
+const storybookBaseUrl =
+  process.env.STORYBOOK_BASE_URL ?? 'http://127.0.0.1:6006'
+
 test('storybook deferred SVG fallback story renders', async ({ page }) => {
   await page.goto(
-    'http://127.0.0.1:6006/iframe.html?id=mojidata-deferredcharsvgimageview--glyph-wiki-fallback&viewMode=story',
+    `${storybookBaseUrl}/iframe.html?id=mojidata-deferredcharsvgimageview--glyph-wiki-fallback&viewMode=story`,
     { waitUntil: 'domcontentloaded' },
   )
 
@@ -15,7 +18,7 @@ test('storybook deferred SVG fallback story renders', async ({ page }) => {
 
 test('storybook deferred SVG loaded story renders image', async ({ page }) => {
   await page.goto(
-    'http://127.0.0.1:6006/iframe.html?id=mojidata-deferredcharsvgimageview--glyph-wiki-loaded&viewMode=story',
+    `${storybookBaseUrl}/iframe.html?id=mojidata-deferredcharsvgimageview--glyph-wiki-loaded&viewMode=story`,
     { waitUntil: 'domcontentloaded' },
   )
 

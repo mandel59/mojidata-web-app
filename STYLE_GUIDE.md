@@ -61,3 +61,13 @@ Before adding a new border, background, radius, or focus ring rule, check whethe
 - If moving a rule would hide important layout intent, keep it local.
 - Keep visual regressions locked with the visual suites before and after refactors.
 - Prefer `data-testid` for tests over legacy presentational class names.
+
+## Verification workflow
+
+Before and after structural CSS cleanup:
+
+- run `npm run visual:compare` for app screenshots
+- run `npm run storybook:smoke` for isolated component rendering
+- run `npm run verify:style-system` when you want the full style verification path
+
+`visual:compare` covers the app-level baseline. `storybook:smoke` is the component-level guardrail.
