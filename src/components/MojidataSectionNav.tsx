@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
 import styles from './MojidataSectionNav.module.css'
+import surfaceStyles from './Surface.module.css'
 
 export interface MojidataSectionNavSection {
   id: string
@@ -75,9 +77,12 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
     <a
       key={section.id}
       href={`#${section.id}`}
-      className={`${styles.link}${
-        section.id === activeSectionId ? ` ${styles.active}` : ''
-      }`}
+      className={cn(
+        surfaceStyles.pillBase,
+        surfaceStyles.pillInteractive,
+        styles.link,
+        section.id === activeSectionId && styles.active,
+      )}
     >
       {section.label}
     </a>
@@ -94,9 +99,13 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
           <a
             key={section.id}
             href={`#${section.id}`}
-            className={`${styles.link} ${styles.mobileLink}${
-              section.id === activeSectionId ? ` ${styles.active}` : ''
-            }`}
+            className={cn(
+              surfaceStyles.pillBase,
+              surfaceStyles.pillInteractive,
+              styles.link,
+              styles.mobileLink,
+              section.id === activeSectionId && styles.active,
+            )}
           >
             {section.label}
           </a>
@@ -116,9 +125,13 @@ export default function MojidataSectionNav(props: MojidataSectionNavProps) {
             <a
               key={section.id}
               href={`#${section.id}`}
-              className={`${styles.link} ${styles.sidebarLink}${
-                section.id === activeSectionId ? ` ${styles.active}` : ''
-              }`}
+              className={cn(
+                surfaceStyles.pillBase,
+                surfaceStyles.pillInteractive,
+                styles.link,
+                styles.sidebarLink,
+                section.id === activeSectionId && styles.active,
+              )}
             >
               {section.label}
             </a>

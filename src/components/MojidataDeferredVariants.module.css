@@ -6,14 +6,5 @@
   display: inline-flex;
   align-items: center;
   padding: 0.3rem 0.8rem;
-  border: 1px solid hsl(var(--border));
-  border-radius: 9999px;
-  background: rgb(255 255 255);
-  color: hsl(var(--muted-foreground));
   font-size: 0.88rem;
-}
-
-.toggle:hover {
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--primary));
 }

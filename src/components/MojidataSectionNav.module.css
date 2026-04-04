@@ -17,18 +17,8 @@
   display: inline-block;
   flex: 0 0 auto;
   padding: 0.2rem 0.65rem;
-  border: 1px solid hsl(var(--border));
-  border-radius: 9999px;
-  background: rgb(255 255 255);
-  color: hsl(var(--muted-foreground));
   white-space: nowrap;
   font-size: 0.8rem;
-  text-decoration: none;
-}
-
-.link:hover {
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--primary));
 }
 
 .active {

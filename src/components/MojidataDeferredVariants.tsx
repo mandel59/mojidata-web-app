@@ -28,7 +28,11 @@ export default function MojidataDeferredVariants(
       <div className={styles.actions}>
         <button
           type="button"
-          className={styles.toggle}
+          className={cn(
+            surfaceStyles.pillBase,
+            surfaceStyles.pillInteractive,
+            styles.toggle,
+          )}
           onClick={() => setExpanded((value) => !value)}
           aria-expanded={expanded}
         >

@@ -4,7 +4,9 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
+import { cn } from '@/lib/utils'
 import styles from './MojidataPermalinkButton.module.css'
+import surfaceStyles from './Surface.module.css'
 
 export interface MojidataPermalinkButtonProps {
   lang: Language
@@ -20,7 +22,11 @@ export default function MojidataPermalinkButton(
   return (
     <a
       href={pathname}
-      className={styles.button}
+      className={cn(
+        surfaceStyles.pillBase,
+        surfaceStyles.pillInteractive,
+        styles.button,
+      )}
       data-testid="mojidata-permalink-button"
       onClick={async (event) => {
         if (typeof window === 'undefined' || !navigator.clipboard) return

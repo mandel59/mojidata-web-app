@@ -4,8 +4,10 @@ import { ReactElement, useEffect, useState } from 'react'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
 import IpamjmCharImg from '@/components/IpamjmCharImg'
+import { cn } from '@/lib/utils'
 import styles from './MojiJohoChar.module.css'
 import charFrameStyles from './MojidataCharFrame.module.css'
+import surfaceStyles from './Surface.module.css'
 
 const IPAMJM_FONT_FAMILY = '"Mojidata-IPAmjMincho"'
 
@@ -80,14 +82,22 @@ export function MojiJohoDisplayModeControl(props: {
       <span>{getText('moji-joho.display.label', lang)}</span>
       <button
         type="button"
-        className={`${styles.button}${!forceImage ? ` ${styles.buttonActive}` : ''}`}
+        className={cn(
+          surfaceStyles.pillBase,
+          styles.button,
+          !forceImage && styles.buttonActive,
+        )}
         onClick={() => onChangeForceImage(false)}
       >
         {getText('moji-joho.display.auto', lang)}
       </button>
       <button
         type="button"
-        className={`${styles.button}${forceImage ? ` ${styles.buttonActive}` : ''}`}
+        className={cn(
+          surfaceStyles.pillBase,
+          styles.button,
+          forceImage && styles.buttonActive,
+        )}
         onClick={() => onChangeForceImage(true)}
       >
         {getText('moji-joho.display.image', lang)}

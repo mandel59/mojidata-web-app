@@ -56,3 +56,16 @@
   padding-bottom: 0.5rem;
   border-bottom: 1px solid hsl(var(--border));
 }
+
+.pillBase {
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  background: #fff;
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+}
+
+.pillInteractive:hover {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
+}
