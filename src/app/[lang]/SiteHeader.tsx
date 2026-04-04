@@ -2,6 +2,8 @@
 
 import { getCanonicalRoutePath } from '@/deliveryPolicy'
 import { getText, Language } from '@/getText'
+import { cn } from '@/lib/utils'
+import surfaceStyles from '@/components/Surface.module.css'
 import Link from 'next/link'
 import styles from './SiteHeader.module.css'
 
@@ -46,7 +48,11 @@ export function SiteHeader(props: SiteHeaderProps) {
           <summary className={styles.moreSummary}>
             More
           </summary>
-          <div role="menu" aria-label="Secondary navigation" className={styles.menu}>
+          <div
+            role="menu"
+            aria-label="Secondary navigation"
+            className={cn(surfaceStyles.outlinedSurface, styles.menu)}
+          >
             <Link
               role="menuitem"
               className={styles.menuLink}
