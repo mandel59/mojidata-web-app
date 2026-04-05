@@ -288,3 +288,30 @@ test('storybook search page composition mobile matches baseline', async ({
     },
   )
 })
+
+test('storybook search glyph image matches baseline', async ({ page }) => {
+  await gotoStory(page, 'search-pure-views-glyphwikicharimg--default')
+
+  await expect(page.getByRole('img', { name: '漢' })).toHaveScreenshot(
+    'storybook-search-glyphwiki-char-img.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})
+
+test('storybook idsfind results grid matches baseline', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 960 })
+  await gotoStory(page, 'search-interactive-idsfindresponseview--results-grid')
+
+  await expect(page.locator('article')).toHaveScreenshot(
+    'storybook-idsfind-response-view-results-grid.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.001,
+    },
+  )
+})

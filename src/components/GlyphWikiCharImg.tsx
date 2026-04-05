@@ -7,12 +7,20 @@ export interface GlyphWikiCharImgProps {
   alt?: string
   loading?: 'eager' | 'lazy'
   fetchPriority?: 'high' | 'low' | 'auto'
+  debugSrc?: string
 }
 
 export default function GlyphWikiCharImg(props: GlyphWikiCharImgProps) {
-  const { char, size, alt, loading = 'lazy', fetchPriority } = props
+  const {
+    char,
+    size,
+    alt,
+    loading = 'lazy',
+    fetchPriority,
+    debugSrc,
+  } = props
   const name = toGlyphWikiName(char)
-  const src = `/api/glyphwiki/svg/${encodeURIComponent(name)}`
+  const src = debugSrc ?? `/api/glyphwiki/svg/${encodeURIComponent(name)}`
   const fallbackSize = Math.max(size - 10, 1)
   return (
     // eslint-disable-next-line @next/next/no-img-element

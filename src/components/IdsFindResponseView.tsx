@@ -8,6 +8,7 @@ import surfaceStyles from '@/components/Surface.module.css'
 import textStyles from '@/components/Text.module.css'
 import { cn } from '@/lib/utils'
 import { toGlyphWikiName } from '@/glyphwiki/toGlyphWikiName'
+import type { ReactNode } from 'react'
 import styles from './IdsFindResponseView.module.css'
 
 function toRefName(char: string) {
@@ -44,6 +45,7 @@ export interface IdsFindResponseViewProps {
   disableExternalLinks: boolean
   pagerPrefetch?: boolean
   resultPrefetchOnIntent?: boolean
+  renderGlyph?: (char: string) => ReactNode
 }
 
 export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
@@ -62,6 +64,7 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
     disableExternalLinks,
     pagerPrefetch,
     resultPrefetchOnIntent,
+    renderGlyph,
   } = props
 
   return (
@@ -101,7 +104,9 @@ export default function IdsFindResponseView(props: IdsFindResponseViewProps) {
                   {bot ? (
                     char
                   ) : (
-                    <GlyphWikiCharImg char={char} size={55} alt={char} />
+                    renderGlyph?.(char) ?? (
+                      <GlyphWikiCharImg char={char} size={55} alt={char} />
+                    )
                   )}
                 </IntentPrefetchLink>
               </div>

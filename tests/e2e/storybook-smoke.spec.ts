@@ -251,3 +251,23 @@ test('storybook search layout composition mobile story renders', async ({
   await expect(page.getByTestId('search-layout-page-composition')).toBeVisible()
   await expect(page.getByTestId('search-layout-form-pane')).toBeVisible()
 })
+
+test('storybook search glyph image story renders', async ({ page }) => {
+  await gotoStory(page, 'search-pure-views-glyphwikicharimg--default')
+
+  const image = page.getByRole('img', { name: '漢' })
+  await expect(image).toBeVisible()
+  const color = await image.evaluate(
+    (element) => window.getComputedStyle(element).color,
+  )
+  expect(color).toMatch(/^rgba\(.+,\s0\.42\)$/)
+})
+
+test('storybook idsfind results story renders', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 960 })
+  await gotoStory(page, 'search-interactive-idsfindresponseview--results-grid')
+
+  await expect(page.locator('article')).toBeVisible()
+  await expect(page.locator('article').getByRole('img').first()).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Next' })).toBeVisible()
+})
