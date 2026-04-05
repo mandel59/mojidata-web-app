@@ -13,10 +13,3 @@ export const fontCjkSymbols = localFont({
     },
   ],
 })
-
-export const fontNotDef = localFont({
-  src: '../fonts/AND-Regular.woff2',
-  display: 'swap',
-  variable: '--font-notdef',
-  adjustFontFallback: false,
-})

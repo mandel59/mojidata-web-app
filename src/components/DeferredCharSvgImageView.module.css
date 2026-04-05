@@ -36,8 +36,13 @@
   height: 100%;
   position: relative;
   z-index: 1;
+  color: hsl(var(--muted-foreground) / 42%);
+  font-size: var(--deferred-char-fallback-size);
+  line-height: var(--deferred-char-fallback-size);
+  text-align: center;
 }
 
-.ipamjmFallback {
-  font-family: Mojidata-IPAmjMincho, var(--font-notdef);
+.ipamjmFallback,
+.ipamjmImage {
+  font-family: Mojidata-IPAmjMincho, Mojidata-AdobeNotDef, serif;
 }

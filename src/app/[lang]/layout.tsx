@@ -5,7 +5,7 @@ import './theme.css'
 import './base.css'
 import PreviewWarning from '@/components/PreviewWarning'
 import { canonicalUrlBase, description, siteName } from '@/settings'
-import { fontCjkSymbols, fontNotDef } from '../fonts'
+import { fontCjkSymbols } from '../fonts'
 import { getLanguage, getText } from '@/getText'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
@@ -41,7 +41,7 @@ export default async function RootLayout({
   const language = getLanguage(lang)
   return (
     <html lang={language} data-theme="light">
-      <body className={`${fontCjkSymbols.variable} ${fontNotDef.variable}`}>
+      <body className={fontCjkSymbols.variable}>
         <Suspense fallback={null}>
           <NavigationPendingIndicator
             label={getText('navigation.loading', language)}

@@ -37,6 +37,48 @@ test('storybook deferred SVG loaded story renders image', async ({ page }) => {
   const glyph = page.getByTestId('deferred-char-image')
   await expect(glyph).toHaveAttribute('data-loaded', 'true')
   await expect(glyph.getByTestId('deferred-char-image-img')).toBeVisible()
+  const imageColor = await glyph
+    .getByTestId('deferred-char-image-img')
+    .evaluate((element) => window.getComputedStyle(element).color)
+  expect(imageColor).toMatch(/^rgba\(.+,\s0\.42\)$/)
+  expect(imageColor).not.toBe('rgb(0, 0, 0)')
+})
+
+test('storybook glyph wiki image uses muted alt text styling', async ({
+  page,
+}) => {
+  await gotoStory(
+    page,
+    'mojidata-pure-views-deferredcharsvgimageview--glyph-wiki-loaded',
+  )
+
+  const image = page.getByTestId('deferred-char-image-img')
+  const fontSize = await image.evaluate(
+    (element) => window.getComputedStyle(element).fontSize,
+  )
+  expect(fontSize).toBe('100px')
+})
+
+test('storybook ipamjm fallback keeps the IPAmj/notdef fallback stack', async ({
+  page,
+}) => {
+  await gotoStory(
+    page,
+    'mojidata-pure-views-deferredcharsvgimageview--ipamjm-fallback',
+  )
+
+  const fallback = page.getByTestId('deferred-char-fallback')
+  await expect(fallback).toBeVisible()
+  const color = await fallback.evaluate(
+    (element) => window.getComputedStyle(element).color,
+  )
+  expect(color).toMatch(/^rgba\(.+,\s0\.42\)$/)
+  const fontFamily = await fallback.evaluate(
+    (element) => window.getComputedStyle(element).fontFamily,
+  )
+  expect(fontFamily).toContain('Mojidata-IPAmjMincho')
+  expect(fontFamily).toContain('Mojidata-AdobeNotDef')
+  expect(fontFamily).not.toContain('Times')
 })
 
 test('storybook mojidata section nav mobile story renders', async ({ page }) => {

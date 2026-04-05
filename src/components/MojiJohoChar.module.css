@@ -1,5 +1,5 @@
 .mojiJoho {
-  font-family: Mojidata-IPAmjMincho, var(--font-notdef);
+  font-family: Mojidata-IPAmjMincho, Mojidata-AdobeNotDef, serif;
 }
 
 .displayModeControl {

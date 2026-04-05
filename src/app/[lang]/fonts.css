@@ -74,3 +74,9 @@
   ascent-override: calc(100% - 100% * 246 / 2048);
   descent-override: calc(100% * 246 / 2048);
 }
+
+@font-face {
+  font-family: Mojidata-AdobeNotDef;
+  src: url('../../fonts/AND-Regular.woff2') format('woff2');
+  font-display: swap;
+}

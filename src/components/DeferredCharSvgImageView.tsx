@@ -12,6 +12,7 @@ export interface DeferredCharSvgImageViewProps {
   loading?: 'eager' | 'lazy'
   fetchPriority?: 'high' | 'low' | 'auto'
   onImageLoad?: () => void
+  onImageError?: () => void
 }
 
 const DeferredCharSvgImageView = forwardRef<
@@ -29,6 +30,7 @@ const DeferredCharSvgImageView = forwardRef<
     loading = 'lazy',
     fetchPriority,
     onImageLoad,
+    onImageError,
   } = props
   const fallbackSize = Math.max(size - 10, 1)
 
@@ -63,9 +65,12 @@ const DeferredCharSvgImageView = forwardRef<
           decoding="async"
           fetchPriority={fetchPriority}
           alt={alt ?? char}
-          className={styles.img}
+          className={`${styles.img}${
+            source === 'ipamjm' ? ` ${styles.ipamjmImage}` : ''
+          }`}
           data-testid="deferred-char-image-img"
           onLoad={onImageLoad}
+          onError={onImageError}
         />
       ) : null}
     </span>

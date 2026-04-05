@@ -40,10 +40,12 @@ export default function DeferredCharSvgImage(
   } = props
   const [shouldLoadImage, setShouldLoadImage] = useState(eager)
   const [loadedImageKey, setLoadedImageKey] = useState<string | null>(null)
+  const [failedImageKey, setFailedImageKey] = useState<string | null>(null)
   const rootRef = useRef<HTMLSpanElement | null>(null)
   const imageKey = `${source}:${char}`
   const forcedFallback = debugLoadState === 'fallback'
   const forcedLoaded = debugLoadState === 'loaded'
+  const failed = failedImageKey === imageKey
   const loaded = forcedLoaded || loadedImageKey === imageKey
   const imageSrc = debugSrc ?? buildSrc(source, char)
 
@@ -87,11 +89,18 @@ export default function DeferredCharSvgImage(
       alt={alt}
       source={source}
       loaded={loaded}
-      renderImage={renderImage && !forcedFallback}
+      renderImage={renderImage && !forcedFallback && !failed}
       imageSrc={imageSrc}
       loading={loading ?? (eager ? 'eager' : 'lazy')}
       fetchPriority={fetchPriority}
-      onImageLoad={() => setLoadedImageKey(imageKey)}
+      onImageLoad={() => {
+        setLoadedImageKey(imageKey)
+        setFailedImageKey(null)
+      }}
+      onImageError={() => {
+        setLoadedImageKey(null)
+        setFailedImageKey(imageKey)
+      }}
     />
   )
 }
