@@ -19,7 +19,7 @@
   height: 100%;
   z-index: 0;
   color: hsl(var(--muted-foreground) / 42%);
-  opacity: 0.42;
+  opacity: 1;
   transition: opacity 120ms ease-out;
   font-size: var(--deferred-char-fallback-size);
   line-height: var(--deferred-char-fallback-size);

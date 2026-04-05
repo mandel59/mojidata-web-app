@@ -73,6 +73,10 @@ test('storybook ipamjm fallback keeps the IPAmj/notdef fallback stack', async ({
     (element) => window.getComputedStyle(element).color,
   )
   expect(color).toMatch(/^rgba\(.+,\s0\.42\)$/)
+  const opacity = await fallback.evaluate(
+    (element) => window.getComputedStyle(element).opacity,
+  )
+  expect(opacity).toBe('1')
   const fontFamily = await fallback.evaluate(
     (element) => window.getComputedStyle(element).fontFamily,
   )
