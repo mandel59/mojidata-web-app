@@ -1,0 +1,11 @@
+.img {
+  display: block;
+  color: hsl(var(--muted-foreground) / 42%);
+  font-size: var(--svg-image-fallback-size);
+  line-height: var(--svg-image-fallback-size);
+  text-align: center;
+}
+
+.ipamjm {
+  font-family: Mojidata-IPAmjMincho, Mojidata-AdobeNotDef, serif;
+}

@@ -124,6 +124,28 @@ test('server-data search paging works on desktop', async ({ page }) => {
   })
 })
 
+test('search result glyph images use muted alt fallback styling', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/search?query=%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const image = page.locator('article img').first()
+  await expect(image).toBeVisible({ timeout: 60_000 })
+
+  const styles = await image.evaluate((element) => {
+    const computed = window.getComputedStyle(element)
+    return {
+      color: computed.color,
+      fontSize: computed.fontSize,
+    }
+  })
+
+  expect(styles.color).toMatch(/^rgba\(.+,\s0\.42\)$/)
+  expect(styles.fontSize).toBe('45px')
+})
+
 test('mojidata-spa renders character data in browser', async ({ page }) => {
   page.on('pageerror', (err) => console.log('[pageerror]', err))
   page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))

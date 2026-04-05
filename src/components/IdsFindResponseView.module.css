@@ -32,7 +32,3 @@
   opacity: 0.55;
   filter: saturate(0.7);
 }
-
-.resultGlyphImage img {
-  display: block;
-}
