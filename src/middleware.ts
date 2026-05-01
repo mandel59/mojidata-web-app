@@ -78,7 +78,7 @@ function getExecutionModeOverride(
   return value
 }
 
-export async function proxy(
+export async function middleware(
   request: NextRequest,
 ): Promise<NextResponse | undefined> {
   const { isBot, ua } = userAgent(request)

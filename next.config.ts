@@ -38,6 +38,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_SPA_ASSET_VERSION:
       process.env.NEXT_PUBLIC_SPA_ASSET_VERSION ??
       process.env.VERCEL_GIT_COMMIT_SHA ??
+      process.env.CF_PAGES_COMMIT_SHA ??
       process.env.VERCEL_DEPLOYMENT_ID ??
       process.env.npm_package_version ??
       '',

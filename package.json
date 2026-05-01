@@ -9,6 +9,13 @@
     "prebuild": "npm run prepare:spa-assets",
     "build": "next build --webpack",
     "start": "next start",
+    "cf:build": "node scripts/check-cloudflare-build-assets.mjs && MOJIDATA_SKIP_SPA_ASSETS=1 opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare deploy",
+    "cf:upload": "opennextjs-cloudflare upload",
+    "cf:populate-cache": "opennextjs-cloudflare populateCache",
+    "cf:typegen": "wrangler types",
+    "cf:upload-spa-assets": "node scripts/upload-spa-assets-to-r2.mjs",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint",
     "lint:css": "stylelint 'src/**/*.css'",
@@ -53,6 +60,7 @@
     "typescript": "^5.3.2"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.19.5",
     "@playwright/test": "^1.51.1",
     "@storybook/addon-a11y": "^10.3.3",
     "@storybook/addon-docs": "^10.3.3",
@@ -63,6 +71,7 @@
     "eslint-plugin-storybook": "^10.3.3",
     "storybook": "^10.3.3",
     "stylelint": "^17.6.0",
-    "stylelint-config-standard": "^40.0.0"
+    "stylelint-config-standard": "^40.0.0",
+    "wrangler": "^4.87.0"
   }
 }

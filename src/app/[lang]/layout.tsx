@@ -13,6 +13,11 @@ import { SiteHeader } from './SiteHeader'
 import NavigationPendingIndicator from '@/components/NavigationPendingIndicator'
 import styles from './layout.module.css'
 
+const enableVercelInsights =
+  process.env.NEXT_PUBLIC_ENABLE_VERCEL_INSIGHTS === '1' ||
+  (process.env.VERCEL === '1' &&
+    process.env.NEXT_PUBLIC_DISABLE_VERCEL_INSIGHTS !== '1')
+
 export const metadata: Metadata = {
   title: {
     default: siteName,
@@ -54,8 +59,12 @@ export default async function RootLayout({
           </div>
         </div>
         <PreviewWarning />
-        <SpeedInsights />
-        <Analytics />
+        {enableVercelInsights ? (
+          <>
+            <SpeedInsights />
+            <Analytics />
+          </>
+        ) : null}
       </body>
     </html>
   )

@@ -37,6 +37,13 @@ const assets = [
   },
 ]
 
+if (process.env.MOJIDATA_SKIP_SPA_ASSETS === '1') {
+  if (process.env.CI) {
+    console.log('[spa-assets] skipped because MOJIDATA_SKIP_SPA_ASSETS=1')
+  }
+  process.exit(0)
+}
+
 async function copyIfNeeded(src, dest) {
   let srcStat
   try {
