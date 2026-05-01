@@ -39,6 +39,18 @@
 }
 
 @media (width <= 640px) {
+  .toast {
+    top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
+    bottom: auto;
+    align-items: flex-start;
+    padding: 0 0.5rem;
+  }
+
+  .card {
+    max-height: calc(100dvh - 1rem);
+    overflow: auto;
+  }
+
   .actions {
     flex-direction: column;
   }

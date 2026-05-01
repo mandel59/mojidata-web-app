@@ -47,6 +47,11 @@ NEXT_PUBLIC_SPA_MOJIDATA_DB_URL='https://assets.example.com/assets/moji.db'
 NEXT_PUBLIC_SPA_IDSFIND_DB_URL='https://assets.example.com/assets/idsfind.db'
 ```
 
+`NEXT_PUBLIC_SPA_ASSET_BASE_URL` should normally be the asset origin, not the
+`/assets/` directory URL. The browser app resolves `assets/moji.db` and related
+files under that base. A `/assets/`-suffixed base is accepted for compatibility,
+but the origin form avoids ambiguous double-prefix deployment mistakes.
+
 `NEXT_PUBLIC_SPA_ASSET_VERSION` is still appended as the `v` query parameter
 when present. If it is not set, the build falls back to Vercel, Cloudflare
 Pages, or package-version identifiers where available.

@@ -19,6 +19,10 @@ function resolveAssetUrl(pathname: string, overrideUrl?: string) {
   if (!SPA_ASSET_BASE_URL) return withAssetVersion(pathname)
 
   const base = SPA_ASSET_BASE_URL.replace(/\/+$/, '')
+  if (base.endsWith('/assets') && pathname.startsWith('/assets/')) {
+    return withAssetVersion(`${base}${pathname.slice('/assets'.length)}`)
+  }
+
   return withAssetVersion(`${base}${pathname}`)
 }
 
