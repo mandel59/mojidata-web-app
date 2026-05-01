@@ -1,4 +1,3 @@
-// app/privacy/page.tsx
 import type { Metadata } from 'next'
 import styles from '../DocsPage.module.css'
 import cardStyles from '@/components/ArticleCard.module.css'
@@ -17,286 +16,186 @@ export default function PrivacyPage(
       className={`${surfaceStyles.cardSurface} ${cardStyles.card} ${richTextStyles.richText} ${styles.article}`}
     >
       <h1>Privacy Policy</h1>
-      <p>Last updated: 2025-12-09</p>
+      <p>Last updated: 2026-05-01</p>
 
       <section>
         <h2>1. Overview</h2>
         <p>
           This Privacy Policy explains how we collect, use, and protect
-          information when you use our website. Our site is hosted on Vercel
-          and uses Vercel Web Analytics, Vercel Speed Insights, and Vercel
-          Firewall and related security features.
+          information when you use Mojidata Web App. The production site is
+          served from <code>mojidata.ryusei.dev</code> on Cloudflare Workers and
+          uses Cloudflare services for hosting, DNS, TLS, caching, R2 object
+          storage, D1-backed API access, security, and operational monitoring.
         </p>
         <p>
-          We aim to respect your privacy while still monitoring performance and
-          protecting our service from abuse.
+          Mojidata Web App is a public database browsing and search service. It
+          does not provide user accounts, user profile pages, paid features, or
+          contact forms.
         </p>
       </section>
 
       <section>
-        <h2>2. Data We Collect and Process</h2>
+        <h2>2. Information We Process</h2>
 
-          <h3>2.1 Data collected automatically through Vercel services</h3>
-          <p>
-            When you access our website, certain technical information is
-            automatically processed by Vercel to deliver and monitor the
-            service. Depending on your configuration and plan, this may include:
-          </p>
-          <ul>
-            <li>Requested URL and route</li>
-            <li>Browser type and version</li>
-            <li>Device type (desktop, tablet, mobile) and operating system</li>
-            <li>Network information such as connection speed</li>
-            <li>Approximate location at country level</li>
-            <li>
-              Performance metrics such as page load times and Core Web Vitals
-            </li>
-          </ul>
-          <p>
-            For Web Analytics and Speed Insights, this information is processed
-            in an anonymized or aggregated way and is not used to reconstruct
-            individual browsing histories or identify specific users.
-          </p>
+        <h3>2.1 Request and delivery data</h3>
+        <p>
+          When you access the site, Cloudflare and the application may process
+          technical request data needed to deliver the service and protect it
+          from abuse. This can include:
+        </p>
+        <ul>
+          <li>Requested URL, route, query string, and HTTP method</li>
+          <li>Response status, timestamp, and cache metadata</li>
+          <li>IP address and approximate location derived from the IP address</li>
+          <li>Browser, operating system, device type, and User-Agent</li>
+          <li>Request headers needed for content negotiation and security</li>
+          <li>Network and security signals used to detect abusive traffic</li>
+        </ul>
 
-          <h3>2.2 Security-related processing (Firewall, logs, monitoring)</h3>
-          <p>
-            To protect our service against attacks, abuse, and unauthorized
-            access, we use Vercel Firewall and other security-related features.
-            For this purpose, Vercel may process additional data such as:
-          </p>
-          <ul>
-            <li>IP address (original or forwarded)</li>
-            <li>Coarse geolocation derived from the IP address</li>
-            <li>User-Agent and other request headers</li>
-            <li>
-              Request patterns and metadata associated with potential threats
-            </li>
-            <li>
-              Technical fingerprints (for example, TLS fingerprints) used to
-              identify malicious sessions
-            </li>
-          </ul>
-          <p>
-            This data is used solely for security, debugging, and operational
-            purposes and is processed by Vercel in accordance with their own
-            privacy and security policies.
-          </p>
+        <h3>2.2 Search and lookup data</h3>
+        <p>
+          Search terms, IDS lookup strings, character routes, and related query
+          parameters are processed by the app Worker and the D1-backed API
+          Worker to return search results and character information. We do not
+          use these inputs to identify users, build marketing profiles, or serve
+          targeted advertising.
+        </p>
+
+        <h3>2.3 Browser storage</h3>
+        <p>
+          The production site does not use cookies for advertising or
+          cross-site tracking. A preview-only warning may store a small
+          `localStorage` value to remember that you dismissed the preview
+          notice on a non-production hostname. Your browser may also cache
+          static assets such as fonts, WebAssembly, database files, and SVG
+          images according to normal browser caching behavior.
+        </p>
       </section>
 
-        <section>
-          <h2>3. Use of Vercel Web Analytics and Vercel Speed Insights</h2>
-
-          <h3>3.1 Purpose</h3>
-          <p>
-            We use Vercel Web Analytics and Vercel Speed Insights to understand
-            how our website is performing and how it is used in aggregate. This
-            helps us improve page speed, stability, and overall user experience.
-          </p>
-
-          <h3>3.2 Data characteristics</h3>
-          <p>
-            According to Vercel&apos;s documentation, Web Analytics and Speed
-            Insights are designed to provide insights without using third-party
-            cookies and without collecting or storing information that would
-            allow the reconstruction of an end user&apos;s browsing session
-            across different websites or the identification of an individual
-            visitor.
-          </p>
-          <p>
-            Data points are stored in an anonymized or aggregated manner and are
-            used to compute statistics such as page views, routes accessed,
-            device-type breakdowns, and performance metrics. We do not use these
-            tools to track users across different sites, to profile individuals,
-            or for targeted advertising.
-          </p>
-
-          <h3>3.3 Legal basis under GDPR</h3>
-          <p>
-            For visitors in the European Economic Area (EEA), the processing of
-            anonymized and aggregated analytics data is based on our legitimate
-            interest in maintaining and improving the performance, security, and
-            usability of our website (Article 6(1)(f) GDPR). Because Web
-            Analytics and Speed Insights are designed not to collect personally
-            identifiable information, explicit consent is generally not required
-            for this processing.
-          </p>
-
-          <h3>3.4 CCPA considerations</h3>
-          <p>
-            For visitors from California (USA), we do not use Vercel Web
-            Analytics or Speed Insights to collect, sell, or share personal
-            information as defined under the California Consumer Privacy Act
-            (CCPA). The data is used solely to create aggregate statistics about
-            how our site is used.
-          </p>
-        </section>
-
-        <section>
-          <h2>4. Vercel Firewall and Security Features</h2>
-
-          <h3>4.1 Purpose</h3>
-          <p>
-            We enable Vercel&apos;s Firewall and related security features to
-            protect our site from malicious traffic, spam, abuse, and
-            unauthorized access attempts. This includes, for example, rate
-            limiting, IP blocking, and rule-based detection of suspicious
-            patterns.
-          </p>
-
-          <h3>4.2 Data processed for security</h3>
-          <p>
-            In order to provide these protections, Vercel may process and log:
-          </p>
-          <ul>
-            <li>
-              Source IP addresses and ranges (for example, for IP blocking)
-            </li>
-            <li>Country or region derived from the IP address</li>
-            <li>
-              Request metadata such as HTTP method, path, status code, and time
-            </li>
-            <li>
-              Technical fingerprints or identifiers used to distinguish
-              legitimate from malicious sessions
-            </li>
-          </ul>
-          <p>
-            This information may appear in Vercel&apos;s firewall dashboards,
-            logs or alerts so that we can identify and respond to potential
-            threats.
-          </p>
-
-          <h3>4.3 Legal basis under GDPR</h3>
-          <p>
-            The processing of IP addresses and related request data for security
-            purposes is based on our legitimate interest in ensuring the
-            security and integrity of our website and infrastructure (Article
-            6(1)(f) GDPR). This includes detecting and mitigating attacks such
-            as distributed denial-of-service (DDoS) attacks, scanning, or other
-            forms of abuse.
-          </p>
-
-          <h3>4.4 Limited use</h3>
-          <p>
-            We do not use Firewall or security logs to build marketing profiles,
-            to track ordinary users for behavioral advertising, or to otherwise
-            evaluate individuals beyond what is necessary for security and
-            operational troubleshooting.
-          </p>
-        </section>
-
-        <section>
-          <h2>5. International Data Transfers</h2>
-          <p>
-            Our site is hosted on Vercel, which may process data on servers
-            located in various regions, including outside your country or
-            outside the European Economic Area (EEA). Vercel states that it
-            implements appropriate technical and organizational measures to
-            protect personal data and comply with applicable data protection
-            laws.
-          </p>
-          <p>
-            By using our site, you acknowledge that such processing and
-            transfers may occur as part of providing the hosting and analytics
-            services.
-          </p>
-        </section>
-
-        <section>
-          <h2>6. Your Rights</h2>
-
-          <h3>6.1 GDPR rights (EEA users)</h3>
-          <p>
-            If you are located in the EEA, you may have certain rights regarding
-            your personal data under the GDPR, including:
-          </p>
-          <ul>
-            <li>Right of access to your personal data</li>
-            <li>Right to rectification of inaccurate data</li>
-            <li>Right to erasure (where applicable)</li>
-            <li>Right to restriction of processing</li>
-            <li>Right to object to processing based on legitimate interests</li>
-            <li>Right to data portability (where applicable)</li>
-          </ul>
-          <p>
-            Because our use of Vercel Web Analytics and Speed Insights is
-            designed not to collect personally identifiable information, these
-            rights are typically most relevant for data you provide directly
-            (for example, via contact forms) or for security-related logs that
-            may include your IP address.
-          </p>
-
-          <h3>6.2 CCPA rights (California users)</h3>
-          <p>
-            If you are a California resident, you may have rights under the
-            CCPA, including:
-          </p>
-          <ul>
-            <li>
-              Right to know what categories of personal information are used
-            </li>
-            <li>Right to request deletion of your personal information</li>
-            <li>
-              Right to opt out of the sale or sharing of personal information
-              (where applicable)
-            </li>
-            <li>
-              Right not to be discriminated against for exercising your rights
-            </li>
-          </ul>
-          <p>
-            We do not sell or share personal information obtained through Vercel
-            Web Analytics or Speed Insights. Any personal information processed
-            for security purposes (such as IP addresses) is used solely to
-            protect the service.
-          </p>
-        </section>
-
-        <section>
-          <h2>7. Links to Vercel&apos;s Privacy and Security Documentation</h2>
-          <p>
-            For the most accurate and up-to-date information on how Vercel
-            processes data, please refer to Vercel&apos;s own documentation and
-            legal notices:
-          </p>
-          <ul>
-            <li>
-              <a
-                href="https://vercel.com/docs/analytics/privacy-policy"
-                rel="noopener noreferrer"
-              >
-                Vercel Web Analytics – Privacy &amp; Compliance
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://vercel.com/docs/speed-insights/privacy-policy"
-                rel="noopener noreferrer"
-              >
-                Vercel Speed Insights – Privacy &amp; Compliance
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://vercel.com/docs/vercel-firewall"
-                rel="noopener noreferrer"
-              >
-                Vercel Firewall – Documentation
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://vercel.com/legal/privacy-policy"
-                rel="noopener noreferrer"
-              >
-                Vercel – Privacy Policy
-              </a>
-            </li>
-          </ul>
-        </section>
+      <section>
+        <h2>3. Cloudflare Services</h2>
+        <p>
+          The production site uses Cloudflare Workers to execute the app,
+          Cloudflare R2 to store public static assets and Worker cache data, and
+          a separate D1-backed API Worker to serve public Mojidata database
+          queries. Cloudflare DNS, TLS, CDN, DDoS protection, firewall, logs,
+          and analytics dashboards may process request metadata as part of
+          operating and securing the service.
+        </p>
+        <p>
+          Cloudflare may make request logs, security events, and aggregate
+          network metrics available to us through Cloudflare dashboards or APIs.
+          We use this information for operations, debugging, performance
+          analysis, abuse prevention, and security response.
+        </p>
+        <p>
+          The data stored in R2 and D1 for this app consists of public
+          application data, public character database assets, precomputed glyph
+          path assets, and cache data. The app does not store user-submitted
+          account data in R2 or D1.
+        </p>
+      </section>
 
       <section>
-        <h2>8. Contact</h2>
+        <h2>4. Analytics</h2>
+        <p>
+          The Cloudflare production deployment does not currently enable
+          third-party client-side analytics tooling. If analytics tooling is
+          enabled later, this policy should be updated before or at the same
+          time as that change.
+        </p>
+        <p>
+          Cloudflare may still provide aggregate traffic, performance, cache,
+          and security metrics derived from normal request processing. We use
+          those aggregate metrics to operate and improve the service.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. How We Use Information</h2>
+        <p>We use the information described above to:</p>
+        <ul>
+          <li>Deliver pages, search results, glyph images, and static assets</li>
+          <li>Operate the D1-backed API Worker and app Worker</li>
+          <li>Debug errors and monitor service health</li>
+          <li>Improve performance, reliability, and user experience</li>
+          <li>Detect, prevent, and respond to abuse or security incidents</li>
+          <li>Comply with legal obligations when applicable</li>
+        </ul>
+        <p>
+          We do not sell personal information, share personal information for
+          cross-context behavioral advertising, or use request logs to build
+          marketing profiles.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Legal Basis</h2>
+        <p>
+          For visitors in the European Economic Area (EEA), processing needed to
+          deliver requested pages and search results is necessary to provide the
+          service you request. Processing for security, debugging, reliability,
+          and aggregate performance analysis is based on our legitimate interest
+          in operating and protecting the website and infrastructure.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. International Data Transfers</h2>
+        <p>
+          Cloudflare operates a global network. Technical request data and
+          operational logs may be processed in countries other than your own,
+          including outside the European Economic Area. Cloudflare describes its
+          transfer safeguards and privacy practices in its own privacy
+          documentation.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Your Rights</h2>
+        <p>
+          Depending on your location, you may have rights to access, correct,
+          delete, restrict, or object to certain processing of your personal
+          data. Because Mojidata Web App does not provide user accounts and does
+          not intentionally store user profile data, these rights are most
+          likely to relate to technical request logs or information you provide
+          directly when contacting us.
+        </p>
+        <p>
+          California residents may have rights to know, delete, correct, or opt
+          out of certain uses of personal information. We do not sell or share
+          personal information for targeted advertising.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. External Documentation</h2>
+        <p>
+          For more information about Cloudflare&apos;s data handling practices,
+          please refer to Cloudflare&apos;s documentation and legal notices:
+        </p>
+        <ul>
+          <li>
+            <a
+              href="https://www.cloudflare.com/privacypolicy/"
+              rel="noopener noreferrer"
+            >
+              Cloudflare Privacy Policy
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://developers.cloudflare.com/workers/configuration/routing/custom-domains/"
+              rel="noopener noreferrer"
+            >
+              Cloudflare Workers Custom Domains
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>10. Contact</h2>
         <p>
           If you have any questions about this Privacy Policy or how we handle
           data, you can contact us at:

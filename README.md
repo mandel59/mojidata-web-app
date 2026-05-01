@@ -1,41 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mojidata Web App
 
-## Getting Started
+Mojidata Web App is a Next.js application for browsing and searching the
+Mojidata kanji information databases.
 
-First, run the development server:
+Production runs on Cloudflare Workers with OpenNext at
+`https://mojidata.ryusei.dev/`. Server-rendered routes query a separate
+D1-backed API Worker from the `mojidata` repository. Browser-only SPA routes
+load their database and WebAssembly assets from R2 instead of bundling them into
+the Worker deployment.
 
-```bash
+## Development
+
+Install dependencies and start the Next.js development server:
+
+```sh
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` and use `/search` as the main entrypoint.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`npm run dev` runs `prepare:spa-assets` first, so the SPA routes can use local
+copies of `sql-wasm.wasm`, `moji.db`, and `idsfind.db` during development.
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
+## Cloudflare Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The operational Cloudflare deployment notes are in
+[`docs/cloudflare.md`](docs/cloudflare.md).
 
-## Learn More
+Typical deployment flow:
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+npm run cf:upload-spa-assets -- --bucket <spa-assets-bucket>
+npm run cf:generate-glyph-path-shards
+npm run cf:upload-glyph-path-shards -- --bucket mojidata-glyph-font-assets
+NEXT_PUBLIC_SPA_ASSET_BASE_URL='https://<spa-asset-origin>' npm run cf:build
+npm run cf:deploy
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run `npm run cf:typegen` after changing `wrangler.jsonc`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## SPA routes vs non-SPA routes
+## SPA Routes vs Non-SPA Routes
 
 This app has both **SPA** and **non-SPA** route sets.
 
@@ -48,17 +53,20 @@ This app has both **SPA** and **non-SPA** route sets.
   - `/idsfind-spa`
   - `/mojidata-spa/{char}`
 
-### Key difference
+### Key Difference
 
-- **non-SPA routes** use server-side processing for search/lookup.
-- **SPA routes** can load data/assets in the browser and perform more client-side processing.
+- **non-SPA routes** use server-side processing for search and lookup.
+- **SPA routes** load data and assets in the browser and perform more
+  client-side processing.
 
-### Important policy
+### Important Policy
 
 Do **not** switch non-SPA routes to SPA client search logic.
-In particular, `/search` should keep using server-side search flow (not `SearchSpaClient`) so mobile clients are not forced to download/search large DB payloads locally.
+In particular, `/search` should keep using the server-side search flow, not
+`SearchSpaClient`, so mobile clients are not forced to download and search large
+database payloads locally.
 
-### UI policy
+### UI Policy
 
-UI can be aligned between SPA and non-SPA routes (layout, spacing, components),
-but the data-processing model above must remain unchanged.
+UI can be aligned between SPA and non-SPA routes, including layout, spacing, and
+components, but the data-processing model above must remain unchanged.
