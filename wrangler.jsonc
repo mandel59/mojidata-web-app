@@ -2,12 +2,18 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "mojidata-web-app",
   "main": ".open-next/worker.js",
+  "workers_dev": true,
+  "preview_urls": true,
   "compatibility_date": "2026-05-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "routes": [
     {
       "pattern": "mojidata.ryusei.dev",
       "custom_domain": true
+    },
+    {
+      "pattern": "mojidata.ryusei.dev/*",
+      "zone_name": "ryusei.dev"
     }
   ],
   "assets": {
