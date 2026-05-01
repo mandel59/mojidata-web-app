@@ -21,8 +21,10 @@ export const fetchMojidataServer = unstable_cache(
     if (!res.ok) {
       throw new Error(`Fetch failed: ${res.statusText}, url: ${url.href}`)
     }
-    const responseBody = await res.json()
-    const { results }: { results: MojidataResults | null } = responseBody
+    const responseBody = (await res.json()) as {
+      results: MojidataResults | null
+    }
+    const { results } = responseBody
     if (!results) {
       throw new Error(`No results for char: ${char}`)
     }

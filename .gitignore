@@ -33,6 +33,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cloudflare
+.wrangler/
+
 # generated SPA assets (copied from node_modules)
 /public/assets/
 
