@@ -14,6 +14,12 @@ const LIKELY_BOT_UA =
 const BINGBOT_UA =
   'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)'
 
+const SEMRUSHBOT_UA =
+  'Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)'
+
+const DOTBOT_UA =
+  'Mozilla/5.0 (compatible; DotBot/1.2; +https://opensiteexplorer.org/dotbot; help@moz.com)'
+
 const GOOGLE_INSPECTION_TOOL_UA =
   'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Google-InspectionTool/1.0; +http://www.google.com/bot.html)'
 
@@ -77,6 +83,46 @@ test('bingbot stays server-data on canonical search', async ({ browser }) => {
 
   assertNoBrowserErrors()
   await context.close()
+})
+
+test('semrushbot redirects to crawl SPA fallback on canonical mojidata', async ({
+  request,
+}) => {
+  const res = await request.get('/ja-JP/mojidata/%E6%BC%A2?foo=1', {
+    headers: { 'user-agent': SEMRUSHBOT_UA },
+    maxRedirects: 0,
+  })
+
+  expect(res.status()).toBe(307)
+  expect(res.headers().location).toBe(
+    'https://mojidata-crawl.pages.dev/ja-JP/mojidata/%E6%BC%A2?foo=1',
+  )
+})
+
+test('dotbot redirects to crawl SPA fallback on canonical search', async ({
+  request,
+}) => {
+  const res = await request.get('/search?query=%E6%BC%A2', {
+    headers: { 'user-agent': DOTBOT_UA },
+    maxRedirects: 0,
+  })
+
+  expect(res.status()).toBe(307)
+  expect(res.headers().location).toBe(
+    'https://mojidata-crawl.pages.dev/search?query=%E6%BC%A2',
+  )
+})
+
+test('non-major crawl SPA fallback does not redirect static routes', async ({
+  request,
+}) => {
+  const res = await request.get('/robots.txt', {
+    headers: { 'user-agent': SEMRUSHBOT_UA },
+    maxRedirects: 0,
+  })
+
+  expect(res.status()).toBe(200)
+  expect(res.headers().location).toBeUndefined()
 })
 
 test('mobile non-SPA search page can use search examples', async ({

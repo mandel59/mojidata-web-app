@@ -1,0 +1,7 @@
+body {
+  background-color: hsl(var(--background));
+}
+
+#app {
+  min-height: 100vh;
+}

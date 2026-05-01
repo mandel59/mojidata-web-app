@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mojidata-spa-assets",
+  "main": "cloudflare/spa-asset-worker.ts",
+  "workers_dev": true,
+  "preview_urls": true,
+  "compatibility_date": "2026-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "vars": {
+    "MOJIDATA_SPA_ASSET_ORIGIN": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev"
+  }
+}

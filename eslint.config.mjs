@@ -11,7 +11,9 @@ globalIgnores([
   '.open-next/**',
   'out/**',
   'build/**',
+  'dist/**',
   'next-env.d.ts',
+  'worker-configuration.d.ts',
   // Local test artifacts:
   'test-results/**',
   'playwright-report/**',

@@ -34,7 +34,7 @@ Typical deployment flow:
 npm run cf:upload-spa-assets -- --bucket <spa-assets-bucket>
 npm run cf:generate-glyph-path-shards
 npm run cf:upload-glyph-path-shards -- --bucket mojidata-glyph-font-assets
-NEXT_PUBLIC_SPA_ASSET_BASE_URL='https://<spa-asset-origin>' npm run cf:build
+npm run cf:build:asset-worker
 npm run cf:deploy
 ```
 

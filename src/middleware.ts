@@ -4,11 +4,28 @@ import { resolveAcceptLanguage } from 'resolve-accept-language'
 import { botDelayWithInfo } from './botDelay'
 import { botFamily, isLikelyBotUserAgent } from './bot'
 import {
+  isMajorIndexingBotFamily,
   resolveExecutionMode,
 } from './deliveryPolicy'
 
 const BOT_DELAY_MAX_BEFORE_429_MS = 25_000
 const BOT_DELAY_BEFORE_429_MS = 20_000
+const CRAWL_SPA_DEFAULT_BASE_URL = 'https://mojidata-crawl.pages.dev'
+
+const CRAWL_SPA_REDIRECT_BOT_FAMILIES = new Set([
+  'ahrefsbot',
+  'amazonbot',
+  'backlinksextendedbot',
+  'claudebot',
+  'coccocbot',
+  'dotbot',
+  'gptbot',
+  'mj12bot',
+  'petalbot',
+  'semrushbot',
+  'seznambot',
+  'yandexbot',
+])
 
 const SPA_ASSET_CACHE_CONTROL =
   process.env.NODE_ENV === 'production'
@@ -68,6 +85,66 @@ function stripLocale(pathname: string, locale: string | undefined) {
   return pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname
 }
 
+function getCrawlSpaBaseUrl() {
+  const raw =
+    process.env.CRAWL_SPA_REDIRECT_BASE_URL?.trim() ??
+    CRAWL_SPA_DEFAULT_BASE_URL
+  try {
+    return new URL(raw)
+  } catch {
+    return undefined
+  }
+}
+
+function getPathnameWithoutLocale(pathname: string) {
+  const locale = getLocaleFromUrl(new URL(`https://mojidata.local${pathname}`))
+  return stripLocale(pathname, locale) || '/'
+}
+
+function isCrawlSpaRoute(pathname: string) {
+  const p = getPathnameWithoutLocale(pathname)
+  return (
+    p === '/' ||
+    p === '/search' ||
+    p === '/search-spa' ||
+    p === '/idsfind' ||
+    p === '/idsfind-spa' ||
+    p.startsWith('/mojidata/') ||
+    p.startsWith('/mojidata-spa/')
+  )
+}
+
+function shouldRedirectToCrawlSpa(request: NextRequest, family: string) {
+  if (process.env.CRAWL_SPA_REDIRECT_DISABLE === '1') return false
+  if (request.method !== 'GET' && request.method !== 'HEAD') return false
+  if (isMajorIndexingBotFamily(family)) return false
+  if (!CRAWL_SPA_REDIRECT_BOT_FAMILIES.has(family)) return false
+
+  const pathname = request.nextUrl.pathname
+  return (
+    isCrawlSpaRoute(pathname) &&
+    !pathname.startsWith('/_next/') &&
+    !pathname.startsWith('/api/') &&
+    !pathname.startsWith('/assets/') &&
+    !isFileLikePath(pathname)
+  )
+}
+
+function redirectToCrawlSpa(request: NextRequest) {
+  const baseUrl = getCrawlSpaBaseUrl()
+  if (!baseUrl) return undefined
+
+  const target = new URL(baseUrl)
+  target.pathname = request.nextUrl.pathname
+  target.search = request.nextUrl.search
+  target.hash = ''
+
+  const res = NextResponse.redirect(target, 307)
+  res.headers.set('Cache-Control', 'private, no-store')
+  res.headers.set('Vary', 'User-Agent')
+  return res
+}
+
 function getExecutionModeOverride(
   url: URL,
 ): 'server-data' | 'client-data' | undefined {
@@ -82,6 +159,7 @@ export async function middleware(
   request: NextRequest,
 ): Promise<NextResponse | undefined> {
   const { isBot, ua } = userAgent(request)
+  const family = botFamily(ua)
   if (COMPRESSIBLE_SPA_ASSETS.has(request.nextUrl.pathname)) {
     if (
       isWebKitSafariUserAgent(ua) &&
@@ -106,6 +184,10 @@ export async function middleware(
       res.headers.set('Cache-Control', SPA_ASSET_CACHE_CONTROL)
       return res
     }
+  }
+
+  if (shouldRedirectToCrawlSpa(request, family)) {
+    return redirectToCrawlSpa(request)
   }
 
   const locale = getLocaleFromUrl(request.nextUrl)
@@ -161,7 +243,6 @@ export async function middleware(
     }
   }
   const isLikelyBot = isLikelyBotUserAgent(ua)
-  const family = botFamily(ua)
   const pathname2 = stripLocale(url.pathname, getLocaleFromUrl(url))
   const executionModeOverride = getExecutionModeOverride(url)
   const { isMajorIndexingBot, internalClientDataPath } = resolveExecutionMode({
