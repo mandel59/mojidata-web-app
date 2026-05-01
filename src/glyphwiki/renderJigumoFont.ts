@@ -1,6 +1,7 @@
 import { createGlyphFontRenderer } from '@/glyphwiki/renderFontGlyph'
+import { createGlyphPathShardRenderer } from '@/glyphwiki/renderGlyphPathShard'
 
-export const renderJigumoFont = await createGlyphFontRenderer({
+const rendererConfig = {
   indexGzPath: 'src/fonts/jigmo/glyph-index.txt.gz',
   fonts: [
     {
@@ -22,4 +23,29 @@ export const renderJigumoFont = await createGlyphFontRenderer({
     ascender: 880,
     baseline: 30,
   },
+}
+
+let fallbackRendererPromise:
+  | ReturnType<typeof createGlyphFontRenderer>
+  | undefined
+
+async function renderFromLocalFont(name: string) {
+  if (!fallbackRendererPromise) {
+    const current = createGlyphFontRenderer(rendererConfig).catch((error) => {
+      if (fallbackRendererPromise === current) fallbackRendererPromise = undefined
+      throw error
+    })
+    fallbackRendererPromise = current
+  }
+  return (await fallbackRendererPromise)(name)
+}
+
+const renderFromShard = createGlyphPathShardRenderer({
+  source: 'jigmo',
+  renderBox: rendererConfig.renderBox,
+  fallback: renderFromLocalFont,
 })
+
+export async function renderJigumoFont(name: string) {
+  return renderFromShard(name)
+}

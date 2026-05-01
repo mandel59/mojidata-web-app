@@ -24,6 +24,11 @@
       // OpenNext incremental cache storage.
       "binding": "NEXT_INC_CACHE_R2_BUCKET",
       "bucket_name": "mojidata-web-app-opennext-cache"
+    },
+    {
+      // Precomputed glyph path shards used by SVG rendering API routes.
+      "binding": "GLYPH_FONT_ASSETS",
+      "bucket_name": "mojidata-glyph-font-assets"
     }
   ],
   // Set MOJIDATA_API_BASE_URL in Cloudflare for production. It should point at

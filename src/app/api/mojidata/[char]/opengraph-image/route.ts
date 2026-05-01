@@ -33,7 +33,7 @@ export async function GET(
     ?.toString(16)
     .toUpperCase()
     .padStart(4, '0')
-  const svgImage = renderJigumoFont(toGlyphWikiName(ucs))
+  const svgImage = await renderJigumoFont(toGlyphWikiName(ucs))
 
   return new ImageResponse(
     renderMojidataOgImage({ codePoint, ucs, svgImage }),

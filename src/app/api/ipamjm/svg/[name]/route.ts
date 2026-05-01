@@ -28,7 +28,7 @@ export async function GET(
   }
 
   const name = rawName.toLowerCase()
-  const ipamjmSvg = renderIpamjmFont(name)
+  const ipamjmSvg = await renderIpamjmFont(name)
   if (ipamjmSvg == null) {
     return new NextResponse('Not Found', { status: 404 })
   }

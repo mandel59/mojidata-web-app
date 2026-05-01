@@ -1,6 +1,7 @@
 import { createGlyphFontRenderer } from '@/glyphwiki/renderFontGlyph'
+import { createGlyphPathShardRenderer } from '@/glyphwiki/renderGlyphPathShard'
 
-export const renderIpamjmFont = await createGlyphFontRenderer({
+const rendererConfig = {
   indexGzPath: 'src/fonts/ipamjm/glyph-index.txt.gz',
   fonts: [
     {
@@ -16,4 +17,29 @@ export const renderIpamjmFont = await createGlyphFontRenderer({
     ascender: 901,
     baseline: 0,
   },
+}
+
+let fallbackRendererPromise:
+  | ReturnType<typeof createGlyphFontRenderer>
+  | undefined
+
+async function renderFromLocalFont(name: string) {
+  if (!fallbackRendererPromise) {
+    const current = createGlyphFontRenderer(rendererConfig).catch((error) => {
+      if (fallbackRendererPromise === current) fallbackRendererPromise = undefined
+      throw error
+    })
+    fallbackRendererPromise = current
+  }
+  return (await fallbackRendererPromise)(name)
+}
+
+const renderFromShard = createGlyphPathShardRenderer({
+  source: 'ipamjm',
+  renderBox: rendererConfig.renderBox,
+  fallback: renderFromLocalFont,
 })
+
+export async function renderIpamjmFont(name: string) {
+  return renderFromShard(name)
+}

@@ -5,6 +5,17 @@ import { promisify } from 'node:util'
 import opentype from 'opentype.js'
 
 const doGunzip = promisify(gunzip)
+const GLYPH_FONT_R2_KEY_PREFIX = 'glyph-fonts'
+const parseOpenTypeFont = opentype.parse as (
+  buffer: ArrayBuffer,
+  options?: { lowMemory?: boolean },
+) => opentype.Font
+
+declare global {
+  interface CloudflareEnv {
+    GLYPH_FONT_ASSETS?: R2Bucket
+  }
+}
 
 export interface GlyphFontSource {
   fontPath: string
@@ -25,20 +36,72 @@ export interface GlyphFontRendererConfig {
 }
 
 type GlyphIndex = Map<string, [string, number]>
+type GlyphFontRenderer = (name: string) => Promise<string | null>
+
+interface FontCacheEntry {
+  source: GlyphFontSource
+  loaded?: Promise<{
+    font: opentype.Font
+    renderBox: GlyphRenderBox
+  }>
+}
+
+function toR2Key(assetPath: string) {
+  const normalized = assetPath.replaceAll('\\', '/')
+  const fontPath = normalized.startsWith('src/fonts/')
+    ? normalized.slice('src/fonts/'.length)
+    : normalized
+  return `${GLYPH_FONT_R2_KEY_PREFIX}/${fontPath}`
+}
+
+export async function getGlyphFontAssetsBucket() {
+  try {
+    const { getCloudflareContext } = await import('@opennextjs/cloudflare')
+    return (await getCloudflareContext({ async: true })).env.GLYPH_FONT_ASSETS
+  } catch {
+    return undefined
+  }
+}
+
+async function readGlyphFontAsset(assetPath: string) {
+  const bucket = await getGlyphFontAssetsBucket()
+  if (bucket) {
+    const key = toR2Key(assetPath)
+    const object = await bucket.get(key)
+    if (!object) {
+      throw new Error(`Glyph font asset not found in R2: ${key}`)
+    }
+    return new Uint8Array(await object.arrayBuffer())
+  }
+
+  return readFile(join(process.cwd(), assetPath))
+}
+
+export function renderGlyphPathDataAsSvg(
+  pathData: string,
+  renderBox: GlyphRenderBox,
+) {
+  const viewBoxSize = renderBox.viewBoxSize ?? 1024
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${viewBoxSize} ${viewBoxSize}" width="200" height="200">
+  <path d="${pathData}" />
+</svg>`
+}
 
 async function loadFontFromGz(gzPath: string): Promise<opentype.Font> {
-  const gzBuffer = await readFile(join(process.cwd(), gzPath))
+  const gzBuffer = await readGlyphFontAsset(gzPath)
   const ttfBuffer = await doGunzip(gzBuffer)
-  return opentype.parse(
+  return parseOpenTypeFont(
     ttfBuffer.buffer.slice(
       ttfBuffer.byteOffset,
       ttfBuffer.byteOffset + ttfBuffer.byteLength,
-    ),
+    ) as ArrayBuffer,
+    { lowMemory: true },
   )
 }
 
 async function loadIndexFromGz(gzPath: string): Promise<GlyphIndex> {
-  const gzBuffer = await readFile(join(process.cwd(), gzPath))
+  const gzBuffer = await readGlyphFontAsset(gzPath)
   const txtBuffer = await doGunzip(gzBuffer)
   const decoder = new TextDecoder()
   const index = new Map<string, [string, number]>()
@@ -50,31 +113,35 @@ async function loadIndexFromGz(gzPath: string): Promise<GlyphIndex> {
   return index
 }
 
-export async function createGlyphFontRenderer(config: GlyphFontRendererConfig) {
-  const [loadedFonts, index] = await Promise.all([
-    Promise.all(
-      config.fonts.map(async (source) => ({
-        source,
-        font: await loadFontFromGz(source.fontGzPath),
-      })),
-    ),
-    loadIndexFromGz(config.indexGzPath),
-  ])
-
-  const fontMap = new Map(
-    loadedFonts.map(({ source, font }) => [
-      source.fontPath,
-      {
+async function loadFontEntry(
+  entry: FontCacheEntry,
+  renderBox: GlyphFontRendererConfig['renderBox'],
+) {
+  if (!entry.loaded) {
+    const loaded = loadFontFromGz(entry.source.fontGzPath)
+      .then((font) => ({
         font,
         renderBox:
-          typeof config.renderBox === 'function'
-            ? config.renderBox(font)
-            : config.renderBox,
-      },
-    ]),
+          typeof renderBox === 'function' ? renderBox(font) : renderBox,
+      }))
+      .catch((error) => {
+        if (entry.loaded === loaded) entry.loaded = undefined
+        throw error
+      })
+    entry.loaded = loaded
+  }
+  return entry.loaded
+}
+
+export async function createGlyphFontRenderer(
+  config: GlyphFontRendererConfig,
+): Promise<GlyphFontRenderer> {
+  const index = await loadIndexFromGz(config.indexGzPath)
+  const fontMap = new Map<string, FontCacheEntry>(
+    config.fonts.map((source) => [source.fontPath, { source }]),
   )
 
-  return (name: string) => {
+  return async (name: string) => {
     const entry = index.get(name)
     if (!entry) {
       return null
@@ -86,16 +153,12 @@ export async function createGlyphFontRenderer(config: GlyphFontRendererConfig) {
       return null
     }
 
-    const { font, renderBox } = fontEntry
-    const viewBoxSize = renderBox.viewBoxSize ?? 1024
+    const { font, renderBox } = await loadFontEntry(fontEntry, config.renderBox)
     const path = font.glyphs
       .get(gid)
       .getPath(0, renderBox.ascender + renderBox.baseline, renderBox.fontSize)
     const pathData = path.toPathData(2)
 
-    return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${viewBoxSize} ${viewBoxSize}" width="200" height="200">
-  <path d="${pathData}" />
-</svg>`
+    return renderGlyphPathDataAsSvg(pathData, renderBox)
   }
 }

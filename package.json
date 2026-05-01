@@ -17,6 +17,8 @@
     "cf:populate-cache": "opennextjs-cloudflare populateCache",
     "cf:typegen": "wrangler types",
     "cf:upload-spa-assets": "node scripts/upload-spa-assets-to-r2.mjs",
+    "cf:generate-glyph-path-shards": "node --max-old-space-size=8192 scripts/generate-glyph-path-shards.mjs",
+    "cf:upload-glyph-path-shards": "node scripts/upload-glyph-path-shards-to-r2.mjs",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint",
     "lint:css": "stylelint 'src/**/*.css'",

@@ -35,6 +35,7 @@ yarn-error.log*
 
 # cloudflare
 .wrangler/
+.glyph-path-shards/
 
 # generated SPA assets (copied from node_modules)
 /public/assets/

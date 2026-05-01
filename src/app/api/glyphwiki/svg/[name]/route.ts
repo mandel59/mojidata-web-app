@@ -1,5 +1,4 @@
 import { getRevalidateDuration } from '@/app/config'
-import { customFetch } from '@/customFetch'
 import { insertWhiteLayerToGlyphWikiSvg } from '@/glyphwiki/insertWhiteLayerToGlyphWikiSvg'
 import { renderJigumoFont } from '@/glyphwiki/renderJigumoFont'
 import { NextResponse } from 'next/server'
@@ -32,7 +31,7 @@ export async function GET(
     return new NextResponse('Bad Request', { status: 400 })
   }
 
-  const jigmoSvg = renderJigumoFont(name)
+  const jigmoSvg = await renderJigumoFont(name)
   if (jigmoSvg == null) {
     return new NextResponse('Not Found', { status: 404 })
   }
