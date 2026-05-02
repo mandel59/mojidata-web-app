@@ -19,6 +19,19 @@ test('mojidata page renders', async ({ page }) => {
   )
 })
 
+test('glyph SVG APIs render from local fonts during development', async ({
+  request,
+}) => {
+  for (const path of ['/api/glyphwiki/svg/u6f22', '/api/ipamjm/svg/u6f22']) {
+    const res = await request.get(path)
+    expect(res.status(), path).toBe(200)
+    expect(res.headers()['content-type'], path).toContain('image/svg+xml')
+    const body = await res.text()
+    expect(body, path).toContain('<svg')
+    expect(body, path).toContain('<path')
+  }
+})
+
 test('desktop mojidata keeps the TOC sidebar beside the main content', async ({
   browser,
 }) => {

@@ -55,6 +55,15 @@ function toR2Key(assetPath: string) {
 }
 
 export async function getGlyphFontAssetsBucket() {
+  // `next dev` exposes local Wrangler R2 bindings even when they are empty.
+  // Prefer the bundled font files locally unless R2 testing is requested.
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    process.env.MOJIDATA_USE_GLYPH_R2_IN_DEV !== '1'
+  ) {
+    return undefined
+  }
+
   try {
     const { getCloudflareContext } = await import('@opennextjs/cloudflare')
     return (await getCloudflareContext({ async: true })).env.GLYPH_FONT_ASSETS
