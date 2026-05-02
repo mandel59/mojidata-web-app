@@ -28,6 +28,13 @@ export default defineConfig({
       testIgnore: 'setup.spec.ts',
     },
     {
+      name: 'firefox-spa-cache',
+      use: { ...devices['Desktop Firefox'] },
+      dependencies: ['setup'],
+      testIgnore: 'setup.spec.ts',
+      grep: /reuses cached wasm and DB after reload/,
+    },
+    {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       dependencies: ['setup'],

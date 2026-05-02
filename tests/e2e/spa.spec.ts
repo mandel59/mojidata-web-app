@@ -1,7 +1,68 @@
 import { expect, test } from './fixtures'
+import type { Page, Request } from '@playwright/test'
 
-function firstMojidataResultLink(page: import('@playwright/test').Page) {
+const SPA_ASSET_CACHE_NAME = 'mojidata-spa-assets-v1'
+
+function firstMojidataResultLink(page: Page) {
   return page.locator('article a[href*="/mojidata/"]').first()
+}
+
+function assetNameFromUrl(url: string) {
+  const pathname = new URL(url).pathname
+  return pathname.split('/').pop() ?? ''
+}
+
+function assetNameFromRequest(request: Request) {
+  return assetNameFromUrl(request.url())
+}
+
+function collectAssetRequests(page: Page, assetNames: string[]) {
+  const names = new Set(assetNames)
+  const urls: string[] = []
+  const listener = (request: Request) => {
+    if (names.has(assetNameFromRequest(request))) {
+      urls.push(request.url())
+    }
+  }
+
+  page.on('request', listener)
+  return {
+    urls,
+    dispose: () => page.off('request', listener),
+  }
+}
+
+async function clearSpaAssetCache(page: Page) {
+  await page.goto('/ja-JP/about', { waitUntil: 'domcontentloaded' })
+  await page.evaluate(async (cacheName) => {
+    await caches.delete(cacheName)
+  }, SPA_ASSET_CACHE_NAME)
+}
+
+async function cachedSpaAssetUrls(page: Page) {
+  return await page.evaluate(async (cacheName) => {
+    const cache = await caches.open(cacheName)
+    const requests = await cache.keys()
+    return requests.map((request) => request.url)
+  }, SPA_ASSET_CACHE_NAME)
+}
+
+function expectCachedAsset(cachedUrls: string[], assetName: string) {
+  expect(
+    cachedUrls.some((url) => new URL(url).pathname.endsWith(`/${assetName}`)),
+  ).toBe(true)
+}
+
+function spaCacheLoadTimeout(projectName: string) {
+  return projectName === 'firefox-spa-cache' ? 120_000 : 60_000
+}
+
+function configureSpaCacheTestTimeout(testInfo: {
+  project: { name: string }
+  setTimeout: (timeout: number) => void
+}) {
+  if (testInfo.project.name !== 'firefox-spa-cache') return
+  testInfo.setTimeout(180_000)
 }
 
 test('search-spa renders results in browser', async ({ page }) => {
@@ -169,6 +230,48 @@ test('mojidata-spa renders character data in browser', async ({ page }) => {
   })
 })
 
+test('mojidata client-data reuses cached wasm and DB after reload', async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    !['chromium', 'firefox-spa-cache'].includes(testInfo.project.name),
+    'asset request counting is only verified in Chromium and Firefox cache project',
+  )
+  configureSpaCacheTestTimeout(testInfo)
+  const loadTimeout = spaCacheLoadTimeout(testInfo.project.name)
+
+  await clearSpaAssetCache(page)
+
+  const firstLoadAssets = collectAssetRequests(page, [
+    'sql-wasm.wasm',
+    'moji.db',
+  ])
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2?executionMode=client-data', {
+    waitUntil: 'domcontentloaded',
+  })
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
+    timeout: loadTimeout,
+  })
+  firstLoadAssets.dispose()
+
+  expect(firstLoadAssets.urls.map(assetNameFromUrl)).toEqual(
+    expect.arrayContaining(['sql-wasm.wasm', 'moji.db']),
+  )
+
+  const cachedUrls = await cachedSpaAssetUrls(page)
+  expectCachedAsset(cachedUrls, 'sql-wasm.wasm')
+  expectCachedAsset(cachedUrls, 'moji.db')
+
+  const reloadAssets = collectAssetRequests(page, ['sql-wasm.wasm', 'moji.db'])
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
+    timeout: loadTimeout,
+  })
+  reloadAssets.dispose()
+
+  expect(reloadAssets.urls).toEqual([])
+})
+
 test('canonical mojidata can render client-data mode in browser', async ({
   page,
 }) => {
@@ -212,6 +315,51 @@ test('idsfind-spa renders results in browser', async ({ page }) => {
     'href',
     /\/mojidata\//,
   )
+})
+
+test('idsfind client-data reuses cached wasm and DB after reload', async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    !['chromium', 'firefox-spa-cache'].includes(testInfo.project.name),
+    'asset request counting is only verified in Chromium and Firefox cache project',
+  )
+  configureSpaCacheTestTimeout(testInfo)
+  const loadTimeout = spaCacheLoadTimeout(testInfo.project.name)
+
+  await clearSpaAssetCache(page)
+
+  const firstLoadAssets = collectAssetRequests(page, [
+    'sql-wasm.wasm',
+    'idsfind.db',
+  ])
+  await page.goto('/ja-JP/idsfind?executionMode=client-data&whole=%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+  await expect(firstMojidataResultLink(page)).toBeVisible({
+    timeout: loadTimeout,
+  })
+  firstLoadAssets.dispose()
+
+  expect(firstLoadAssets.urls.map(assetNameFromUrl)).toEqual(
+    expect.arrayContaining(['sql-wasm.wasm', 'idsfind.db']),
+  )
+
+  const cachedUrls = await cachedSpaAssetUrls(page)
+  expectCachedAsset(cachedUrls, 'sql-wasm.wasm')
+  expectCachedAsset(cachedUrls, 'idsfind.db')
+
+  const reloadAssets = collectAssetRequests(page, [
+    'sql-wasm.wasm',
+    'idsfind.db',
+  ])
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await expect(firstMojidataResultLink(page)).toBeVisible({
+    timeout: loadTimeout,
+  })
+  reloadAssets.dispose()
+
+  expect(reloadAssets.urls).toEqual([])
 })
 
 test('canonical idsfind can render client-data mode in browser', async ({
