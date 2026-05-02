@@ -43,7 +43,7 @@ if (process.env.MOJIDATA_ALLOW_BUNDLED_SPA_ASSETS !== '1') {
     throw new Error(
       [
         'Generated SPA assets are present in public/assets and would be bundled into the Cloudflare Worker assets.',
-        'Upload them to R2 with npm run cf:upload-spa-assets, remove the generated public/assets files before cf:build,',
+        'Upload them to R2 with npm run cf:upload-spa-assets, move generated assets out of public/assets before cf:build,',
         'or set MOJIDATA_ALLOW_BUNDLED_SPA_ASSETS=1 if you intentionally want to bundle them.',
         `Found: ${bundledAssets.join(', ')}`,
       ].join('\n'),

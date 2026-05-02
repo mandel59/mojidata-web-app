@@ -87,10 +87,11 @@ cache busting. If it is not set, the build falls back to commit, deployment, or
 package-version identifiers that may exist in the build environment.
 
 `npm run cf:build` sets `MOJIDATA_SKIP_SPA_ASSETS=1` so the normal Next.js
-`prebuild` step does not regenerate local SPA assets. It also fails when
-generated `public/assets` files are already present unless
-`MOJIDATA_ALLOW_BUNDLED_SPA_ASSETS=1` is set. This is deliberate: those files are
-large and should be served from R2 for the Cloudflare target.
+`prebuild` step does not regenerate local SPA assets. Local SPA data assets are
+generated under `dist/spa-assets/`, outside Next.js `public/`, so they are not
+bundled into the Cloudflare Worker. If legacy `public/assets/` data files are
+present, the Cloudflare build wrapper temporarily moves that directory out of
+the way during the OpenNext build and restores it afterward.
 
 ## Runtime Environment
 
@@ -149,7 +150,7 @@ Use `npm run cf:typegen` after changing `wrangler.jsonc`.
 
 ## R2 Asset Notes
 
-The R2 SPA upload command first regenerates `public/assets` from package data,
+The R2 SPA upload command first regenerates `dist/spa-assets` from package data,
 then uploads raw, Brotli, and gzip variants with long-lived cache headers.
 Direct R2 custom domains do not negotiate between compressed variants
 automatically. Use the uncompressed URLs as the default browser asset URLs

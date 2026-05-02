@@ -10,7 +10,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "cf:clean-cache": "node scripts/clean-cloudflare-build-cache.mjs",
-    "cf:build": "npm run cf:clean-cache && node scripts/check-cloudflare-build-assets.mjs && MOJIDATA_SKIP_SPA_ASSETS=1 opennextjs-cloudflare build",
+    "cf:build": "npm run cf:clean-cache && node scripts/run-cloudflare-build.mjs",
     "cf:build:asset-worker": "NEXT_PUBLIC_SPA_ASSET_VERSION=$npm_package_version NEXT_PUBLIC_SPA_SQL_WASM_URL=https://mojidata-spa-assets.mandel59.workers.dev/assets/sql-wasm.wasm NEXT_PUBLIC_SPA_MOJIDATA_DB_URL=https://mojidata-spa-assets.mandel59.workers.dev/assets/moji.db NEXT_PUBLIC_SPA_IDSFIND_DB_URL=https://mojidata-spa-assets.mandel59.workers.dev/assets/idsfind.db npm run cf:build",
     "cf:preview": "opennextjs-cloudflare preview",
     "cf:deploy": "opennextjs-cloudflare deploy",

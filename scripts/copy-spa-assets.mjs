@@ -7,7 +7,22 @@ import { fileURLToPath } from 'node:url'
 import { constants, createBrotliCompress, createGzip } from 'node:zlib'
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const outDir = path.join(rootDir, 'public', 'assets')
+const defaultOutDir = path.join(rootDir, 'dist', 'spa-assets')
+
+function readOption(name) {
+  const flag = `--${name}`
+  const index = process.argv.indexOf(flag)
+  if (index === -1) return undefined
+  const value = process.argv[index + 1]
+  if (!value || value.startsWith('--')) {
+    throw new Error(`${flag} requires a value`)
+  }
+  return value
+}
+
+const outDir = path.resolve(
+  readOption('out-dir') ?? process.env.MOJIDATA_SPA_ASSETS_DIR ?? defaultOutDir,
+)
 
 const assets = [
   {

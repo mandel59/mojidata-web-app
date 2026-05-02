@@ -4,7 +4,7 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const assetsDir = path.join(rootDir, 'public', 'assets')
+const defaultAssetsDir = path.join(rootDir, 'dist', 'spa-assets')
 const cacheControl = 'public, max-age=31536000, immutable'
 
 const assets = [
@@ -79,12 +79,16 @@ async function run(command, args) {
   })
 }
 
-await import('./copy-spa-assets.mjs')
-
 const bucket = readOption('bucket') ?? process.env.MOJIDATA_SPA_R2_BUCKET
+const assetsDir = path.resolve(
+  readOption('dir') ?? process.env.MOJIDATA_SPA_ASSETS_DIR ?? defaultAssetsDir,
+)
 const prefix = normalizePrefix(
   readOption('prefix') ?? process.env.MOJIDATA_SPA_R2_PREFIX ?? '',
 )
+
+process.env.MOJIDATA_SPA_ASSETS_DIR = assetsDir
+await import('./copy-spa-assets.mjs')
 
 if (!bucket) {
   throw new Error(
