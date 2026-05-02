@@ -51,6 +51,64 @@ test('desktop mojidata keeps the TOC sidebar beside the main content', async ({
   await context.close()
 })
 
+test('desktop English mojidata keeps long TOC labels inside sidebar buttons without wrapping', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    userAgent: DESKTOP_UA,
+    viewport: { width: 1280, height: 900 },
+  })
+  const { page, assertNoBrowserErrors } = await newCheckedPage(context)
+  await page.route(/\/api\/(?:glyphwiki|ipamjm)\/svg\//, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'image/svg+xml',
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1" />',
+    })
+  })
+
+  await page.goto('/en-US/mojidata/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const sidebar = page.getByTestId('mojidata-toc-sidebar')
+  const variantsLink = page
+    .getByTestId('mojidata-section-nav-sidebar')
+    .getByRole('link', { name: 'Variants and Relevant Characters' })
+  await expect(sidebar).toBeVisible()
+  await expect(variantsLink).toBeVisible()
+
+  const [sidebarBox, variantsBox] = await Promise.all([
+    sidebar.boundingBox(),
+    variantsLink.boundingBox(),
+  ])
+  expect(sidebarBox).not.toBeNull()
+  expect(variantsBox).not.toBeNull()
+  expect(variantsBox?.x ?? 0).toBeGreaterThanOrEqual((sidebarBox?.x ?? 0) - 1)
+  expect((variantsBox?.x ?? 0) + (variantsBox?.width ?? 0)).toBeLessThanOrEqual(
+    (sidebarBox?.x ?? 0) + (sidebarBox?.width ?? 0) + 1,
+  )
+  await expect
+    .poll(async () =>
+      variantsLink.evaluate((el) => el.scrollWidth - el.clientWidth),
+    )
+    .toBeLessThanOrEqual(1)
+  await expect
+    .poll(async () =>
+      variantsLink.evaluate((el) => {
+        const range = document.createRange()
+        range.selectNodeContents(el)
+        const lineCount = range.getClientRects().length
+        range.detach()
+        return lineCount
+      }),
+    )
+    .toBe(1)
+
+  assertNoBrowserErrors()
+  await context.close()
+})
+
 const DESKTOP_UA =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
 const MOBILE_UA =
