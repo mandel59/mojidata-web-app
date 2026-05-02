@@ -26,6 +26,13 @@ const ASSETS = new Map<string, Asset>([
     },
   ],
   [
+    '/assets/sqlite3.wasm',
+    {
+      rawPath: '/assets/sqlite3.wasm',
+      brPath: '/assets/sqlite3.wasm.br',
+    },
+  ],
+  [
     '/assets/moji.db',
     {
       rawPath: '/assets/moji.db',
@@ -38,6 +45,14 @@ const ASSETS = new Map<string, Asset>([
     {
       rawPath: '/assets/idsfind.db',
       brPath: '/assets/idsfind.db.br',
+      disableDbCompressionForWebKit: true,
+    },
+  ],
+  [
+    '/assets/idsfind-fts5.db',
+    {
+      rawPath: '/assets/idsfind-fts5.db',
+      brPath: '/assets/idsfind-fts5.db.br',
       disableDbCompressionForWebKit: true,
     },
   ],

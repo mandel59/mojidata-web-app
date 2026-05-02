@@ -4,7 +4,6 @@ import { getText } from '@/getText'
 import type { ExecutionMode } from '@/deliveryPolicy'
 import LoadingArticle from '@/components/LoadingArticle'
 import IdsfindPageShell from './IdsfindPageShell'
-import SpaAssetsPrefetcher from '@/spa/SpaAssetsPrefetcher'
 import {
   castToArray,
   castToBooleanFlag,
@@ -35,7 +34,6 @@ export default function IdsfindRoute(props: IdsfindRouteProps) {
       formAction={formAction}
       formNavLabel={getText('ids-finder.nav', language)}
       mobileResultsFormMode="drawer"
-      prelude={isClientData ? <SpaAssetsPrefetcher kind="idsfind" /> : undefined}
       results={
         hasQuery ? (
           isClientData ? (

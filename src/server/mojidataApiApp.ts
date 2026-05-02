@@ -10,7 +10,7 @@ let localApp: MojidataApiApp | undefined
 
 function getLocalApp() {
   if (!localApp) {
-    const { createNodeApp } = require('@mandel59/mojidata-api/node.js') as {
+    const { createNodeApp } = require('@mandel59/mojidata-api/node') as {
       createNodeApp: () => MojidataApiApp
     }
     localApp = createNodeApp()

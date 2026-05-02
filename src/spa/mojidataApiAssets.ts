@@ -31,6 +31,10 @@ export const mojidataApiAssets = {
     '/assets/sql-wasm.wasm',
     process.env.NEXT_PUBLIC_SPA_SQL_WASM_URL,
   ),
+  sqliteWasmUrl: resolveAssetUrl(
+    '/assets/sqlite3.wasm',
+    process.env.NEXT_PUBLIC_SPA_SQLITE_WASM_URL,
+  ),
   mojidataDbUrl: resolveAssetUrl(
     '/assets/moji.db',
     process.env.NEXT_PUBLIC_SPA_MOJIDATA_DB_URL,
@@ -38,5 +42,9 @@ export const mojidataApiAssets = {
   idsfindDbUrl: resolveAssetUrl(
     '/assets/idsfind.db',
     process.env.NEXT_PUBLIC_SPA_IDSFIND_DB_URL,
+  ),
+  idsfindFts5DbUrl: resolveAssetUrl(
+    '/assets/idsfind-fts5.db',
+    process.env.NEXT_PUBLIC_SPA_IDSFIND_FTS5_DB_URL,
   ),
 }

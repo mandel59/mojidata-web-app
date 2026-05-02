@@ -19,6 +19,17 @@ const assets = [
     contentType: 'application/wasm',
     contentEncoding: 'gzip',
   },
+  { name: 'sqlite3.wasm', contentType: 'application/wasm' },
+  {
+    name: 'sqlite3.wasm.br',
+    contentType: 'application/wasm',
+    contentEncoding: 'br',
+  },
+  {
+    name: 'sqlite3.wasm.gz',
+    contentType: 'application/wasm',
+    contentEncoding: 'gzip',
+  },
   { name: 'moji.db', contentType: 'application/octet-stream' },
   {
     name: 'moji.db.br',
@@ -38,6 +49,17 @@ const assets = [
   },
   {
     name: 'idsfind.db.gz',
+    contentType: 'application/octet-stream',
+    contentEncoding: 'gzip',
+  },
+  { name: 'idsfind-fts5.db', contentType: 'application/octet-stream' },
+  {
+    name: 'idsfind-fts5.db.br',
+    contentType: 'application/octet-stream',
+    contentEncoding: 'br',
+  },
+  {
+    name: 'idsfind-fts5.db.gz',
     contentType: 'application/octet-stream',
     contentEncoding: 'gzip',
   },

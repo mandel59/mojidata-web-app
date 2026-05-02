@@ -1,7 +1,7 @@
 'use client'
 
 import { createApp } from '@mandel59/mojidata-api/app'
-import { createMojidataApiWorkerClient } from '@mandel59/mojidata-api/browser-client'
+import { createMojidataApiWorkerClient } from '@mandel59/mojidata-api-runtime/lib/browser-client'
 import type { MojidataResults } from '@/mojidata/mojidataShared'
 import { mojidataApiAssets } from './mojidataApiAssets'
 
@@ -20,7 +20,22 @@ export async function getMojidataApiBrowser() {
       new URL('./mojidataApiBrowserWorker.ts', import.meta.url),
       { type: 'module' },
     )
-    const db = createMojidataApiWorkerClient(worker, mojidataApiAssets)
+    const workerInit = {
+      sqlWasmUrl: mojidataApiAssets.sqlWasmUrl,
+      mojidataDbUrl: mojidataApiAssets.mojidataDbUrl,
+      idsfindDbUrl: mojidataApiAssets.idsfindDbUrl,
+      sqliteWasm: {
+        wasmUrl: mojidataApiAssets.sqliteWasmUrl,
+        idsfindDbUrl: mojidataApiAssets.idsfindFts5DbUrl,
+        opfsName: 'mojidata-opfs-sahpool',
+        opfsDirectory: 'mojidata-opfs-sahpool',
+        initialCapacity: 8,
+        manifestDirectory: 'mojidata-web-app-sqlite-wasm',
+        mojidataDbVersion: mojidataApiAssets.mojidataDbUrl,
+        idsfindDbVersion: mojidataApiAssets.idsfindFts5DbUrl,
+      },
+    }
+    const db = createMojidataApiWorkerClient(worker, workerInit)
     await db.ready
     const app = createApp(db)
     return { app, terminate: () => db.terminate() }

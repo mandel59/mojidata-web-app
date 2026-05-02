@@ -21,8 +21,9 @@ npm run dev
 Open `http://localhost:3000` and use `/search` as the main entrypoint.
 
 `npm run dev` runs `prepare:spa-assets` first, so the SPA routes can use local
-copies of `sql-wasm.wasm`, `moji.db`, and `idsfind.db` from `dist/spa-assets`
-during development.
+copies of `sqlite3.wasm`, fallback `sql-wasm.wasm`, `moji.db`, FTS4
+`idsfind.db`, and FTS5 `idsfind-fts5.db` from `dist/spa-assets` during
+development.
 
 ## Cloudflare Deployment
 

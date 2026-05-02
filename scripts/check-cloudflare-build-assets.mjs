@@ -7,8 +7,10 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const publicAssetsDir = path.join(rootDir, 'public', 'assets')
 const requiredAssetEnvNames = [
   'NEXT_PUBLIC_SPA_SQL_WASM_URL',
+  'NEXT_PUBLIC_SPA_SQLITE_WASM_URL',
   'NEXT_PUBLIC_SPA_MOJIDATA_DB_URL',
   'NEXT_PUBLIC_SPA_IDSFIND_DB_URL',
+  'NEXT_PUBLIC_SPA_IDSFIND_FTS5_DB_URL',
 ]
 
 function hasRemoteAssetConfig() {
@@ -36,7 +38,9 @@ if (!hasRemoteAssetConfig()) {
 
 if (process.env.MOJIDATA_ALLOW_BUNDLED_SPA_ASSETS !== '1') {
   const bundledAssets = (await listPublicAssets()).filter((name) =>
-    /^(sql-wasm\.wasm|moji\.db|idsfind\.db)(?:\.(?:br|gz))?$/.test(name),
+    /^(sql-wasm\.wasm|sqlite3\.wasm|moji\.db|idsfind\.db|idsfind-fts5\.db)(?:\.(?:br|gz))?$/.test(
+      name,
+    ),
   )
 
   if (bundledAssets.length > 0) {

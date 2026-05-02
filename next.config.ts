@@ -47,7 +47,9 @@ const nextConfig: NextConfig = {
     '/**': [
       'node_modules/@mandel59/mojidata/dist/moji.db',
       'node_modules/@mandel59/idsdb/idsfind.db',
+      'node_modules/@mandel59/idsdb-fts5/idsfind.db',
       'node_modules/sql.js/**',
+      'node_modules/@sqlite.org/sqlite-wasm/**',
       'src/server/mojidataApiWorker.cjs',
       'src/fonts/jigmo/**',
       'src/fonts/ipamjm/**',
@@ -113,6 +115,29 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: '/assets/sqlite3.wasm',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/wasm' },
+        ],
+      },
+      {
+        source: '/assets/sqlite3.wasm.br',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/wasm' },
+          { key: 'Content-Encoding', value: 'br' },
+        ],
+      },
+      {
+        source: '/assets/sqlite3.wasm.gz',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/wasm' },
+          { key: 'Content-Encoding', value: 'gzip' },
+        ],
+      },
+      {
         source: '/assets/moji.db',
         headers: [
           ...spaAssetHeadersCommon,
@@ -152,6 +177,29 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/assets/idsfind.db.gz',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+          { key: 'Content-Encoding', value: 'gzip' },
+        ],
+      },
+      {
+        source: '/assets/idsfind-fts5.db',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+        ],
+      },
+      {
+        source: '/assets/idsfind-fts5.db.br',
+        headers: [
+          ...spaAssetHeadersCommon,
+          { key: 'Content-Type', value: 'application/octet-stream' },
+          { key: 'Content-Encoding', value: 'br' },
+        ],
+      },
+      {
+        source: '/assets/idsfind-fts5.db.gz',
         headers: [
           ...spaAssetHeadersCommon,
           { key: 'Content-Type', value: 'application/octet-stream' },

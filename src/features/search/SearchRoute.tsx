@@ -5,7 +5,6 @@ import { Suspense } from 'react'
 import LoadingArticle from '@/components/LoadingArticle'
 import SearchPageShell from './SearchPageShell'
 import SearchResultsClient from './SearchResultsClient'
-import SpaAssetsPrefetcher from '@/spa/SpaAssetsPrefetcher'
 import { castToBooleanFlag, castToString } from '@/app/[lang]/searchParams'
 import IdsfindResultsServer from '@/features/idsfind/IdsfindResultsServer'
 
@@ -28,7 +27,6 @@ export default function SearchRoute(props: SearchRouteProps) {
       formAction={formAction}
       formNavLabel={getText('mojidata-search.nav', language)}
       mobileResultsFormMode="drawer"
-      prelude={isClientData ? <SpaAssetsPrefetcher kind="idsfind" /> : undefined}
       results={
         query ? (
           isClientData ? (

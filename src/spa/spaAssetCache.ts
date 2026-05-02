@@ -2,8 +2,10 @@ export const SPA_ASSET_CACHE_NAME = 'mojidata-spa-assets-v1'
 
 const managedAssetPathnames = [
   '/assets/sql-wasm.wasm',
+  '/assets/sqlite3.wasm',
   '/assets/moji.db',
   '/assets/idsfind.db',
+  '/assets/idsfind-fts5.db',
 ]
 
 const inflightAssetBytes = new Map<string, Promise<ArrayBuffer>>()
@@ -37,6 +39,23 @@ function isManagedAssetUrl(assetUrl: string) {
   }
 }
 
+function cacheableAssetResponse(source: Response, bytes: ArrayBuffer) {
+  const headers = new Headers()
+  const contentType = source.headers.get('content-type')
+  const cacheControl = source.headers.get('cache-control')
+  const etag = source.headers.get('etag')
+  const lastModified = source.headers.get('last-modified')
+  if (contentType) headers.set('Content-Type', contentType)
+  if (cacheControl) headers.set('Cache-Control', cacheControl)
+  if (etag) headers.set('ETag', etag)
+  if (lastModified) headers.set('Last-Modified', lastModified)
+  return new Response(bytes.slice(0), {
+    status: source.status,
+    statusText: source.statusText,
+    headers,
+  })
+}
+
 async function readSpaAssetBytesFromSource(assetUrl: string) {
   const cache = await openSpaAssetCache()
   const cached = await cache?.match(assetUrl)
@@ -51,12 +70,10 @@ async function readSpaAssetBytesFromSource(assetUrl: string) {
     )
   }
 
-  const cacheWrite = cache
-    ?.put(assetUrl, response.clone())
-    .catch(() => undefined)
-
   const bytes = await response.arrayBuffer()
-  await cacheWrite
+  await cache
+    ?.put(assetUrl, cacheableAssetResponse(response, bytes))
+    .catch(() => undefined)
   return bytes
 }
 
@@ -96,7 +113,10 @@ export async function prefetchSpaAsset(assetUrl: string) {
       )
     }
 
-    await cache?.put(normalizedUrl, response).catch(() => undefined)
+    const bytes = await response.arrayBuffer()
+    await cache
+      ?.put(normalizedUrl, cacheableAssetResponse(response, bytes))
+      .catch(() => undefined)
   })()
 
   inflightAssetPrefetches.set(normalizedUrl, created)

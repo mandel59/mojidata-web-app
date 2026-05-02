@@ -25,6 +25,15 @@ const assets: Record<
     contentType: 'application/wasm',
     contentEncoding: 'gzip',
   },
+  'sqlite3.wasm': { contentType: 'application/wasm' },
+  'sqlite3.wasm.br': {
+    contentType: 'application/wasm',
+    contentEncoding: 'br',
+  },
+  'sqlite3.wasm.gz': {
+    contentType: 'application/wasm',
+    contentEncoding: 'gzip',
+  },
   'moji.db': { contentType: 'application/octet-stream' },
   'moji.db.br': {
     contentType: 'application/octet-stream',
@@ -40,6 +49,15 @@ const assets: Record<
     contentEncoding: 'br',
   },
   'idsfind.db.gz': {
+    contentType: 'application/octet-stream',
+    contentEncoding: 'gzip',
+  },
+  'idsfind-fts5.db': { contentType: 'application/octet-stream' },
+  'idsfind-fts5.db.br': {
+    contentType: 'application/octet-stream',
+    contentEncoding: 'br',
+  },
+  'idsfind-fts5.db.gz': {
     contentType: 'application/octet-stream',
     contentEncoding: 'gzip',
   },

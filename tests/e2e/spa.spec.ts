@@ -2,6 +2,16 @@ import { expect, test } from './fixtures'
 import type { Page, Request } from '@playwright/test'
 
 const SPA_ASSET_CACHE_NAME = 'mojidata-spa-assets-v1'
+const OPFS_MANIFEST_DIRECTORY = 'mojidata-web-app-sqlite-wasm'
+const OPFS_POOL_DIRECTORY = 'mojidata-opfs-sahpool'
+
+type OpfsManifest = {
+  name: string
+  assetUrl: string
+  assetVersion: string
+  byteLength: number
+  importedAt: string
+}
 
 function firstMojidataResultLink(page: Page) {
   return page.locator('article a[href*="/mojidata/"]').first()
@@ -34,9 +44,23 @@ function collectAssetRequests(page: Page, assetNames: string[]) {
 
 async function clearSpaAssetCache(page: Page) {
   await page.goto('/ja-JP/about', { waitUntil: 'domcontentloaded' })
-  await page.evaluate(async (cacheName) => {
+  await page.evaluate(async ({ cacheName, opfsDirectories }) => {
     await caches.delete(cacheName)
-  }, SPA_ASSET_CACHE_NAME)
+    const storage = navigator.storage as StorageManager & {
+      getDirectory?: () => Promise<FileSystemDirectoryHandle>
+    }
+    const root = await storage.getDirectory?.()
+    if (!root) return
+
+    await Promise.all(
+      opfsDirectories.map(async (name) => {
+        await root.removeEntry(name, { recursive: true }).catch(() => undefined)
+      }),
+    )
+  }, {
+    cacheName: SPA_ASSET_CACHE_NAME,
+    opfsDirectories: [OPFS_MANIFEST_DIRECTORY, OPFS_POOL_DIRECTORY],
+  })
 }
 
 async function cachedSpaAssetUrls(page: Page) {
@@ -47,10 +71,51 @@ async function cachedSpaAssetUrls(page: Page) {
   }, SPA_ASSET_CACHE_NAME)
 }
 
-function expectCachedAsset(cachedUrls: string[], assetName: string) {
-  expect(
-    cachedUrls.some((url) => new URL(url).pathname.endsWith(`/${assetName}`)),
-  ).toBe(true)
+function hasCachedAsset(cachedUrls: string[], assetName: string) {
+  return cachedUrls.some((url) =>
+    new URL(url).pathname.endsWith(`/${assetName}`),
+  )
+}
+
+async function waitForCachedAsset(
+  page: Page,
+  assetName: string,
+  timeout: number,
+) {
+  await expect
+    .poll(
+      async () => hasCachedAsset(await cachedSpaAssetUrls(page), assetName),
+      { timeout },
+    )
+    .toBe(true)
+}
+
+async function readOpfsManifest(page: Page, segments: string[]) {
+  return await page.evaluate(
+    async ({ directory, segments }) => {
+      const storage = navigator.storage as StorageManager & {
+        getDirectory?: () => Promise<FileSystemDirectoryHandle>
+      }
+      const root = await storage.getDirectory?.()
+      if (!root) return null
+
+      try {
+        let dir = await root.getDirectoryHandle(directory)
+        for (const segment of segments.slice(0, -1)) {
+          dir = await dir.getDirectoryHandle(segment)
+        }
+        const fileName = segments[segments.length - 1]
+        const file = await (await dir.getFileHandle(fileName)).getFile()
+        return JSON.parse(await file.text()) as OpfsManifest
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'NotFoundError') {
+          return null
+        }
+        throw error
+      }
+    },
+    { directory: OPFS_MANIFEST_DIRECTORY, segments },
+  )
 }
 
 function spaCacheLoadTimeout(projectName: string) {
@@ -66,19 +131,19 @@ function configureSpaCacheTestTimeout(testInfo: {
 }
 
 test('search-spa renders results in browser', async ({ page }) => {
+  await page.goto('/ja-JP/search-spa', { waitUntil: 'domcontentloaded' })
+
   const sawWasm = page.waitForRequest((req) =>
-    req.url().includes('/assets/sql-wasm.wasm'),
+    req.url().includes('/assets/sqlite3.wasm'),
   )
   const sawIdsDb = page.waitForRequest((req) =>
-    req.url().includes('/assets/idsfind.db'),
+    req.url().includes('/assets/idsfind-fts5.db'),
   )
-  await page.goto('/ja-JP/search-spa', { waitUntil: 'domcontentloaded' })
-  await sawWasm
-  await sawIdsDb
-
   await page.goto('/ja-JP/search-spa?query=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
   })
+  await sawWasm
+  await sawIdsDb
 
   await expect(page.locator('[data-spa="search"]')).toHaveCount(1)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
@@ -243,7 +308,7 @@ test('mojidata client-data reuses cached wasm and DB after reload', async ({
   await clearSpaAssetCache(page)
 
   const firstLoadAssets = collectAssetRequests(page, [
-    'sql-wasm.wasm',
+    'sqlite3.wasm',
     'moji.db',
   ])
   await page.goto('/ja-JP/mojidata/%E6%BC%A2?executionMode=client-data', {
@@ -255,14 +320,19 @@ test('mojidata client-data reuses cached wasm and DB after reload', async ({
   firstLoadAssets.dispose()
 
   expect(firstLoadAssets.urls.map(assetNameFromUrl)).toEqual(
-    expect.arrayContaining(['sql-wasm.wasm', 'moji.db']),
+    expect.arrayContaining(['sqlite3.wasm', 'moji.db']),
   )
 
-  const cachedUrls = await cachedSpaAssetUrls(page)
-  expectCachedAsset(cachedUrls, 'sql-wasm.wasm')
-  expectCachedAsset(cachedUrls, 'moji.db')
+  await waitForCachedAsset(page, 'sqlite3.wasm', loadTimeout)
+  await waitForCachedAsset(page, 'moji.db', loadTimeout)
 
-  const reloadAssets = collectAssetRequests(page, ['sql-wasm.wasm', 'moji.db'])
+  const firstManifest = await readOpfsManifest(page, [
+    'mojidata',
+    'moji.db.json',
+  ])
+  expect(firstManifest).not.toBeNull()
+
+  const reloadAssets = collectAssetRequests(page, ['moji.db'])
   await page.reload({ waitUntil: 'domcontentloaded' })
   await expect(page.getByTestId('mojidata-response')).toHaveCount(1, {
     timeout: loadTimeout,
@@ -270,6 +340,9 @@ test('mojidata client-data reuses cached wasm and DB after reload', async ({
   reloadAssets.dispose()
 
   expect(reloadAssets.urls).toEqual([])
+  await expect(
+    readOpfsManifest(page, ['mojidata', 'moji.db.json']),
+  ).resolves.toEqual(firstManifest)
 })
 
 test('canonical mojidata can render client-data mode in browser', async ({
@@ -289,19 +362,19 @@ test('idsfind-spa renders results in browser', async ({ page }) => {
   page.on('pageerror', (err) => console.log('[pageerror]', err))
   page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))
 
+  await page.goto('/ja-JP/idsfind-spa', { waitUntil: 'domcontentloaded' })
+
   const sawWasm = page.waitForRequest((req) =>
-    req.url().includes('/assets/sql-wasm.wasm'),
+    req.url().includes('/assets/sqlite3.wasm'),
   )
   const sawIdsDb = page.waitForRequest((req) =>
-    req.url().includes('/assets/idsfind.db'),
+    req.url().includes('/assets/idsfind-fts5.db'),
   )
-  await page.goto('/ja-JP/idsfind-spa', { waitUntil: 'domcontentloaded' })
-  await sawWasm
-  await sawIdsDb
-
   await page.goto('/ja-JP/idsfind-spa?whole=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
   })
+  await sawWasm
+  await sawIdsDb
 
   await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(1)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
@@ -330,8 +403,8 @@ test('idsfind client-data reuses cached wasm and DB after reload', async ({
   await clearSpaAssetCache(page)
 
   const firstLoadAssets = collectAssetRequests(page, [
-    'sql-wasm.wasm',
-    'idsfind.db',
+    'sqlite3.wasm',
+    'idsfind-fts5.db',
   ])
   await page.goto('/ja-JP/idsfind?executionMode=client-data&whole=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
@@ -342,16 +415,17 @@ test('idsfind client-data reuses cached wasm and DB after reload', async ({
   firstLoadAssets.dispose()
 
   expect(firstLoadAssets.urls.map(assetNameFromUrl)).toEqual(
-    expect.arrayContaining(['sql-wasm.wasm', 'idsfind.db']),
+    expect.arrayContaining(['sqlite3.wasm', 'idsfind-fts5.db']),
   )
 
-  const cachedUrls = await cachedSpaAssetUrls(page)
-  expectCachedAsset(cachedUrls, 'sql-wasm.wasm')
-  expectCachedAsset(cachedUrls, 'idsfind.db')
+  const firstManifest = await readOpfsManifest(page, [
+    'mojidata',
+    'idsfind.db.json',
+  ])
+  expect(firstManifest).not.toBeNull()
 
   const reloadAssets = collectAssetRequests(page, [
-    'sql-wasm.wasm',
-    'idsfind.db',
+    'idsfind-fts5.db',
   ])
   await page.reload({ waitUntil: 'domcontentloaded' })
   await expect(firstMojidataResultLink(page)).toBeVisible({
@@ -360,6 +434,9 @@ test('idsfind client-data reuses cached wasm and DB after reload', async ({
   reloadAssets.dispose()
 
   expect(reloadAssets.urls).toEqual([])
+  await expect(
+    readOpfsManifest(page, ['mojidata', 'idsfind.db.json']),
+  ).resolves.toEqual(firstManifest)
 })
 
 test('canonical idsfind can render client-data mode in browser', async ({

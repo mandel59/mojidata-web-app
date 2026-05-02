@@ -24,10 +24,34 @@ const outDir = path.resolve(
   readOption('out-dir') ?? process.env.MOJIDATA_SPA_ASSETS_DIR ?? defaultOutDir,
 )
 
+function idsfindFts5DbSource() {
+  const override = process.env.MOJIDATA_SPA_IDSFIND_FTS5_DB_SOURCE?.trim()
+  if (override) return path.resolve(override)
+
+  return path.join(
+    rootDir,
+    'node_modules',
+    '@mandel59',
+    'idsdb-fts5',
+    'idsfind.db',
+  )
+}
+
 const assets = [
   {
     src: path.join(rootDir, 'node_modules', 'sql.js', 'dist', 'sql-wasm.wasm'),
     dest: path.join(outDir, 'sql-wasm.wasm'),
+  },
+  {
+    src: path.join(
+      rootDir,
+      'node_modules',
+      '@sqlite.org',
+      'sqlite-wasm',
+      'dist',
+      'sqlite3.wasm',
+    ),
+    dest: path.join(outDir, 'sqlite3.wasm'),
   },
   {
     src: path.join(
@@ -49,6 +73,10 @@ const assets = [
       'idsfind.db',
     ),
     dest: path.join(outDir, 'idsfind.db'),
+  },
+  {
+    src: idsfindFts5DbSource(),
+    dest: path.join(outDir, 'idsfind-fts5.db'),
   },
 ]
 

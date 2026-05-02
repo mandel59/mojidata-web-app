@@ -34,8 +34,10 @@ const SPA_ASSET_CACHE_CONTROL =
 
 const COMPRESSIBLE_SPA_ASSETS = new Set([
   '/assets/sql-wasm.wasm',
+  '/assets/sqlite3.wasm',
   '/assets/moji.db',
   '/assets/idsfind.db',
+  '/assets/idsfind-fts5.db',
 ])
 
 function isWebKitSafariUserAgent(ua: string) {
@@ -164,7 +166,8 @@ export async function middleware(
     if (
       isWebKitSafariUserAgent(ua) &&
       (request.nextUrl.pathname === '/assets/moji.db' ||
-        request.nextUrl.pathname === '/assets/idsfind.db')
+        request.nextUrl.pathname === '/assets/idsfind.db' ||
+        request.nextUrl.pathname === '/assets/idsfind-fts5.db')
     ) {
       // WebKit/Safari does not reliably decode Content-Encoding for large
       // application/octet-stream fetches, which breaks sql.js DB loading.

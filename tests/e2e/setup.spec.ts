@@ -32,7 +32,13 @@ test('warm up next dev routes', async ({ request }) => {
   await warmGet(request, '/assets/sql-wasm.wasm', {
     headers: { Range: 'bytes=0-64' },
   })
+  await warmGet(request, '/assets/sqlite3.wasm', {
+    headers: { Range: 'bytes=0-64' },
+  })
   await warmGet(request, '/assets/idsfind.db', {
+    headers: { Range: 'bytes=0-64' },
+  })
+  await warmGet(request, '/assets/idsfind-fts5.db', {
     headers: { Range: 'bytes=0-64' },
   })
   await warmGet(request, '/assets/moji.db', {

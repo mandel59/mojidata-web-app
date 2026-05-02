@@ -25,7 +25,9 @@ test('chromium fetches Brotli SPA assets and receives decoded bytes', async ({
     return {
       mojidata: await readAsset('/assets/moji.db'),
       idsfind: await readAsset('/assets/idsfind.db'),
+      idsfindFts5: await readAsset('/assets/idsfind-fts5.db'),
       wasm: await readAsset('/assets/sql-wasm.wasm'),
+      sqliteWasm: await readAsset('/assets/sqlite3.wasm'),
     }
   })
 
@@ -39,10 +41,20 @@ test('chromium fetches Brotli SPA assets and receives decoded bytes', async ({
   expect(Number(assets.idsfind.contentLength)).toBeLessThan(32_757_760)
   expect(assets.idsfind.prefixText).toContain('SQLite format 3')
 
+  expect(assets.idsfindFts5.status).toBe(200)
+  expect(assets.idsfindFts5.contentEncoding).toBe('br')
+  expect(Number(assets.idsfindFts5.contentLength)).toBeLessThan(32_993_280)
+  expect(assets.idsfindFts5.prefixText).toContain('SQLite format 3')
+
   expect(assets.wasm.status).toBe(200)
   expect(assets.wasm.contentEncoding).toBe('br')
   expect(Number(assets.wasm.contentLength)).toBeLessThan(659_123)
   expect(assets.wasm.prefixHex).toMatch(/^0061736d/)
+
+  expect(assets.sqliteWasm.status).toBe(200)
+  expect(assets.sqliteWasm.contentEncoding).toBe('br')
+  expect(Number(assets.sqliteWasm.contentLength)).toBeLessThan(864_752)
+  expect(assets.sqliteWasm.prefixHex).toMatch(/^0061736d/)
 })
 
 test('webkit keeps DB assets raw and still decodes compressed wasm', async ({
@@ -69,7 +81,9 @@ test('webkit keeps DB assets raw and still decodes compressed wasm', async ({
 
     return {
       idsfind: await readAsset('/assets/idsfind.db'),
+      idsfindFts5: await readAsset('/assets/idsfind-fts5.db'),
       wasm: await readAsset('/assets/sql-wasm.wasm'),
+      sqliteWasm: await readAsset('/assets/sqlite3.wasm'),
     }
   })
 
@@ -78,8 +92,18 @@ test('webkit keeps DB assets raw and still decodes compressed wasm', async ({
   expect(Number(assets.idsfind.contentLength)).toBeGreaterThan(7_084_191)
   expect(assets.idsfind.prefixText).toContain('SQLite format 3')
 
+  expect(assets.idsfindFts5.status).toBe(200)
+  expect(assets.idsfindFts5.contentEncoding).toBeNull()
+  expect(Number(assets.idsfindFts5.contentLength)).toBeGreaterThan(7_084_191)
+  expect(assets.idsfindFts5.prefixText).toContain('SQLite format 3')
+
   expect(assets.wasm.status).toBe(200)
   expect(['br', 'gzip']).toContain(assets.wasm.contentEncoding)
   expect(Number(assets.wasm.contentLength)).toBeLessThan(659_123)
   expect(assets.wasm.prefixHex).toMatch(/^0061736d/)
+
+  expect(assets.sqliteWasm.status).toBe(200)
+  expect(['br', 'gzip']).toContain(assets.sqliteWasm.contentEncoding)
+  expect(Number(assets.sqliteWasm.contentLength)).toBeLessThan(864_752)
+  expect(assets.sqliteWasm.prefixHex).toMatch(/^0061736d/)
 })
