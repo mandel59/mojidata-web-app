@@ -10,7 +10,9 @@ let localApp: MojidataApiApp | undefined
 
 function getLocalApp() {
   if (!localApp) {
-    const { createNodeApp } = require('@mandel59/mojidata-api/node') as {
+    const nodeRequire = (0, eval)('require') as NodeRequire
+    const nodeEntry = '@mandel59/mojidata-api' + '/node'
+    const { createNodeApp } = nodeRequire(nodeEntry) as {
       createNodeApp: () => MojidataApiApp
     }
     localApp = createNodeApp()
@@ -42,6 +44,7 @@ export const mojidataApiApp: MojidataApiApp = {
     if (process.env.MOJIDATA_API_BASE_URL?.trim()) {
       return fetch(getRemoteApiRequest(request))
     }
-    return getLocalApp().fetch(request)
+    const response = getLocalApp().fetch(request)
+    return Promise.resolve(response)
   },
 }
