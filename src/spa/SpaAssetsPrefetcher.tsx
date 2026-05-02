@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { mojidataApiAssets } from './mojidataApiAssets'
+import { prefetchSpaAsset } from './spaAssetCache'
 
 type AssetKind = 'idsfind' | 'mojidata'
 
@@ -10,7 +11,7 @@ const prefetched = new Set<string>()
 function prefetchUrl(url: string) {
   if (prefetched.has(url)) return
   prefetched.add(url)
-  void fetch(url, { cache: 'force-cache' }).catch(() => {})
+  void prefetchSpaAsset(url).catch(() => {})
 }
 
 export default function SpaAssetsPrefetcher(props: { kind: AssetKind }) {
