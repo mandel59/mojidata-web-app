@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 
 const SPA_ASSET_CACHE_CONTROL =
   process.env.NODE_ENV === 'production'
-    ? 'public, max-age=31536000, immutable'
+    ? 'public, max-age=300, must-revalidate'
     : 'public, max-age=0, must-revalidate'
 
 const assets: Record<
