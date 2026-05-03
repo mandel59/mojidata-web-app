@@ -5,6 +5,7 @@ The migration work is tracked in:
 
 - https://github.com/mandel59/mojidata-web-app/issues/11
 - https://github.com/mandel59/mojidata-web-app/issues/12
+- https://github.com/mandel59/mojidata-web-app/issues/27
 
 ## Production Shape
 
@@ -57,17 +58,18 @@ These values must be present when `npm run cf:build` runs because the browser
 bundle needs final SPA asset URLs:
 
 ```sh
-NEXT_PUBLIC_SPA_ASSET_BASE_URL='https://assets.example.com'
+NEXT_PUBLIC_SPA_ASSET_BASE_URL='https://assets.example.com/releases/<release-id>'
+NEXT_PUBLIC_SPA_ASSET_VERSION='<release-id>'
 ```
 
 Alternatively, set all per-asset overrides:
 
 ```sh
-NEXT_PUBLIC_SPA_SQL_WASM_URL='https://assets.example.com/assets/sql-wasm.wasm'
-NEXT_PUBLIC_SPA_SQLITE_WASM_URL='https://assets.example.com/assets/sqlite3.wasm'
-NEXT_PUBLIC_SPA_MOJIDATA_DB_URL='https://assets.example.com/assets/moji.db'
-NEXT_PUBLIC_SPA_IDSFIND_DB_URL='https://assets.example.com/assets/idsfind.db'
-NEXT_PUBLIC_SPA_IDSFIND_FTS5_DB_URL='https://assets.example.com/assets/idsfind-fts5.db'
+NEXT_PUBLIC_SPA_SQL_WASM_URL='https://assets.example.com/releases/<release-id>/assets/sql-wasm.wasm'
+NEXT_PUBLIC_SPA_SQLITE_WASM_URL='https://assets.example.com/releases/<release-id>/assets/sqlite3.wasm'
+NEXT_PUBLIC_SPA_MOJIDATA_DB_URL='https://assets.example.com/releases/<release-id>/assets/moji.db'
+NEXT_PUBLIC_SPA_IDSFIND_DB_URL='https://assets.example.com/releases/<release-id>/assets/idsfind.db'
+NEXT_PUBLIC_SPA_IDSFIND_FTS5_DB_URL='https://assets.example.com/releases/<release-id>/assets/idsfind-fts5.db'
 ```
 
 For Cloudflare production, route the browser SQLite/Wasm assets through the asset
@@ -75,22 +77,20 @@ Worker so modern browsers receive the Brotli R2 objects and fallback clients
 receive raw R2 objects:
 
 ```sh
-NEXT_PUBLIC_SPA_SQL_WASM_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/sql-wasm.wasm'
-NEXT_PUBLIC_SPA_SQLITE_WASM_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/sqlite3.wasm'
-NEXT_PUBLIC_SPA_MOJIDATA_DB_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/moji.db'
-NEXT_PUBLIC_SPA_IDSFIND_DB_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/idsfind.db'
-NEXT_PUBLIC_SPA_IDSFIND_FTS5_DB_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/idsfind-fts5.db'
+NEXT_PUBLIC_SPA_ASSET_BASE_URL='https://mojidata-spa-assets.mandel59.workers.dev/releases/<release-id>'
+NEXT_PUBLIC_SPA_ASSET_VERSION='<release-id>'
 ```
 
-`NEXT_PUBLIC_SPA_ASSET_BASE_URL` should normally be the asset origin, not the
+`NEXT_PUBLIC_SPA_ASSET_BASE_URL` should normally be the release root, not the
 `/assets/` directory URL. The browser app resolves `assets/moji.db` and related
-files under that base. A `/assets/`-suffixed base is accepted for compatibility,
-but the origin form avoids ambiguous double-prefix deployment mistakes.
+files under that base. A `/assets/`-suffixed base is accepted only for legacy
+compatibility.
 
-`NEXT_PUBLIC_SPA_ASSET_VERSION` is appended as the `v` query parameter when
-present. For Cloudflare production, set it explicitly if you need deterministic
-cache busting. If it is not set, the build falls back to commit, deployment, or
-package-version identifiers that may exist in the build environment.
+Cloudflare production must put the release identifier in the path, not only in a
+`v` query parameter. The path is the effective cache key for browser HTTP cache,
+the 307 redirect cache, the final R2 object URL, the app Cache API entry, and the
+OPFS materialized DB namespace. `NEXT_PUBLIC_SPA_ASSET_VERSION` is still
+appended as `v` for compatibility and is also used as the OPFS asset version.
 
 `npm run cf:build` sets `MOJIDATA_SKIP_SPA_ASSETS=1` so the normal Next.js
 `prebuild` step does not regenerate local SPA assets. Local SPA data assets are
@@ -122,8 +122,13 @@ fallback.
 Upload SPA data assets when the package data changes:
 
 ```sh
+export MOJIDATA_SPA_ASSET_RELEASE='<release-id>'
 npm run cf:upload-spa-assets -- --bucket <spa-assets-bucket>
 ```
+
+The upload command writes `/releases/<release-id>/assets/*` and
+`/releases/<release-id>/manifest.json`. It refuses to update legacy `/assets/*`
+unless `--legacy-stable` is passed explicitly.
 
 Deploy the SPA asset Worker:
 
@@ -157,22 +162,30 @@ Use `npm run cf:typegen` after changing `wrangler.jsonc`.
 ## R2 Asset Notes
 
 The R2 SPA upload command first regenerates `dist/spa-assets` from package data,
-then uploads raw, Brotli, and gzip variants with long-lived cache headers.
+then uploads raw, Brotli, and gzip variants below
+`/releases/<release-id>/assets/` with long-lived immutable cache headers. Release
+prefixes are immutable deployment artifacts; do not reuse a release id for a
+different data set.
 Direct R2 custom domains do not negotiate between compressed variants
 automatically. Use the uncompressed URLs as the default browser asset URLs
 unless a separate asset Worker handles content negotiation and Safari behavior
 has been verified.
 
 The asset Worker is configured by `wrangler.spa-assets.jsonc` and redirects
-`/assets/sqlite3.wasm`, `/assets/sql-wasm.wasm`, `/assets/moji.db`,
-`/assets/idsfind.db`, and `/assets/idsfind-fts5.db` to the public R2 asset
-origin. It chooses `.br` or raw R2 objects from
-`Accept-Encoding`, sets `Vary: Accept-Encoding`, and returns a long-lived 307 so
-the browser can cache the logical asset URL redirect. It intentionally does not
-use the gzip variants; the mitigation only needs Brotli for modern browsers and
-raw bytes for fallback clients. For Safari/WebKit user agents it redirects DB
-assets to raw R2 objects because WebKit has been observed to be fragile with
-large `application/octet-stream` responses using `Content-Encoding`.
+`/releases/<release-id>/assets/sqlite3.wasm`,
+`/releases/<release-id>/assets/sql-wasm.wasm`,
+`/releases/<release-id>/assets/moji.db`,
+`/releases/<release-id>/assets/idsfind.db`, and
+`/releases/<release-id>/assets/idsfind-fts5.db` to the public R2 asset origin.
+It also keeps legacy `/assets/*` routes for already-deployed Workers and browser
+sessions. The legacy route is not the normal production update path.
+
+The Worker chooses `.br` or raw R2 objects from `Accept-Encoding`. For DB assets,
+Safari/WebKit user agents receive raw R2 objects because WebKit has been
+observed to be fragile with large `application/octet-stream` responses using
+`Content-Encoding`. Redirect responses therefore vary on `Accept-Encoding` and,
+for DB assets, `User-Agent`. Release-prefixed redirects are long-lived and
+immutable; legacy `/assets/*` redirects use a short revalidation cache policy.
 
 Do not stream precompressed `.br` objects through the Worker R2 binding for this
 use case. Browser testing showed that a Worker response built from the R2 binding
@@ -190,6 +203,12 @@ still receives the decoded SQLite bytes.
 The same Worker also routes `idsfind.db`, `idsfind-fts5.db`, `sqlite3.wasm`,
 and fallback `sql-wasm.wasm` to their Brotli R2 objects for browsers that
 advertise `br`; Safari/WebKit still receives raw DB assets.
+
+For blue/green deployment, upload the new release prefix before deploying the
+green app Worker. Smoke test the green Worker against that release prefix, then
+promote only the Worker route or traffic assignment. Rollback switches traffic
+back to the old Worker without mutating R2. Keep old release prefixes in R2 until
+the rollback window has expired.
 
 Glyph path shards are uploaded as gzip-compressed JSON files under the R2 key
 layout generated by `scripts/generate-glyph-path-shards.mjs`. The app Worker
@@ -270,11 +289,8 @@ Set these build-time values when the R2 asset origin or cache-busting version
 changes:
 
 ```sh
-MOJIDATA_CRAWL_SPA_ASSET_BASE_URL='https://<spa-asset-origin>'
-MOJIDATA_CRAWL_SPA_SQL_WASM_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/sql-wasm.wasm'
-MOJIDATA_CRAWL_SPA_MOJIDATA_DB_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/moji.db'
-MOJIDATA_CRAWL_SPA_IDSFIND_DB_URL='https://mojidata-spa-assets.mandel59.workers.dev/assets/idsfind.db'
-MOJIDATA_CRAWL_SPA_ASSET_VERSION='<asset-version>'
+MOJIDATA_CRAWL_SPA_ASSET_BASE_URL='https://mojidata-spa-assets.mandel59.workers.dev/releases/<release-id>'
+MOJIDATA_CRAWL_SPA_ASSET_VERSION='<release-id>'
 ```
 
 ### Redirect Non-Major Bots

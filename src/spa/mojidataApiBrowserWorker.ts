@@ -97,6 +97,10 @@ function sqliteWasmAssetUrl(init: SqliteWasmWorkerInit) {
   return init.sqliteWasm?.wasmUrl ?? '/assets/sqlite3.wasm'
 }
 
+function sqliteWasmIdsfindAssetUrl(init: SqliteWasmWorkerInit) {
+  return init.sqliteWasm?.idsfindDbUrl ?? init.idsfindDbUrl
+}
+
 function cachedAssetFetch(input: string) {
   return readSpaAssetBytes(input).then(
     (bytes) => new Response(bytes, { status: 200 }),
@@ -174,12 +178,10 @@ function createOpfsApi(init: SqliteWasmWorkerInit) {
   }
   const idsfind: OpfsSAHPoolMaterializeOptions = {
     name: init.sqliteWasm?.idsfindDbName ?? '/mojidata/idsfind.db',
-    assetUrl: normalizeSpaAssetUrl(
-      init.sqliteWasm?.idsfindDbUrl ?? init.idsfindDbUrl,
-    ),
+    assetUrl: normalizeSpaAssetUrl(sqliteWasmIdsfindAssetUrl(init)),
     assetVersion:
       init.sqliteWasm?.idsfindDbVersion ??
-      normalizeSpaAssetUrl(init.sqliteWasm?.idsfindDbUrl ?? init.idsfindDbUrl),
+      normalizeSpaAssetUrl(sqliteWasmIdsfindAssetUrl(init)),
     byteLength: init.sqliteWasm?.idsfindDbByteLength,
     manifestDirectory,
     fetch: cachedAssetFetch,
@@ -247,6 +249,7 @@ async function initWorker(init: SqliteWasmWorkerInit) {
     sqliteWasmAssetUrl(init),
     init.mojidataDbUrl,
     init.idsfindDbUrl,
+    sqliteWasmIdsfindAssetUrl(init),
   ]).catch(() => undefined)
 
   try {

@@ -16,6 +16,7 @@ let apiPromise:
 
 export async function getMojidataApiBrowser() {
   apiPromise ??= (async () => {
+    const opfsReleaseKey = mojidataApiAssets.opfsReleaseKey
     const worker = new Worker(
       new URL('./mojidataApiBrowserWorker.ts', import.meta.url),
       { type: 'module' },
@@ -31,8 +32,16 @@ export async function getMojidataApiBrowser() {
         opfsDirectory: 'mojidata-opfs-sahpool',
         initialCapacity: 8,
         manifestDirectory: 'mojidata-web-app-sqlite-wasm',
-        mojidataDbVersion: mojidataApiAssets.mojidataDbUrl,
-        idsfindDbVersion: mojidataApiAssets.idsfindFts5DbUrl,
+        ...(opfsReleaseKey
+          ? {
+              mojidataDbName: `/mojidata/releases/${opfsReleaseKey}/moji.db`,
+              idsfindDbName: `/mojidata/releases/${opfsReleaseKey}/idsfind.db`,
+            }
+          : {}),
+        mojidataDbVersion:
+          mojidataApiAssets.assetVersion || mojidataApiAssets.mojidataDbUrl,
+        idsfindDbVersion:
+          mojidataApiAssets.assetVersion || mojidataApiAssets.idsfindFts5DbUrl,
       },
     }
     const db = createMojidataApiWorkerClient(worker, workerInit)

@@ -13,6 +13,22 @@ function withAssetVersion(assetUrl: string) {
   return isAbsoluteUrl(assetUrl) ? u.href : u.pathname + u.search
 }
 
+function releaseFromAssetBaseUrl() {
+  if (!SPA_ASSET_BASE_URL) return ''
+  try {
+    const pathname = new URL(SPA_ASSET_BASE_URL, 'http://mojidata.local')
+      .pathname
+    const match = pathname.match(/(?:^|\/)releases\/([^/]+)(?:\/|$)/)
+    return match?.[1] ?? ''
+  } catch {
+    return ''
+  }
+}
+
+function opfsSafeReleaseKey(value: string) {
+  return value.trim().replace(/[^A-Za-z0-9._-]+/g, '_')
+}
+
 function resolveAssetUrl(pathname: string, overrideUrl?: string) {
   const trimmedOverride = overrideUrl?.trim()
   if (trimmedOverride) return withAssetVersion(trimmedOverride)
@@ -26,7 +42,11 @@ function resolveAssetUrl(pathname: string, overrideUrl?: string) {
   return withAssetVersion(`${base}${pathname}`)
 }
 
+const assetVersion = SPA_ASSET_VERSION || releaseFromAssetBaseUrl()
+
 export const mojidataApiAssets = {
+  assetVersion,
+  opfsReleaseKey: opfsSafeReleaseKey(assetVersion),
   sqlWasmUrl: resolveAssetUrl(
     '/assets/sql-wasm.wasm',
     process.env.NEXT_PUBLIC_SPA_SQL_WASM_URL,

@@ -29,7 +29,7 @@ const CRAWL_SPA_REDIRECT_BOT_FAMILIES = new Set([
 
 const SPA_ASSET_CACHE_CONTROL =
   process.env.NODE_ENV === 'production'
-    ? 'public, max-age=31536000, immutable'
+    ? 'public, max-age=300, must-revalidate'
     : 'public, max-age=0, must-revalidate'
 
 const COMPRESSIBLE_SPA_ASSETS = new Set([
@@ -183,7 +183,7 @@ export async function middleware(
       const assetUrl = new URL(request.url)
       assetUrl.pathname = `${request.nextUrl.pathname}${ext}`
       const res = NextResponse.redirect(assetUrl, 307)
-      res.headers.set('Vary', 'Accept-Encoding')
+      res.headers.set('Vary', 'Accept-Encoding, User-Agent')
       res.headers.set('Cache-Control', SPA_ASSET_CACHE_CONTROL)
       return res
     }

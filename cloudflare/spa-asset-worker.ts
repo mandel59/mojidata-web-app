@@ -1,4 +1,5 @@
-const CACHE_CONTROL = 'public, max-age=31536000, immutable'
+const RELEASE_ASSET_CACHE_CONTROL = 'public, max-age=31536000, immutable'
+const LEGACY_ASSET_CACHE_CONTROL = 'public, max-age=300, must-revalidate'
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
@@ -12,47 +13,56 @@ type AssetWorkerEnv = {
 }
 
 type Asset = {
+  name: string
+  contentEncodingVariants?: {
+    br?: string
+  }
+  disableDbCompressionForWebKit?: boolean
+}
+
+type ResolvedAsset = {
+  asset: Asset
+  cacheControl: string
   rawPath: string
   brPath?: string
-  disableDbCompressionForWebKit?: boolean
 }
 
 const ASSETS = new Map<string, Asset>([
   [
-    '/assets/sql-wasm.wasm',
+    'sql-wasm.wasm',
     {
-      rawPath: '/assets/sql-wasm.wasm',
-      brPath: '/assets/sql-wasm.wasm.br',
+      name: 'sql-wasm.wasm',
+      contentEncodingVariants: { br: 'sql-wasm.wasm.br' },
     },
   ],
   [
-    '/assets/sqlite3.wasm',
+    'sqlite3.wasm',
     {
-      rawPath: '/assets/sqlite3.wasm',
-      brPath: '/assets/sqlite3.wasm.br',
+      name: 'sqlite3.wasm',
+      contentEncodingVariants: { br: 'sqlite3.wasm.br' },
     },
   ],
   [
-    '/assets/moji.db',
+    'moji.db',
     {
-      rawPath: '/assets/moji.db',
-      brPath: '/assets/moji.db.br',
+      name: 'moji.db',
+      contentEncodingVariants: { br: 'moji.db.br' },
       disableDbCompressionForWebKit: true,
     },
   ],
   [
-    '/assets/idsfind.db',
+    'idsfind.db',
     {
-      rawPath: '/assets/idsfind.db',
-      brPath: '/assets/idsfind.db.br',
+      name: 'idsfind.db',
+      contentEncodingVariants: { br: 'idsfind.db.br' },
       disableDbCompressionForWebKit: true,
     },
   ],
   [
-    '/assets/idsfind-fts5.db',
+    'idsfind-fts5.db',
     {
-      rawPath: '/assets/idsfind-fts5.db',
-      brPath: '/assets/idsfind-fts5.db.br',
+      name: 'idsfind-fts5.db',
+      contentEncodingVariants: { br: 'idsfind-fts5.db.br' },
       disableDbCompressionForWebKit: true,
     },
   ],
@@ -78,26 +88,78 @@ function shouldUseBrotli(request: Request, asset: Asset) {
   }
 
   const acceptEncoding = request.headers.get('accept-encoding')?.toLowerCase()
-  return Boolean(asset.brPath && acceptEncoding?.includes('br'))
+  return Boolean(asset.contentEncodingVariants?.br && acceptEncoding?.includes('br'))
 }
 
-function targetUrl(request: Request, env: AssetWorkerEnv, asset: Asset) {
+function pathJoin(...segments: string[]) {
+  return `/${segments
+    .map((segment) => segment.replace(/^\/+|\/+$/g, ''))
+    .filter(Boolean)
+    .join('/')}`
+}
+
+function assetAtPrefix(prefix: string, asset: Asset, cacheControl: string) {
+  return {
+    asset,
+    cacheControl,
+    rawPath: pathJoin(prefix, asset.name),
+    brPath: asset.contentEncodingVariants?.br
+      ? pathJoin(prefix, asset.contentEncodingVariants.br)
+      : undefined,
+  }
+}
+
+function resolveAsset(pathname: string): ResolvedAsset | undefined {
+  const legacyMatch = pathname.match(/^\/assets\/([^/]+)$/)
+  if (legacyMatch) {
+    const asset = ASSETS.get(legacyMatch[1])
+    if (!asset) return undefined
+    return assetAtPrefix('/assets', asset, LEGACY_ASSET_CACHE_CONTROL)
+  }
+
+  const releaseMatch = pathname.match(
+    /^\/releases\/([A-Za-z0-9._-]+)\/assets\/([^/]+)$/,
+  )
+  if (!releaseMatch) return undefined
+
+  const asset = ASSETS.get(releaseMatch[2])
+  if (!asset) return undefined
+  return assetAtPrefix(
+    `/releases/${releaseMatch[1]}/assets`,
+    asset,
+    RELEASE_ASSET_CACHE_CONTROL,
+  )
+}
+
+function varyHeader(asset: Asset) {
+  return asset.disableDbCompressionForWebKit
+    ? 'Accept-Encoding, User-Agent'
+    : 'Accept-Encoding'
+}
+
+function targetUrl(
+  request: Request,
+  env: AssetWorkerEnv,
+  resolved: ResolvedAsset,
+) {
   const requestUrl = new URL(request.url)
   const origin = env.MOJIDATA_SPA_ASSET_ORIGIN.replace(/\/+$/, '')
-  const path = shouldUseBrotli(request, asset) ? asset.brPath : asset.rawPath
+  const path = shouldUseBrotli(request, resolved.asset)
+    ? resolved.brPath
+    : resolved.rawPath
   const target = new URL(`${origin}${path}`)
   target.search = requestUrl.search
   return target
 }
 
-function redirectResponse(location: URL) {
+function redirectResponse(location: URL, resolved: ResolvedAsset) {
   return new Response(null, {
     status: 307,
     headers: {
       ...CORS_HEADERS,
-      'Cache-Control': CACHE_CONTROL,
+      'Cache-Control': resolved.cacheControl,
       Location: location.href,
-      Vary: 'Accept-Encoding',
+      Vary: varyHeader(resolved.asset),
     },
   })
 }
@@ -140,9 +202,9 @@ export default {
     }
 
     const url = new URL(request.url)
-    const asset = ASSETS.get(url.pathname)
+    const asset = resolveAsset(url.pathname)
     if (!asset) return notFound()
 
-    return redirectResponse(targetUrl(request, env, asset))
+    return redirectResponse(targetUrl(request, env, asset), asset)
   },
 } satisfies ExportedHandler<AssetWorkerEnv>

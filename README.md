@@ -33,6 +33,7 @@ The operational Cloudflare deployment notes are in
 Typical deployment flow:
 
 ```sh
+export MOJIDATA_SPA_ASSET_RELEASE='<release-id>'
 npm run cf:upload-spa-assets -- --bucket <spa-assets-bucket>
 npm run cf:generate-glyph-path-shards
 npm run cf:upload-glyph-path-shards -- --bucket mojidata-glyph-font-assets
