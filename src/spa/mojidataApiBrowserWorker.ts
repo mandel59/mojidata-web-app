@@ -1,8 +1,6 @@
 import { createSqlApiDb, type MojidataApiDb } from '@mandel59/mojidata-api/core'
-import {
-  createMojidataDbProvider,
-  installMojidataSqlFunctions,
-} from '@mandel59/mojidata-api-sqljs/lib/mojidata-db'
+import { installMojidataSqlFunctions } from '@mandel59/mojidata-api-core'
+import { createMojidataDbProvider } from '@mandel59/mojidata-api-sqljs/lib/mojidata-db'
 import { createSqlJsExecutor } from '@mandel59/mojidata-api-sqljs/lib/sqljs-executor'
 import type {
   WorkerInit,
