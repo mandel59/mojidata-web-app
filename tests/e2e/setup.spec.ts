@@ -1,6 +1,14 @@
 import { expect, test } from '@playwright/test'
 import type { APIRequestContext } from '@playwright/test'
 
+const assetPaths = [
+  '/assets/sql-wasm.wasm',
+  '/assets/sqlite3.wasm',
+  '/assets/idsfind.db',
+  '/assets/idsfind-fts5.db',
+  '/assets/moji.db',
+]
+
 async function warmGet(
   request: APIRequestContext,
   url: string,
@@ -20,6 +28,34 @@ async function warmGet(
   )
 }
 
+function isLocalBaseUrl(value: string | undefined) {
+  if (!value) return true
+  try {
+    const { hostname } = new URL(value)
+    return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1'
+  } catch {
+    return false
+  }
+}
+
+function resolveAssetWarmupUrls() {
+  const assetBaseUrl = process.env.PLAYWRIGHT_TEST_SPA_ASSET_BASE_URL?.trim()
+  if (assetBaseUrl) {
+    const base = assetBaseUrl.replace(/\/+$/, '')
+    return assetPaths.map((pathname) =>
+      base.endsWith('/assets') && pathname.startsWith('/assets/')
+        ? `${base}${pathname.slice('/assets'.length)}`
+        : `${base}${pathname}`,
+    )
+  }
+
+  if (isLocalBaseUrl(process.env.PLAYWRIGHT_TEST_BASE_URL)) {
+    return assetPaths
+  }
+
+  return []
+}
+
 test('warm up next dev routes', async ({ request }) => {
   await warmGet(request, '/ja-JP/search')
   await warmGet(request, '/ja-JP/idsfind')
@@ -29,21 +65,11 @@ test('warm up next dev routes', async ({ request }) => {
   await warmGet(request, '/ja-JP/mojidata-spa/%E6%BC%A2')
   await warmGet(request, '/api/mojidata/%E6%BC%A2/opengraph-image')
 
-  await warmGet(request, '/assets/sql-wasm.wasm', {
-    headers: { Range: 'bytes=0-64' },
-  })
-  await warmGet(request, '/assets/sqlite3.wasm', {
-    headers: { Range: 'bytes=0-64' },
-  })
-  await warmGet(request, '/assets/idsfind.db', {
-    headers: { Range: 'bytes=0-64' },
-  })
-  await warmGet(request, '/assets/idsfind-fts5.db', {
-    headers: { Range: 'bytes=0-64' },
-  })
-  await warmGet(request, '/assets/moji.db', {
-    headers: { Range: 'bytes=0-64' },
-  })
+  for (const assetUrl of resolveAssetWarmupUrls()) {
+    await warmGet(request, assetUrl, {
+      headers: { Range: 'bytes=0-64' },
+    })
+  }
 
   expect(true).toBeTruthy()
 })
