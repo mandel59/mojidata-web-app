@@ -128,7 +128,8 @@ npm run cf:upload-spa-assets -- --bucket <spa-assets-bucket>
 
 The upload command writes `/releases/<release-id>/assets/*` and
 `/releases/<release-id>/manifest.json`. It refuses to update legacy `/assets/*`
-unless `--legacy-stable` is passed explicitly.
+on the production `mojidata-spa-assets` bucket, even when `--legacy-stable` is
+passed. `--legacy-stable` is only for non-production buckets.
 
 Deploy the SPA asset Worker:
 
