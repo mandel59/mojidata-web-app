@@ -46,6 +46,7 @@
   // Set MOJIDATA_API_BASE_URL in Cloudflare for production. It should point at
   // the D1 API Worker deployed from the mojidata repository.
   "vars": {
+    "BOT_DELAY_DISABLE": "1",
     "MOJIDATA_API_BASE_URL": "https://mojidata-api-d1.mandel59.workers.dev/",
     "NEXT_INC_CACHE_R2_PREFIX": "mojidata-web-app"
   }
