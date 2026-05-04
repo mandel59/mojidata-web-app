@@ -9,6 +9,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const defaultAssetsDir = path.join(rootDir, 'dist', 'spa-assets')
 const releaseAssetCacheControl = 'public, max-age=31536000, immutable'
 const legacyAssetCacheControl = 'public, max-age=300, must-revalidate'
+const productionSpaAssetBuckets = new Set(['mojidata-spa-assets'])
 
 const assets = [
   { name: 'sql-wasm.wasm', contentType: 'application/wasm' },
@@ -185,12 +186,18 @@ const legacyStable =
   readFlag('legacy-stable') || process.env.MOJIDATA_SPA_R2_LEGACY_STABLE === '1'
 const force = readFlag('force') || process.env.MOJIDATA_SPA_R2_FORCE === '1'
 
-process.env.MOJIDATA_SPA_ASSETS_DIR = assetsDir
-await import('./copy-spa-assets.mjs')
-
 if (!bucket) {
   throw new Error(
     'Set MOJIDATA_SPA_R2_BUCKET or pass --bucket <bucket> before uploading SPA assets to R2.',
+  )
+}
+
+if (release && legacyStable) {
+  throw new Error(
+    [
+      'Refusing ambiguous SPA asset upload options.',
+      'Use --release for release-prefixed assets, or --legacy-stable for non-production legacy stable keys, but not both.',
+    ].join('\n'),
   )
 }
 
@@ -199,10 +206,23 @@ if (!release && !legacyStable) {
     [
       'Refusing to upload mutable stable SPA asset keys by default.',
       'Pass --release <release-id> or set MOJIDATA_SPA_ASSET_RELEASE to upload immutable release assets.',
-      'Pass --legacy-stable only for an explicit legacy /assets/* refresh.',
+      'Pass --legacy-stable only for an explicit non-production legacy /assets/* refresh.',
     ].join('\n'),
   )
 }
+
+if (legacyStable && productionSpaAssetBuckets.has(bucket)) {
+  throw new Error(
+    [
+      `Refusing to upload legacy stable SPA asset keys to production bucket: ${bucket}`,
+      'Production SPA assets must use immutable release keys.',
+      'Set MOJIDATA_SPA_ASSET_RELEASE or pass --release <release-id>.',
+    ].join('\n'),
+  )
+}
+
+process.env.MOJIDATA_SPA_ASSETS_DIR = assetsDir
+await import('./copy-spa-assets.mjs')
 
 if (release && !force) {
   const exists = await commandSucceeds('npx', [
