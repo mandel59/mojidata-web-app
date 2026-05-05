@@ -20,6 +20,9 @@ const SEMRUSHBOT_UA =
 const DOTBOT_UA =
   'Mozilla/5.0 (compatible; DotBot/1.2; +https://opensiteexplorer.org/dotbot; help@moz.com)'
 
+const APPLEBOT_UA =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15 Applebot/0.1'
+
 const GOOGLE_INSPECTION_TOOL_UA =
   'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Google-InspectionTool/1.0; +http://www.google.com/bot.html)'
 
@@ -110,6 +113,20 @@ test('dotbot redirects to crawl SPA fallback on canonical search', async ({
   expect(res.status()).toBe(307)
   expect(res.headers().location).toBe(
     'https://mojidata-crawl.pages.dev/search?query=%E6%BC%A2',
+  )
+})
+
+test('applebot redirects to crawl SPA fallback on canonical mojidata', async ({
+  request,
+}) => {
+  const res = await request.get('/ja-JP/mojidata/%E5%81%82?foo=1', {
+    headers: { 'user-agent': APPLEBOT_UA },
+    maxRedirects: 0,
+  })
+
+  expect(res.status()).toBe(307)
+  expect(res.headers().location).toBe(
+    'https://mojidata-crawl.pages.dev/ja-JP/mojidata/%E5%81%82?foo=1',
   )
 })
 

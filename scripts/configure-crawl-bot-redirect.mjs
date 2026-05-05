@@ -14,16 +14,23 @@ const ruleRef =
 const crawlBotNames = [
   'ahrefsbot',
   'amazonbot',
+  'applebot',
   'backlinksextendedbot',
+  'baiduspider',
+  'bytespider',
   'claudebot',
   'coccocbot',
   'dotbot',
+  'duckduckbot',
   'gptbot',
   'mj12bot',
+  'oai-searchbot',
   'petalbot',
   'semrushbot',
   'seznambot',
+  'twitterbot',
   'yandexbot',
+  'yisouspider',
 ]
 
 const rulesetsPermissionHint =

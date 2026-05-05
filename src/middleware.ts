@@ -15,16 +15,23 @@ const CRAWL_SPA_DEFAULT_BASE_URL = 'https://mojidata-crawl.pages.dev'
 const CRAWL_SPA_REDIRECT_BOT_FAMILIES = new Set([
   'ahrefsbot',
   'amazonbot',
+  'applebot',
   'backlinksextendedbot',
+  'baiduspider',
+  'bytespider',
   'claudebot',
   'coccocbot',
   'dotbot',
+  'duckduckbot',
   'gptbot',
   'mj12bot',
+  'oai-searchbot',
   'petalbot',
   'semrushbot',
   'seznambot',
+  'twitterbot',
   'yandexbot',
+  'yisouspider',
 ])
 
 const SPA_ASSET_CACHE_CONTROL =
