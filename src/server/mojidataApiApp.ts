@@ -1,5 +1,7 @@
 import 'server-only'
 
+import { createRequire } from 'node:module'
+
 import { getApiBaseUrl, getApiHeaders } from '@/app/config'
 
 type MojidataApiApp = {
@@ -10,9 +12,8 @@ let localApp: MojidataApiApp | undefined
 
 function getLocalApp() {
   if (!localApp) {
-    const nodeRequire = (0, eval)('require') as NodeRequire
-    const nodeEntry = '@mandel59/mojidata-api' + '/node'
-    const { createNodeApp } = nodeRequire(nodeEntry) as {
+    const nodeRequire = createRequire(import.meta.url)
+    const { createNodeApp } = nodeRequire('@mandel59/mojidata-api/node') as {
       createNodeApp: () => MojidataApiApp
     }
     localApp = createNodeApp()
