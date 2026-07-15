@@ -19,6 +19,33 @@ test('mojidata page renders', async ({ page }) => {
   )
 })
 
+test('regional glyph comparison uses OS-specific CJK fallbacks', async ({
+  page,
+}) => {
+  await page.goto('/ja-JP/mojidata/%E6%BC%A2', {
+    waitUntil: 'domcontentloaded',
+  })
+
+  const regionalDifferences = page.locator('#Regional_Differences + div')
+  const expectedFallbacks = {
+    'ja-JP': ['Hiragino Mincho ProN', 'Yu Mincho', 'MS PMincho'],
+    'ko-KR': ['AppleMyungjo', 'Batang'],
+    'zh-CN': ['Songti SC', 'SimSun'],
+    'zh-TW': ['Songti TC', 'PMingLiU'],
+    'zh-HK': ['Songti TC', 'MingLiU_HKSCS'],
+  }
+
+  for (const [lang, fallbackFonts] of Object.entries(expectedFallbacks)) {
+    const fontFamily = await regionalDifferences
+      .locator(`[lang="${lang}"]`)
+      .evaluate((element) => window.getComputedStyle(element).fontFamily)
+
+    for (const fallbackFont of fallbackFonts) {
+      expect(fontFamily).toContain(fallbackFont)
+    }
+  }
+})
+
 test('glyph SVG APIs render from local fonts during development', async ({
   request,
 }) => {
