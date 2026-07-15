@@ -54,28 +54,28 @@
 }
 
 .sourceHanSerif:lang(ja) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
+  font-family: Mojidata-SourceHanSerifJP, Mojidata-SourceHanSerif,
     "Noto Serif JP", "Hiragino Mincho ProN", "Hiragino Mincho Pro",
     "Yu Mincho", YuMincho, "MS PMincho", "MS Mincho", serif;
 }
 
 .sourceHanSerif:lang(ko) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifKR,
+  font-family: Mojidata-SourceHanSerifKR, Mojidata-SourceHanSerif,
     "Noto Serif KR", AppleMyungjo, Batang, BatangChe, serif;
 }
 
 .sourceHanSerif:lang(zh-CN) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifSC,
+  font-family: Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerif,
     "Noto Serif SC", "Songti SC", STSong, SimSun, NSimSun, serif;
 }
 
 .sourceHanSerif:lang(zh-TW) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifTC,
+  font-family: Mojidata-SourceHanSerifTC, Mojidata-SourceHanSerif,
     "Noto Serif TC", "Songti TC", "LiSong Pro", PMingLiU, MingLiU, serif;
 }
 
 .sourceHanSerif:lang(zh-HK) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifHK,
+  font-family: Mojidata-SourceHanSerifHK, Mojidata-SourceHanSerif,
     "Noto Serif HK", "Songti TC", "LiSong Pro", "MingLiU_HKSCS", PMingLiU,
     MingLiU, serif;
 }

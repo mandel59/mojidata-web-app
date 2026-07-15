@@ -74,11 +74,41 @@ test('regional glyph comparison uses OS-specific CJK fallbacks', async ({
 
   const regionalDifferences = page.locator('#Regional_Differences + div')
   const expectedFallbacks = {
-    'ja-JP': ['Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho'],
-    'ko-KR': ['Noto Serif KR', 'AppleMyungjo', 'Batang'],
-    'zh-CN': ['Noto Serif SC', 'Songti SC', 'SimSun'],
-    'zh-TW': ['Noto Serif TC', 'Songti TC', 'PMingLiU'],
-    'zh-HK': ['Noto Serif HK', 'Songti TC', 'MingLiU_HKSCS'],
+    'ja-JP': [
+      'Mojidata-SourceHanSerifJP',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif JP',
+      'Hiragino Mincho ProN',
+      'Yu Mincho',
+    ],
+    'ko-KR': [
+      'Mojidata-SourceHanSerifKR',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif KR',
+      'AppleMyungjo',
+      'Batang',
+    ],
+    'zh-CN': [
+      'Mojidata-SourceHanSerifSC',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif SC',
+      'Songti SC',
+      'SimSun',
+    ],
+    'zh-TW': [
+      'Mojidata-SourceHanSerifTC',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif TC',
+      'Songti TC',
+      'PMingLiU',
+    ],
+    'zh-HK': [
+      'Mojidata-SourceHanSerifHK',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif HK',
+      'Songti TC',
+      'MingLiU_HKSCS',
+    ],
   }
 
   for (const [lang, fallbackFonts] of Object.entries(expectedFallbacks)) {
