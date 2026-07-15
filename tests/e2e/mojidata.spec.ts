@@ -26,13 +26,89 @@ test('regional glyph comparison uses OS-specific CJK fallbacks', async ({
     waitUntil: 'domcontentloaded',
   })
 
+  const regionalFontSources = await page.evaluate(() =>
+    Object.fromEntries(
+      Array.from(document.styleSheets).flatMap((styleSheet) =>
+        Array.from(styleSheet.cssRules)
+          .filter((rule) => rule.type === CSSRule.FONT_FACE_RULE)
+          .map((rule) => {
+            const fontFaceRule = rule as CSSFontFaceRule
+            return [
+              fontFaceRule.style.fontFamily.replaceAll(/['"]/g, ''),
+              fontFaceRule.style.getPropertyValue('src'),
+            ]
+          }),
+      ),
+    ),
+  )
+  const expectedSuperOtcFaces = {
+    'Mojidata-SourceHanSerifJP': [
+      'Source Han Serif',
+      'Noto Serif CJK JP',
+    ],
+    'Mojidata-SourceHanSerifKR': [
+      'Source Han Serif K',
+      'Noto Serif CJK KR',
+    ],
+    'Mojidata-SourceHanSerifSC': [
+      'Source Han Serif SC',
+      'Noto Serif CJK SC',
+    ],
+    'Mojidata-SourceHanSerifTC': [
+      'Source Han Serif TC',
+      'Noto Serif CJK TC',
+    ],
+    'Mojidata-SourceHanSerifHK': [
+      'Source Han Serif HC',
+      'Noto Serif CJK HK',
+    ],
+  }
+
+  for (const [fontAlias, superOtcFaces] of Object.entries(
+    expectedSuperOtcFaces,
+  )) {
+    for (const superOtcFace of superOtcFaces) {
+      expect(regionalFontSources[fontAlias]).toContain(superOtcFace)
+    }
+  }
+
   const regionalDifferences = page.locator('#Regional_Differences + div')
   const expectedFallbacks = {
-    'ja-JP': ['Hiragino Mincho ProN', 'Yu Mincho', 'MS PMincho'],
-    'ko-KR': ['AppleMyungjo', 'Batang'],
-    'zh-CN': ['Songti SC', 'SimSun'],
-    'zh-TW': ['Songti TC', 'PMingLiU'],
-    'zh-HK': ['Songti TC', 'MingLiU_HKSCS'],
+    'ja-JP': [
+      'Mojidata-SourceHanSerifJP',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif JP',
+      'Hiragino Mincho ProN',
+      'Yu Mincho',
+    ],
+    'ko-KR': [
+      'Mojidata-SourceHanSerifKR',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif KR',
+      'AppleMyungjo',
+      'Batang',
+    ],
+    'zh-CN': [
+      'Mojidata-SourceHanSerifSC',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif SC',
+      'Songti SC',
+      'SimSun',
+    ],
+    'zh-TW': [
+      'Mojidata-SourceHanSerifTC',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif TC',
+      'Songti TC',
+      'PMingLiU',
+    ],
+    'zh-HK': [
+      'Mojidata-SourceHanSerifHK',
+      'Mojidata-SourceHanSerif',
+      'Noto Serif HK',
+      'Songti TC',
+      'MingLiU_HKSCS',
+    ],
   }
 
   for (const [lang, fallbackFonts] of Object.entries(expectedFallbacks)) {
@@ -43,6 +119,13 @@ test('regional glyph comparison uses OS-specific CJK fallbacks', async ({
     for (const fallbackFont of fallbackFonts) {
       expect(fontFamily).toContain(fallbackFont)
     }
+
+    const fallbackPositions = fallbackFonts.map((fallbackFont) =>
+      fontFamily.indexOf(fallbackFont),
+    )
+    expect(fallbackPositions).toEqual(
+      [...fallbackPositions].sort((left, right) => left - right),
+    )
   }
 })
 
