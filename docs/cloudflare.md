@@ -16,8 +16,8 @@ The migration work is tracked in:
 - Data API: a separate D1-backed Worker deployed from
   `mojidata/packages/mojidata-api-d1-worker`.
 - Browser SPA assets: `sqlite3.wasm`, fallback `sql-wasm.wasm`, `moji.db`, FTS4
-  `idsfind.db`, and FTS5 `idsfind-fts5.db` served from R2 through a public
-  HTTPS asset origin.
+  `idsfind.db`, FTS5 `idsfind-fts5.db`, and the database license/source notices
+  served from R2 through a public HTTPS asset origin.
 - Browser SPA asset negotiation: Worker `mojidata-spa-assets`, which redirects
   `sqlite3.wasm`, `sql-wasm.wasm`, `moji.db`, `idsfind.db`, and
   `idsfind-fts5.db` to Brotli-compressed R2 objects for browsers that can
@@ -131,6 +131,13 @@ The upload command writes `/releases/<release-id>/assets/*` and
 on the production `mojidata-spa-assets` bucket, even when `--legacy-stable` is
 passed. `--legacy-stable` is only for non-production buckets.
 
+Each immutable release includes `mojidata-LICENSE.md`,
+`mojidata-SOURCES.txt`, `unicode-LICENSE.txt`,
+`cmap-resources-LICENSE.txt`, and `idsdb-LICENSE.md` beside the database
+assets. The release manifest records their keys in `notices` and their byte
+lengths and SHA-256 digests in `assets`. Treat a release without these notice
+files as incomplete; do not promote an application build that references it.
+
 Deploy the SPA asset Worker:
 
 ```sh
@@ -178,6 +185,8 @@ The asset Worker is configured by `wrangler.spa-assets.jsonc` and redirects
 `/releases/<release-id>/assets/moji.db`,
 `/releases/<release-id>/assets/idsfind.db`, and
 `/releases/<release-id>/assets/idsfind-fts5.db` to the public R2 asset origin.
+The same release path also exposes the three database notice files recorded by
+the manifest.
 It also keeps legacy `/assets/*` routes for already-deployed Workers and browser
 sessions. The legacy route is not the normal production update path.
 

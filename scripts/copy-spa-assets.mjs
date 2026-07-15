@@ -78,6 +78,63 @@ const assets = [
     src: idsfindFts5DbSource(),
     dest: path.join(outDir, 'idsfind-fts5.db'),
   },
+  {
+    src: path.join(
+      rootDir,
+      'node_modules',
+      '@mandel59',
+      'mojidata',
+      'LICENSE.md',
+    ),
+    dest: path.join(outDir, 'mojidata-LICENSE.md'),
+    alwaysCopy: true,
+  },
+  {
+    src: path.join(
+      rootDir,
+      'node_modules',
+      '@mandel59',
+      'mojidata',
+      'download.txt',
+    ),
+    dest: path.join(outDir, 'mojidata-SOURCES.txt'),
+    alwaysCopy: true,
+  },
+  {
+    src: path.join(
+      rootDir,
+      'node_modules',
+      '@mandel59',
+      'mojidata',
+      'licenses',
+      'unicode.txt',
+    ),
+    dest: path.join(outDir, 'unicode-LICENSE.txt'),
+    alwaysCopy: true,
+  },
+  {
+    src: path.join(
+      rootDir,
+      'node_modules',
+      '@mandel59',
+      'mojidata',
+      'licenses',
+      'cmap-resources.txt',
+    ),
+    dest: path.join(outDir, 'cmap-resources-LICENSE.txt'),
+    alwaysCopy: true,
+  },
+  {
+    src: path.join(
+      rootDir,
+      'node_modules',
+      '@mandel59',
+      'idsdb',
+      'LICENSE.md',
+    ),
+    dest: path.join(outDir, 'idsdb-LICENSE.md'),
+    alwaysCopy: true,
+  },
 ]
 
 if (process.env.MOJIDATA_SKIP_SPA_ASSETS === '1') {
@@ -87,7 +144,7 @@ if (process.env.MOJIDATA_SKIP_SPA_ASSETS === '1') {
   process.exit(0)
 }
 
-async function copyIfNeeded(src, dest) {
+async function copyIfNeeded(src, dest, alwaysCopy = false) {
   let srcStat
   try {
     srcStat = await stat(src)
@@ -95,11 +152,13 @@ async function copyIfNeeded(src, dest) {
     throw new Error(`Missing required asset source: ${src}`)
   }
 
-  try {
-    const destStat = await stat(dest)
-    if (destStat.size === srcStat.size) return { copied: false, bytes: destStat.size }
-  } catch {
-    // not present
+  if (!alwaysCopy) {
+    try {
+      const destStat = await stat(dest)
+      if (destStat.size === srcStat.size) return { copied: false, bytes: destStat.size }
+    } catch {
+      // not present
+    }
   }
 
   await copyFile(src, dest)
@@ -128,8 +187,8 @@ let copiedCount = 0
 let totalBytes = 0
 let compressedCount = 0
 let totalCompressedBytes = 0
-for (const { src, dest } of assets) {
-  const { copied, bytes } = await copyIfNeeded(src, dest)
+for (const { src, dest, alwaysCopy } of assets) {
+  const { copied, bytes } = await copyIfNeeded(src, dest, alwaysCopy)
   totalBytes += bytes
   if (copied) copiedCount += 1
 

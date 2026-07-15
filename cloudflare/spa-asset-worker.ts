@@ -66,6 +66,41 @@ const ASSETS = new Map<string, Asset>([
       disableDbCompressionForWebKit: true,
     },
   ],
+  [
+    'mojidata-LICENSE.md',
+    {
+      name: 'mojidata-LICENSE.md',
+      contentEncodingVariants: { br: 'mojidata-LICENSE.md.br' },
+    },
+  ],
+  [
+    'mojidata-SOURCES.txt',
+    {
+      name: 'mojidata-SOURCES.txt',
+      contentEncodingVariants: { br: 'mojidata-SOURCES.txt.br' },
+    },
+  ],
+  [
+    'idsdb-LICENSE.md',
+    {
+      name: 'idsdb-LICENSE.md',
+      contentEncodingVariants: { br: 'idsdb-LICENSE.md.br' },
+    },
+  ],
+  [
+    'unicode-LICENSE.txt',
+    {
+      name: 'unicode-LICENSE.txt',
+      contentEncodingVariants: { br: 'unicode-LICENSE.txt.br' },
+    },
+  ],
+  [
+    'cmap-resources-LICENSE.txt',
+    {
+      name: 'cmap-resources-LICENSE.txt',
+      contentEncodingVariants: { br: 'cmap-resources-LICENSE.txt.br' },
+    },
+  ],
 ])
 
 function isWebKitSafariUserAgent(ua: string) {

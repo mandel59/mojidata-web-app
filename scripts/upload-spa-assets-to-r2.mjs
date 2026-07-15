@@ -67,6 +67,64 @@ const assets = [
     contentType: 'application/octet-stream',
     contentEncoding: 'gzip',
   },
+  { name: 'mojidata-LICENSE.md', contentType: 'text/markdown; charset=utf-8' },
+  {
+    name: 'mojidata-LICENSE.md.br',
+    contentType: 'text/markdown; charset=utf-8',
+    contentEncoding: 'br',
+  },
+  {
+    name: 'mojidata-LICENSE.md.gz',
+    contentType: 'text/markdown; charset=utf-8',
+    contentEncoding: 'gzip',
+  },
+  { name: 'mojidata-SOURCES.txt', contentType: 'text/plain; charset=utf-8' },
+  {
+    name: 'mojidata-SOURCES.txt.br',
+    contentType: 'text/plain; charset=utf-8',
+    contentEncoding: 'br',
+  },
+  {
+    name: 'mojidata-SOURCES.txt.gz',
+    contentType: 'text/plain; charset=utf-8',
+    contentEncoding: 'gzip',
+  },
+  { name: 'unicode-LICENSE.txt', contentType: 'text/plain; charset=utf-8' },
+  {
+    name: 'unicode-LICENSE.txt.br',
+    contentType: 'text/plain; charset=utf-8',
+    contentEncoding: 'br',
+  },
+  {
+    name: 'unicode-LICENSE.txt.gz',
+    contentType: 'text/plain; charset=utf-8',
+    contentEncoding: 'gzip',
+  },
+  {
+    name: 'cmap-resources-LICENSE.txt',
+    contentType: 'text/plain; charset=utf-8',
+  },
+  {
+    name: 'cmap-resources-LICENSE.txt.br',
+    contentType: 'text/plain; charset=utf-8',
+    contentEncoding: 'br',
+  },
+  {
+    name: 'cmap-resources-LICENSE.txt.gz',
+    contentType: 'text/plain; charset=utf-8',
+    contentEncoding: 'gzip',
+  },
+  { name: 'idsdb-LICENSE.md', contentType: 'text/markdown; charset=utf-8' },
+  {
+    name: 'idsdb-LICENSE.md.br',
+    contentType: 'text/markdown; charset=utf-8',
+    contentEncoding: 'br',
+  },
+  {
+    name: 'idsdb-LICENSE.md.gz',
+    contentType: 'text/markdown; charset=utf-8',
+    contentEncoding: 'gzip',
+  },
 ]
 
 function readOption(name) {
@@ -168,6 +226,17 @@ async function manifestForRelease({ assetsDir, prefix, release }) {
     release,
     createdAt: new Date().toISOString(),
     prefix,
+    notices: {
+      mojidataLicense: assetObjectKey(prefix, release, 'mojidata-LICENSE.md'),
+      mojidataSources: assetObjectKey(prefix, release, 'mojidata-SOURCES.txt'),
+      unicodeLicense: assetObjectKey(prefix, release, 'unicode-LICENSE.txt'),
+      cmapResourcesLicense: assetObjectKey(
+        prefix,
+        release,
+        'cmap-resources-LICENSE.txt',
+      ),
+      idsdbLicense: assetObjectKey(prefix, release, 'idsdb-LICENSE.md'),
+    },
     assets: manifestAssets,
   }
 }
