@@ -48,32 +48,34 @@
 .sourceHanSerif {
   font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
     Mojidata-SourceHanSerifSC, Mojidata-SourceHanSerifTC,
-    Mojidata-SourceHanSerifKR, "Hiragino Mincho ProN", "Yu Mincho", YuMincho,
-    "MS PMincho", "MS Mincho", serif;
+    Mojidata-SourceHanSerifKR, "Noto Serif JP", "Noto Serif SC",
+    "Noto Serif TC", "Noto Serif KR", "Hiragino Mincho ProN", "Yu Mincho",
+    YuMincho, "MS PMincho", "MS Mincho", serif;
 }
 
 .sourceHanSerif:lang(ja) {
   font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifJP,
-    "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", YuMincho,
-    "MS PMincho", "MS Mincho", serif;
+    "Noto Serif JP", "Hiragino Mincho ProN", "Hiragino Mincho Pro",
+    "Yu Mincho", YuMincho, "MS PMincho", "MS Mincho", serif;
 }
 
 .sourceHanSerif:lang(ko) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifKR, AppleMyungjo,
-    Batang, BatangChe, serif;
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifKR,
+    "Noto Serif KR", AppleMyungjo, Batang, BatangChe, serif;
 }
 
 .sourceHanSerif:lang(zh-CN) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifSC, "Songti SC",
-    STSong, SimSun, NSimSun, serif;
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifSC,
+    "Noto Serif SC", "Songti SC", STSong, SimSun, NSimSun, serif;
 }
 
 .sourceHanSerif:lang(zh-TW) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifTC, "Songti TC",
-    "LiSong Pro", PMingLiU, MingLiU, serif;
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifTC,
+    "Noto Serif TC", "Songti TC", "LiSong Pro", PMingLiU, MingLiU, serif;
 }
 
 .sourceHanSerif:lang(zh-HK) {
-  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifHK, "Songti TC",
-    "LiSong Pro", "MingLiU_HKSCS", PMingLiU, MingLiU, serif;
+  font-family: Mojidata-SourceHanSerif, Mojidata-SourceHanSerifHK,
+    "Noto Serif HK", "Songti TC", "LiSong Pro", "MingLiU_HKSCS", PMingLiU,
+    MingLiU, serif;
 }

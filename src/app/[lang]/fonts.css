@@ -33,7 +33,8 @@
 
 @font-face {
   font-family: Mojidata-SourceHanSerifHK;
-  src: local('Source Han Serif HK'), local('Noto Serif CJK HK');
+  src: local('Source Han Serif HK'), local('Source Han Serif HC'),
+    local('Noto Serif CJK HK'), local('Noto Serif CJK HC');
 
   /* override to ideographic baseline */
 
@@ -44,7 +45,8 @@
 
 @font-face {
   font-family: Mojidata-SourceHanSerifJP;
-  src: local('Source Han Serif JP'), local('Noto Serif CJK JP');
+  src: local('Source Han Serif JP'), local('Source Han Serif'),
+    local('Noto Serif CJK JP');
 
   /* override to ideographic baseline */
 
@@ -55,7 +57,8 @@
 
 @font-face {
   font-family: Mojidata-SourceHanSerifKR;
-  src: local('Source Han Serif KR'), local('Noto Serif CJK KR');
+  src: local('Source Han Serif KR'), local('Source Han Serif K'),
+    local('Noto Serif CJK KR');
 
   /* override to ideographic baseline */
 
