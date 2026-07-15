@@ -1,53 +1,68 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "mojidata-web-app",
-  "main": ".open-next/worker.js",
-  "workers_dev": true,
-  "preview_urls": true,
-  "compatibility_date": "2026-05-01",
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "routes": [
-    {
-      "pattern": "mojidata.ryusei.dev",
-      "custom_domain": true
-    },
-    {
-      "pattern": "mojidata.ryusei.dev/*",
-      "zone_name": "ryusei.dev"
-    }
-  ],
-  "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
-  },
-  "observability": {
-    "enabled": true,
-    "head_sampling_rate": 1
-  },
-  "services": [
-    {
-      // OpenNext uses this self-reference for cache/revalidation internals.
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "mojidata-web-app"
-    }
-  ],
-  "r2_buckets": [
-    {
-      // OpenNext incremental cache storage.
-      "binding": "NEXT_INC_CACHE_R2_BUCKET",
-      "bucket_name": "mojidata-web-app-opennext-cache"
-    },
-    {
-      // Precomputed glyph path shards used by SVG rendering API routes.
-      "binding": "GLYPH_FONT_ASSETS",
-      "bucket_name": "mojidata-glyph-font-assets"
-    }
-  ],
-  // Set MOJIDATA_API_BASE_URL in Cloudflare for production. It should point at
-  // the D1 API Worker deployed from the mojidata repository.
-  "vars": {
-    "BOT_DELAY_DISABLE": "1",
-    "MOJIDATA_API_BASE_URL": "https://mojidata-api-d1.mandel59.workers.dev/",
-    "NEXT_INC_CACHE_R2_PREFIX": "mojidata-web-app"
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "mojidata-web-app",
+	"main": ".open-next/worker.js",
+	"workers_dev": true,
+	"preview_urls": true,
+	"compatibility_date": "2026-05-01",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"routes": [
+		{
+			"pattern": "mojidata.ryusei.dev",
+			"custom_domain": true
+		},
+		{
+			"pattern": "mojidata.ryusei.dev/*",
+			"zone_name": "ryusei.dev"
+		}
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+	"services": [
+		{
+			// OpenNext uses this self-reference for cache/revalidation internals.
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "mojidata-web-app"
+		}
+	],
+	"r2_buckets": [
+		{
+			// OpenNext incremental cache storage.
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
+			"bucket_name": "mojidata-web-app-opennext-cache"
+		},
+		{
+			// Precomputed glyph path shards used by SVG rendering API routes.
+			"binding": "GLYPH_FONT_ASSETS",
+			"bucket_name": "mojidata-glyph-font-assets"
+		}
+	],
+	// Set MOJIDATA_API_BASE_URL in Cloudflare for production. It should point at
+	// the D1 API Worker deployed from the mojidata repository.
+	"vars": {
+		"BOT_DELAY_DISABLE": "1",
+		"MOJIDATA_API_BASE_URL": "https://mojidata-api-d1.mandel59.workers.dev/",
+		"NEXT_INC_CACHE_R2_PREFIX": "mojidata-web-app-r20260507-unihan-views"
+	},
+	"d1_databases": [
+		{
+			"binding": "MOJIDATA_DB",
+			"database_name": "mojidata-api-d1-mojidata-20260503-bg-20260504-d1-indexes-r20260507-unihan-views",
+			"database_id": "869556cd-9a42-4423-9b22-cff4c1eafca2"
+		},
+		{
+			"binding": "IDSFIND_DB",
+			"database_name": "mojidata-api-d1-idsfind-20260503-bg-20260504-d1-indexes",
+			"database_id": "18e0c4f7-006c-474c-87e2-a00de91bec98"
+		}
+	]
 }
