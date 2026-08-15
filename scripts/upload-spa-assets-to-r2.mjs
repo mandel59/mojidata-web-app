@@ -6,6 +6,13 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const wranglerCli = path.join(
+  rootDir,
+  'node_modules',
+  'wrangler',
+  'bin',
+  'wrangler.js',
+)
 const defaultAssetsDir = path.join(rootDir, 'dist', 'spa-assets')
 const releaseAssetCacheControl = 'public, max-age=31536000, immutable'
 const legacyAssetCacheControl = 'public, max-age=300, must-revalidate'
@@ -299,8 +306,8 @@ process.env.MOJIDATA_SPA_ASSETS_DIR = assetsDir
 await import('./copy-spa-assets.mjs')
 
 if (release && !force && !dryRun) {
-  const exists = await commandSucceeds('npx', [
-    'wrangler',
+  const exists = await commandSucceeds(process.execPath, [
+    wranglerCli,
     'r2',
     'object',
     'get',
@@ -332,7 +339,7 @@ if (dryRun) {
 
 for (const asset of assets) {
   const args = [
-    'wrangler',
+    wranglerCli,
     'r2',
     'object',
     'put',
@@ -350,12 +357,12 @@ for (const asset of assets) {
     args.push('--content-encoding', asset.contentEncoding)
   }
 
-  await run('npx', args)
+  await run(process.execPath, args)
 }
 
 if (release && manifestPath) {
-  await run('npx', [
-    'wrangler',
+  await run(process.execPath, [
+    wranglerCli,
     'r2',
     'object',
     'put',
