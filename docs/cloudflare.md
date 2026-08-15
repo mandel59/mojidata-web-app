@@ -177,6 +177,18 @@ npm run cf:preview
 npm run cf:deploy
 ```
 
+For a staging app deployment, first build with the intended immutable release
+asset URL, then deploy with `wrangler.staging.jsonc`. This configuration has no
+production custom-domain route or production D1 binding and points the server
+API proxy at `mojidata-api-d1-staging`:
+
+```sh
+export MOJIDATA_SPA_ASSET_RELEASE='<release-id>'
+export NEXT_PUBLIC_SPA_ASSET_BASE_URL="https://mojidata-spa-assets.mandel59.workers.dev/releases/$MOJIDATA_SPA_ASSET_RELEASE"
+npm run cf:build:asset-worker
+node node_modules/wrangler/bin/wrangler.js deploy --config wrangler.staging.jsonc
+```
+
 Use `npm run cf:deploy:asset-worker` to build and deploy the OpenNext Worker in
 one step with `sqlite3.wasm`, fallback `sql-wasm.wasm`, `moji.db`, and
 both IDS DB variants all routed through `mojidata-spa-assets`.

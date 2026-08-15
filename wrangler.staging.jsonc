@@ -1,0 +1,41 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "mojidata-web-app-staging",
+	"main": ".open-next/worker.js",
+	"workers_dev": true,
+	"preview_urls": true,
+	"compatibility_date": "2026-05-01",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "mojidata-web-app-staging"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
+			"bucket_name": "mojidata-web-app-opennext-cache"
+		},
+		{
+			"binding": "GLYPH_FONT_ASSETS",
+			"bucket_name": "mojidata-glyph-font-assets"
+		}
+	],
+	"vars": {
+		"BOT_DELAY_DISABLE": "1",
+		"MOJIDATA_API_BASE_URL": "https://mojidata-api-d1-staging.mandel59.workers.dev/",
+		"NEXT_INC_CACHE_R2_PREFIX": "mojidata-web-app-staging"
+	}
+}
