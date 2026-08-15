@@ -254,11 +254,16 @@ const release = normalizeRelease(
 const legacyStable =
   readFlag('legacy-stable') || process.env.MOJIDATA_SPA_R2_LEGACY_STABLE === '1'
 const force = readFlag('force') || process.env.MOJIDATA_SPA_R2_FORCE === '1'
+const dryRun = readFlag('dry-run')
 
-if (!bucket) {
+if (!bucket && !dryRun) {
   throw new Error(
     'Set MOJIDATA_SPA_R2_BUCKET or pass --bucket <bucket> before uploading SPA assets to R2.',
   )
+}
+
+if (dryRun && !release) {
+  throw new Error('Pass --release <release-id> when using --dry-run.')
 }
 
 if (release && legacyStable) {
@@ -280,7 +285,7 @@ if (!release && !legacyStable) {
   )
 }
 
-if (legacyStable && productionSpaAssetBuckets.has(bucket)) {
+if (legacyStable && bucket && productionSpaAssetBuckets.has(bucket)) {
   throw new Error(
     [
       `Refusing to upload legacy stable SPA asset keys to production bucket: ${bucket}`,
@@ -293,7 +298,7 @@ if (legacyStable && productionSpaAssetBuckets.has(bucket)) {
 process.env.MOJIDATA_SPA_ASSETS_DIR = assetsDir
 await import('./copy-spa-assets.mjs')
 
-if (release && !force) {
+if (release && !force && !dryRun) {
   const exists = await commandSucceeds('npx', [
     'wrangler',
     'r2',
@@ -311,6 +316,19 @@ if (release && !force) {
 }
 
 const cacheControl = release ? releaseAssetCacheControl : legacyAssetCacheControl
+const manifestPath = release ? path.join(assetsDir, 'manifest.json') : undefined
+
+if (release && manifestPath) {
+  await writeFile(
+    manifestPath,
+    `${JSON.stringify(await manifestForRelease({ assetsDir, prefix, release }), null, 2)}\n`,
+  )
+}
+
+if (dryRun) {
+  console.log(`Prepared SPA asset release manifest: ${manifestPath}`)
+  process.exit(0)
+}
 
 for (const asset of assets) {
   const args = [
@@ -335,12 +353,7 @@ for (const asset of assets) {
   await run('npx', args)
 }
 
-if (release) {
-  const manifestPath = path.join(assetsDir, 'manifest.json')
-  await writeFile(
-    manifestPath,
-    `${JSON.stringify(await manifestForRelease({ assetsDir, prefix, release }), null, 2)}\n`,
-  )
+if (release && manifestPath) {
   await run('npx', [
     'wrangler',
     'r2',

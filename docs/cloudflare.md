@@ -135,6 +135,10 @@ above. Omitting them retains the package-based defaults for ordinary local
 development, but a release upload must not depend on whichever database files
 happen to be installed under `node_modules`.
 
+Add `--dry-run` to build the release directory and `manifest.json` without
+contacting R2. Review that manifest before repeating the command without
+`--dry-run`; the same immutable release ID must still be unused remotely.
+
 The upload command writes `/releases/<release-id>/assets/*` and
 `/releases/<release-id>/manifest.json`. It refuses to update legacy `/assets/*`
 on the production `mojidata-spa-assets` bucket, even when `--legacy-stable` is
