@@ -8,6 +8,15 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const publicAssetsDir = path.join(rootDir, 'public', 'assets')
 const stashRoot = path.join(rootDir, 'dist', '.cloudflare-build-stash')
 const stashDir = path.join(stashRoot, `public-assets-${process.pid}-${Date.now()}`)
+const openNextCli = path.join(
+  rootDir,
+  'node_modules',
+  '@opennextjs',
+  'cloudflare',
+  'dist',
+  'cli',
+  'index.js',
+)
 
 async function exists(filePath) {
   try {
@@ -76,7 +85,7 @@ async function restorePublicAssets(stashed) {
 const stashed = await stashPublicAssets()
 try {
   await run('node', ['scripts/check-cloudflare-build-assets.mjs'])
-  await run('opennextjs-cloudflare', ['build'], {
+  await run(process.execPath, [openNextCli, 'build'], {
     MOJIDATA_SKIP_SPA_ASSETS: '1',
   })
 } finally {

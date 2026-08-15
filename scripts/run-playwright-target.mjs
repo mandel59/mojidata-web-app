@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
 import { spawn } from 'node:child_process'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const DEFAULT_PORT = 3310
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const playwrightCli = path.join(rootDir, 'node_modules', 'playwright', 'cli.js')
 
 function printUsageAndExit(message) {
   if (message) {
@@ -75,8 +79,8 @@ console.error(
 )
 
 const child = spawn(
-  'npx',
-  ['playwright', 'test', ...forwardedArgs],
+  process.execPath,
+  [playwrightCli, 'test', ...forwardedArgs],
   {
     stdio: 'inherit',
     env: {
