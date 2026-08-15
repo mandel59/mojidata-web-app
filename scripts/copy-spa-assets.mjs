@@ -32,6 +32,25 @@ function databaseSource(option, environmentVariable, packageName, fileName) {
   return path.join(rootDir, 'node_modules', '@mandel59', packageName, fileName)
 }
 
+function packageDirectory(option, environmentVariable, packageName) {
+  const override =
+    readOption(option) ?? process.env[environmentVariable]?.trim()
+  if (override) return path.resolve(override)
+
+  return path.join(rootDir, 'node_modules', '@mandel59', packageName)
+}
+
+const mojidataPackageDir = packageDirectory(
+  'mojidata-package-dir',
+  'MOJIDATA_SPA_MOJIDATA_PACKAGE_DIR',
+  'mojidata',
+)
+const idsdbPackageDir = packageDirectory(
+  'idsdb-package-dir',
+  'MOJIDATA_SPA_IDSDB_PACKAGE_DIR',
+  'idsdb',
+)
+
 const assets = [
   {
     src: path.join(rootDir, 'node_modules', 'sql.js', 'dist', 'sql-wasm.wasm'),
@@ -76,59 +95,27 @@ const assets = [
     dest: path.join(outDir, 'idsfind-fts5.db'),
   },
   {
-    src: path.join(
-      rootDir,
-      'node_modules',
-      '@mandel59',
-      'mojidata',
-      'LICENSE.md',
-    ),
+    src: path.join(mojidataPackageDir, 'LICENSE.md'),
     dest: path.join(outDir, 'mojidata-LICENSE.md'),
     alwaysCopy: true,
   },
   {
-    src: path.join(
-      rootDir,
-      'node_modules',
-      '@mandel59',
-      'mojidata',
-      'download.txt',
-    ),
+    src: path.join(mojidataPackageDir, 'download.txt'),
     dest: path.join(outDir, 'mojidata-SOURCES.txt'),
     alwaysCopy: true,
   },
   {
-    src: path.join(
-      rootDir,
-      'node_modules',
-      '@mandel59',
-      'mojidata',
-      'licenses',
-      'unicode.txt',
-    ),
+    src: path.join(mojidataPackageDir, 'licenses', 'unicode.txt'),
     dest: path.join(outDir, 'unicode-LICENSE.txt'),
     alwaysCopy: true,
   },
   {
-    src: path.join(
-      rootDir,
-      'node_modules',
-      '@mandel59',
-      'mojidata',
-      'licenses',
-      'cmap-resources.txt',
-    ),
+    src: path.join(mojidataPackageDir, 'licenses', 'cmap-resources.txt'),
     dest: path.join(outDir, 'cmap-resources-LICENSE.txt'),
     alwaysCopy: true,
   },
   {
-    src: path.join(
-      rootDir,
-      'node_modules',
-      '@mandel59',
-      'idsdb',
-      'LICENSE.md',
-    ),
+    src: path.join(idsdbPackageDir, 'LICENSE.md'),
     dest: path.join(outDir, 'idsdb-LICENSE.md'),
     alwaysCopy: true,
   },

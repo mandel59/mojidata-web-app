@@ -127,13 +127,16 @@ npm run cf:upload-spa-assets -- \
   --bucket <spa-assets-bucket> \
   --mojidata-db <verified-mojidata-db> \
   --idsfind-db <verified-fts4-idsfind-db> \
-  --idsfind-fts5-db <verified-fts5-idsfind-db>
+  --idsfind-fts5-db <verified-fts5-idsfind-db> \
+  --mojidata-package-dir <verified-mojidata-package-dir> \
+  --idsdb-package-dir <verified-idsdb-package-dir>
 ```
 
-For a data release, pass all three verified database paths explicitly as shown
-above. Omitting them retains the package-based defaults for ordinary local
-development, but a release upload must not depend on whichever database files
-happen to be installed under `node_modules`.
+For a data release, pass all three verified database paths and both package
+directories explicitly as shown above. The package directories supply the
+license notices and Mojidata source inventory. Omitting these inputs retains
+the package-based defaults for ordinary local development, but a release upload
+must not depend on whichever files happen to be installed under `node_modules`.
 
 Add `--dry-run` to build the release directory and `manifest.json` without
 contacting R2. Review that manifest before repeating the command without

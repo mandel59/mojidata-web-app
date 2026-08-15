@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { test } from 'node:test'
@@ -36,6 +36,22 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
       inputPaths[name] = inputPath
     }
 
+    const mojidataPackageDir = path.join(tempDir, 'mojidata-package')
+    const idsdbPackageDir = path.join(tempDir, 'idsdb-package')
+    await mkdir(path.join(mojidataPackageDir, 'licenses'), { recursive: true })
+    await mkdir(idsdbPackageDir, { recursive: true })
+    await writeFile(path.join(mojidataPackageDir, 'LICENSE.md'), 'Mojidata license fixture')
+    await writeFile(path.join(mojidataPackageDir, 'download.txt'), 'Source inventory fixture')
+    await writeFile(
+      path.join(mojidataPackageDir, 'licenses', 'unicode.txt'),
+      'Unicode license fixture',
+    )
+    await writeFile(
+      path.join(mojidataPackageDir, 'licenses', 'cmap-resources.txt'),
+      'CMap license fixture',
+    )
+    await writeFile(path.join(idsdbPackageDir, 'LICENSE.md'), 'IDSDB license fixture')
+
     const outputDir = path.join(tempDir, 'release')
     const databaseArgs = [
       '--mojidata-db',
@@ -44,6 +60,10 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
       inputPaths['idsfind.db'],
       '--idsfind-fts5-db',
       inputPaths['idsfind-fts5.db'],
+      '--mojidata-package-dir',
+      mojidataPackageDir,
+      '--idsdb-package-dir',
+      idsdbPackageDir,
     ]
 
     runScript('scripts/copy-spa-assets.mjs', [
@@ -54,6 +74,10 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
     for (const [name, expected] of Object.entries(inputs)) {
       assert.deepEqual(await readFile(path.join(outputDir, name)), expected)
     }
+    assert.equal(
+      await readFile(path.join(outputDir, 'unicode-LICENSE.txt'), 'utf8'),
+      'Unicode license fixture',
+    )
 
     runScript('scripts/upload-spa-assets-to-r2.mjs', [
       '--dry-run',
