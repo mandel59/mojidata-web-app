@@ -24,17 +24,12 @@ const outDir = path.resolve(
   readOption('out-dir') ?? process.env.MOJIDATA_SPA_ASSETS_DIR ?? defaultOutDir,
 )
 
-function idsfindFts5DbSource() {
-  const override = process.env.MOJIDATA_SPA_IDSFIND_FTS5_DB_SOURCE?.trim()
+function databaseSource(option, environmentVariable, packageName, fileName) {
+  const override =
+    readOption(option) ?? process.env[environmentVariable]?.trim()
   if (override) return path.resolve(override)
 
-  return path.join(
-    rootDir,
-    'node_modules',
-    '@mandel59',
-    'idsdb-fts5',
-    'idsfind.db',
-  )
+  return path.join(rootDir, 'node_modules', '@mandel59', packageName, fileName)
 }
 
 const assets = [
@@ -54,28 +49,30 @@ const assets = [
     dest: path.join(outDir, 'sqlite3.wasm'),
   },
   {
-    src: path.join(
-      rootDir,
-      'node_modules',
-      '@mandel59',
+    src: databaseSource(
+      'mojidata-db',
+      'MOJIDATA_SPA_MOJIDATA_DB_SOURCE',
       'mojidata',
-      'dist',
-      'moji.db',
+      path.join('dist', 'moji.db'),
     ),
     dest: path.join(outDir, 'moji.db'),
   },
   {
-    src: path.join(
-      rootDir,
-      'node_modules',
-      '@mandel59',
+    src: databaseSource(
+      'idsfind-db',
+      'MOJIDATA_SPA_IDSFIND_DB_SOURCE',
       'idsdb',
       'idsfind.db',
     ),
     dest: path.join(outDir, 'idsfind.db'),
   },
   {
-    src: idsfindFts5DbSource(),
+    src: databaseSource(
+      'idsfind-fts5-db',
+      'MOJIDATA_SPA_IDSFIND_FTS5_DB_SOURCE',
+      'idsdb-fts5',
+      'idsfind.db',
+    ),
     dest: path.join(outDir, 'idsfind-fts5.db'),
   },
   {

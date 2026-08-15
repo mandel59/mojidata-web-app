@@ -123,8 +123,17 @@ Upload SPA data assets when the package data changes:
 
 ```sh
 export MOJIDATA_SPA_ASSET_RELEASE='<release-id>'
-npm run cf:upload-spa-assets -- --bucket <spa-assets-bucket>
+npm run cf:upload-spa-assets -- \
+  --bucket <spa-assets-bucket> \
+  --mojidata-db <verified-mojidata-db> \
+  --idsfind-db <verified-fts4-idsfind-db> \
+  --idsfind-fts5-db <verified-fts5-idsfind-db>
 ```
+
+For a data release, pass all three verified database paths explicitly as shown
+above. Omitting them retains the package-based defaults for ordinary local
+development, but a release upload must not depend on whichever database files
+happen to be installed under `node_modules`.
 
 The upload command writes `/releases/<release-id>/assets/*` and
 `/releases/<release-id>/manifest.json`. It refuses to update legacy `/assets/*`
