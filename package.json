@@ -19,6 +19,7 @@
     "cf:populate-cache": "opennextjs-cloudflare populateCache",
     "cf:typegen": "wrangler types",
     "cf:upload-spa-assets": "node scripts/upload-spa-assets-to-r2.mjs",
+    "test:release-assets": "node --test scripts/copy-spa-assets.test.mjs",
     "cf:asset-worker:dry-run": "WRANGLER_LOG_PATH=.wrangler/logs wrangler deploy --config wrangler.spa-assets.jsonc --dry-run --outdir dist/spa-asset-worker",
     "cf:asset-worker:deploy": "WRANGLER_LOG_PATH=.wrangler/logs wrangler deploy --config wrangler.spa-assets.jsonc",
     "cf:generate-glyph-path-shards": "node --max-old-space-size=8192 scripts/generate-glyph-path-shards.mjs",
