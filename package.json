@@ -57,7 +57,7 @@
     "@mandel59/idsdb-utils": "^1.7.0",
     "@mandel59/mojidata": "^1.8.1",
     "@mandel59/mojidata-api": "^2.0.0",
-    "@mandel59/mojidata-api-core": "^1.9.1",
+    "@mandel59/mojidata-api-core": "^1.9.2",
     "@mandel59/mojidata-api-runtime": "^2.0.0",
     "@mandel59/mojidata-api-sqlite-wasm": "^1.9.0",
     "@mandel59/mojidata-api-sqljs": "^1.8.1",
