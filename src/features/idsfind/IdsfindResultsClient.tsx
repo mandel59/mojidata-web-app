@@ -49,6 +49,15 @@ export default function IdsfindResultsClient() {
   const [error, setError] = useState<string | null>(null)
   const [results, setResults] = useState<string[]>(cached?.results ?? [])
   const [total, setTotal] = useState<number>(cached?.total ?? 0)
+  const [previousCacheKey, setPreviousCacheKey] = useState(cacheKey)
+
+  if (previousCacheKey !== cacheKey) {
+    setPreviousCacheKey(cacheKey)
+    setResults(cached?.results ?? [])
+    setTotal(cached?.total ?? 0)
+    setError(null)
+    setLoading(!cached && (ids.length > 0 || whole.length > 0 || !!query))
+  }
 
   const offset = (currentPage - 1) * pageSize
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
@@ -65,28 +74,10 @@ export default function IdsfindResultsClient() {
 
   useEffect(() => {
     let cancelled = false
-    if (ids.length === 0 && whole.length === 0 && !query) {
-      setResults([])
-      setTotal(0)
-      setError(null)
-      setLoading(false)
-      return
-    }
-
-    const cached = idsfindResultCache.get(cacheKey)
-    if (cached) {
-      setResults(cached.results)
-      setTotal(cached.total)
-      setLoading(false)
-      setError(null)
-      return
-    }
+    if (ids.length === 0 && whole.length === 0 && !query) return
+    if (idsfindResultCache.has(cacheKey)) return
 
     ;(async () => {
-      setLoading(true)
-      setError(null)
-      setResults([])
-      setTotal(0)
       try {
         const response = await idsfindBrowserAllResults(
           buildIdsfindAllResultsRequest({

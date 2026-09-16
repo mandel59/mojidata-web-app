@@ -32,32 +32,24 @@ export default function SearchResultsClient() {
   const [error, setError] = useState<string | null>(null)
   const [results, setResults] = useState<string[]>(cached?.results ?? [])
   const [total, setTotal] = useState<number>(cached?.total ?? 0)
+  const [previousCacheKey, setPreviousCacheKey] = useState(cacheKey)
+
+  if (previousCacheKey !== cacheKey) {
+    setPreviousCacheKey(cacheKey)
+    setResults(cached?.results ?? [])
+    setTotal(cached?.total ?? 0)
+    setError(null)
+    setLoading(!!currentQuery && !cached)
+  }
 
   const offset = (currentPage - 1) * pageSize
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
   useEffect(() => {
     let cancelled = false
-    if (!currentQuery) {
-      setResults([])
-      setTotal(0)
-      setError(null)
-      setLoading(false)
-      return
-    }
-
-    const cached = searchResultCache.get(cacheKey)
-    if (cached) {
-      setResults(cached.results)
-      setTotal(cached.total)
-      setError(null)
-      setLoading(false)
-      return
-    }
+    if (!currentQuery || searchResultCache.has(cacheKey)) return
 
     ;(async () => {
-      setLoading(true)
-      setError(null)
       try {
         const { results, total } = await idsfindBrowserAllResults(
           buildIdsfindAllResultsRequest({

@@ -159,6 +159,28 @@ test('search-spa renders results in browser', async ({ page }) => {
   )
 })
 
+for (const route of ['search-spa', 'idsfind-spa']) {
+  test(`${route} resets results for changed queries and restores cached results`, async ({ page }) => {
+    const path = `/ja-JP/${route}`
+    await page.goto(`${path}?query=${encodeURIComponent('漢')}`)
+    const resultLinks = page.locator('article a[href*="/mojidata/"]')
+    await expect(resultLinks.first()).toBeVisible({ timeout: 60_000 })
+    const originalHref = await resultLinks.first().getAttribute('href')
+
+    await page.evaluate((url) => window.history.pushState(null, '', url), path)
+    await expect(resultLinks).toHaveCount(0)
+
+    await page.evaluate((url) => window.history.pushState(null, '', url),
+      `${path}?query=${encodeURIComponent('字')}`)
+    await expect(resultLinks.first()).toBeVisible({ timeout: 60_000 })
+    await expect(resultLinks.first()).not.toHaveAttribute('href', originalHref!)
+
+    await page.evaluate((url) => window.history.pushState(null, '', url),
+      `${path}?query=${encodeURIComponent('漢')}`)
+    await expect(resultLinks.first()).toHaveAttribute('href', originalHref!)
+  })
+}
+
 test('canonical search defaults to client-data in browser', async ({ page }) => {
   await page.goto('/ja-JP/search?query=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',

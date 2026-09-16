@@ -7,16 +7,9 @@ import PreviewWarning from '@/components/PreviewWarning'
 import { canonicalUrlBase, description, siteName } from '@/settings'
 import { fontCjkSymbols } from '../fonts'
 import { getLanguage, getText } from '@/getText'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Analytics } from '@vercel/analytics/next'
 import { SiteHeader } from './SiteHeader'
 import NavigationPendingIndicator from '@/components/NavigationPendingIndicator'
 import styles from './layout.module.css'
-
-const enableVercelInsights =
-  process.env.NEXT_PUBLIC_ENABLE_VERCEL_INSIGHTS === '1' ||
-  (process.env.VERCEL === '1' &&
-    process.env.NEXT_PUBLIC_DISABLE_VERCEL_INSIGHTS !== '1')
 
 export const metadata: Metadata = {
   title: {
@@ -59,12 +52,6 @@ export default async function RootLayout({
           </div>
         </div>
         <PreviewWarning />
-        {enableVercelInsights ? (
-          <>
-            <SpeedInsights />
-            <Analytics />
-          </>
-        ) : null}
       </body>
     </html>
   )

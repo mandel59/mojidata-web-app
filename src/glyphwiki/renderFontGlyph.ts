@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { gunzip } from 'node:zlib'
 import { promisify } from 'node:util'
-import opentype from 'opentype.js'
+import * as opentype from 'opentype.js'
 
 const doGunzip = promisify(gunzip)
 const GLYPH_FONT_R2_KEY_PREFIX = 'glyph-fonts'

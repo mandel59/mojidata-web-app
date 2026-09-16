@@ -25,6 +25,14 @@ copies of `sqlite3.wasm`, fallback `sql-wasm.wasm`, `moji.db`, FTS4
 `idsfind.db`, and FTS5 `idsfind-fts5.db` from `dist/spa-assets` during
 development.
 
+Type checking with `npx tsc --noEmit` uses TypeScript 7 via the
+`@typescript/native` npm alias. The `typescript` dependency aliases the official
+`@typescript/typescript6` compatibility package for tools that require the
+JavaScript compiler API, including ESLint and Storybook. See the
+[TypeScript side-by-side setup](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0).
+ESLint stays on the latest 9.x release until the React, accessibility, and import
+plugins used by `eslint-config-next` support ESLint 10.
+
 ## Cloudflare Deployment
 
 The operational Cloudflare deployment notes are in

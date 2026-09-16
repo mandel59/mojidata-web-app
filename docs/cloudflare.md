@@ -400,10 +400,7 @@ The Googlebot example should stay on the app Worker and return `200` with
 
 ## Analytics And Privacy
 
-The Cloudflare production deployment does not enable Vercel Web Analytics or
-Vercel Speed Insights by default. Those packages remain in the codebase behind
-environment flags for legacy or explicit opt-in deployments. Do not enable them
-for production without updating the Privacy Policy first.
+Vercel Web Analytics and Vercel Speed Insights have been removed from the app.
 
 Cloudflare Web Analytics is not currently injected by this app. If it is added
 later, update the Privacy Policy and document the new script/configuration here.

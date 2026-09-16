@@ -140,6 +140,12 @@ test('glyph SVG APIs render from local fonts during development', async ({
     expect(body, path).toContain('<svg')
     expect(body, path).toContain('<path')
   }
+
+  const original = await request.get('/api/glyphwiki/svg/u6b25')
+  const substitute = await request.get('/api/glyphwiki/svg/u2b81e')
+  expect(original.status()).toBe(200)
+  expect(substitute.status()).toBe(200)
+  expect(await substitute.text()).toBe(await original.text())
 })
 
 test('desktop mojidata keeps the TOC sidebar beside the main content', async ({

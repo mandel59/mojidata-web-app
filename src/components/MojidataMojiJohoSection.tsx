@@ -1,6 +1,6 @@
 'use client'
 
-import { startTransition, useEffect, useState } from 'react'
+import { startTransition, useState } from 'react'
 import type { Language } from '@/getText'
 import { getText } from '@/getText'
 import { cn } from '@/lib/utils'
@@ -46,10 +46,13 @@ export default function MojidataMojiJohoSection(
 ) {
   const { lang, ucs, bot, initialForceImage, isJISX0213char, mji, mjih } = props
   const [forceImage, setForceImage] = useState(initialForceImage)
+  const [previousInitialForceImage, setPreviousInitialForceImage] =
+    useState(initialForceImage)
 
-  useEffect(() => {
+  if (previousInitialForceImage !== initialForceImage) {
+    setPreviousInitialForceImage(initialForceImage)
     setForceImage(initialForceImage)
-  }, [initialForceImage])
+  }
 
   const setDisplayMode = (nextForceImage: boolean) => {
     startTransition(() => {
