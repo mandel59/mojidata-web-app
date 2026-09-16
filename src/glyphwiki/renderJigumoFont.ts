@@ -25,6 +25,10 @@ const rendererConfig = {
   },
 }
 
+// Unicode 18.0 disunified U+2B81E from U+6B25. Reuse its glyph until Jigmo
+// includes U+2B81E.
+const glyphAliases = new Map([['u2b81e', 'u6b25']])
+
 let fallbackRendererPromise:
   | ReturnType<typeof createGlyphFontRenderer>
   | undefined
@@ -47,5 +51,6 @@ const renderFromShard = createGlyphPathShardRenderer({
 })
 
 export async function renderJigumoFont(name: string) {
-  return renderFromShard(name)
+  const normalizedName = name.toLowerCase()
+  return renderFromShard(glyphAliases.get(normalizedName) ?? normalizedName)
 }
