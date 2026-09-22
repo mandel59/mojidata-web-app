@@ -1,4 +1,5 @@
 import { createReadStream, createWriteStream } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { copyFile, mkdir, stat } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
@@ -128,6 +129,12 @@ if (process.env.MOJIDATA_SKIP_SPA_ASSETS === '1') {
   process.exit(0)
 }
 
+async function sha256(file) {
+  const hash = createHash('sha256')
+  for await (const chunk of createReadStream(file)) hash.update(chunk)
+  return hash.digest('hex')
+}
+
 async function copyIfNeeded(src, dest, alwaysCopy = false) {
   let srcStat
   try {
@@ -139,7 +146,9 @@ async function copyIfNeeded(src, dest, alwaysCopy = false) {
   if (!alwaysCopy) {
     try {
       const destStat = await stat(dest)
-      if (destStat.size === srcStat.size) return { copied: false, bytes: destStat.size }
+      if (destStat.size === srcStat.size && await sha256(src) === await sha256(dest)) {
+        return { copied: false, bytes: destStat.size }
+      }
     } catch {
       // not present
     }
@@ -149,11 +158,11 @@ async function copyIfNeeded(src, dest, alwaysCopy = false) {
   return { copied: true, bytes: srcStat.size }
 }
 
-async function compressIfNeeded(src, dest, compress) {
+async function compressIfNeeded(src, dest, compress, force = false) {
   const srcStat = await stat(src)
   try {
     const destStat = await stat(dest)
-    if (destStat.size > 0 && destStat.mtimeMs >= srcStat.mtimeMs) {
+    if (!force && destStat.size > 0 && destStat.mtimeMs >= srcStat.mtimeMs) {
       return { compressed: false, bytes: destStat.size }
     }
   } catch {
@@ -183,12 +192,14 @@ for (const { src, dest, alwaysCopy } of assets) {
         [constants.BROTLI_PARAM_MODE]: constants.BROTLI_MODE_GENERIC,
       },
     }),
+    copied,
   )
   totalCompressedBytes += brotli.bytes
   if (brotli.compressed) compressedCount += 1
 
   const gzip = await compressIfNeeded(dest, `${dest}.gz`, () =>
     createGzip({ level: 9 }),
+    copied,
   )
   totalCompressedBytes += gzip.bytes
   if (gzip.compressed) compressedCount += 1

@@ -270,6 +270,8 @@ export const unihanProperties = [
   'kSemanticVariant',
   'kSpoofingVariant',
   'kTraditionalVariant',
+  'kJapaneseNewVariant',
+  'kJapaneseOldVariant',
   'kSimplifiedVariant',
   'kSpecializedSemanticVariant',
   'kZVariant',

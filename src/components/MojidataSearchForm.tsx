@@ -337,6 +337,8 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
                       <tr><td>unihan.kSimplifiedVariant</td><td>=, !=, ~, !~</td><td>Simplified variant (character / U+XXXX)</td></tr>
                       <tr><td>unihan.kSpecializedSemanticVariant</td><td>=, !=, ~, !~</td><td>Specialized semantic variant (character / U+XXXX)</td></tr>
                       <tr><td>unihan.kSpoofingVariant</td><td>=, !=, ~, !~</td><td>Spoofing variant (character / U+XXXX)</td></tr>
+                      <tr><td>unihan.kJapaneseNewVariant</td><td>=, !=, ~, !~</td><td>Japanese new-form variant (character / U+XXXX)</td></tr>
+                      <tr><td>unihan.kJapaneseOldVariant</td><td>=, !=, ~, !~</td><td>Japanese old-form variant (character / U+XXXX)</td></tr>
                       <tr><td>unihan.kTraditionalVariant</td><td>=, !=, ~, !~</td><td>Traditional variant (character / U+XXXX)</td></tr>
                       <tr><td>unihan.kZVariant</td><td>=, !=, ~, !~</td><td>Z variant (character / U+XXXX)</td></tr>
                     </>

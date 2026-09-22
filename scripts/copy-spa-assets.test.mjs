@@ -6,6 +6,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { brotliDecompressSync, gunzipSync } from 'node:zlib'
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -79,6 +80,12 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
       'Unicode license fixture',
     )
 
+    // SQLite updates can change content without changing the database size.
+    for (const [name, value] of Object.entries(inputs)) {
+      inputs[name] = Buffer.from(value.toString().toUpperCase())
+      await writeFile(inputPaths[name], inputs[name])
+    }
+
     runScript('scripts/upload-spa-assets-to-r2.mjs', [
       '--dry-run',
       '--release',
@@ -97,6 +104,9 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
       const asset = manifest.assets.find((entry) => entry.name === name)
       assert.equal(asset?.byteLength, expected.length)
       assert.equal(asset?.sha256, sha256(expected))
+      assert.deepEqual(await readFile(path.join(outputDir, name)), expected)
+      assert.deepEqual(brotliDecompressSync(await readFile(path.join(outputDir, `${name}.br`))), expected)
+      assert.deepEqual(gunzipSync(await readFile(path.join(outputDir, `${name}.gz`))), expected)
     }
     assert.equal(
       manifest.notices.unicodeLicense,
