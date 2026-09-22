@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "release": "ja-variants-20260922",
+  "createdAt": "2026-09-22T02:04:58.799Z",
+  "prefix": "",
+  "notices": {
+    "mojidataLicense": "releases/ja-variants-20260922/assets/mojidata-LICENSE.md",
+    "mojidataSources": "releases/ja-variants-20260922/assets/mojidata-SOURCES.txt",
+    "unicodeLicense": "releases/ja-variants-20260922/assets/unicode-LICENSE.txt",
+    "cmapResourcesLicense": "releases/ja-variants-20260922/assets/cmap-resources-LICENSE.txt",
+    "idsdbLicense": "releases/ja-variants-20260922/assets/idsdb-LICENSE.md"
+  },
+  "assets": [
+    {
+      "name": "sql-wasm.wasm",
+      "key": "releases/ja-variants-20260922/assets/sql-wasm.wasm",
+      "contentType": "application/wasm",
+      "byteLength": 658410,
+      "sha256": "38c14f6e379210bc942bdc4ebca44e7bfdb4318ecc1c72ca666a28fdce96670a"
+    },
+    {
+      "name": "sql-wasm.wasm.br",
+      "key": "releases/ja-variants-20260922/assets/sql-wasm.wasm.br",
+      "contentType": "application/wasm",
+      "contentEncoding": "br",
+      "byteLength": 303714,
+      "sha256": "0e188f26057a21aeb4f985b623466403030cec9bc543e5a90df412732c4104a1"
+    },
+    {
+      "name": "sql-wasm.wasm.gz",
+      "key": "releases/ja-variants-20260922/assets/sql-wasm.wasm.gz",
+      "contentType": "application/wasm",
+      "contentEncoding": "gzip",
+      "byteLength": 322928,
+      "sha256": "d6d8a85420ba17e8283bdde16d46f85953fdb7bb4e3d33d1819dafd9f412bd2d"
+    },
+    {
+      "name": "sqlite3.wasm",
+      "key": "releases/ja-variants-20260922/assets/sqlite3.wasm",
+      "contentType": "application/wasm",
+      "byteLength": 868907,
+      "sha256": "2ee8f3dab694532afc8840e07703127287662d08b74e6ff50491ce63f00d5752"
+    },
+    {
+      "name": "sqlite3.wasm.br",
+      "key": "releases/ja-variants-20260922/assets/sqlite3.wasm.br",
+      "contentType": "application/wasm",
+      "contentEncoding": "br",
+      "byteLength": 379820,
+      "sha256": "e52abd325529883fc938c08241af9c12d717e8004b5d8b1c21482c130b3457a7"
+    },
+    {
+      "name": "sqlite3.wasm.gz",
+      "key": "releases/ja-variants-20260922/assets/sqlite3.wasm.gz",
+      "contentType": "application/wasm",
+      "contentEncoding": "gzip",
+      "byteLength": 403404,
+      "sha256": "8082b9663a9e9e9bfc2c662a78b894df59f7ce63f292ed49c8344acda6a3388a"
+    },
+    {
+      "name": "moji.db",
+      "key": "releases/ja-variants-20260922/assets/moji.db",
+      "contentType": "application/octet-stream",
+      "byteLength": 102735872,
+      "sha256": "c8cd43031d6a48bde6b131f0fd0fb778301627846c4b65ff038937884c21ea6b"
+    },
+    {
+      "name": "moji.db.br",
+      "key": "releases/ja-variants-20260922/assets/moji.db.br",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "br",
+      "byteLength": 28297270,
+      "sha256": "c09bb11e66698d2088aeb244d776ddf5c06f3a61a5cdcc4702ae0e32fb948af7"
+    },
+    {
+      "name": "moji.db.gz",
+      "key": "releases/ja-variants-20260922/assets/moji.db.gz",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "gzip",
+      "byteLength": 40343633,
+      "sha256": "a94cd498a0f236f53546221a0bc90ca86f4ea3a8287059cea8e0575f9fe81524"
+    },
+    {
+      "name": "idsfind.db",
+      "key": "releases/ja-variants-20260922/assets/idsfind.db",
+      "contentType": "application/octet-stream",
+      "byteLength": 31506432,
+      "sha256": "3bd624ad11f27c59f1ff0bd894cc9eaa8b4aa8d86524a8be69d81ac98095a47d"
+    },
+    {
+      "name": "idsfind.db.br",
+      "key": "releases/ja-variants-20260922/assets/idsfind.db.br",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "br",
+      "byteLength": 6983163,
+      "sha256": "7850bd8522690c26a0b76ddf02588b9b253cc6779207332aace13e480c30eba5"
+    },
+    {
+      "name": "idsfind.db.gz",
+      "key": "releases/ja-variants-20260922/assets/idsfind.db.gz",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "gzip",
+      "byteLength": 8122418,
+      "sha256": "c3a446bd5b99cd7e26de89893d52b8d6be65451089262c5ab003ad9bb640187f"
+    },
+    {
+      "name": "idsfind-fts5.db",
+      "key": "releases/ja-variants-20260922/assets/idsfind-fts5.db",
+      "contentType": "application/octet-stream",
+      "byteLength": 31440896,
+      "sha256": "d8df4edde88187c8389861acf4c055b3fd3d94bc11c4a21ffe5a168964bda47c"
+    },
+    {
+      "name": "idsfind-fts5.db.br",
+      "key": "releases/ja-variants-20260922/assets/idsfind-fts5.db.br",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "br",
+      "byteLength": 7195020,
+      "sha256": "7cf1be3e0b94a3ae7039f70817ea70c4f6b7c9bddd0fe1acb29b2004f2da8c46"
+    },
+    {
+      "name": "idsfind-fts5.db.gz",
+      "key": "releases/ja-variants-20260922/assets/idsfind-fts5.db.gz",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "gzip",
+      "byteLength": 8362399,
+      "sha256": "89a2519028864c0048c74b3a232bc34ae6e52ffeefa64b1d0723becc99e03947"
+    },
+    {
+      "name": "mojidata-LICENSE.md",
+      "key": "releases/ja-variants-20260922/assets/mojidata-LICENSE.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 3145,
+      "sha256": "6676a78d32a7ff0fefb842ddf6b7f07ac00f4c670c06067b4566a75fa1465cdd"
+    },
+    {
+      "name": "mojidata-LICENSE.md.br",
+      "key": "releases/ja-variants-20260922/assets/mojidata-LICENSE.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 1545,
+      "sha256": "492e72530624f7bf2c51cabcb278f4a45248f35a6ed44cc29604c9e369002fec"
+    },
+    {
+      "name": "mojidata-LICENSE.md.gz",
+      "key": "releases/ja-variants-20260922/assets/mojidata-LICENSE.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1718,
+      "sha256": "fbce39336bfe3605f891629a20f76828a4ae5136164cfa6ba7a79c802f24a5f9"
+    },
+    {
+      "name": "mojidata-SOURCES.txt",
+      "key": "releases/ja-variants-20260922/assets/mojidata-SOURCES.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 8902,
+      "sha256": "cea3257f6f44368487e4d93f5d2ff0c6a92ddb0d42ac5f71cef9b69bf09a8723"
+    },
+    {
+      "name": "mojidata-SOURCES.txt.br",
+      "key": "releases/ja-variants-20260922/assets/mojidata-SOURCES.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 2923,
+      "sha256": "3e94b1eb75d612b89cd2244e917131a6d73a91aee4c989a692bd565dfdebcd63"
+    },
+    {
+      "name": "mojidata-SOURCES.txt.gz",
+      "key": "releases/ja-variants-20260922/assets/mojidata-SOURCES.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 3026,
+      "sha256": "af5a9bc835d44cb0ce2ae6e7c41780f3c0ab100ea1cdc3b1d559cbc64a5a2f14"
+    },
+    {
+      "name": "unicode-LICENSE.txt",
+      "key": "releases/ja-variants-20260922/assets/unicode-LICENSE.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    {
+      "name": "unicode-LICENSE.txt.br",
+      "key": "releases/ja-variants-20260922/assets/unicode-LICENSE.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 986,
+      "sha256": "e2ce3530a9bc0ae3f841c67dcd9df56f5b05583206963635be011bab008351b1"
+    },
+    {
+      "name": "unicode-LICENSE.txt.gz",
+      "key": "releases/ja-variants-20260922/assets/unicode-LICENSE.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1070,
+      "sha256": "0bff4f4c5f5280173875bc9d2c7eac7fcb8eabf01f07cebd89c469e4b4c635ce"
+    },
+    {
+      "name": "cmap-resources-LICENSE.txt",
+      "key": "releases/ja-variants-20260922/assets/cmap-resources-LICENSE.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1453,
+      "sha256": "feb8b068a417681821823ef2e8995072aa111121fa11f8664038f78717f4497c"
+    },
+    {
+      "name": "cmap-resources-LICENSE.txt.br",
+      "key": "releases/ja-variants-20260922/assets/cmap-resources-LICENSE.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 724,
+      "sha256": "74e23065ae9acf402ff06642f132cd0ffe89fa0a4864c85bd1ecce10573291eb"
+    },
+    {
+      "name": "cmap-resources-LICENSE.txt.gz",
+      "key": "releases/ja-variants-20260922/assets/cmap-resources-LICENSE.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 789,
+      "sha256": "68173a1339a9086dbaed85385d9872cccc72a2cb7c8d5b17988341f6f9f11327"
+    },
+    {
+      "name": "idsdb-LICENSE.md",
+      "key": "releases/ja-variants-20260922/assets/idsdb-LICENSE.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 1061,
+      "sha256": "f872598a704c6fa36021b9f2ba8f80ba7112b9d774ae2adf5080d772d4020e72"
+    },
+    {
+      "name": "idsdb-LICENSE.md.br",
+      "key": "releases/ja-variants-20260922/assets/idsdb-LICENSE.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 596,
+      "sha256": "f7a86ce678f595930e16b7adfea4fdc4532d9aa95f8e3f20e53fd337dab48ff5"
+    },
+    {
+      "name": "idsdb-LICENSE.md.gz",
+      "key": "releases/ja-variants-20260922/assets/idsdb-LICENSE.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 649,
+      "sha256": "d0a902e8c753154bdd3616161c5a980972819829af93e47275433ff32e5b3898"
+    }
+  ]
+}
