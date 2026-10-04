@@ -1,0 +1,17 @@
+{
+  "id": "ffa20fd6-025a-4b1e-8c27-2161481f582c",
+  "source": "wrangler",
+  "strategy": "percentage",
+  "author_email": "mandel59@gmail.com",
+  "annotations": {
+    "workers/message": "Redeploy web app 1.6.2 after API notes deployment with fresh server cache; preview smoke tests passed",
+    "workers/triggered_by": "deployment"
+  },
+  "versions": [
+    {
+      "version_id": "a3a1af6a-0372-40dc-b832-78c5db08d1a2",
+      "percentage": 100
+    }
+  ],
+  "created_on": "2026-10-04T14:18:39.443689Z"
+}

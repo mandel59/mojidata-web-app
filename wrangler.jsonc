@@ -51,6 +51,6 @@
 	"vars": {
 		"BOT_DELAY_DISABLE": "1",
 		"MOJIDATA_API_BASE_URL": "https://mojidata-api-d1.mandel59.workers.dev/",
-		"NEXT_INC_CACHE_R2_PREFIX": "mojidata-web-app-r20260507-unihan-views"
+		"NEXT_INC_CACHE_R2_PREFIX": "mojidata-web-app-r20261004-api-notes"
 	}
 }

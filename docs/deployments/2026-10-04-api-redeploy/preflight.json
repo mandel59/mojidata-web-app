@@ -1,0 +1,20 @@
+{
+  "observedAt": "2026-10-04T14:17:40.853Z",
+  "checks": [
+    {
+      "url": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/ja-variants-20260922/manifest.json",
+      "status": 200,
+      "check": "Published SPA manifest matches recorded release"
+    },
+    {
+      "url": "https://mojidata-api-d1.mandel59.workers.dev/api/v1/mojidata?char=%E9%90%A5&select=mji",
+      "status": 200,
+      "check": "Latest API note field verified"
+    },
+    {
+      "url": "https://mojidata-api-d1.mandel59.workers.dev/api/v1/mojidata?char=%E5%85%85&select=kdpv_comment",
+      "status": 200,
+      "check": "Latest API note field verified"
+    }
+  ]
+}
