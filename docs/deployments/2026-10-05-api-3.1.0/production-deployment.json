@@ -1,0 +1,17 @@
+{
+  "id": "f8b371da-8786-418d-9aae-468058b5a8fd",
+  "source": "wrangler",
+  "strategy": "percentage",
+  "author_email": "mandel59@gmail.com",
+  "annotations": {
+    "workers/message": "Update mojidata-api to 3.1.0 and core to 1.11.0; preview browser and new API field checks passed",
+    "workers/triggered_by": "deployment"
+  },
+  "versions": [
+    {
+      "version_id": "a748c3fb-530d-490d-93a6-8a042196198a",
+      "percentage": 100
+    }
+  ],
+  "created_on": "2026-10-04T16:57:54.2116Z"
+}

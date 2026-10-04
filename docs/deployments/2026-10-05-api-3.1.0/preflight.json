@@ -1,0 +1,96 @@
+{
+  "observedAt": "2026-10-04T16:54:44.368Z",
+  "apiVersion": "3.1.0",
+  "coreVersion": "1.11.0",
+  "checks": [
+    {
+      "asset": "moji.db",
+      "sha256": "c8cd43031d6a48bde6b131f0fd0fb778301627846c4b65ff038937884c21ea6b",
+      "matchesRelease": "ja-variants-20260922"
+    },
+    {
+      "asset": "idsfind.db",
+      "sha256": "3bd624ad11f27c59f1ff0bd894cc9eaa8b4aa8d86524a8be69d81ac98095a47d",
+      "matchesRelease": "ja-variants-20260922"
+    },
+    {
+      "asset": "idsfind-fts5.db",
+      "sha256": "d8df4edde88187c8389861acf4c055b3fd3d94bc11c4a21ffe5a168964bda47c",
+      "matchesRelease": "ja-variants-20260922"
+    },
+    {
+      "asset": "sql-wasm.wasm",
+      "sha256": "38c14f6e379210bc942bdc4ebca44e7bfdb4318ecc1c72ca666a28fdce96670a",
+      "matchesRelease": "ja-variants-20260922"
+    },
+    {
+      "asset": "sqlite3.wasm",
+      "sha256": "2ee8f3dab694532afc8840e07703127287662d08b74e6ff50491ce63f00d5752",
+      "matchesRelease": "ja-variants-20260922"
+    },
+    {
+      "char": "鐥",
+      "select": "mji",
+      "status": 200,
+      "results": {
+        "mji": [
+          {
+            "文字": "鐥",
+            "MJ文字図形名": "MJ068046",
+            "対応するUCS": "U+9425",
+            "実装したUCS": "U+9425",
+            "実装したMoji_JohoコレクションIVS": null,
+            "実装したSVS": null,
+            "戸籍統一文字番号": null,
+            "住基ネット統一文字コード": "J+C182",
+            "入管正字コード": "0x9425",
+            "入管外字コード": "0xE5CB",
+            "漢字施策": null,
+            "対応する互換漢字": null,
+            "X0213": null,
+            "X0213_包摂連番": null,
+            "X0213_包摂区分": null,
+            "X0212": null,
+            "MJ文字図形バージョン": "2",
+            "登記統一文字番号": "01094380",
+            "部首・内画数": [
+              [
+                167,
+                12,
+                "金"
+              ]
+            ],
+            "総画数": 20,
+            "読み": [],
+            "大漢和": null,
+            "日本語漢字辞典": null,
+            "新大字典": null,
+            "大字源": null,
+            "大漢語林": null,
+            "更新履歴": [
+              "Ver.002.01 MJ068046を新規追加"
+            ],
+            "備考": null,
+            "mjsm_note": "国字:みずかね",
+            "mjsm": []
+          }
+        ]
+      }
+    },
+    {
+      "char": "充",
+      "select": "kdpv_comment",
+      "status": 200,
+      "results": {
+        "kdpv_comment": [
+          {
+            "subject": "充",
+            "rel": "hydzd/variant",
+            "object": "𠑽",
+            "comment": "[充=⿱亠厶]"
+          }
+        ]
+      }
+    }
+  ]
+}
