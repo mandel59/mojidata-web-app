@@ -1,0 +1,64 @@
+# Web license notice distribution review
+
+Related: mandel59/mojidata#80. Reviewed on 2026-10-07 JST.
+
+## Implemented
+
+The app consumes Mojidata 1.9.2, IDSdb 1.8.1 and IDSdb-fts5 1.10.1.
+The remaining npm lock entries and API implementation versions are unchanged.
+Each package's data-notices manifest drives its nested notice assets. Preparation
+checks package identity, required notice membership, safe paths and SHA-256
+before copying. Original paths are retained under each package directory, so
+relative links in the packaged LICENSE resolve alongside their notices.
+Existing root notice URLs remain available.
+
+The SPA inventory and immutable release manifest list all 132 raw, Brotli and
+gzip objects. notices.packages records package identity/version, the data-notices
+manifest, LICENSE and complete notice keys. MJ and CJKVI have direct notice keys.
+The local asset route and asset Worker serve the nested notice paths; arbitrary
+font/shard paths and traversal are excluded.
+
+The license page displays the original committed font notices and validated DB
+notices in expandable sections. Preparation runs before dev/build and does not
+need native font tools. Font bytes and indexes were not regenerated.
+
+Glyph shard uploads verify r2.dev is disabled and no custom domains exist using
+the pinned Wrangler CLI. Unreadable or unfamiliar responses stop before uploads.
+Cloudflare builds check public inputs and final public assets for original
+IPAmj/Jigmo files, shard paths and JSON outline dictionaries, including renamed
+compressed dictionaries. Other Workers' future routing is outside this check;
+review bindings when infrastructure changes.
+
+## Validation
+
+Six local tests cover notice copying/compression/release manifests, missing or
+changed notice bytes, unsafe references, private-bucket checks, public outline
+rejection and nested asset Worker redirects. Type checking and targeted JS/CSS
+lint pass. A Chromium test against the production Next build opens IPA/OFL
+license text, checks notice bytes and HEAD metadata, loads the WOFF2 and verifies
+a raw-shard request is 404. Next/OpenNext full builds pass; original font notices
+are byte-identical in the server bundle and public asset checks pass.
+
+Live read-only bucket checks confirm r2.dev disabled and no custom domains.
+Build/browser validation set the API URL to an unused loopback port, preventing
+remote D1 requests. No remote DB validation or import is part of this work.
+
+## D1 impact
+
+Mojidata and FTS4 DB bytes are unchanged. FTS5 file bytes differ; the stored virtual-table declaration uses different
+formatting. All eight ordinary and
+FTS shadow tables, including data, postings and build metadata, have identical
+row counts and canonical ordered-row hashes. Evidence is recorded in
+2026-10-07-web-db-comparison.json. This is a browser-only package artifact;
+server API packages, SQL, request fan-out and data API bindings are unchanged.
+License routes/preparation and R2 metadata/object operations execute zero D1
+reads/writes. The existing incremental cache prefix and API backend are retained.
+
+## Outstanding source capture
+
+GlyphWiki's Japanese and English official license pages return HTTP 403 with
+Cloudflare challenge headers in this environment. No original license snapshot
+was captured and no guessed or third-party text was substituted. Existing
+official links remain. Capture the original with its source/revision and date
+when access is available. TGHB government-primary-source regeneration remains
+a separate upstream improvement.

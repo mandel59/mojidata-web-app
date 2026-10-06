@@ -147,10 +147,13 @@ The upload command writes `/releases/<release-id>/assets/*` and
 on the production `mojidata-spa-assets` bucket, even when `--legacy-stable` is
 passed. `--legacy-stable` is only for non-production buckets.
 
-Each immutable release includes `mojidata-LICENSE.md`,
-`mojidata-SOURCES.txt`, `unicode-LICENSE.txt`,
-`cmap-resources-LICENSE.txt`, and `idsdb-LICENSE.md` beside the database
-assets. The release manifest records their keys in `notices` and their byte
+Each immutable release includes the legacy root notice files plus the
+`mojidata/`, `idsdb/` and `idsdb-fts5/` package notice directories. Each directory
+retains its `LICENSE.md`, `data-notices.json` and all listed `licenses/**`
+files, including upstream source declarations. Notice hashes are checked before
+copying or uploading. The manifest's `notices.packages` records the package
+version, data notice manifest and complete notice keys; `mjLicense` and
+`cjkviLicense` identify those notices directly. The release manifest records their keys in `notices` and their byte
 lengths and SHA-256 digests in `assets`. Treat a release without these notice
 files as incomplete; do not promote an application build that references it.
 

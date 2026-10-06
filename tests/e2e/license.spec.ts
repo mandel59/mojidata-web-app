@@ -1,0 +1,26 @@
+import { expect, test } from '@playwright/test'
+import { readFile } from 'node:fs/promises'
+
+test('license page displays bundled original font and database notices', async ({page, request}) => {
+  await page.goto('/ja-JP/license')
+  const ipa = page.locator('section').filter({has:page.getByRole('heading',{name:'IPAmjMincho',exact:true})})
+  await ipa.locator('summary').first().click()
+  await expect(ipa.locator('pre').first()).toContainText('IPA Font License')
+  const cjk = page.locator('section').filter({has:page.getByRole('heading',{name:'CJK Symbols',exact:true})})
+  await cjk.locator('summary').first().click()
+  await expect(cjk.locator('pre').first()).toContainText('SIL OPEN FONT LICENSE')
+  await expect(page.getByRole('heading',{name:'@mandel59/mojidata 1.9.2',exact:true})).toBeVisible()
+  const notice = await request.get('/assets/mojidata/licenses/cjkvi-variants.txt')
+  expect(notice.status()).toBe(200)
+  expect(await notice.body()).toEqual(await readFile('node_modules/@mandel59/mojidata/licenses/cjkvi-variants.txt'))
+  const manifest = await request.get('/assets/idsdb-fts5/data-notices.json')
+  expect(manifest.status()).toBe(200)
+  expect((await manifest.json()).package).toBe('@mandel59/idsdb-fts5')
+  const head = await request.head('/assets/mojidata/licenses/mj.txt')
+  expect(head.status()).toBe(200)
+  expect(head.headers()['content-type']).toContain('text/plain')
+  expect((await request.get('/assets/glyph-paths/v1/ipamjm/u34.json.gz')).status()).toBe(404)
+  const font = await page.locator('link[rel="preload"][as="font"]').first().getAttribute('href')
+  expect(font).toBeTruthy()
+  expect((await request.get(font!)).status()).toBe(200)
+})

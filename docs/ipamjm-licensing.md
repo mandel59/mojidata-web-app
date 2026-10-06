@@ -69,9 +69,12 @@ The inspected public build artifacts contain no raw shards or font files.
 Keep both R2 public access methods disabled. Keep generated shards out of
 `public/`, `.open-next/assets`, browser chunks and SPA/CDN uploads. Return only
 individual images from the SVG API. Before uploading to another bucket or
-changing asset routing, recheck these boundaries. The current upload and build
-scripts do not automatically enforce all of these boundaries; automated guards
-remain separate follow-up work.
+changing asset routing, recheck these boundaries. The upload script checks the bucket's managed URL and custom domains through
+the pinned Wrangler CLI before any object writes; enabled, unknown or unreadable
+settings stop the upload. Cloudflare builds reject original IPAmj/Jigmo font
+files, shard directory paths and JSON outline dictionaries in public files and
+built assets. These guards do not audit every other Worker's future routing;
+recheck bindings and anonymous access when infrastructure changes.
 
 If shards are ever redistributed, Article 3 Paragraph 1 requires the IPA license,
 permitted naming, a way to replace the derived program with the original font,

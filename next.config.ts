@@ -51,6 +51,7 @@ const nextConfig: NextConfig = {
       'node_modules/sql.js/**',
       'node_modules/@sqlite.org/sqlite-wasm/**',
       'src/server/mojidataApiWorker.cjs',
+      'dist/spa-assets/asset-index.json',
       'src/fonts/cjksymbols/LICENSE.txt',
       'src/fonts/cjksymbols/README.md',
       'src/fonts/notdef/LICENSE.md',

@@ -4,6 +4,8 @@ import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
+import { assertPrivateGlyphBucket } from './glyph-asset-policy.mjs'
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const defaultShardsDir = path.join(rootDir, '.glyph-path-shards')
 const cacheControl = 'public, max-age=31536000, immutable'
@@ -83,6 +85,11 @@ if (files.length === 0) {
   )
 }
 
+for (const file of files) {
+  const key = path.relative(shardsDir, file).split(path.sep).join('/')
+  if (!/^glyph-paths\/v1\/(?:ipamjm|jigmo)\/u[0-9a-f]{2}\.json\.gz$/.test(key)) throw new Error(`Unexpected glyph shard key: ${key}`)
+}
+await assertPrivateGlyphBucket(bucket)
 console.error(`Uploading ${files.length} glyph path shards to ${bucket}`)
 
 await runPool(files, concurrency, async (filePath, index) => {

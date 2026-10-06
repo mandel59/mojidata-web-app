@@ -18,121 +18,6 @@ const releaseAssetCacheControl = 'public, max-age=31536000, immutable'
 const legacyAssetCacheControl = 'public, max-age=300, must-revalidate'
 const productionSpaAssetBuckets = new Set(['mojidata-spa-assets'])
 
-const assets = [
-  { name: 'sql-wasm.wasm', contentType: 'application/wasm' },
-  {
-    name: 'sql-wasm.wasm.br',
-    contentType: 'application/wasm',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'sql-wasm.wasm.gz',
-    contentType: 'application/wasm',
-    contentEncoding: 'gzip',
-  },
-  { name: 'sqlite3.wasm', contentType: 'application/wasm' },
-  {
-    name: 'sqlite3.wasm.br',
-    contentType: 'application/wasm',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'sqlite3.wasm.gz',
-    contentType: 'application/wasm',
-    contentEncoding: 'gzip',
-  },
-  { name: 'moji.db', contentType: 'application/octet-stream' },
-  {
-    name: 'moji.db.br',
-    contentType: 'application/octet-stream',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'moji.db.gz',
-    contentType: 'application/octet-stream',
-    contentEncoding: 'gzip',
-  },
-  { name: 'idsfind.db', contentType: 'application/octet-stream' },
-  {
-    name: 'idsfind.db.br',
-    contentType: 'application/octet-stream',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'idsfind.db.gz',
-    contentType: 'application/octet-stream',
-    contentEncoding: 'gzip',
-  },
-  { name: 'idsfind-fts5.db', contentType: 'application/octet-stream' },
-  {
-    name: 'idsfind-fts5.db.br',
-    contentType: 'application/octet-stream',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'idsfind-fts5.db.gz',
-    contentType: 'application/octet-stream',
-    contentEncoding: 'gzip',
-  },
-  { name: 'mojidata-LICENSE.md', contentType: 'text/markdown; charset=utf-8' },
-  {
-    name: 'mojidata-LICENSE.md.br',
-    contentType: 'text/markdown; charset=utf-8',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'mojidata-LICENSE.md.gz',
-    contentType: 'text/markdown; charset=utf-8',
-    contentEncoding: 'gzip',
-  },
-  { name: 'mojidata-SOURCES.txt', contentType: 'text/plain; charset=utf-8' },
-  {
-    name: 'mojidata-SOURCES.txt.br',
-    contentType: 'text/plain; charset=utf-8',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'mojidata-SOURCES.txt.gz',
-    contentType: 'text/plain; charset=utf-8',
-    contentEncoding: 'gzip',
-  },
-  { name: 'unicode-LICENSE.txt', contentType: 'text/plain; charset=utf-8' },
-  {
-    name: 'unicode-LICENSE.txt.br',
-    contentType: 'text/plain; charset=utf-8',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'unicode-LICENSE.txt.gz',
-    contentType: 'text/plain; charset=utf-8',
-    contentEncoding: 'gzip',
-  },
-  {
-    name: 'cmap-resources-LICENSE.txt',
-    contentType: 'text/plain; charset=utf-8',
-  },
-  {
-    name: 'cmap-resources-LICENSE.txt.br',
-    contentType: 'text/plain; charset=utf-8',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'cmap-resources-LICENSE.txt.gz',
-    contentType: 'text/plain; charset=utf-8',
-    contentEncoding: 'gzip',
-  },
-  { name: 'idsdb-LICENSE.md', contentType: 'text/markdown; charset=utf-8' },
-  {
-    name: 'idsdb-LICENSE.md.br',
-    contentType: 'text/markdown; charset=utf-8',
-    contentEncoding: 'br',
-  },
-  {
-    name: 'idsdb-LICENSE.md.gz',
-    contentType: 'text/markdown; charset=utf-8',
-    contentEncoding: 'gzip',
-  },
-]
 
 function readOption(name) {
   const flag = `--${name}`
@@ -243,6 +128,15 @@ async function manifestForRelease({ assetsDir, prefix, release }) {
         'cmap-resources-LICENSE.txt',
       ),
       idsdbLicense: assetObjectKey(prefix, release, 'idsdb-LICENSE.md'),
+      mjLicense: assetObjectKey(prefix, release, 'mojidata/licenses/mj.txt'),
+      cjkviLicense: assetObjectKey(prefix, release, 'mojidata/licenses/cjkvi-variants.txt'),
+      packages: inventory.packages.map(item => ({
+        name: item.name,
+        version: item.version,
+        manifest: assetObjectKey(prefix, release, item.manifest),
+        license: assetObjectKey(prefix, release, item.license),
+        noticeFiles: item.noticeFiles.map(name => assetObjectKey(prefix, release, name)),
+      })),
     },
     assets: manifestAssets,
   }
@@ -304,6 +198,9 @@ if (legacyStable && bucket && productionSpaAssetBuckets.has(bucket)) {
 
 process.env.MOJIDATA_SPA_ASSETS_DIR = assetsDir
 await import('./copy-spa-assets.mjs')
+const inventory = JSON.parse(await readFile(path.join(assetsDir, 'asset-index.json'), 'utf8'))
+const assets = inventory.assets
+
 
 if (release && !force && !dryRun) {
   const exists = await commandSucceeds(process.execPath, [

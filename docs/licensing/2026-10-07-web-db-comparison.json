@@ -1,0 +1,90 @@
+{
+  "databaseFiles": {
+    "before": {
+      "node_modules/@mandel59/mojidata/dist/moji.db": "c8cd43031d6a48bde6b131f0fd0fb778301627846c4b65ff038937884c21ea6b",
+      "node_modules/@mandel59/idsdb/idsfind.db": "3bd624ad11f27c59f1ff0bd894cc9eaa8b4aa8d86524a8be69d81ac98095a47d",
+      "node_modules/@mandel59/idsdb-fts5/idsfind.db": "d8df4edde88187c8389861acf4c055b3fd3d94bc11c4a21ffe5a168964bda47c"
+    },
+    "after": {
+      "node_modules/@mandel59/mojidata/dist/moji.db": "c8cd43031d6a48bde6b131f0fd0fb778301627846c4b65ff038937884c21ea6b",
+      "node_modules/@mandel59/idsdb/idsfind.db": "3bd624ad11f27c59f1ff0bd894cc9eaa8b4aa8d86524a8be69d81ac98095a47d",
+      "node_modules/@mandel59/idsdb-fts5/idsfind.db": "774204e4ec03bcd713fa744e882a8ad725067fe53cbb97e3bca913fecd825db3"
+    }
+  },
+  "fts5Tables": {
+    "before": {
+      "idsfind": {
+        "rows": 164101,
+        "sha256": "17cef7da5d8ef80f39b021c94fc5f8c03cde8ac185dc330aca1df335b02013d1"
+      },
+      "idsfind_build_meta": {
+        "rows": 1,
+        "sha256": "0e3f103526e18315e87b310db8941463751bdb68e12e0e35c3bd6a622e050883"
+      },
+      "idsfind_fts_config": {
+        "rows": 1,
+        "sha256": "7d6af8d5f3a5b7959afb40dd2dcc5bb8a3f5737f06e0e5f0b9b4fda81e65f1f5"
+      },
+      "idsfind_fts_data": {
+        "rows": 1697,
+        "sha256": "7d34aecb1e1f6ee1c058c4cb6451300bddfcdf91b3fac24bcdf809c5596eaa9d"
+      },
+      "idsfind_fts_docsize": {
+        "rows": 105646,
+        "sha256": "cbd4d3b442c8331ecac34763414e2ada12d5f08a7e7aae457513ee9607c72886"
+      },
+      "idsfind_fts_idx": {
+        "rows": 177,
+        "sha256": "c4cac8ff06a250ba9468bf618c7bc808df6ccd5a1da33e17b03c2228155422a1"
+      },
+      "idsfind_ref": {
+        "rows": 164101,
+        "sha256": "9f25f3ef4e23932f65dc80e8bef77e888db1efd6476d1a4b494483e80b593760"
+      },
+      "idsfind_semantics": {
+        "rows": 1,
+        "sha256": "fefd3fd68d1ae8a40e54bf3b6da4cdb5a1d0d2ac38737407ea4538e8861903c3"
+      }
+    },
+    "after": {
+      "idsfind": {
+        "rows": 164101,
+        "sha256": "17cef7da5d8ef80f39b021c94fc5f8c03cde8ac185dc330aca1df335b02013d1"
+      },
+      "idsfind_build_meta": {
+        "rows": 1,
+        "sha256": "0e3f103526e18315e87b310db8941463751bdb68e12e0e35c3bd6a622e050883"
+      },
+      "idsfind_fts_config": {
+        "rows": 1,
+        "sha256": "7d6af8d5f3a5b7959afb40dd2dcc5bb8a3f5737f06e0e5f0b9b4fda81e65f1f5"
+      },
+      "idsfind_fts_data": {
+        "rows": 1697,
+        "sha256": "7d34aecb1e1f6ee1c058c4cb6451300bddfcdf91b3fac24bcdf809c5596eaa9d"
+      },
+      "idsfind_fts_docsize": {
+        "rows": 105646,
+        "sha256": "cbd4d3b442c8331ecac34763414e2ada12d5f08a7e7aae457513ee9607c72886"
+      },
+      "idsfind_fts_idx": {
+        "rows": 177,
+        "sha256": "c4cac8ff06a250ba9468bf618c7bc808df6ccd5a1da33e17b03c2228155422a1"
+      },
+      "idsfind_ref": {
+        "rows": 164101,
+        "sha256": "9f25f3ef4e23932f65dc80e8bef77e888db1efd6476d1a4b494483e80b593760"
+      },
+      "idsfind_semantics": {
+        "rows": 1,
+        "sha256": "fefd3fd68d1ae8a40e54bf3b6da4cdb5a1d0d2ac38737407ea4538e8861903c3"
+      }
+    }
+  },
+  "packages": {
+    "mojidata": "1.9.2",
+    "idsdb": "1.8.1",
+    "idsdb-fts5": "1.10.1",
+    "mojidata-api": "3.1.0"
+  }
+}

@@ -1,0 +1,16 @@
+.notice {
+  margin-block: 1rem;
+}
+
+.notice summary {
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}

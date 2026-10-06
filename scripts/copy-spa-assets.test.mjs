@@ -53,6 +53,21 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
     )
     await writeFile(path.join(idsdbPackageDir, 'LICENSE.md'), 'IDSDB license fixture')
 
+    const idsdbFts5PackageDir = path.join(tempDir, 'idsdb-fts5-package')
+    await mkdir(idsdbFts5PackageDir, { recursive: true })
+    for (const [name, directory] of [['mojidata', mojidataPackageDir], ['idsdb', idsdbPackageDir], ['idsdb-fts5', idsdbFts5PackageDir]]) {
+      await mkdir(path.join(directory, 'licenses'), { recursive: true })
+      const text = Buffer.from(`${name} complete license fixture`)
+      const noticeFile = name === 'mojidata' ? 'licenses/mj.txt' : 'licenses/ids.txt'
+      await writeFile(path.join(directory, noticeFile), text)
+      if (name === 'mojidata') await writeFile(path.join(directory, 'licenses/cjkvi-variants.txt'), text)
+      await writeFile(path.join(directory, 'package.json'), JSON.stringify({name: `@mandel59/${name}`, version: '1.0.0'}))
+      await writeFile(path.join(directory, 'LICENSE.md'), `${name} license fixture`)
+      const noticeFiles = {[noticeFile]: {sha256: sha256(text)}}
+      if (name === 'mojidata') noticeFiles['licenses/cjkvi-variants.txt'] = {sha256: sha256(text)}
+      await writeFile(path.join(directory, 'data-notices.json'), JSON.stringify({version: 1, package: `@mandel59/${name}`, resources: [{licenseFile:noticeFile, noticeFiles:[noticeFile]}], noticeFiles}))
+    }
+
     const outputDir = path.join(tempDir, 'release')
     const databaseArgs = [
       '--mojidata-db',
@@ -65,6 +80,8 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
       mojidataPackageDir,
       '--idsdb-package-dir',
       idsdbPackageDir,
+      '--idsdb-fts5-package-dir',
+      idsdbFts5PackageDir,
     ]
 
     runScript('scripts/copy-spa-assets.mjs', [
@@ -99,7 +116,10 @@ test('copies explicit database inputs and records them in a dry-run manifest', a
       await readFile(path.join(outputDir, 'manifest.json'), 'utf8'),
     )
     assert.equal(manifest.release, 'test-release')
-    assert.equal(manifest.assets.length, 30)
+    assert.equal(manifest.assets.length, 60)
+    assert.equal(manifest.notices.packages.length, 3)
+    assert.equal(manifest.notices.mjLicense, 'releases/test-release/assets/mojidata/licenses/mj.txt')
+    assert.equal(await readFile(path.join(outputDir, 'mojidata/licenses/mj.txt'), 'utf8'), 'mojidata complete license fixture')
     for (const [name, expected] of Object.entries(inputs)) {
       const asset = manifest.assets.find((entry) => entry.name === name)
       assert.equal(asset?.byteLength, expected.length)

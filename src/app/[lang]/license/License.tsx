@@ -1,6 +1,10 @@
 import ReactMarkdown, { defaultUrlTransform } from 'react-markdown'
 import mojidataWebAppLicenseMd from '@/../LICENSE.md'
 import mojidataLicenseMd from '@mandel59/mojidata/LICENSE.md'
+import notices from '@/licensing/notices.generated.json'
+import styles from './License.module.css'
+
+const licenseNotices: { title: string; files: { name: string; text: string }[] }[] = notices
 
 export function Licence() {
   const mojidataWebAppBaseUrl =
@@ -29,6 +33,18 @@ export function Licence() {
           mojidataLicenseMd.replace(/<br\s*\/?>\n?/g, '  \n')
         }
       </ReactMarkdown>
+      <hr />
+      {licenseNotices.map((section) => (
+        <section key={section.title}>
+          <h2>{section.title}</h2>
+          {section.files.map((file) => (
+            <details key={file.name} className={styles.notice}>
+              <summary>{file.name}</summary>
+              <pre className={styles.text}>{file.text}</pre>
+            </details>
+          ))}
+        </section>
+      ))}
     </>
   )
 }

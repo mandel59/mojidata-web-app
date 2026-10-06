@@ -1,11 +1,13 @@
 import { createReadStream, createWriteStream } from 'node:fs'
 import { createHash } from 'node:crypto'
-import { copyFile, mkdir, stat } from 'node:fs/promises'
+import { copyFile, mkdir, stat, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import { pipeline } from 'node:stream/promises'
 import { fileURLToPath } from 'node:url'
 import { constants, createBrotliCompress, createGzip } from 'node:zlib'
+
+import { packageNoticeAssets, compressedAssets } from './data-notice-assets.mjs'
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const defaultOutDir = path.join(rootDir, 'dist', 'spa-assets')
@@ -129,6 +131,14 @@ if (process.env.MOJIDATA_SKIP_SPA_ASSETS === '1') {
   process.exit(0)
 }
 
+const noticePackages = []
+for (const packageName of ['mojidata', 'idsdb', 'idsdb-fts5']) {
+  const directory = packageDirectory(`${packageName}-package-dir`, `MOJIDATA_SPA_${packageName.toUpperCase().replaceAll('-', '_')}_PACKAGE_DIR`, packageName)
+  const result = await packageNoticeAssets(directory, `@mandel59/${packageName}`, packageName)
+  noticePackages.push(result.package)
+  assets.push(...result.files.map(file => ({ ...file, dest: path.join(outDir, file.name) })))
+}
+
 async function sha256(file) {
   const hash = createHash('sha256')
   for await (const chunk of createReadStream(file)) hash.update(chunk)
@@ -181,6 +191,7 @@ let totalBytes = 0
 let compressedCount = 0
 let totalCompressedBytes = 0
 for (const { src, dest, alwaysCopy } of assets) {
+  await mkdir(path.dirname(dest), { recursive: true })
   const { copied, bytes } = await copyIfNeeded(src, dest, alwaysCopy)
   totalBytes += bytes
   if (copied) copiedCount += 1
@@ -210,3 +221,12 @@ if (process.env.CI) {
     `[spa-assets] ensured ${assets.length} files (copied ${copiedCount}, total ${totalBytes} bytes; compressed ${compressedCount}, total ${totalCompressedBytes} bytes)`,
   )
 }
+
+await writeFile(path.join(outDir, 'asset-index.json'), JSON.stringify({
+  version: 1,
+  packages: noticePackages,
+  assets: compressedAssets(assets.map(asset => ({
+    name: path.relative(outDir, asset.dest).split(path.sep).join('/'),
+    contentType: asset.contentType ?? (asset.dest.endsWith('.wasm') ? 'application/wasm' : asset.dest.endsWith('.db') ? 'application/octet-stream' : asset.dest.endsWith('.md') ? 'text/markdown; charset=utf-8' : 'text/plain; charset=utf-8'),
+  }))),
+}, null, 2) + '\n')

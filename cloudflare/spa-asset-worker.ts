@@ -103,6 +103,15 @@ const ASSETS = new Map<string, Asset>([
   ],
 ])
 
+function getAsset(name: string): Asset | undefined {
+  const known = ASSETS.get(name)
+  if (known) return known
+  if (/^(?:mojidata|idsdb|idsdb-fts5)\/(?:LICENSE\.md|data-notices\.json|licenses\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.(?:txt|md))$/.test(name)) {
+    return { name, contentEncodingVariants: { br: `${name}.br` } }
+  }
+  return undefined
+}
+
 function isWebKitSafariUserAgent(ua: string) {
   const s = ua.toLowerCase()
   return (
@@ -145,19 +154,19 @@ function assetAtPrefix(prefix: string, asset: Asset, cacheControl: string) {
 }
 
 function resolveAsset(pathname: string): ResolvedAsset | undefined {
-  const legacyMatch = pathname.match(/^\/assets\/([^/]+)$/)
+  const legacyMatch = pathname.match(/^\/assets\/(.+)$/)
   if (legacyMatch) {
-    const asset = ASSETS.get(legacyMatch[1])
+    const asset = getAsset(legacyMatch[1])
     if (!asset) return undefined
     return assetAtPrefix('/assets', asset, LEGACY_ASSET_CACHE_CONTROL)
   }
 
   const releaseMatch = pathname.match(
-    /^\/releases\/([A-Za-z0-9._-]+)\/assets\/([^/]+)$/,
+    /^\/releases\/([A-Za-z0-9._-]+)\/assets\/(.+)$/,
   )
   if (!releaseMatch) return undefined
 
-  const asset = ASSETS.get(releaseMatch[2])
+  const asset = getAsset(releaseMatch[2])
   if (!asset) return undefined
   return assetAtPrefix(
     `/releases/${releaseMatch[1]}/assets`,

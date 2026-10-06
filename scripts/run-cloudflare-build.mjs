@@ -4,6 +4,8 @@ import process from 'node:process'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
+import { assertNoPublicGlyphAssets } from './glyph-asset-policy.mjs'
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const publicAssetsDir = path.join(rootDir, 'public', 'assets')
 const stashRoot = path.join(rootDir, 'dist', '.cloudflare-build-stash')
@@ -82,12 +84,14 @@ async function restorePublicAssets(stashed) {
   console.log(`[cf:build] restored ${relative(publicAssetsDir)}`)
 }
 
+await assertNoPublicGlyphAssets([path.join(rootDir,'public')])
 const stashed = await stashPublicAssets()
 try {
   await run('node', ['scripts/check-cloudflare-build-assets.mjs'])
   await run(process.execPath, [openNextCli, 'build'], {
     MOJIDATA_SKIP_SPA_ASSETS: '1',
   })
+  await assertNoPublicGlyphAssets([path.join(rootDir,'.open-next/assets'),path.join(rootDir,'.next/static')])
 } finally {
   await restorePublicAssets(stashed)
 }
