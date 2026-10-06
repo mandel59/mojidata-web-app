@@ -1,7 +1,7 @@
 {
   "version": 1,
   "decision": "unchanged",
-  "scope": "License-only UI including a user-supplied GlyphWiki license excerpt, manifest-driven local SPA notice copies, asset redirects including Next app URLs to the configured static R2 release, R2/private-output guards and three data-package patch updates. API packages, proxy fan-out, shared SQL and D1 bindings are unchanged. FTS5 logical data and indexes match exactly.",
+  "scope": "License-only UI including a manually captured GlyphWiki license excerpt, manifest-driven local SPA notice copies, asset redirects including Next app URLs to the configured static R2 release, R2/private-output guards and three data-package patch updates. API packages, proxy fan-out, shared SQL and D1 bindings are unchanged. FTS5 logical data and indexes match exactly.",
   "beforeAfter": "Incremental D1 rows read=0, written=0 before/after. All validation uses local files or R2 metadata; builds/browser tests block remote API traffic with loopback configuration. Mojidata/FTS4 artifact bytes unchanged; FTS5 canonical table hashes match including shadow posting tables.",
   "accountBudget": "No D1 operation is scheduled: R2 metadata checks/uploads, Workers uploads/deployment and reads of the static license page or public R2 notices consume zero D1 rows, including retries. Do not smoke-test data API routes or import/migrate databases under this record. Existing cache prefix and API service remain unchanged.",
   "validation": "Six local regression tests, production Chromium license/notice/font test, type/lint checks, full Next/OpenNext builds, byte-identical server notices and live read-only private-bucket validation. Canonical ordered-row hashes and package versions are in the evidence JSON.",
@@ -29,7 +29,7 @@
     "src/app/assets/[name]/route.ts": "deleted",
     "tests/e2e/license.spec.ts": "e5a3da35fd3d8fe567b094d582fb7ed761209f4dd6198da7df94c55ee2a707c9",
     "src/licensing/glyphwiki/license.txt": "d7fe8de8fd214dc25e0bf88bf63f7616e88e46a47bf2a20f24a201e3ffb946d4",
-    "src/licensing/glyphwiki/source.json": "1d3ac9bb4e0dc828632c831fec433042206e182c675492b290f7dd8744598e16"
+    "src/licensing/glyphwiki/source.json": "f371d9eb7a5ee7dd7ac37f1ee9465993be0d4447782b82637489b6627ecf7348"
   },
   "evidence": [
     "docs/licensing/2026-10-07-web-notices.md",

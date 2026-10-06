@@ -4,9 +4,9 @@ Deployed to https://mojidata.ryusei.dev/ on 2026-10-07 02:52 JST.
 Related: mandel59/mojidata#80. Source commit: `90b87d0cb2c33b090f4475a6d1ad4940af9391ed`.
 
 The app displays the committed font notices, manifest-validated database
-notices, and the user-provided GlyphWiki reuse paragraph. The GlyphWiki text is
-explicitly an excerpt: it retains the quoted-material exception and omits
-contributor instructions. Its official source, unknown revision, provided date
+notices, and the manually captured GlyphWiki reuse paragraph. The GlyphWiki
+text is explicitly an excerpt: it retains the quoted-material exception and omits
+contributor instructions. Its official source, unknown revision, capture date
 and SHA-256 are recorded with the text.
 
 The immutable SPA release `r20261007-license-notices` contains all 132 raw,

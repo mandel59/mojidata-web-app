@@ -61,15 +61,15 @@ reads/writes. The existing incremental cache prefix and API backend are retained
 ## GlyphWiki source capture
 
 Direct requests to the official Japanese and English pages returned HTTP 403
-with Cloudflare challenge headers. The user supplied the original Japanese wiki
-text and official URL on 2026-10-07 JST. The data/article reuse license paragraph
-(including the quoted-material exception) is retained as an explicitly labelled
-excerpt in
+with Cloudflare challenge headers. A manually captured copy of the Japanese
+wiki source text and its official URL was recorded on 2026-10-07 JST. The
+data/article reuse license paragraph (including the quoted-material exception)
+is retained as an explicitly labelled excerpt in
 src/licensing/glyphwiki/license.txt with its SHA-256 and provenance in source.json;
-no page revision was supplied. Preparation checks the hash and the app displays
+the page revision is unknown. Preparation checks the hash and the app displays
 the excerpt and official source link. Contributor instructions are omitted.
-This is a user-provided snapshot,
-not a claim of an independently fetched current revision.
+This manually captured copy has not been independently checked against a
+specific page revision.
 
 TGHB government-primary-source regeneration remains a separate upstream
 improvement.

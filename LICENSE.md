@@ -72,5 +72,6 @@ for the server-side glyph cache and SVG distribution policy.
 
 An excerpt of the original [data and article license text](src/licensing/glyphwiki/license.txt)
 and [source record](src/licensing/glyphwiki/source.json) are retained locally.
-The user supplied the original wiki text on 2026-10-07 JST; the page revision
-was not supplied. The source record links to the official license page.
+The excerpt was saved on 2026-10-07 JST from a manually captured copy of the
+official Japanese license page. The page revision is unknown. The source record
+links to the official license page.
