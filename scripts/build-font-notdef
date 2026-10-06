@@ -9,8 +9,12 @@ fi
 
 cd "$(dirname "$0")/.."
 scripts/download AND-Regular.otf
-mkdir -p src/fonts
-cd src/fonts
-ln -s ../../cache/AND-Regular.otf AND-Regular.otf
+scripts/download AdobeNotDef-LICENSE.md
+scripts/download AdobeNotDef-README.md
+mkdir -p src/fonts/notdef
+cp cache/AdobeNotDef-LICENSE.md src/fonts/notdef/LICENSE.md
+cp cache/AdobeNotDef-README.md src/fonts/notdef/README.md
+cd src/fonts/notdef
+ln -sf ../../../cache/AND-Regular.otf AND-Regular.otf
 woff2_compress AND-Regular.otf
 rm AND-Regular.otf

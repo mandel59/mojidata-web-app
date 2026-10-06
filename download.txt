@@ -1,10 +1,14 @@
 ## CJK Symbols <https://github.com/unicode-org/cjk-symbols>
 ## License: OFL-1.1
 CJKSymbols-Regular.otf 9d24bd969065c42e090b369540a0a12401b2343c37305789b502a72628a1990e https://github.com/unicode-org/cjk-symbols/releases/download/2.001/CJKSymbols-Regular.otf
+CJKSymbols-LICENSE.txt 6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2 https://raw.githubusercontent.com/unicode-org/cjk-symbols/9c0aa17ebfc2fd53f5f610b01e1b9e440b898954/LICENSE
+CJKSymbols-README.md 0975c6f05b98de02cf5bc28e8e350056fec31d1d4e723d5eaf2edacda30bd059 https://raw.githubusercontent.com/unicode-org/cjk-symbols/9c0aa17ebfc2fd53f5f610b01e1b9e440b898954/README.md
 
 ## Adobe NotDef <https://github.com/adobe-fonts/adobe-notdef/>
 ## License: OFL-1.1
 AND-Regular.otf 494bfaeeea8993a8f6fc8d21d2a9f4c6036dc51fb6e4938ff6f34ce5ad9dd7f2 https://raw.githubusercontent.com/adobe-fonts/adobe-notdef/1f1f863b2295543598b69bebe42db3e73fe58353/AND-Regular.otf
+AdobeNotDef-LICENSE.md 220e12af6c449359581057d304c4e0c3389a8192411778a1d084d6081d0402df https://raw.githubusercontent.com/adobe-fonts/adobe-notdef/1f1f863b2295543598b69bebe42db3e73fe58353/LICENSE.md
+AdobeNotDef-README.md 5c925474d5ce690044feac89f32f8887f6234ca19c9e044e0fea17dc28ab114f https://raw.githubusercontent.com/adobe-fonts/adobe-notdef/1f1f863b2295543598b69bebe42db3e73fe58353/README.md
 
 ## Jigumo Font <https://kamichikoichi.github.io/jigmo/>
 ## License: CC0-1.0

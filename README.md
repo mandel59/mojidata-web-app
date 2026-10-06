@@ -33,6 +33,20 @@ JavaScript compiler API, including ESLint and Storybook. See the
 ESLint stays on the latest 9.x release until the React, accessibility, and import
 plugins used by `eslint-config-next` support ESLint 10.
 
+## Font assets
+
+Each font family has its own directory under `src/fonts/`: `cjksymbols`,
+`notdef`, `jigmo` and `ipamjm`. The WOFF2 or compressed TTF files and original
+license/README files are committed together, so normal development and builds
+use these assets immediately after installing npm dependencies. Font notices
+are also included in server traces; [`LICENSE.md`](LICENSE.md) links to them.
+
+The `scripts/build-font-*` commands refresh the fonts and their notices from
+checksum-verified sources recorded in `download.txt`. CJK Symbols and Adobe
+NotDef use `woff2_compress`; Jigmo and IPAmj index generation use FontForge.
+Commit regenerated distribution files and notices together. Temporary OTF and
+uncompressed TTF files are ignored.
+
 ## Cloudflare Deployment
 
 The operational Cloudflare deployment notes are in

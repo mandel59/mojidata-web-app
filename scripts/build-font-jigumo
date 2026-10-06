@@ -12,7 +12,8 @@ fi
 cd "$(dirname "$0")/.."
 scripts/download "$jigmo_zip"
 mkdir -p src/fonts/jigmo
-unzip -d 'src/fonts/jigmo' -o "cache/$jigmo_zip" 'Jigmo.ttf' 'Jigmo2.ttf' 'Jigmo3.ttf'
+unzip -d 'src/fonts/jigmo' -o "cache/$jigmo_zip" \
+  'Jigmo.ttf' 'Jigmo2.ttf' 'Jigmo3.ttf' 'LICENSE.txt' 'README.txt' 'THANKS.txt'
 gzip -kf \
   'src/fonts/jigmo/Jigmo.ttf' \
   'src/fonts/jigmo/Jigmo2.ttf' \

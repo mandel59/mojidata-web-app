@@ -9,8 +9,12 @@ fi
 
 cd "$(dirname "$0")/.."
 scripts/download CJKSymbols-Regular.otf
-mkdir -p src/fonts
-cd src/fonts
-ln -s ../../cache/CJKSymbols-Regular.otf CJKSymbols-Regular.otf
+scripts/download CJKSymbols-LICENSE.txt
+scripts/download CJKSymbols-README.md
+mkdir -p src/fonts/cjksymbols
+cp cache/CJKSymbols-LICENSE.txt src/fonts/cjksymbols/LICENSE.txt
+cp cache/CJKSymbols-README.md src/fonts/cjksymbols/README.md
+cd src/fonts/cjksymbols
+ln -sf ../../../cache/CJKSymbols-Regular.otf CJKSymbols-Regular.otf
 woff2_compress CJKSymbols-Regular.otf
 rm CJKSymbols-Regular.otf
