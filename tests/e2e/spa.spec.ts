@@ -412,6 +412,42 @@ test('idsfind-spa renders results in browser', async ({ page }) => {
   )
 })
 
+for (const [key, value] of [['ids', '⿰水？'], ['whole', '漢']]) {
+  test(`canonical idsfind ignores empty IDS parameters with ${key} search`, async ({ page }) => {
+    const query = `${key}=${encodeURIComponent(value)}`
+    await page.goto(`/ja-JP/idsfind?${query}&ids=&whole=&query=`, {
+      waitUntil: 'domcontentloaded',
+    })
+    await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(1)
+    await expect(firstMojidataResultLink(page)).toBeVisible({ timeout: 60_000 })
+    const results = await page.locator('article a[href*="/mojidata/"]').evaluateAll(
+      (links) => links.map((link) => link.getAttribute('href')),
+    )
+
+    await page.goto(`/ja-JP/idsfind?${query}`, {
+      waitUntil: 'domcontentloaded',
+    })
+    await expect(firstMojidataResultLink(page)).toBeVisible({ timeout: 60_000 })
+    expect(await page.locator('article a[href*="/mojidata/"]').evaluateAll(
+      (links) => links.map((link) => link.getAttribute('href')),
+    )).toEqual(results)
+  })
+}
+
+test('canonical idsfind form finds results with an empty whole field', async ({ page }) => {
+  await page.goto(`/ja-JP/idsfind?ids=${encodeURIComponent('⿰日月')}`, {
+    waitUntil: 'domcontentloaded',
+  })
+  await expect(firstMojidataResultLink(page)).toBeVisible({ timeout: 60_000 })
+  const originalHref = await firstMojidataResultLink(page).getAttribute('href')
+  await page.getByPlaceholder('IDS #1').fill('⿰水？')
+  await page.getByRole('button', { name: /Search|検索/ }).click()
+  await expect(page).toHaveURL(/\/idsfind(?:-spa)?\?ids=.*&whole=&query=/)
+  await expect(page.locator('[data-spa="idsfind"]')).toHaveCount(1)
+  await expect(firstMojidataResultLink(page)).toBeVisible({ timeout: 60_000 })
+  await expect(firstMojidataResultLink(page)).not.toHaveAttribute('href', originalHref!)
+})
+
 test('idsfind client-data reuses cached wasm and DB after reload', async ({
   page,
 }, testInfo) => {

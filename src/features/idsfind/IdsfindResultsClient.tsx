@@ -6,6 +6,7 @@ import LoadingArticle from '@/components/LoadingArticle'
 import IdsFindResponseView from '@/components/IdsFindResponseView'
 import { idsfindBrowserAllResults } from '@/spa/mojidataApiBrowser'
 import { buildIdsfindAllResultsRequest } from '@/search/idsfindRequest'
+import { castToArray } from '@/app/[lang]/searchParams'
 import {
   buildPageHref,
   normalizeSearchChar,
@@ -28,11 +29,11 @@ export default function IdsfindResultsClient() {
   const disableExternalLinks = searchParams.get('disableExternalLinks') === '1'
 
   const ids = useMemo(
-    () => searchParams.getAll('ids').map(normalizeSearchChar),
+    () => castToArray(searchParams.getAll('ids')).map(normalizeSearchChar),
     [searchParams],
   )
   const whole = useMemo(
-    () => searchParams.getAll('whole').map(normalizeSearchChar),
+    () => castToArray(searchParams.getAll('whole')).map(normalizeSearchChar),
     [searchParams],
   )
   const query = useMemo(() => (searchParams.get('query') ?? '').trim(), [searchParams])
