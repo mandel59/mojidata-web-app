@@ -87,12 +87,19 @@ const nextConfig: NextConfig = {
     return config
   },
   async redirects() {
+    const assetBase = process.env.NEXT_PUBLIC_SPA_ASSET_BASE_URL?.trim().replace(/\/+$/, '')
+    const assetDirectory = assetBase?.endsWith('/assets') ? assetBase : `${assetBase}/assets`
     return [
       {
         source: '/',
         destination: '/search',
         permanent: false,
       },
+      ...(assetBase ? [{
+        source: '/assets/:path*',
+        destination: `${assetDirectory}/:path*`,
+        permanent: false,
+      }] : []),
     ]
   },
   async headers() {

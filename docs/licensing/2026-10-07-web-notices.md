@@ -16,7 +16,11 @@ The SPA inventory and immutable release manifest list all 132 raw, Brotli and
 gzip objects. notices.packages records package identity/version, the data-notices
 manifest, LICENSE and complete notice keys. MJ and CJKVI have direct notice keys.
 The local asset route and asset Worker serve the nested notice paths; arbitrary
-font/shard paths and traversal are excluded.
+font/shard paths and traversal are excluded by the asset Worker. When a remote
+SPA asset base is configured, Next redirects app /assets/* requests to that
+release before filesystem routing. Local development without a remote base
+continues to serve the prepared files from disk. The deployed Worker does not
+rely on traced build directories being readable as runtime files.
 
 The license page displays the original committed font notices and validated DB
 notices in expandable sections. Preparation runs before dev/build and does not

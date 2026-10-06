@@ -1,7 +1,7 @@
 {
   "version": 1,
   "decision": "unchanged",
-  "scope": "License-only UI including a user-supplied GlyphWiki license excerpt, manifest-driven local SPA notice copies, asset redirects, R2/private-output guards and three data-package patch updates. API packages, proxy fan-out, shared SQL and D1 bindings are unchanged. FTS5 logical data and indexes match exactly.",
+  "scope": "License-only UI including a user-supplied GlyphWiki license excerpt, manifest-driven local SPA notice copies, asset redirects including Next app URLs to the configured static R2 release, R2/private-output guards and three data-package patch updates. API packages, proxy fan-out, shared SQL and D1 bindings are unchanged. FTS5 logical data and indexes match exactly.",
   "beforeAfter": "Incremental D1 rows read=0, written=0 before/after. All validation uses local files or R2 metadata; builds/browser tests block remote API traffic with loopback configuration. Mojidata/FTS4 artifact bytes unchanged; FTS5 canonical table hashes match including shadow posting tables.",
   "accountBudget": "No D1 operation is scheduled: R2 metadata checks/uploads, Workers uploads/deployment and reads of the static license page or public R2 notices consume zero D1 rows, including retries. Do not smoke-test data API routes or import/migrate databases under this record. Existing cache prefix and API service remain unchanged.",
   "validation": "Six local regression tests, production Chromium license/notice/font test, type/lint checks, full Next/OpenNext builds, byte-identical server notices and live read-only private-bucket validation. Canonical ordered-row hashes and package versions are in the evidence JSON.",
@@ -9,7 +9,7 @@
   "files": {
     ".gitignore": "dfe3d1e2aa6a394650e2f38cb764b7955a51356c1b4666e2d72206d4cb03a853",
     "cloudflare/spa-asset-worker.ts": "140515dc86d31698f658d160e6af22d210b26d44c09898824d7c2191b47c4a38",
-    "next.config.ts": "27c3879766fbdf5a15ff4815de0307211ba29318037b802bade6f7725ad08ebe",
+    "next.config.ts": "2e589bbe9103480247b8cbd843620a65d8c9fa25ce8b586534ac6325199d126d",
     "package-lock.json": "6c34822d333e524c6c477b2cfa467dd0167684fe795e4b16a20ca6f91a2863a0",
     "package.json": "59a4f56477031ede852f6b022fcc919c55e1b49771be2e8d2399c8703d37d385",
     "scripts/copy-spa-assets.mjs": "114459b17dca6d72978c195f187bf6827cc6fab54bc387627fdd83c819fe9d29",
