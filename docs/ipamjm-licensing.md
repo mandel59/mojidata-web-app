@@ -2,96 +2,138 @@
 
 Related: mandel59/mojidata#80. Reviewed on 2026-10-07 JST.
 
+This document distinguishes express license conditions, official FAQ guidance,
+unresolved classification questions, and conservative project policy. Unresolved
+questions are not treated as license prohibitions.
+
 ## Original font and notices
 
-IPAmjMincho Ver.006.01 is an IPA Font License v1.0 resource, separate from the
-application's MIT-licensed source code. The supplied original archive matches
-`download.txt`: `ipamjm00601.zip`, SHA-256
-`35494e0f2896f38b3f7369a8421a895cea6440a42c0a66ac95eab47d6ed25b68`.
+IPAmjMincho Ver.006.01 is licensed under IPA Font License v1.0, separately from
+the application's MIT-licensed source code.
 
-The font in the archive is byte-identical to the decompressed
+The supplied archive is `ipamjm00601.zip`, SHA-256:
+
+`35494e0f2896f38b3f7369a8421a895cea6440a42c0a66ac95eab47d6ed25b68`
+
+The archived font is byte-identical to decompressed
 `src/fonts/ipamjm/ipamjm.ttf.gz`. Its MD5 is
 `BEEE256D4FFEC4C40493805A4D7E5CDD`, matching the
 [official Ver.006.01 declaration](https://moji.or.jp/mojikiban/font/).
-Compression wraps the original TTF without changing its name or contents.
 
-The original files are retained byte for byte, including line endings, beside
-that font:
+The following upstream files are retained byte for byte:
 
-- `IPA_Font_License_Agreement_v1.0.txt` (Japanese and English), SHA-256
-  `4c84dd528ec3044638ec346fc1ee27cd1eb95dfc04cbc6a881b3ca7a7f517e54`.
+- `IPA_Font_License_Agreement_v1.0.txt`, SHA-256
+  `4c84dd528ec3044638ec346fc1ee27cd1eb95dfc04cbc6a881b3ca7a7f517e54`
 - `Readme.txt`, SHA-256
-  `c4e00811e8a10572707535cf9edcf67e6bf15e229262c82062196efce452c57c`.
+  `c4e00811e8a10572707535cf9edcf67e6bf15e229262c82062196efce452c57c`
 
-`scripts/build-font-ipamjm` extracts all three archive members and stops if a
-required member is missing. Existing `outputFileTracingIncludes` covers
-`src/fonts/ipamjm/**`, so these notices are included with the font in newly
-built server traces. The font and notices are not added to `public/`.
-When distributing the original font or a server bundle containing it, retain
-these notices; a link alone does not satisfy the license-copy attachment
-requirement in Article 3 Paragraph 2.
+`scripts/build-font-ipamjm` extracts all three files and fails if one is
+missing. Existing `outputFileTracingIncludes` keeps them in server traces.
+They are not placed in `public/`.
+
+## Redistribution conditions
+
+When redistributing the unchanged font to third parties, Article 3 Paragraph 2
+requires preserving its name and contents and attaching the IPA Font License.
+A link alone does not satisfy Paragraph 2(3). This also applies to a
+font-containing server bundle redistributed to third parties, not to internal
+deployment.
+
+`Readme.txt` is retained as project provenance policy, not as a requirement of
+Article 3 Paragraph 2.
+
+If an asset is classified as a Derived Program, Article 3 Paragraph 1 applies
+on redistribution. Its conditions include:
+
+- making a copy of the Derived Program available as specified in Paragraph 1(1);
+- providing a means to replace it with the Original Program;
+- licensing it under the IPA Font License;
+- complying with the naming restriction.
+
+Paragraph 1(1)(b) applies only if qualifying additional modification files
+already exist. It does not require creating such files.
+
+Paragraph 1(1) allows the required material to be provided with the Derived
+Program, online, or by mailing a medium within the stated cost limit.
+
+See the
+[retained license text](../src/fonts/ipamjm/IPA_Font_License_Agreement_v1.0.txt)
+and [official license](https://moji.or.jp/ipafont/license/).
 
 ## Internal outline shards
 
-`scripts/generate-glyph-path-shards.mjs` extracts normalized outlines from the
-original font into gzip-compressed JSON dictionaries. Treat these as IPA-derived
-assets that may qualify as a Derived Program under Article 1 Paragraph 3;
-do not assign them the application's MIT license or CC0.
+`scripts/generate-glyph-path-shards.mjs` extracts normalized outlines into
+gzip-compressed JSON dictionaries.
 
-The project's interpretation is that Article 2 Paragraph 7 permits creating,
-using and reproducing such assets for server-side operation. The additional
-conditions in Article 3 Paragraph 1 apply when a Derived Program is redistributed.
-The service keeps the shards in controlled infrastructure and returns rendered
-images to end users. An operator distributing shards or a bundle containing
-them to other recipients must review that redistribution separately.
+Whether a standalone shard is a Derived Program under Article 1 Paragraph 3 is
+unresolved. The project therefore does not assign MIT or CC0 terms to the
+extracted outlines.
+
+The shards are private intermediate assets used for server-side rendering. If
+they, or a bundle containing them, are to be redistributed to third parties,
+the possible application of Article 3 must be reviewed first.
+
+This is conservative project policy, not a determination that every shard is a
+Derived Program or that shard redistribution is prohibited.
 
 ## SVG output
 
-The API selects one glyph and returns a fixed SVG image containing path geometry.
-It does not return a font program, reusable glyph dictionary, or embedded font.
-The project treats this output as Digital Content under Article 1 Paragraph 4
-and Article 2 Paragraphs 2 and 3. The
-[official FAQ](https://moji.or.jp/ipafont/faq/) section 5.2 permits server-generated
-character images; its SVG embedding example in section 4.1 concerns a different
-mechanism. The FAQ does not specifically classify this JSON-shard implementation,
-so this document records the project's interpretation, not an official ruling.
+Each API response contains one glyph as an SVG image with path geometry. It
+does not contain the original TTF or the internal shard representation.
 
-## Operational boundaries
+Clients can nevertheless collect many responses and reconstruct reusable glyph
+data or font-like assets. A one-glyph response format does not prevent this.
 
-As checked on 2026-10-07, `mojidata-glyph-font-assets` has its managed `r2.dev`
-URL disabled and no custom domains. Of the eight Workers inspected, only the
-production and staging app Workers bind this bucket as `GLYPH_FONT_ASSETS`.
-An authenticated read of `glyph-paths/v1/ipamjm/u34.json.gz` succeeds; anonymous
-access to its managed-domain URL returns 401. The app's representative raw-shard
-and font paths return 404, while `/api/ipamjm/svg/u3402` returns an SVG with 200.
-The inspected public build artifacts contain no raw shards or font files.
+FAQ 5.2 treats server-generated character images as Digital Content rather than
+font redistribution. Based on that guidance, the project treats each SVG
+response as Digital Content under Article 1 Paragraph 4 and Article 2
+Paragraphs 2 and 3.
 
-Keep both R2 public access methods disabled. Keep generated shards out of
-`public/`, `.open-next/assets`, browser chunks and SPA/CDN uploads. Return only
-individual images from the SVG API. Before uploading to another bucket or
-changing asset routing, recheck these boundaries. The upload script checks the bucket's managed URL and custom domains through
-the pinned Wrangler CLI before any object writes; enabled, unknown or unreadable
-settings stop the upload. Cloudflare builds reject original IPAmj/Jigmo font
-files, shard directory paths and JSON outline dictionaries in public files and
-built assets. These guards do not audit every other Worker's future routing;
-recheck bindings and anonymous access when infrastructure changes.
+This is a project interpretation, not an official classification of this API.
 
-If shards are ever redistributed, Article 3 Paragraph 1 requires the IPA license,
-permitted naming, a way to replace the derived program with the original font,
-and the required additional modification files. Such a release needs a separate
-review before enabling public access.
+Neither the license nor the FAQ clearly states whether aggregate retrieval of
+many glyph images changes the classification of the service or its output, or
+how reconstructed assets should be treated. FAQ 4.1 concerns fonts embedded in
+a particular SVG document and does not resolve this case.
 
-## Validation and deployment scope
+## Technical policy
 
-The archive hash, both original notice hashes and original/current TTF bytes
-were verified locally. The build script was exercised in an isolated fixture
-with the supplied archive; extracted notices and decompressed TTF match the
-archive exactly. Download and index generation were stubbed; the real extraction
-and gzip steps ran. Fixtures missing either notice are rejected before the index
-step. Both notice paths match the existing Next server tracing include glob;
-a complete Next/OpenNext rebuild was not run for this metadata-only change.
+As checked on 2026-10-07:
 
-This notice/documentation change leaves the font, index, outline generator,
-rendering code, queries and data unchanged. It performs no D1 operation or remote
-upload/deployment. Existing deployed bundles are not changed by this commit;
-new server builds must retain the notices with their bundled font.
+- the `mojidata-glyph-font-assets` bucket has no public `r2.dev` URL or custom
+  domain;
+- only production and staging app Workers bind it as `GLYPH_FONT_ASSETS`;
+- authenticated shard reads succeed, while anonymous raw-asset access does not;
+- `/api/ipamjm/svg/u3402` returns SVG successfully;
+- inspected public build artifacts contain no raw font files or shards.
+
+Keep raw font files and internal bulk outline representations out of public
+assets, browser bundles, SPA/CDN uploads, and directly accessible R2 routes.
+
+Keep the public SVG API limited to per-glyph image responses rather than
+exposing internal shard or bulk font representations.
+
+Before changing bucket routing, bindings, or asset publication, recheck these
+boundaries. Existing scripts fail closed when relevant R2 public-access settings
+are enabled, unknown, or unreadable, and builds reject known raw font/shard
+paths in public artifacts.
+
+These controls reduce direct exposure of the original font files and internal
+bulk outline data. They do not prevent collection or reconstruction of SVG
+responses and do not create a legal safe harbor for per-glyph delivery.
+
+Any proposal to redistribute raw shards requires separate review before public
+access is enabled.
+
+## Validation scope
+
+The archive hash, upstream notice hashes, and original/current TTF bytes were
+verified locally.
+
+The build script was exercised in an isolated fixture. Extraction and gzip
+steps ran normally; download and index generation were stubbed. Missing notice
+files are rejected.
+
+Both notice paths match the existing Next server tracing include glob. Full
+build verification is recorded in the
+[license notice deployment record](deployments/2026-10-07-license-notices/README.md).
