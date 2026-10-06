@@ -8,6 +8,8 @@ ipamjm_outdir="src/fonts/ipamjm"
 cd "$(dirname "$0")/.."
 scripts/download "$ipamjm_zip"
 mkdir -p "$ipamjm_outdir"
-unzip -d "$ipamjm_outdir" -o "cache/$ipamjm_zip" "$ipamjm_ttf"
+# Keep the original license and README beside the redistributed font.
+unzip -d "$ipamjm_outdir" -o "cache/$ipamjm_zip" \
+  "$ipamjm_ttf" 'IPA_Font_License_Agreement_v1.0.txt' 'Readme.txt'
 gzip -kf "$ipamjm_outdir/$ipamjm_ttf"
 scripts/build-ipamjm-index

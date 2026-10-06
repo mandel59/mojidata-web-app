@@ -52,4 +52,7 @@ See [LICENSE.md](https://github.com/adobe-fonts/adobe-notdef/blob/master/LICENSE
 Copyright(c) Information-technology Promotion Agency, Japan (IPA), 2011-2019.  
 
 This font is licensed under the IPA Font License Version 1.0.  
-See [IPA Font License](https://opensource.org/licenses/IPA/)
+The original Japanese/English [IPA Font License Agreement](src/fonts/ipamjm/IPA_Font_License_Agreement_v1.0.txt)
+and [README](src/fonts/ipamjm/Readme.txt) are bundled beside the font, unchanged
+from the Ver.006.01 archive. See [IPAmj asset handling](docs/ipamjm-licensing.md)
+for the server-side glyph cache and SVG distribution policy.
