@@ -1,0 +1,19 @@
+{
+  "sourceCommit": "99f523a4ffdd",
+  "workerVersion": "f9b802c0-5bff-4a6c-92f1-a16793db88a9",
+  "buildId": "f9bCITjZ0DqfgqRvMuI_Y",
+  "checkedAt": "2026-10-06T18:23:13.199Z",
+  "url": "https://mojidata.ryusei.dev/ja-JP/license",
+  "status": 200,
+  "pageSha256": "b1b115b94d623bd5e84452172e6208ad066f1886d226f7e161279ee319830f18",
+  "description": "GlyphWiki provenance wording describes manual capture from the official Japanese license page without references to chat participants.",
+  "licenseExcerptSha256": "d7fe8de8fd214dc25e0bf88bf63f7616e88e46a47bf2a20f24a201e3ffb946d4",
+  "spaRelease": "r20261007-license-notices",
+  "validation": {
+    "openNextBuild": "passed",
+    "generatedWording": "verified",
+    "quotaFingerprints": "verified",
+    "remoteD1Reads": 0,
+    "remoteD1Writes": 0
+  }
+}

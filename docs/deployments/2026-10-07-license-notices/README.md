@@ -49,3 +49,12 @@ WRANGLER_SEND_METRICS=false node node_modules/wrangler/bin/wrangler.js versions 
 
 That Worker retains its previous immutable SPA URLs and bundles. The new asset
 Worker preserves legacy paths, and published R2 releases were not overwritten.
+
+## Provenance wording update
+
+A wording-only follow-up records the manually captured official Japanese wiki
+text and capture date without references to chat participants. The retained
+license excerpt and immutable SPA release are unchanged. The app was rebuilt
+and deployed as Worker `f9b802c0-5bff-4a6c-92f1-a16793db88a9` from commit
+`99f523a4ffdd`; [production verification](wording-update.json) confirms the new
+wording and original excerpt. Only the static license page was requested.
