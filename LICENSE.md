@@ -71,8 +71,7 @@ for the server-side glyph cache and SVG distribution policy.
 ## GlyphWiki
 
 See the official [data and article license page](https://glyphwiki.org/wiki/GlyphWiki:%e3%83%87%e3%83%bc%e3%82%bf%e3%83%bb%e8%a8%98%e4%ba%8b%e3%81%ae%e3%83%a9%e3%82%a4%e3%82%bb%e3%83%b3%e3%82%b9).
-An [excerpt of the license text](src/licensing/glyphwiki/license.txt) and
-[source record](src/licensing/glyphwiki/source.json) are retained locally.
+An [excerpt of the license text](src/licensing/glyphwiki/license.txt) is retained locally.
 The excerpt was saved on 2026-10-07 JST from a manually captured copy of the
 official Japanese license page, [revision @18](https://glyphwiki.org/wiki/GlyphWiki:%e3%83%87%e3%83%bc%e3%82%bf%e3%83%bb%e8%a8%98%e4%ba%8b%e3%81%ae%e3%83%a9%e3%82%a4%e3%82%bb%e3%83%b3%e3%82%b9@18)
 (page timestamp: 2025-09-03 12:12).
