@@ -1,9 +1,10 @@
 {
   "title": "GlyphWiki:データ・記事のライセンス",
-  "source": "https://glyphwiki.org/wiki/GlyphWiki:%e3%83%87%e3%83%bc%e3%82%bf%e3%83%bb%e8%a8%98%e4%ba%8b%e3%81%ae%e3%83%a9%e3%82%a4%e3%82%bb%e3%83%b3%e3%82%b9",
+  "source": "https://glyphwiki.org/wiki/GlyphWiki:%e3%83%87%e3%83%bc%e3%82%bf%e3%83%bb%e8%a8%98%e4%ba%8b%e3%81%ae%e3%83%a9%e3%82%a4%e3%82%bb%e3%83%b3%e3%82%b9@18",
   "capturedOn": "2026-10-07",
   "timezone": "Asia/Tokyo",
-  "revision": null,
+  "revision": 18,
+  "revisionTimestamp": "2025-09-03 12:12",
   "captureMethod": "Manual capture of Japanese wiki source text; automated retrieval from the official page was blocked by a Cloudflare challenge.",
   "sha256": "d7fe8de8fd214dc25e0bf88bf63f7616e88e46a47bf2a20f24a201e3ffb946d4",
   "excerpt": "Data and article reuse license paragraph, including the exception for quoted material; contributor instructions omitted."

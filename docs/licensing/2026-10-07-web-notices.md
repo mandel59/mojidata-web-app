@@ -65,11 +65,12 @@ with Cloudflare challenge headers. A manually captured copy of the Japanese
 wiki source text and its official URL was recorded on 2026-10-07 JST. The
 data/article reuse license paragraph (including the quoted-material exception)
 is retained as an explicitly labelled excerpt in
-src/licensing/glyphwiki/license.txt with its SHA-256 and provenance in source.json;
-the page revision is unknown. Preparation checks the hash and the app displays
-the excerpt and official source link. Contributor instructions are omitted.
-This manually captured copy has not been independently checked against a
-specific page revision.
+src/licensing/glyphwiki/license.txt with its SHA-256 and provenance in source.json.
+The source is recorded as [revision @18](https://glyphwiki.org/wiki/GlyphWiki:%e3%83%87%e3%83%bc%e3%82%bf%e3%83%bb%e8%a8%98%e4%ba%8b%e3%81%ae%e3%83%a9%e3%82%a4%e3%82%bb%e3%83%b3%e3%82%b9@18)
+(page timestamp: 2025-09-03 12:12). Preparation checks the hash and the app displays
+the excerpt and revision-specific official source link. Contributor instructions
+are omitted. The recorded revision was identified after capture; this manually
+captured copy has not been independently compared against that revision.
 
 TGHB government-primary-source regeneration remains a separate upstream
 improvement.
