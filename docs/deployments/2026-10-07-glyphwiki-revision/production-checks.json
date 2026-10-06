@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-06T22:35:25.853170+00:00",
+  "workerVersion": "9d6a3b45-8952-4038-9520-f65628776b91",
+  "trafficPercentage": 100,
+  "buildId": "SfpcvaC3gTeoa4O1crW4y",
+  "checks": [
+    {
+      "url": "https://mojidata.ryusei.dev/ja-JP/license",
+      "status": 200,
+      "pageSha256": "3be9d8a0422bdf8778f4b92683aca295b50e0ae13096eebd5e2b3b64c5ff908b",
+      "revisionLink": "https://glyphwiki.org/wiki/GlyphWiki:%e3%83%87%e3%83%bc%e3%82%bf%e3%83%bb%e8%a8%98%e4%ba%8b%e3%81%ae%e3%83%a9%e3%82%a4%e3%82%bb%e3%83%b3%e3%82%b9@18",
+      "revisionTimestamp": "2025-09-03 12:12",
+      "sourceRecordLinkAbsent": true,
+      "licenseExcerptMatchesLocalBytes": true
+    },
+    {
+      "url": "https://mojidata.ryusei.dev/en-US/license",
+      "status": 200,
+      "pageSha256": "73113fcbd7838f6e04ce167845b15ea01bf04b2b180ea69cb5a9bbc0005a8e09",
+      "revisionLink": "https://glyphwiki.org/wiki/GlyphWiki:%e3%83%87%e3%83%bc%e3%82%bf%e3%83%bb%e8%a8%98%e4%ba%8b%e3%81%ae%e3%83%a9%e3%82%a4%e3%82%bb%e3%83%b3%e3%82%b9@18",
+      "revisionTimestamp": "2025-09-03 12:12",
+      "sourceRecordLinkAbsent": true,
+      "licenseExcerptMatchesLocalBytes": true
+    }
+  ],
+  "remoteD1Reads": 0,
+  "remoteD1Writes": 0
+}
