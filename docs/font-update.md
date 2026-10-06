@@ -10,10 +10,10 @@ release or regenerating its distributed files.
 | CJK Symbols | `scripts/build-font-cjksymbols` | `src/fonts/cjksymbols` | `CJKSymbols-Regular.woff2` | `LICENSE.txt`, `README.md` |
 | Adobe NotDef | `scripts/build-font-notdef` | `src/fonts/notdef` | `AND-Regular.woff2` | `LICENSE.md`, `README.md` |
 | IPAmjMincho | `scripts/build-font-ipamjm` | `src/fonts/ipamjm` | `ipamjm.ttf.gz`, `glyph-index.txt.gz` | `IPA_Font_License_Agreement_v1.0.txt`, `Readme.txt` |
-| Jigmo | `scripts/build-font-jigumo` | `src/fonts/jigmo` | `Jigmo.ttf.gz`, `Jigmo2.ttf.gz`, `Jigmo3.ttf.gz`, `glyph-index.txt.gz` | `LICENSE.txt`, `README.txt`, `THANKS.txt` |
+| Jigmo | `scripts/build-font-jigmo` | `src/fonts/jigmo` | `Jigmo.ttf.gz`, `Jigmo2.ttf.gz`, `Jigmo3.ttf.gz`, `glyph-index.txt.gz` | `LICENSE.txt`, `README.txt`, `THANKS.txt` |
 
-The Jigmo command is spelled `build-font-jigumo`. Keep distribution files and
-notices committed together so a clone can run without native font tools.
+Keep distribution files and notices committed together so a clone can run
+without native font tools.
 Uncompressed TTFs, temporary OTFs and generated outline shards are ignored.
 
 ## 1. Select and record the upstream release
@@ -26,7 +26,7 @@ Update `download.txt` with the new source URLs and SHA-256 values. Pin raw
 GitHub URLs to a commit rather than a moving branch. For CJK Symbols and Adobe
 NotDef, use license/README files from the same revision as the font. If an
 archive name changes, update the matching variable in `build-font-ipamjm` or
-`build-font-jigumo` and check its extracted member names.
+`build-font-jigmo` and check its extracted member names.
 
 `scripts/download` verifies the declared digest before using a source and
 stores it under `cache/.sha256sum/<name>-<sha256>.<extension>`. Commit the new
