@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "decision": "unchanged",
+  "scope": "GlyphWiki source metadata and license wording produce static license pages. Since deployed commit 99f523a4ffdd, other changes are documentation and the byte-preserving build-font-jigumo to build-font-jigmo rename. Data API code, SQL, request fan-out, dependencies, fonts, shards and Worker bindings/configuration are unchanged.",
+  "beforeAfter": "Incremental D1 rows read=0 and written=0 before/after: source metadata is read at build time and becomes an external license-page href. Font build script contents are unchanged and the script is not run during deployment. No data generation/import is scheduled.",
+  "accountBudget": "No D1 operation is scheduled, including verification or rollback. Build and local browser validation use http://127.0.0.1:9/ for API traffic. Worker deployment/cache population uses Workers and R2 only. Remote verification is restricted to static license pages and Worker metadata; no data/API smoke requests or DB imports.",
+  "validation": "Six release-asset tests and the production-build Chromium license test passed; Next type checking and OpenNext build passed. Both built locales contain revision @18 and its displayed timestamp, without the source-record link. Deployment JavaScript does not contain the build-only loopback URL. File fingerprints and rollback version are recorded in preflight.json.",
+  "rolloutAndStop": "Reuse immutable SPA release r20261007-license-notices and the existing glyph bucket, API backend and incremental cache prefix. Push reviewed commits and deploy the app Worker. Stop if configuration, API/data behavior, excerpt bytes or private assets change unexpectedly. Verify only static license pages. Roll back to Worker f9b802c0-5bff-4a6c-92f1-a16793db88a9; no D1 migration or execution is authorized by this record.",
+  "files": {
+    "LICENSE.md": "0b5e25a2106b544c4f883ea1cf86f4f205f856ba6b674a8c2c785ee87f725e1b",
+    "src/licensing/glyphwiki/source.json": "73aa0db0948ef21acf5de45aaf672df03835e4d0b1ef92aead5fba7b0a14a45a",
+    "scripts/build-font-jigmo": "73d2bfb567f3ec81abb9a44e4430cbe86429cb8632f3cbbc1855ccd97d0eef53",
+    "scripts/build-font-jigumo": "deleted"
+  },
+  "evidence": [
+    "docs/deployments/2026-10-07-glyphwiki-revision/preflight.json"
+  ]
+}

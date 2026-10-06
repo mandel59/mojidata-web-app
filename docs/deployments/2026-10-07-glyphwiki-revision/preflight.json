@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-06T22:34:09.939972+00:00",
+  "sourceCommit": "5d7c0c934668aaa573c71c689e04a40b2d2ee5f8",
+  "rollbackWorkerVersion": "f9b802c0-5bff-4a6c-92f1-a16793db88a9",
+  "spaRelease": "r20261007-license-notices",
+  "buildId": "SfpcvaC3gTeoa4O1crW4y",
+  "fingerprints": {
+    "LICENSE.md": "0b5e25a2106b544c4f883ea1cf86f4f205f856ba6b674a8c2c785ee87f725e1b",
+    "src/licensing/glyphwiki/source.json": "73aa0db0948ef21acf5de45aaf672df03835e4d0b1ef92aead5fba7b0a14a45a",
+    "src/licensing/glyphwiki/license.txt": "d7fe8de8fd214dc25e0bf88bf63f7616e88e46a47bf2a20f24a201e3ffb946d4",
+    "scripts/build-font-jigmo": "73d2bfb567f3ec81abb9a44e4430cbe86429cb8632f3cbbc1855ccd97d0eef53",
+    "wrangler.jsonc": "50bc35f489eda9486f1353d49285cae055e903a7d7e52c713e9db55972fe83a2",
+    "package.json": "59a4f56477031ede852f6b022fcc919c55e1b49771be2e8d2399c8703d37d385",
+    "package-lock.json": "6c34822d333e524c6c477b2cfa467dd0167684fe795e4b16a20ca6f91a2863a0"
+  },
+  "validation": {
+    "releaseAssetTests": {
+      "passed": 6,
+      "failed": 0
+    },
+    "productionBuildChromiumLicenseTest": "passed",
+    "nextTypeCheck": "passed",
+    "openNextBuild": "passed",
+    "builtJaJpAndEnUsPages": "Both have the official revision @18 link and 2025-09-03 12:12 timestamp; no source-record link.",
+    "deploymentJavaScript": "Build-only loopback API URL absent.",
+    "remoteD1Reads": 0,
+    "remoteD1Writes": 0
+  }
+}
