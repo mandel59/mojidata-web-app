@@ -37,6 +37,8 @@
 - For partial Playwright runs, prefer the dedicated wrapper so the spec gets its own local server port.  
   Example: `npm run test:e2e:target -- -- 'tests/e2e/mojidata.spec.ts' --project=chromium --grep '...'`
 
+- When updating font files, follow [the font update workflow](docs/font-update.md). Keep checksum-pinned sources, distribution files, glyph indexes and upstream notices synchronized; validate rendering and the private-shard release plan before publishing.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

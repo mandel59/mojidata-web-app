@@ -41,11 +41,9 @@ license/README files are committed together, so normal development and builds
 use these assets immediately after installing npm dependencies. Font notices
 are also included in server traces; [`LICENSE.md`](LICENSE.md) links to them.
 
-The `scripts/build-font-*` commands refresh the fonts and their notices from
-checksum-verified sources recorded in `download.txt`. CJK Symbols and Adobe
-NotDef use `woff2_compress`; Jigmo and IPAmj index generation use FontForge.
-Commit regenerated distribution files and notices together. Temporary OTF and
-uncompressed TTF files are ignored.
+Follow [the font update workflow](docs/font-update.md) to refresh sources,
+fonts, glyph indexes and original notices together. It covers native tooling,
+rendering checks, private shard preparation, SVG caching and rollback.
 
 ## Cloudflare Deployment
 
