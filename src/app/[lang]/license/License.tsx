@@ -4,7 +4,7 @@ import mojidataLicenseMd from '@mandel59/mojidata/LICENSE.md'
 import notices from '@/licensing/notices.generated.json'
 import styles from './License.module.css'
 
-const licenseNotices: { title: string; files: { name: string; text: string }[] }[] = notices
+const licenseNotices: { title: string; source?: string; files: { name: string; text: string }[] }[] = notices
 
 export function Licence() {
   const mojidataWebAppBaseUrl =
@@ -37,6 +37,7 @@ export function Licence() {
       {licenseNotices.map((section) => (
         <section key={section.title}>
           <h2>{section.title}</h2>
+          {section.source && <p><a href={section.source}>Source</a></p>}
           {section.files.map((file) => (
             <details key={file.name} className={styles.notice}>
               <summary>{file.name}</summary>

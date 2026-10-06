@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { readFile, mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -23,6 +24,16 @@ for (const name of ['mojidata', 'idsdb', 'idsdb-fts5']) {
   }
   sections.push({title: `${notice.package.name} ${notice.package.version}`, files})
 }
+const glyphWikiDirectory = path.join(root, 'src/licensing/glyphwiki')
+const glyphWikiSource = JSON.parse(await readFile(path.join(glyphWikiDirectory, 'source.json'), 'utf8'))
+const glyphWikiBytes = await readFile(path.join(glyphWikiDirectory, 'license.txt'))
+if (createHash('sha256').update(glyphWikiBytes).digest('hex') !== glyphWikiSource.sha256) throw new Error('GlyphWiki license snapshot hash mismatch')
+sections.push({
+  title: 'GlyphWiki',
+  source: glyphWikiSource.source,
+  files: [{name: glyphWikiSource.title, text: glyphWikiBytes.toString('utf8')}],
+})
+
 const output = path.join(root, 'src/licensing/notices.generated.json')
 await mkdir(path.dirname(output), {recursive: true})
 await writeFile(output, JSON.stringify(sections, null, 2) + '\n')

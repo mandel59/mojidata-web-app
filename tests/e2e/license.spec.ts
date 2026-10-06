@@ -3,6 +3,9 @@ import { readFile } from 'node:fs/promises'
 
 test('license page displays bundled original font and database notices', async ({page, request}) => {
   await page.goto('/ja-JP/license')
+  if (new URL(page.url()).hostname !== 'mojidata.ryusei.dev') {
+    await page.getByRole('button', {name: 'Dismiss', exact: true}).click()
+  }
   const ipa = page.locator('section').filter({has:page.getByRole('heading',{name:'IPAmjMincho',exact:true})})
   await ipa.locator('summary').first().click()
   await expect(ipa.locator('pre').first()).toContainText('IPA Font License')
@@ -10,6 +13,9 @@ test('license page displays bundled original font and database notices', async (
   await cjk.locator('summary').first().click()
   await expect(cjk.locator('pre').first()).toContainText('SIL OPEN FONT LICENSE')
   await expect(page.getByRole('heading',{name:'@mandel59/mojidata 1.9.2',exact:true})).toBeVisible()
+  const glyphWiki = page.locator('section').filter({has:page.getByRole('heading',{name:'GlyphWiki',exact:true})})
+  await glyphWiki.locator('summary').first().click()
+  await expect(glyphWiki.locator('pre')).toHaveText(await readFile('src/licensing/glyphwiki/license.txt', 'utf8'))
   const notice = await request.get('/assets/mojidata/licenses/cjkvi-variants.txt')
   expect(notice.status()).toBe(200)
   expect(await notice.body()).toEqual(await readFile('node_modules/@mandel59/mojidata/licenses/cjkvi-variants.txt'))

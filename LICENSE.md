@@ -67,3 +67,10 @@ The original Japanese/English [IPA Font License Agreement](src/fonts/ipamjm/IPA_
 and [README](src/fonts/ipamjm/Readme.txt) are bundled beside the font, unchanged
 from the Ver.006.01 archive. See [IPAmj asset handling](docs/ipamjm-licensing.md)
 for the server-side glyph cache and SVG distribution policy.
+
+## GlyphWiki
+
+An excerpt of the original [data and article license text](src/licensing/glyphwiki/license.txt)
+and [source record](src/licensing/glyphwiki/source.json) are retained locally.
+The user supplied the original wiki text on 2026-10-07 JST; the page revision
+was not supplied. The source record links to the official license page.

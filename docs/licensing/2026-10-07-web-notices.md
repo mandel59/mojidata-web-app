@@ -35,8 +35,8 @@ Six local tests cover notice copying/compression/release manifests, missing or
 changed notice bytes, unsafe references, private-bucket checks, public outline
 rejection and nested asset Worker redirects. Type checking and targeted JS/CSS
 lint pass. A Chromium test against the production Next build opens IPA/OFL
-license text, checks notice bytes and HEAD metadata, loads the WOFF2 and verifies
-a raw-shard request is 404. Next/OpenNext full builds pass; original font notices
+license text and the GlyphWiki reuse excerpt, checks notice bytes and HEAD
+metadata, loads the WOFF2 and verifies a raw-shard request is 404. Next/OpenNext full builds pass; original font notices
 are byte-identical in the server bundle and public asset checks pass.
 
 Live read-only bucket checks confirm r2.dev disabled and no custom domains.
@@ -54,11 +54,18 @@ server API packages, SQL, request fan-out and data API bindings are unchanged.
 License routes/preparation and R2 metadata/object operations execute zero D1
 reads/writes. The existing incremental cache prefix and API backend are retained.
 
-## Outstanding source capture
+## GlyphWiki source capture
 
-GlyphWiki's Japanese and English official license pages return HTTP 403 with
-Cloudflare challenge headers in this environment. No original license snapshot
-was captured and no guessed or third-party text was substituted. Existing
-official links remain. Capture the original with its source/revision and date
-when access is available. TGHB government-primary-source regeneration remains
-a separate upstream improvement.
+Direct requests to the official Japanese and English pages returned HTTP 403
+with Cloudflare challenge headers. The user supplied the original Japanese wiki
+text and official URL on 2026-10-07 JST. The data/article reuse license paragraph
+(including the quoted-material exception) is retained as an explicitly labelled
+excerpt in
+src/licensing/glyphwiki/license.txt with its SHA-256 and provenance in source.json;
+no page revision was supplied. Preparation checks the hash and the app displays
+the excerpt and official source link. Contributor instructions are omitted.
+This is a user-provided snapshot,
+not a claim of an independently fetched current revision.
+
+TGHB government-primary-source regeneration remains a separate upstream
+improvement.

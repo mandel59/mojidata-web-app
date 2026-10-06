@@ -56,6 +56,7 @@ const nextConfig: NextConfig = {
       'src/fonts/cjksymbols/README.md',
       'src/fonts/notdef/LICENSE.md',
       'src/fonts/notdef/README.md',
+      'src/licensing/glyphwiki/**',
       'src/fonts/jigmo/**',
       'src/fonts/ipamjm/**',
       'node_modules/@mandel59/mojidata-api/**',

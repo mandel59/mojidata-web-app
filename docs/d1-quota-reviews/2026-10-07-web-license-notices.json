@@ -1,7 +1,7 @@
 {
   "version": 1,
   "decision": "unchanged",
-  "scope": "License-only UI, manifest-driven local SPA notice copies, asset redirects, R2/private-output guards and three data-package patch updates. API packages, proxy fan-out, shared SQL and D1 bindings are unchanged. FTS5 logical data and indexes match exactly.",
+  "scope": "License-only UI including a user-supplied GlyphWiki license excerpt, manifest-driven local SPA notice copies, asset redirects, R2/private-output guards and three data-package patch updates. API packages, proxy fan-out, shared SQL and D1 bindings are unchanged. FTS5 logical data and indexes match exactly.",
   "beforeAfter": "Incremental D1 rows read=0, written=0 before/after. All validation uses local files or R2 metadata; builds/browser tests block remote API traffic with loopback configuration. Mojidata/FTS4 artifact bytes unchanged; FTS5 canonical table hashes match including shadow posting tables.",
   "accountBudget": "No D1 operation is scheduled: R2 metadata checks/uploads, Workers uploads/deployment and reads of the static license page or public R2 notices consume zero D1 rows, including retries. Do not smoke-test data API routes or import/migrate databases under this record. Existing cache prefix and API service remain unchanged.",
   "validation": "Six local regression tests, production Chromium license/notice/font test, type/lint checks, full Next/OpenNext builds, byte-identical server notices and live read-only private-bucket validation. Canonical ordered-row hashes and package versions are in the evidence JSON.",
@@ -9,7 +9,7 @@
   "files": {
     ".gitignore": "dfe3d1e2aa6a394650e2f38cb764b7955a51356c1b4666e2d72206d4cb03a853",
     "cloudflare/spa-asset-worker.ts": "140515dc86d31698f658d160e6af22d210b26d44c09898824d7c2191b47c4a38",
-    "next.config.ts": "9917af7e62b58910d157bca79dfdadd0f5a2792eb0491906b2e1e448aed0562a",
+    "next.config.ts": "27c3879766fbdf5a15ff4815de0307211ba29318037b802bade6f7725ad08ebe",
     "package-lock.json": "6c34822d333e524c6c477b2cfa467dd0167684fe795e4b16a20ca6f91a2863a0",
     "package.json": "59a4f56477031ede852f6b022fcc919c55e1b49771be2e8d2399c8703d37d385",
     "scripts/copy-spa-assets.mjs": "114459b17dca6d72978c195f187bf6827cc6fab54bc387627fdd83c819fe9d29",
@@ -18,16 +18,18 @@
     "scripts/data-notice-assets.test.mjs": "6e2a1ca0f50db1b1462a338fb84412a5445eb2c2f4eaefca0ead9c9428993a91",
     "scripts/glyph-asset-policy.mjs": "53b04bda052cb515b46c58fdf683a727563970a026f9451572c99573544a688b",
     "scripts/glyph-asset-policy.test.mjs": "e6ec372a45ce24b11ec3a4aff0ae0aae3a46aed82b7055cd164ec2466c45f145",
-    "scripts/prepare-license-page.mjs": "7a8658c913267647bea59d9779005ca605a25189f9cc225bf6eff3d9f767c994",
+    "scripts/prepare-license-page.mjs": "6fe3e4561096acc8f67f0ec2f5eb3c315da0e1dcd9d11509f558f24b0d329abd",
     "scripts/run-cloudflare-build.mjs": "d299d8b8ed40f9c011c980bce886d28819b270525668fd67e92a51e1981931d0",
     "scripts/spa-asset-worker.test.mjs": "53eebd70a46889d8ca608f5422acba15a615fdc1b49f45efbb1ea77b73af5e41",
     "scripts/upload-glyph-path-shards-to-r2.mjs": "6a4caecee30eb79a3b960060d1599eae95f4923c12881c44e3b108977b61f177",
     "scripts/upload-spa-assets-to-r2.mjs": "2e04ae80a5d41b082f1988155b439020b0e0c8c0e3d3a54fa2da12fb22c09811",
     "src/app/[lang]/license/License.module.css": "ab478575325fa029f761d408f97e944c575ea405af3a1a109a6794dada1e982a",
-    "src/app/[lang]/license/License.tsx": "bcfbe13f91592bb4e367cf2eb6e2ed2ecb49e89070f7090a3a356858d5682ce1",
+    "src/app/[lang]/license/License.tsx": "309730e2572ba91368ba93f7fdf5250c8d53bcb4d44ee8b168dc6b6b9431e090",
     "src/app/assets/[...name]/route.ts": "0224722bd7e018af792097af9a5e7c5775eeb12684a8d427c1bc9a75ae326402",
     "src/app/assets/[name]/route.ts": "deleted",
-    "tests/e2e/license.spec.ts": "186fec2af10fa998dc493406c072d05f3849172a63a2db2ca7c446b0cc971a8e"
+    "tests/e2e/license.spec.ts": "e5a3da35fd3d8fe567b094d582fb7ed761209f4dd6198da7df94c55ee2a707c9",
+    "src/licensing/glyphwiki/license.txt": "d7fe8de8fd214dc25e0bf88bf63f7616e88e46a47bf2a20f24a201e3ffb946d4",
+    "src/licensing/glyphwiki/source.json": "1d3ac9bb4e0dc828632c831fec433042206e182c675492b290f7dd8744598e16"
   },
   "evidence": [
     "docs/licensing/2026-10-07-web-notices.md",
