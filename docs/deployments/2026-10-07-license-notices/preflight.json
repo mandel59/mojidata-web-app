@@ -1,0 +1,28 @@
+{
+  "sourceCommit": "90b87d0cb2c33b090f4475a6d1ad4940af9391ed",
+  "buildId": "mlfyjH5LlsUWhbrrgn6oL",
+  "spaRelease": "r20261007-license-notices",
+  "assetBase": "https://mojidata-spa-assets.mandel59.workers.dev/releases/r20261007-license-notices",
+  "apiBase": "https://mojidata-api-d1.mandel59.workers.dev/",
+  "incrementalCachePrefix": "mojidata-web-app-r20261005-api310",
+  "populatedR2CacheEntries": 10,
+  "tagCache": "dummy",
+  "d1Impact": "No remote D1 validation, query or import; all deployment checks read static pages, fonts, notices or Worker/R2 metadata.",
+  "rollbackWorkerVersion": "a748c3fb-530d-490d-93a6-8a042196198a",
+  "validation": {
+    "localReleaseTests": 6,
+    "productionBuildChromiumTests": 1,
+    "fullOpenNextBuild": "passed",
+    "targetedLint": "passed",
+    "typeCheck": "passed",
+    "publicGlyphAssetGuard": "passed",
+    "bundleValidationApiUrl": "absent",
+    "quotaRecordFingerprints": "verified"
+  },
+  "artifacts": {
+    ".open-next/worker.js": "d05223bf4d44c84108a102ab62aa3bc9c5568f0c3ac2064c37be5cc65c64bc45",
+    ".open-next/server-functions/default/handler.mjs": "5d5b6aad73bc2ab1f9ecf207b2b7f6e5fd1833186afa854cb49726b44e0800cb",
+    "dist/spa-assets/manifest.json": "1a1d99f0a48ff5a1fb8f3072c2bf21cf0b1f139b01614c56ad25604710caf01f",
+    "package-lock.json": "6c34822d333e524c6c477b2cfa467dd0167684fe795e4b16a20ca6f91a2863a0"
+  }
+}

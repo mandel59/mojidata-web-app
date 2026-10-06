@@ -1,0 +1,1083 @@
+{
+  "version": 1,
+  "release": "r20261007-license-notices",
+  "createdAt": "2026-10-06T17:10:52.184Z",
+  "prefix": "",
+  "notices": {
+    "mojidataLicense": "releases/r20261007-license-notices/assets/mojidata-LICENSE.md",
+    "mojidataSources": "releases/r20261007-license-notices/assets/mojidata-SOURCES.txt",
+    "unicodeLicense": "releases/r20261007-license-notices/assets/unicode-LICENSE.txt",
+    "cmapResourcesLicense": "releases/r20261007-license-notices/assets/cmap-resources-LICENSE.txt",
+    "idsdbLicense": "releases/r20261007-license-notices/assets/idsdb-LICENSE.md",
+    "mjLicense": "releases/r20261007-license-notices/assets/mojidata/licenses/mj.txt",
+    "cjkviLicense": "releases/r20261007-license-notices/assets/mojidata/licenses/cjkvi-variants.txt",
+    "packages": [
+      {
+        "name": "@mandel59/mojidata",
+        "version": "1.9.2",
+        "manifest": "releases/r20261007-license-notices/assets/mojidata/data-notices.json",
+        "license": "releases/r20261007-license-notices/assets/mojidata/LICENSE.md",
+        "noticeFiles": [
+          "releases/r20261007-license-notices/assets/mojidata/licenses/babelstone-ids.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/cc0.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/cjkvi-variants.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/cmap-resources.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/doon.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/japanese-government-data.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/mj.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/mojidata-ids.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/sources/doon-README.md",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/sources/joyo-README.md",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mj-map-Readme.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mojidata-ids-README.md",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/sources/nyukan-README.md",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/sources/tghb-README.md",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/tghb.txt",
+          "releases/r20261007-license-notices/assets/mojidata/licenses/unicode.txt"
+        ]
+      },
+      {
+        "name": "@mandel59/idsdb",
+        "version": "1.8.1",
+        "manifest": "releases/r20261007-license-notices/assets/idsdb/data-notices.json",
+        "license": "releases/r20261007-license-notices/assets/idsdb/LICENSE.md",
+        "noticeFiles": [
+          "releases/r20261007-license-notices/assets/idsdb/licenses/babelstone-ids.txt",
+          "releases/r20261007-license-notices/assets/idsdb/licenses/cc0.txt",
+          "releases/r20261007-license-notices/assets/idsdb/licenses/cjkvi-variants.txt",
+          "releases/r20261007-license-notices/assets/idsdb/licenses/mojidata-ids.txt",
+          "releases/r20261007-license-notices/assets/idsdb/licenses/sources/mojidata-ids-README.md",
+          "releases/r20261007-license-notices/assets/idsdb/licenses/unicode.txt"
+        ]
+      },
+      {
+        "name": "@mandel59/idsdb-fts5",
+        "version": "1.10.1",
+        "manifest": "releases/r20261007-license-notices/assets/idsdb-fts5/data-notices.json",
+        "license": "releases/r20261007-license-notices/assets/idsdb-fts5/LICENSE.md",
+        "noticeFiles": [
+          "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/babelstone-ids.txt",
+          "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cc0.txt",
+          "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cjkvi-variants.txt",
+          "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/mojidata-ids.txt",
+          "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/sources/mojidata-ids-README.md",
+          "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/unicode.txt"
+        ]
+      }
+    ]
+  },
+  "assets": [
+    {
+      "name": "sql-wasm.wasm",
+      "key": "releases/r20261007-license-notices/assets/sql-wasm.wasm",
+      "contentType": "application/wasm",
+      "byteLength": 658410,
+      "sha256": "38c14f6e379210bc942bdc4ebca44e7bfdb4318ecc1c72ca666a28fdce96670a"
+    },
+    {
+      "name": "sql-wasm.wasm.br",
+      "key": "releases/r20261007-license-notices/assets/sql-wasm.wasm.br",
+      "contentType": "application/wasm",
+      "contentEncoding": "br",
+      "byteLength": 303714,
+      "sha256": "0e188f26057a21aeb4f985b623466403030cec9bc543e5a90df412732c4104a1"
+    },
+    {
+      "name": "sql-wasm.wasm.gz",
+      "key": "releases/r20261007-license-notices/assets/sql-wasm.wasm.gz",
+      "contentType": "application/wasm",
+      "contentEncoding": "gzip",
+      "byteLength": 322928,
+      "sha256": "d6d8a85420ba17e8283bdde16d46f85953fdb7bb4e3d33d1819dafd9f412bd2d"
+    },
+    {
+      "name": "sqlite3.wasm",
+      "key": "releases/r20261007-license-notices/assets/sqlite3.wasm",
+      "contentType": "application/wasm",
+      "byteLength": 868907,
+      "sha256": "2ee8f3dab694532afc8840e07703127287662d08b74e6ff50491ce63f00d5752"
+    },
+    {
+      "name": "sqlite3.wasm.br",
+      "key": "releases/r20261007-license-notices/assets/sqlite3.wasm.br",
+      "contentType": "application/wasm",
+      "contentEncoding": "br",
+      "byteLength": 379820,
+      "sha256": "e52abd325529883fc938c08241af9c12d717e8004b5d8b1c21482c130b3457a7"
+    },
+    {
+      "name": "sqlite3.wasm.gz",
+      "key": "releases/r20261007-license-notices/assets/sqlite3.wasm.gz",
+      "contentType": "application/wasm",
+      "contentEncoding": "gzip",
+      "byteLength": 403404,
+      "sha256": "8082b9663a9e9e9bfc2c662a78b894df59f7ce63f292ed49c8344acda6a3388a"
+    },
+    {
+      "name": "moji.db",
+      "key": "releases/r20261007-license-notices/assets/moji.db",
+      "contentType": "application/octet-stream",
+      "byteLength": 102735872,
+      "sha256": "c8cd43031d6a48bde6b131f0fd0fb778301627846c4b65ff038937884c21ea6b"
+    },
+    {
+      "name": "moji.db.br",
+      "key": "releases/r20261007-license-notices/assets/moji.db.br",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "br",
+      "byteLength": 28297270,
+      "sha256": "c09bb11e66698d2088aeb244d776ddf5c06f3a61a5cdcc4702ae0e32fb948af7"
+    },
+    {
+      "name": "moji.db.gz",
+      "key": "releases/r20261007-license-notices/assets/moji.db.gz",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "gzip",
+      "byteLength": 40343633,
+      "sha256": "a94cd498a0f236f53546221a0bc90ca86f4ea3a8287059cea8e0575f9fe81524"
+    },
+    {
+      "name": "idsfind.db",
+      "key": "releases/r20261007-license-notices/assets/idsfind.db",
+      "contentType": "application/octet-stream",
+      "byteLength": 31506432,
+      "sha256": "3bd624ad11f27c59f1ff0bd894cc9eaa8b4aa8d86524a8be69d81ac98095a47d"
+    },
+    {
+      "name": "idsfind.db.br",
+      "key": "releases/r20261007-license-notices/assets/idsfind.db.br",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "br",
+      "byteLength": 6983163,
+      "sha256": "7850bd8522690c26a0b76ddf02588b9b253cc6779207332aace13e480c30eba5"
+    },
+    {
+      "name": "idsfind.db.gz",
+      "key": "releases/r20261007-license-notices/assets/idsfind.db.gz",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "gzip",
+      "byteLength": 8122418,
+      "sha256": "c3a446bd5b99cd7e26de89893d52b8d6be65451089262c5ab003ad9bb640187f"
+    },
+    {
+      "name": "idsfind-fts5.db",
+      "key": "releases/r20261007-license-notices/assets/idsfind-fts5.db",
+      "contentType": "application/octet-stream",
+      "byteLength": 31440896,
+      "sha256": "774204e4ec03bcd713fa744e882a8ad725067fe53cbb97e3bca913fecd825db3"
+    },
+    {
+      "name": "idsfind-fts5.db.br",
+      "key": "releases/r20261007-license-notices/assets/idsfind-fts5.db.br",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "br",
+      "byteLength": 7194988,
+      "sha256": "85db656b15d9e2fa24a69de2ac058406317071727290ab73a34954acd9520e14"
+    },
+    {
+      "name": "idsfind-fts5.db.gz",
+      "key": "releases/r20261007-license-notices/assets/idsfind-fts5.db.gz",
+      "contentType": "application/octet-stream",
+      "contentEncoding": "gzip",
+      "byteLength": 8362401,
+      "sha256": "fe6428557b9cab605a8cda5f8f19dfdfa0234aa690c0be8675e8b083445888f0"
+    },
+    {
+      "name": "mojidata-LICENSE.md",
+      "key": "releases/r20261007-license-notices/assets/mojidata-LICENSE.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 4219,
+      "sha256": "c7620e4c6a692efcf67b3cbf263df2527452e513cf25e76447031f880f52d6a7"
+    },
+    {
+      "name": "mojidata-LICENSE.md.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata-LICENSE.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 1916,
+      "sha256": "09f89a34ff8e0b545e6a32f5b8e05adc87b457a0830a870742fe3702205dab25"
+    },
+    {
+      "name": "mojidata-LICENSE.md.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata-LICENSE.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 2109,
+      "sha256": "9aa67b9a9cab5088e77bbf7d331c8077d00c961b43b83112c3caa8a92bd1652d"
+    },
+    {
+      "name": "mojidata-SOURCES.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata-SOURCES.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 9149,
+      "sha256": "3519bc10d26ac9838ccab614c0c9173642df0fe42545999419de968376dd6af9"
+    },
+    {
+      "name": "mojidata-SOURCES.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata-SOURCES.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 3025,
+      "sha256": "2d3dd554701db0d5336f5a1e0b124ca04555e5b494f3c9a9d9e5fc76645600de"
+    },
+    {
+      "name": "mojidata-SOURCES.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata-SOURCES.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 3138,
+      "sha256": "9a9851983e6bec469d40f6423efdcaec74206a86e40919feada00209a00acd40"
+    },
+    {
+      "name": "unicode-LICENSE.txt",
+      "key": "releases/r20261007-license-notices/assets/unicode-LICENSE.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    {
+      "name": "unicode-LICENSE.txt.br",
+      "key": "releases/r20261007-license-notices/assets/unicode-LICENSE.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 986,
+      "sha256": "e2ce3530a9bc0ae3f841c67dcd9df56f5b05583206963635be011bab008351b1"
+    },
+    {
+      "name": "unicode-LICENSE.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/unicode-LICENSE.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1070,
+      "sha256": "0bff4f4c5f5280173875bc9d2c7eac7fcb8eabf01f07cebd89c469e4b4c635ce"
+    },
+    {
+      "name": "cmap-resources-LICENSE.txt",
+      "key": "releases/r20261007-license-notices/assets/cmap-resources-LICENSE.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1453,
+      "sha256": "feb8b068a417681821823ef2e8995072aa111121fa11f8664038f78717f4497c"
+    },
+    {
+      "name": "cmap-resources-LICENSE.txt.br",
+      "key": "releases/r20261007-license-notices/assets/cmap-resources-LICENSE.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 724,
+      "sha256": "74e23065ae9acf402ff06642f132cd0ffe89fa0a4864c85bd1ecce10573291eb"
+    },
+    {
+      "name": "cmap-resources-LICENSE.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/cmap-resources-LICENSE.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 789,
+      "sha256": "68173a1339a9086dbaed85385d9872cccc72a2cb7c8d5b17988341f6f9f11327"
+    },
+    {
+      "name": "idsdb-LICENSE.md",
+      "key": "releases/r20261007-license-notices/assets/idsdb-LICENSE.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 1496,
+      "sha256": "27c03a413deb680430fc417565b320b5f1cb78bb46f4ffa15818040f0902a5ab"
+    },
+    {
+      "name": "idsdb-LICENSE.md.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-LICENSE.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 818,
+      "sha256": "c3530bc1dd2f987f476cba282ad1a2f79167416326e66bc9c1f0f07cd8023b29"
+    },
+    {
+      "name": "idsdb-LICENSE.md.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-LICENSE.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 898,
+      "sha256": "2c22af4353c0b1a8179d82dbf2d66cc37f99e99220ae60bb8ddd00780b88dc19"
+    },
+    {
+      "name": "mojidata/licenses/babelstone-ids.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/babelstone-ids.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1417,
+      "sha256": "edecdd27f655cfd699274a359a3d2300b980b383f35a057fc26572f276331a3a"
+    },
+    {
+      "name": "mojidata/licenses/babelstone-ids.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/babelstone-ids.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 778,
+      "sha256": "57d64938509bc6780cf976ea2e2d4d5750f931de77f5fe00d81664a21c5feccf"
+    },
+    {
+      "name": "mojidata/licenses/babelstone-ids.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/babelstone-ids.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 858,
+      "sha256": "b6f1fea4010593a7c0f3f47efc3ccc221274db8c48426cf7c8e9945280d9c7bb"
+    },
+    {
+      "name": "mojidata/licenses/cc0.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cc0.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "name": "mojidata/licenses/cc0.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cc0.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 2794,
+      "sha256": "a72152322149baf030827f8c5ecb8609fd9f19e01c8ec674e6a06d0c16de109a"
+    },
+    {
+      "name": "mojidata/licenses/cc0.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cc0.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 2817,
+      "sha256": "495645794acdff31356d7a8fb869aea27a915bd6176b94b8afcb4cdf8a3e208c"
+    },
+    {
+      "name": "mojidata/licenses/cjkvi-variants.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cjkvi-variants.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1786,
+      "sha256": "bc2a52b44372210bd94d1dc455e12d18e45b6671ef847b15a701b2be4f4ca135"
+    },
+    {
+      "name": "mojidata/licenses/cjkvi-variants.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cjkvi-variants.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 963,
+      "sha256": "9beb1e8bacdd701db8d7449704a0008ce21f91b8b8ae7143966a704851c01d86"
+    },
+    {
+      "name": "mojidata/licenses/cjkvi-variants.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cjkvi-variants.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1072,
+      "sha256": "2637be06fb1637c8c8328b9d977e06cab663eee939805266f1b49d372dec28af"
+    },
+    {
+      "name": "mojidata/licenses/cmap-resources.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cmap-resources.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1453,
+      "sha256": "feb8b068a417681821823ef2e8995072aa111121fa11f8664038f78717f4497c"
+    },
+    {
+      "name": "mojidata/licenses/cmap-resources.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cmap-resources.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 724,
+      "sha256": "74e23065ae9acf402ff06642f132cd0ffe89fa0a4864c85bd1ecce10573291eb"
+    },
+    {
+      "name": "mojidata/licenses/cmap-resources.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/cmap-resources.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 789,
+      "sha256": "68173a1339a9086dbaed85385d9872cccc72a2cb7c8d5b17988341f6f9f11327"
+    },
+    {
+      "name": "mojidata/licenses/doon.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/doon.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 986,
+      "sha256": "7ac14b43fe0af6eee8e0f09915bbfa0330f322af38dc1a67c92f2640770d9280"
+    },
+    {
+      "name": "mojidata/licenses/doon.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/doon.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 572,
+      "sha256": "1be941b6a6ad3596f8e0a9000c233b6e0696906542d94dbd9fa89dcd8eb38198"
+    },
+    {
+      "name": "mojidata/licenses/doon.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/doon.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 655,
+      "sha256": "50106c9d670b4f3c4e5b4cf1c797a36bde36903098847c229c0f58fdcc122f11"
+    },
+    {
+      "name": "mojidata/licenses/japanese-government-data.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/japanese-government-data.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1835,
+      "sha256": "89f1bfb88db10c9d8af3b4c2354462b42b53cc14a38e1d88d5dabdeb0e42d945"
+    },
+    {
+      "name": "mojidata/licenses/japanese-government-data.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/japanese-government-data.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 945,
+      "sha256": "9851b5555f2f30040cd22cc0902b641c7f289ba2045219f8e0b5be0400102735"
+    },
+    {
+      "name": "mojidata/licenses/japanese-government-data.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/japanese-government-data.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1035,
+      "sha256": "102ba86acad7b5cfa623f558657f1f11d74b22cc72e279bfd02336cebe74bfc3"
+    },
+    {
+      "name": "mojidata/licenses/mj.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/mj.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 2545,
+      "sha256": "66c8b52071d691459383148ec5e29e884998b1fd0becead1748556a908010f70"
+    },
+    {
+      "name": "mojidata/licenses/mj.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/mj.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 1132,
+      "sha256": "d4e9a7544618c3a5e7e769172fd0b7cdc08dd720a58cd096db477fe575be148d"
+    },
+    {
+      "name": "mojidata/licenses/mj.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/mj.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1409,
+      "sha256": "2b146208d2c5287eae499c4e3beca99d027005462240560eecca2e0f5f3bf210"
+    },
+    {
+      "name": "mojidata/licenses/mojidata-ids.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/mojidata-ids.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1035,
+      "sha256": "08062f02f95e3a7438aabfd5217bd734aae90c4f56ba6365a8c5d03c581d6c07"
+    },
+    {
+      "name": "mojidata/licenses/mojidata-ids.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/mojidata-ids.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 515,
+      "sha256": "d121beacb247323b38bf068b29d0403cd7b2927d2d0b6fe2168726262e5773ff"
+    },
+    {
+      "name": "mojidata/licenses/mojidata-ids.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/mojidata-ids.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 566,
+      "sha256": "4cf4fc3ac2e38864b9c60d2511ecab7a0851783fde0f1757f0b3a94043354f83"
+    },
+    {
+      "name": "mojidata/licenses/sources/doon-README.md",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/doon-README.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 1530,
+      "sha256": "2f0e6d9d58cfcbe770f3e0c485cc51ba858d9f4da47d1826f222a42854031a0c"
+    },
+    {
+      "name": "mojidata/licenses/sources/doon-README.md.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/doon-README.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 742,
+      "sha256": "e47d7683b4cf4ef51ec2205bcde3f44360f03dd02d2f67966e9df7f84f6a52ac"
+    },
+    {
+      "name": "mojidata/licenses/sources/doon-README.md.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/doon-README.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 858,
+      "sha256": "962db02d7c0ce25a1682cd521831603f7f93317018a53da4d988b3b26e590ed3"
+    },
+    {
+      "name": "mojidata/licenses/sources/joyo-README.md",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/joyo-README.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 760,
+      "sha256": "cea5094f94c7098a73283a9e693d87cd12bceb3a4c080618a0eeccfe37f631ae"
+    },
+    {
+      "name": "mojidata/licenses/sources/joyo-README.md.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/joyo-README.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 472,
+      "sha256": "615cf234c896a8a19b42c68de8cb5cbb52a0d0e3a060dff820a8143feda5913d"
+    },
+    {
+      "name": "mojidata/licenses/sources/joyo-README.md.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/joyo-README.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 550,
+      "sha256": "e81cd76ffe9b2b3b4e034c7f38a690a7600c632e45191a4d23c8cb45e286dd37"
+    },
+    {
+      "name": "mojidata/licenses/sources/mj-map-Readme.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mj-map-Readme.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 2850,
+      "sha256": "c986a10bc099ba9e2d36996578bf7478ef1b8628d0be6c190d88d0ac4cbfaf9a"
+    },
+    {
+      "name": "mojidata/licenses/sources/mj-map-Readme.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mj-map-Readme.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 1249,
+      "sha256": "d20608c3ff84134155890e025903e68b471db2f79717483f93248125f2355c2a"
+    },
+    {
+      "name": "mojidata/licenses/sources/mj-map-Readme.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mj-map-Readme.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1407,
+      "sha256": "d6b37363e8912083f3034b56e6edd0113260409c8cf45253cab190c4ccb29f74"
+    },
+    {
+      "name": "mojidata/licenses/sources/mojidata-ids-README.md",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mojidata-ids-README.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 501,
+      "sha256": "afa179113426a0f4e6bef70f0bbe0f15f6b96d36046f0ef5768c364a1d8948a8"
+    },
+    {
+      "name": "mojidata/licenses/sources/mojidata-ids-README.md.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mojidata-ids-README.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 262,
+      "sha256": "9e0f4fed0376864794bb8f1ccb89df89c63fa5d5ef5f6cb33b1c6205b7dc3622"
+    },
+    {
+      "name": "mojidata/licenses/sources/mojidata-ids-README.md.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/mojidata-ids-README.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 306,
+      "sha256": "3fd72dcff4c7bf0255f869acedece2d20ea32f82bc849481d7b76a9004e25757"
+    },
+    {
+      "name": "mojidata/licenses/sources/nyukan-README.md",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/nyukan-README.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 798,
+      "sha256": "1befc3105d338e33b9e8063a578c79f085b8366b60bcaab7fa750294ef2223aa"
+    },
+    {
+      "name": "mojidata/licenses/sources/nyukan-README.md.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/nyukan-README.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 487,
+      "sha256": "d4587e79c03191f8d90576ea51b9a0edbb8d3d719e3676fc8d071ba46cde12f6"
+    },
+    {
+      "name": "mojidata/licenses/sources/nyukan-README.md.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/nyukan-README.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 568,
+      "sha256": "7eeb9b29d48f485d82238d01eb0630fec6d9995714d5ef150538db55b99b21b9"
+    },
+    {
+      "name": "mojidata/licenses/sources/tghb-README.md",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/tghb-README.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 1450,
+      "sha256": "d302bd48eed2a32ab114052557667ec11b0e10d8e4f24a54ff4e651741d7ab10"
+    },
+    {
+      "name": "mojidata/licenses/sources/tghb-README.md.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/tghb-README.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 790,
+      "sha256": "77a3e078bc7fff1520b1adec78b22e9e33c37315f1231ee612710d6d4ae2d77d"
+    },
+    {
+      "name": "mojidata/licenses/sources/tghb-README.md.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/sources/tghb-README.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 965,
+      "sha256": "20e25b6082489deb3966e799797de7b2b88efb672ddb28557c78e9a8f8a8a6c4"
+    },
+    {
+      "name": "mojidata/licenses/tghb.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/tghb.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1264,
+      "sha256": "bdd712f8b0bf3c5d9a821f6a2964b8020399d7b46f14aeb8aa83b401d3a88fb2"
+    },
+    {
+      "name": "mojidata/licenses/tghb.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/tghb.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 710,
+      "sha256": "bf081cebccb2bcbd50da0729d9e35ce312e1f8575476030ecb6d5bc2acbe065b"
+    },
+    {
+      "name": "mojidata/licenses/tghb.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/tghb.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 796,
+      "sha256": "5012acb9795085b0cbc5ff11cae656a06308f227227eb9a15f4a2e880528c4e5"
+    },
+    {
+      "name": "mojidata/licenses/unicode.txt",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/unicode.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    {
+      "name": "mojidata/licenses/unicode.txt.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/unicode.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 986,
+      "sha256": "e2ce3530a9bc0ae3f841c67dcd9df56f5b05583206963635be011bab008351b1"
+    },
+    {
+      "name": "mojidata/licenses/unicode.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/licenses/unicode.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1070,
+      "sha256": "0bff4f4c5f5280173875bc9d2c7eac7fcb8eabf01f07cebd89c469e4b4c635ce"
+    },
+    {
+      "name": "mojidata/data-notices.json",
+      "key": "releases/r20261007-license-notices/assets/mojidata/data-notices.json",
+      "contentType": "application/json; charset=utf-8",
+      "byteLength": 30743,
+      "sha256": "5ea9f2a9820db51e66e1312bd8a31f56297e9f36b73ca0b14667dd8ebc7ac3ec"
+    },
+    {
+      "name": "mojidata/data-notices.json.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/data-notices.json.br",
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 7078,
+      "sha256": "d892c690417441838f796df7fb67c4c49dbcdd0e8955e6acdc5776fed7b39e94"
+    },
+    {
+      "name": "mojidata/data-notices.json.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/data-notices.json.gz",
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 7659,
+      "sha256": "24a95ecd3c8d5733cffb14f6a809dee02185c5f4a64dff7c5cc6b8d189fee01c"
+    },
+    {
+      "name": "mojidata/LICENSE.md",
+      "key": "releases/r20261007-license-notices/assets/mojidata/LICENSE.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 4219,
+      "sha256": "c7620e4c6a692efcf67b3cbf263df2527452e513cf25e76447031f880f52d6a7"
+    },
+    {
+      "name": "mojidata/LICENSE.md.br",
+      "key": "releases/r20261007-license-notices/assets/mojidata/LICENSE.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 1916,
+      "sha256": "09f89a34ff8e0b545e6a32f5b8e05adc87b457a0830a870742fe3702205dab25"
+    },
+    {
+      "name": "mojidata/LICENSE.md.gz",
+      "key": "releases/r20261007-license-notices/assets/mojidata/LICENSE.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 2109,
+      "sha256": "9aa67b9a9cab5088e77bbf7d331c8077d00c961b43b83112c3caa8a92bd1652d"
+    },
+    {
+      "name": "idsdb/licenses/babelstone-ids.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/babelstone-ids.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1417,
+      "sha256": "edecdd27f655cfd699274a359a3d2300b980b383f35a057fc26572f276331a3a"
+    },
+    {
+      "name": "idsdb/licenses/babelstone-ids.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/babelstone-ids.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 778,
+      "sha256": "57d64938509bc6780cf976ea2e2d4d5750f931de77f5fe00d81664a21c5feccf"
+    },
+    {
+      "name": "idsdb/licenses/babelstone-ids.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/babelstone-ids.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 858,
+      "sha256": "b6f1fea4010593a7c0f3f47efc3ccc221274db8c48426cf7c8e9945280d9c7bb"
+    },
+    {
+      "name": "idsdb/licenses/cc0.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/cc0.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "name": "idsdb/licenses/cc0.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/cc0.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 2794,
+      "sha256": "a72152322149baf030827f8c5ecb8609fd9f19e01c8ec674e6a06d0c16de109a"
+    },
+    {
+      "name": "idsdb/licenses/cc0.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/cc0.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 2817,
+      "sha256": "495645794acdff31356d7a8fb869aea27a915bd6176b94b8afcb4cdf8a3e208c"
+    },
+    {
+      "name": "idsdb/licenses/cjkvi-variants.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/cjkvi-variants.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1786,
+      "sha256": "bc2a52b44372210bd94d1dc455e12d18e45b6671ef847b15a701b2be4f4ca135"
+    },
+    {
+      "name": "idsdb/licenses/cjkvi-variants.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/cjkvi-variants.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 963,
+      "sha256": "9beb1e8bacdd701db8d7449704a0008ce21f91b8b8ae7143966a704851c01d86"
+    },
+    {
+      "name": "idsdb/licenses/cjkvi-variants.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/cjkvi-variants.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1072,
+      "sha256": "2637be06fb1637c8c8328b9d977e06cab663eee939805266f1b49d372dec28af"
+    },
+    {
+      "name": "idsdb/licenses/mojidata-ids.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/mojidata-ids.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1035,
+      "sha256": "08062f02f95e3a7438aabfd5217bd734aae90c4f56ba6365a8c5d03c581d6c07"
+    },
+    {
+      "name": "idsdb/licenses/mojidata-ids.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/mojidata-ids.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 515,
+      "sha256": "d121beacb247323b38bf068b29d0403cd7b2927d2d0b6fe2168726262e5773ff"
+    },
+    {
+      "name": "idsdb/licenses/mojidata-ids.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/mojidata-ids.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 566,
+      "sha256": "4cf4fc3ac2e38864b9c60d2511ecab7a0851783fde0f1757f0b3a94043354f83"
+    },
+    {
+      "name": "idsdb/licenses/sources/mojidata-ids-README.md",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/sources/mojidata-ids-README.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 501,
+      "sha256": "afa179113426a0f4e6bef70f0bbe0f15f6b96d36046f0ef5768c364a1d8948a8"
+    },
+    {
+      "name": "idsdb/licenses/sources/mojidata-ids-README.md.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/sources/mojidata-ids-README.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 262,
+      "sha256": "9e0f4fed0376864794bb8f1ccb89df89c63fa5d5ef5f6cb33b1c6205b7dc3622"
+    },
+    {
+      "name": "idsdb/licenses/sources/mojidata-ids-README.md.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/sources/mojidata-ids-README.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 306,
+      "sha256": "3fd72dcff4c7bf0255f869acedece2d20ea32f82bc849481d7b76a9004e25757"
+    },
+    {
+      "name": "idsdb/licenses/unicode.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/unicode.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    {
+      "name": "idsdb/licenses/unicode.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/unicode.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 986,
+      "sha256": "e2ce3530a9bc0ae3f841c67dcd9df56f5b05583206963635be011bab008351b1"
+    },
+    {
+      "name": "idsdb/licenses/unicode.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/licenses/unicode.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1070,
+      "sha256": "0bff4f4c5f5280173875bc9d2c7eac7fcb8eabf01f07cebd89c469e4b4c635ce"
+    },
+    {
+      "name": "idsdb/data-notices.json",
+      "key": "releases/r20261007-license-notices/assets/idsdb/data-notices.json",
+      "contentType": "application/json; charset=utf-8",
+      "byteLength": 7848,
+      "sha256": "8854bbb4e39b54ff4790baeff22de2cc10f7818439cf904e9ba413d1b6626a57"
+    },
+    {
+      "name": "idsdb/data-notices.json.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/data-notices.json.br",
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 2523,
+      "sha256": "830453dea7438eedaf3de23b6eb40a8d7a1ec33504e0772fb962fac4705def26"
+    },
+    {
+      "name": "idsdb/data-notices.json.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/data-notices.json.gz",
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 2727,
+      "sha256": "4a5d4b0640e4e0a6559ba659d00a4e06aeafee551d223fff62c5c3147dfc5d29"
+    },
+    {
+      "name": "idsdb/LICENSE.md",
+      "key": "releases/r20261007-license-notices/assets/idsdb/LICENSE.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 1496,
+      "sha256": "27c03a413deb680430fc417565b320b5f1cb78bb46f4ffa15818040f0902a5ab"
+    },
+    {
+      "name": "idsdb/LICENSE.md.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb/LICENSE.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 818,
+      "sha256": "c3530bc1dd2f987f476cba282ad1a2f79167416326e66bc9c1f0f07cd8023b29"
+    },
+    {
+      "name": "idsdb/LICENSE.md.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb/LICENSE.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 898,
+      "sha256": "2c22af4353c0b1a8179d82dbf2d66cc37f99e99220ae60bb8ddd00780b88dc19"
+    },
+    {
+      "name": "idsdb-fts5/licenses/babelstone-ids.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/babelstone-ids.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1417,
+      "sha256": "edecdd27f655cfd699274a359a3d2300b980b383f35a057fc26572f276331a3a"
+    },
+    {
+      "name": "idsdb-fts5/licenses/babelstone-ids.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/babelstone-ids.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 778,
+      "sha256": "57d64938509bc6780cf976ea2e2d4d5750f931de77f5fe00d81664a21c5feccf"
+    },
+    {
+      "name": "idsdb-fts5/licenses/babelstone-ids.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/babelstone-ids.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 858,
+      "sha256": "b6f1fea4010593a7c0f3f47efc3ccc221274db8c48426cf7c8e9945280d9c7bb"
+    },
+    {
+      "name": "idsdb-fts5/licenses/cc0.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cc0.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "name": "idsdb-fts5/licenses/cc0.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cc0.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 2794,
+      "sha256": "a72152322149baf030827f8c5ecb8609fd9f19e01c8ec674e6a06d0c16de109a"
+    },
+    {
+      "name": "idsdb-fts5/licenses/cc0.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cc0.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 2817,
+      "sha256": "495645794acdff31356d7a8fb869aea27a915bd6176b94b8afcb4cdf8a3e208c"
+    },
+    {
+      "name": "idsdb-fts5/licenses/cjkvi-variants.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cjkvi-variants.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1786,
+      "sha256": "bc2a52b44372210bd94d1dc455e12d18e45b6671ef847b15a701b2be4f4ca135"
+    },
+    {
+      "name": "idsdb-fts5/licenses/cjkvi-variants.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cjkvi-variants.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 963,
+      "sha256": "9beb1e8bacdd701db8d7449704a0008ce21f91b8b8ae7143966a704851c01d86"
+    },
+    {
+      "name": "idsdb-fts5/licenses/cjkvi-variants.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/cjkvi-variants.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1072,
+      "sha256": "2637be06fb1637c8c8328b9d977e06cab663eee939805266f1b49d372dec28af"
+    },
+    {
+      "name": "idsdb-fts5/licenses/mojidata-ids.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/mojidata-ids.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1035,
+      "sha256": "08062f02f95e3a7438aabfd5217bd734aae90c4f56ba6365a8c5d03c581d6c07"
+    },
+    {
+      "name": "idsdb-fts5/licenses/mojidata-ids.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/mojidata-ids.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 515,
+      "sha256": "d121beacb247323b38bf068b29d0403cd7b2927d2d0b6fe2168726262e5773ff"
+    },
+    {
+      "name": "idsdb-fts5/licenses/mojidata-ids.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/mojidata-ids.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 566,
+      "sha256": "4cf4fc3ac2e38864b9c60d2511ecab7a0851783fde0f1757f0b3a94043354f83"
+    },
+    {
+      "name": "idsdb-fts5/licenses/sources/mojidata-ids-README.md",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/sources/mojidata-ids-README.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 501,
+      "sha256": "afa179113426a0f4e6bef70f0bbe0f15f6b96d36046f0ef5768c364a1d8948a8"
+    },
+    {
+      "name": "idsdb-fts5/licenses/sources/mojidata-ids-README.md.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/sources/mojidata-ids-README.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 262,
+      "sha256": "9e0f4fed0376864794bb8f1ccb89df89c63fa5d5ef5f6cb33b1c6205b7dc3622"
+    },
+    {
+      "name": "idsdb-fts5/licenses/sources/mojidata-ids-README.md.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/sources/mojidata-ids-README.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 306,
+      "sha256": "3fd72dcff4c7bf0255f869acedece2d20ea32f82bc849481d7b76a9004e25757"
+    },
+    {
+      "name": "idsdb-fts5/licenses/unicode.txt",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/unicode.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "byteLength": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    {
+      "name": "idsdb-fts5/licenses/unicode.txt.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/unicode.txt.br",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 986,
+      "sha256": "e2ce3530a9bc0ae3f841c67dcd9df56f5b05583206963635be011bab008351b1"
+    },
+    {
+      "name": "idsdb-fts5/licenses/unicode.txt.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/licenses/unicode.txt.gz",
+      "contentType": "text/plain; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 1070,
+      "sha256": "0bff4f4c5f5280173875bc9d2c7eac7fcb8eabf01f07cebd89c469e4b4c635ce"
+    },
+    {
+      "name": "idsdb-fts5/data-notices.json",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/data-notices.json",
+      "contentType": "application/json; charset=utf-8",
+      "byteLength": 7853,
+      "sha256": "c091dd72d560d93d8a9adca985dc0655aff298d18d8ffd2c06c4b9285745dd84"
+    },
+    {
+      "name": "idsdb-fts5/data-notices.json.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/data-notices.json.br",
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 2527,
+      "sha256": "6a49ce1b6e72d5a4b5ce2b41d9e8fbd332c6e608fca6ff3dd437f0a6c6d01f91"
+    },
+    {
+      "name": "idsdb-fts5/data-notices.json.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/data-notices.json.gz",
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 2730,
+      "sha256": "bb5d3b94401c1111cba07e090c82a92e54fdb97ce8a7db6300e21c7726b768a5"
+    },
+    {
+      "name": "idsdb-fts5/LICENSE.md",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/LICENSE.md",
+      "contentType": "text/markdown; charset=utf-8",
+      "byteLength": 1509,
+      "sha256": "d8b44737b6a950fc50608ee2951fa3bf73e8bd2b0522596e92db52971875f836"
+    },
+    {
+      "name": "idsdb-fts5/LICENSE.md.br",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/LICENSE.md.br",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "br",
+      "byteLength": 821,
+      "sha256": "3b19c55732d0bf75467b2838e03c6c5010287a28f171337b8f5134ba54ecb38f"
+    },
+    {
+      "name": "idsdb-fts5/LICENSE.md.gz",
+      "key": "releases/r20261007-license-notices/assets/idsdb-fts5/LICENSE.md.gz",
+      "contentType": "text/markdown; charset=utf-8",
+      "contentEncoding": "gzip",
+      "byteLength": 907,
+      "sha256": "4cd1badc690852f66e1a8deaf7db850f10dbd1ebfe98e2d51319bc71e3ab19ab"
+    }
+  ]
+}

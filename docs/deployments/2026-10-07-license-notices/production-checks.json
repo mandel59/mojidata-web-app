@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-10-06T17:52:35.144Z",
+  "d1Reads": 0,
+  "d1Writes": 0,
+  "glyphWikiExcerpt": "データ及び記事のライセンス（抜粋）\n\nグリフウィキに登録されているグリフデータおよび記事は、誰もが自由に利用できることとします。あらゆる改変の有無に関わらず、また商業的な利用であっても、自由に利用、複製、再配布することができます。著作者表示も特に制限を設けません。新しいフォントのベースデータとして用いることや、そのままコピーしたものをフォントとして著作物とすることを妨げません。記事中に引用されている部分については、グリフウィキには著作権はありませんので引用元のライセンスを確認してください。\n",
+  "checks": [
+    {
+      "url": "https://mojidata.ryusei.dev/ja-JP/license",
+      "status": 200,
+      "sha256": "c4e02e32eca0e0d6f4c4a5df83e9b0b732edfedca4b185b3c6037bbed9611b1b"
+    },
+    {
+      "url": "https://mojidata.ryusei.dev/_next/static/media/0d6011094e9132d1.p.woff2",
+      "status": 200,
+      "sha256": "8c56c55778de6b7fba694e6e1c4b4974e7619dc12e7b930780adf039031d41b6",
+      "source": "src/fonts/cjksymbols/CJKSymbols-Regular.woff2"
+    },
+    {
+      "url": "https://mojidata.ryusei.dev/_next/static/media/AND-Regular.81555aa3.woff2",
+      "status": 200,
+      "sha256": "721b0c3eeead71a0bdca4a38ff3420751cb44de3138f3781447df6ee602188da",
+      "source": "src/fonts/notdef/AND-Regular.woff2"
+    },
+    {
+      "url": "https://mojidata.ryusei.dev/assets/mojidata/licenses/cjkvi-variants.txt",
+      "status": 200,
+      "sha256": "bc2a52b44372210bd94d1dc455e12d18e45b6671ef847b15a701b2be4f4ca135"
+    },
+    {
+      "url": "https://mojidata.ryusei.dev/assets/idsdb-fts5/data-notices.json",
+      "status": 200,
+      "sha256": "c091dd72d560d93d8a9adca985dc0655aff298d18d8ffd2c06c4b9285745dd84"
+    },
+    {
+      "url": "https://mojidata-spa-assets.mandel59.workers.dev/releases/r20261007-license-notices/assets/mojidata/licenses/mj.txt",
+      "status": 200,
+      "sha256": "66c8b52071d691459383148ec5e29e884998b1fd0becead1748556a908010f70"
+    },
+    {
+      "url": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261007-license-notices/manifest.json",
+      "status": 200,
+      "sha256": "1a1d99f0a48ff5a1fb8f3072c2bf21cf0b1f139b01614c56ad25604710caf01f"
+    },
+    {
+      "url": "https://mojidata.ryusei.dev/assets/glyph-paths/v1/ipamjm/u34.json.gz",
+      "status": 404,
+      "sha256": "e3ebaa16dd9d9b9fc107c42183fb6cf9d22927e1af03dbbdfa0ccc38e4e4ac31"
+    }
+  ]
+}
