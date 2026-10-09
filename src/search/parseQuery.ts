@@ -37,7 +37,7 @@ function parseFormalToken(token: string): [string, string] | null {
     return null
   }
 
-  const baseKey = source ? `${source}.${property}` : property
+  const baseKey = source ? `${source}.${property}` : property === 'ucs' ? 'UCS' : property
   const suffix = formalOpSuffix[op]
   if (!suffix) return null
 

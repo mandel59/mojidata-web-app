@@ -44,6 +44,9 @@ function collectAssetRequests(page: Page, assetNames: string[]) {
 
 async function clearSpaAssetCache(page: Page) {
   await page.goto('/ja-JP/about', { waitUntil: 'domcontentloaded' })
+  // Finish font downloads before navigating away. Firefox reports canceled
+  // font requests as console errors, unrelated to database cache behavior.
+  await page.evaluate(() => document.fonts.ready.then(() => undefined))
   await page.evaluate(async ({ cacheName, opfsDirectories }) => {
     await caches.delete(cacheName)
     const storage = navigator.storage as StorageManager & {
@@ -90,9 +93,9 @@ async function waitForCachedAsset(
     .toBe(true)
 }
 
-async function readOpfsManifest(page: Page, segments: string[]) {
+async function readOpfsManifest(page: Page, assetName: string) {
   return await page.evaluate(
-    async ({ directory, segments }) => {
+    async ({ directory, assetName }) => {
       const storage = navigator.storage as StorageManager & {
         getDirectory?: () => Promise<FileSystemDirectoryHandle>
       }
@@ -100,13 +103,25 @@ async function readOpfsManifest(page: Page, segments: string[]) {
       if (!root) return null
 
       try {
-        let dir = await root.getDirectoryHandle(directory)
-        for (const segment of segments.slice(0, -1)) {
-          dir = await dir.getDirectoryHandle(segment)
+        // Manifests can be nested beneath a release-specific directory. Find
+        // the database by its recorded asset URL rather than a legacy path.
+        async function findManifest(dir: FileSystemDirectoryHandle): Promise<OpfsManifest | null> {
+          const entries = (dir as FileSystemDirectoryHandle & {
+            values: () => AsyncIterable<FileSystemHandle>
+          }).values()
+          for await (const entry of entries) {
+            if (entry.kind === 'directory') {
+              const manifest = await findManifest(entry as FileSystemDirectoryHandle)
+              if (manifest) return manifest
+            } else if (entry.name.endsWith('.json')) {
+              const file = await (entry as FileSystemFileHandle).getFile()
+              const manifest = JSON.parse(await file.text()) as OpfsManifest
+              if (new URL(manifest.assetUrl).pathname.endsWith(`/${assetName}`)) return manifest
+            }
+          }
+          return null
         }
-        const fileName = segments[segments.length - 1]
-        const file = await (await dir.getFileHandle(fileName)).getFile()
-        return JSON.parse(await file.text()) as OpfsManifest
+        return await findManifest(await root.getDirectoryHandle(directory))
       } catch (error) {
         if (error instanceof DOMException && error.name === 'NotFoundError') {
           return null
@@ -114,7 +129,7 @@ async function readOpfsManifest(page: Page, segments: string[]) {
         throw error
       }
     },
-    { directory: OPFS_MANIFEST_DIRECTORY, segments },
+    { directory: OPFS_MANIFEST_DIRECTORY, assetName },
   )
 }
 
@@ -130,14 +145,15 @@ function configureSpaCacheTestTimeout(testInfo: {
   testInfo.setTimeout(180_000)
 }
 
-test('search-spa renders results in browser', async ({ page }) => {
-  await page.goto('/ja-JP/search-spa', { waitUntil: 'domcontentloaded' })
-
+test('search-spa renders results in browser', async ({ page, browserName }) => {
+  // WebKit uses the supported SQL.js fallback instead of the OPFS backend.
+  const wasmAssetName = browserName === 'webkit' ? 'sql-wasm.wasm' : 'sqlite3.wasm'
+  const idsAssetName = browserName === 'webkit' ? 'idsfind.db' : 'idsfind-fts5.db'
   const sawWasm = page.waitForRequest((req) =>
-    req.url().includes('/assets/sqlite3.wasm'),
+    assetNameFromRequest(req) === wasmAssetName,
   )
   const sawIdsDb = page.waitForRequest((req) =>
-    req.url().includes('/assets/idsfind-fts5.db'),
+    assetNameFromRequest(req) === idsAssetName,
   )
   await page.goto('/ja-JP/search-spa?query=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
@@ -348,11 +364,9 @@ test('mojidata client-data reuses cached wasm and DB after reload', async ({
   await waitForCachedAsset(page, 'sqlite3.wasm', loadTimeout)
   await waitForCachedAsset(page, 'moji.db', loadTimeout)
 
-  const firstManifest = await readOpfsManifest(page, [
-    'mojidata',
-    'moji.db.json',
-  ])
+  const firstManifest = await readOpfsManifest(page, 'moji.db')
   expect(firstManifest).not.toBeNull()
+  await page.evaluate(() => document.fonts.ready.then(() => undefined))
 
   const reloadAssets = collectAssetRequests(page, ['moji.db'])
   await page.reload({ waitUntil: 'domcontentloaded' })
@@ -363,7 +377,7 @@ test('mojidata client-data reuses cached wasm and DB after reload', async ({
 
   expect(reloadAssets.urls).toEqual([])
   await expect(
-    readOpfsManifest(page, ['mojidata', 'moji.db.json']),
+    readOpfsManifest(page, 'moji.db'),
   ).resolves.toEqual(firstManifest)
 })
 
@@ -380,17 +394,14 @@ test('canonical mojidata can render client-data mode in browser', async ({
   })
 })
 
-test('idsfind-spa renders results in browser', async ({ page }) => {
-  page.on('pageerror', (err) => console.log('[pageerror]', err))
-  page.on('console', (msg) => console.log('[console]', msg.type(), msg.text()))
-
-  await page.goto('/ja-JP/idsfind-spa', { waitUntil: 'domcontentloaded' })
-
+test('idsfind-spa renders results in browser', async ({ page, browserName }) => {
+  const wasmAssetName = browserName === 'webkit' ? 'sql-wasm.wasm' : 'sqlite3.wasm'
+  const idsAssetName = browserName === 'webkit' ? 'idsfind.db' : 'idsfind-fts5.db'
   const sawWasm = page.waitForRequest((req) =>
-    req.url().includes('/assets/sqlite3.wasm'),
+    assetNameFromRequest(req) === wasmAssetName,
   )
   const sawIdsDb = page.waitForRequest((req) =>
-    req.url().includes('/assets/idsfind-fts5.db'),
+    assetNameFromRequest(req) === idsAssetName,
   )
   await page.goto('/ja-JP/idsfind-spa?whole=%E6%BC%A2', {
     waitUntil: 'domcontentloaded',
@@ -476,11 +487,9 @@ test('idsfind client-data reuses cached wasm and DB after reload', async ({
     expect.arrayContaining(['sqlite3.wasm', 'idsfind-fts5.db']),
   )
 
-  const firstManifest = await readOpfsManifest(page, [
-    'mojidata',
-    'idsfind.db.json',
-  ])
+  const firstManifest = await readOpfsManifest(page, 'idsfind-fts5.db')
   expect(firstManifest).not.toBeNull()
+  await page.evaluate(() => document.fonts.ready.then(() => undefined))
 
   const reloadAssets = collectAssetRequests(page, [
     'idsfind-fts5.db',
@@ -493,7 +502,7 @@ test('idsfind client-data reuses cached wasm and DB after reload', async ({
 
   expect(reloadAssets.urls).toEqual([])
   await expect(
-    readOpfsManifest(page, ['mojidata', 'idsfind.db.json']),
+    readOpfsManifest(page, 'idsfind-fts5.db'),
   ).resolves.toEqual(firstManifest)
 })
 

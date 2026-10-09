@@ -53,7 +53,10 @@ export default function MultiInput(props: MultiInputProps) {
               textStyles.placeholderMuted,
               styles.input,
             )}
-            name={value === '' ? undefined : name}
+            // Keep the empty input successful for native form submissions.
+            // Without JavaScript, typing cannot update its name attribute.
+            // Search parameter parsing already ignores submitted empty values.
+            name={name}
             value={value}
             placeholder={placeholder?.(index)}
             onChange={(e) => {

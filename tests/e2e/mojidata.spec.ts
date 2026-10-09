@@ -1,5 +1,6 @@
 import type { BrowserContext } from '@playwright/test'
 import { attachBrowserErrorChecks, expect, test } from './fixtures'
+import { dismissPreview } from './workflows'
 
 async function newCheckedPage(context: BrowserContext) {
   const page = await context.newPage()
@@ -367,7 +368,7 @@ test('mojidata json is visible on initial render', async ({ page }) => {
   ).toBeVisible()
 })
 
-test('mojidata defers offscreen variant glyph images until scrolled', async ({
+test('mojidata loads initial variant glyphs and defers extra glyphs until expanded', async ({
   browser,
 }) => {
   const context = await browser.newContext({
@@ -379,36 +380,36 @@ test('mojidata defers offscreen variant glyph images until scrolled', async ({
   await page.goto('/ja-JP/mojidata/%E6%B0%B4', {
     waitUntil: 'domcontentloaded',
   })
+  await dismissPreview(page)
 
   const variants = page.getByTestId('mojidata-variants-comparison')
   await expect(variants).toBeVisible()
-  await expect(
-    variants.locator('img[src^="/api/glyphwiki/svg/"]'),
-  ).toHaveCount(0)
-  await expect(
-    variants.getByTestId('deferred-char-fallback').first(),
-  ).toHaveCSS('opacity', '0.42')
+  await expect(variants.locator('img[src^="/api/glyphwiki/svg/"]')).toHaveCount(6)
 
-  await page.locator('#Variants').scrollIntoViewIfNeeded()
+  const extra = page.getByTestId('mojidata-deferred-variants-view')
+  await expect(extra.locator('img')).toHaveCount(0)
+  await extra.getByRole('button').click()
+  const extraVariants = extra.getByTestId('mojidata-variants-comparison')
+  await extraVariants.locator('figure').first().scrollIntoViewIfNeeded()
 
   await expect
     .poll(async () => {
-      return await variants.locator('img[src^="/api/glyphwiki/svg/"]').count()
+      return await extraVariants.locator('img[src^="/api/glyphwiki/svg/"]').count()
     })
     .toBeGreaterThan(0)
   await expect
     .poll(async () => {
-      return await variants
+      return await extraVariants
         .getByTestId('deferred-char-image')
         .first()
         .getAttribute('data-loaded')
     })
     .toBe('true')
   await expect(
-    variants.getByTestId('deferred-char-fallback').first(),
+    extraVariants.getByTestId('deferred-char-fallback').first(),
   ).toHaveCSS('opacity', '0')
   await expect(
-    variants.getByTestId('deferred-char-image-img').first(),
+    extraVariants.getByTestId('deferred-char-image-img').first(),
   ).toHaveCSS('z-index', '1')
 
   assertNoBrowserErrors()
