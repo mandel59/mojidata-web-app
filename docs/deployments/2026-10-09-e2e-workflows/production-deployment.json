@@ -1,0 +1,17 @@
+{
+  "id": "c0bd6d96-8c8a-46e8-83a5-f98be8c68fc2",
+  "source": "wrangler",
+  "strategy": "percentage",
+  "author_email": "mandel59@gmail.com",
+  "annotations": {
+    "workers/message": "Deploy E2E workflow fixes from 7c08928c",
+    "workers/triggered_by": "deployment"
+  },
+  "versions": [
+    {
+      "version_id": "b26f13c3-3785-4ae4-a3e9-4a28aadaf68c",
+      "percentage": 100
+    }
+  ],
+  "created_on": "2026-10-09T11:54:29.330406Z"
+}

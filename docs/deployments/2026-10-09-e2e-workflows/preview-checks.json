@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-09T11:53:48.796Z",
+  "baseUrl": "https://e2e-20261009-mojidata-web-app.mandel59.workers.dev",
+  "checks": [
+    "client-data lowercase ucs condition returns \u65e5",
+    "client-data IDS form with empty whole/query returns \u660e",
+    "client-data detail navigation returns matching JSON",
+    "no-JavaScript search submission renders visible server results",
+    "no-JavaScript IDS input is submitted and renders visible server results",
+    "no-JavaScript character detail renders visible data and JSON"
+  ],
+  "errors": [],
+  "serverDocuments": [
+    "https://e2e-20261009-mojidata-web-app.mandel59.workers.dev/ja-JP/search",
+    "https://e2e-20261009-mojidata-web-app.mandel59.workers.dev/search?query=%EF%BC%9A%E6%97%A5+ucs%3D65E5",
+    "https://e2e-20261009-mojidata-web-app.mandel59.workers.dev/ja-JP/idsfind",
+    "https://e2e-20261009-mojidata-web-app.mandel59.workers.dev/idsfind?ids=%E2%BF%B0%E6%97%A5%E6%9C%88&whole=&query=U%2B660E",
+    "https://e2e-20261009-mojidata-web-app.mandel59.workers.dev/mojidata/%E6%98%8E"
+  ]
+}

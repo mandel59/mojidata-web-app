@@ -1,0 +1,40 @@
+{
+  "sourceCommit": "7c08928cb054ae2f3cbc799d5223d158d8a746f0",
+  "rollbackWorkerVersion": "9d6a3b45-8952-4038-9520-f65628776b91",
+  "workerVersion": "b26f13c3-3785-4ae4-a3e9-4a28aadaf68c",
+  "spaRelease": "r20261007-license-notices",
+  "assetBase": "https://mojidata-spa-assets.mandel59.workers.dev/releases/r20261007-license-notices",
+  "buildId": "lsgS3e0lQQyUyEne-ahNb",
+  "staticCacheEntriesPopulated": 10,
+  "validation": {
+    "chromiumFunctional": {
+      "passed": 152,
+      "skipped": 2
+    },
+    "browserRegressionRecheck": {
+      "passed": 29,
+      "skipped": 4,
+      "repeatEach": 2
+    },
+    "lint": "passed",
+    "typeCheck": "passed",
+    "openNextBuild": "passed",
+    "privateGlyphAssetGuards": "passed",
+    "buildOnlyLoopbackApiUrlInDeploymentJavaScript": false,
+    "previewSmoke": {
+      "passed": 6,
+      "browserErrors": 0
+    },
+    "productionSmoke": {
+      "passed": 6,
+      "browserErrors": 0
+    }
+  },
+  "fingerprints": {
+    "wrangler.jsonc": "50bc35f489eda9486f1353d49285cae055e903a7d7e52c713e9db55972fe83a2",
+    "package.json": "cf8ea60657fbb2d6ffeee6a120c3d7a4270ca33e8bfde13bf47f0edda5eaa517",
+    "package-lock.json": "6c34822d333e524c6c477b2cfa467dd0167684fe795e4b16a20ca6f91a2863a0",
+    "src/search/parseQuery.ts": "ddd807ac1dd53a977d99cd838ef71f568cddc423f9648c1d31a4529cf36c4fbf",
+    "src/components/MultiInput.tsx": "47dbd55968946503a096272a3ad4a9a528eea9004177fb13394c9feb942d3af8"
+  }
+}
