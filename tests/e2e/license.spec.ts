@@ -12,7 +12,25 @@ test('license page displays bundled original font and database notices', async (
   const cjk = page.locator('section').filter({has:page.getByRole('heading',{name:'CJK Symbols',exact:true})})
   await cjk.locator('summary').first().click()
   await expect(cjk.locator('pre').first()).toContainText('SIL OPEN FONT LICENSE')
-  await expect(page.getByRole('heading',{name:'@mandel59/mojidata 1.9.2',exact:true})).toBeVisible()
+  for (const name of ['mojidata', 'idsdb', 'idsdb-fts5']) {
+    const directory = `node_modules/@mandel59/${name}`
+    const identity = JSON.parse(await readFile(`${directory}/package.json`, 'utf8'))
+    const section = page.locator('section').filter({
+      has: page.getByRole('heading', {name: `${identity.name} ${identity.version}`, exact: true}),
+    })
+    await expect(section).toBeVisible()
+    const babelStone = section.locator('details').filter({
+      has: page.locator('summary', {hasText: /^licenses\/babelstone-ids\.txt$/}),
+    })
+    await babelStone.locator('summary').click()
+    const expectedNotice = await readFile(`${directory}/licenses/babelstone-ids.txt`, 'utf8')
+    await expect(babelStone.locator('pre')).toHaveText(expectedNotice)
+    await expect(babelStone.locator('pre')).toContainText('Kawabata Taichi')
+    await expect(babelStone.locator('pre')).toContainText('Michel Mariani')
+    const response = await request.get(`/assets/${name}/licenses/babelstone-ids.txt`)
+    expect(response.status()).toBe(200)
+    expect(await response.text()).toBe(expectedNotice)
+  }
   const glyphWiki = page.locator('section').filter({has:page.getByRole('heading',{name:'GlyphWiki',exact:true})})
   await glyphWiki.locator('summary').first().click()
   await expect(glyphWiki.locator('pre')).toHaveText(await readFile('src/licensing/glyphwiki/license.txt', 'utf8'))
