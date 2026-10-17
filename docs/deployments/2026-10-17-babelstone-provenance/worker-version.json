@@ -1,0 +1,95 @@
+{
+  "id": "52631838-7415-4906-82c9-161ac59b19ba",
+  "number": 33,
+  "metadata": {
+    "created_on": "2026-10-17T12:13:55.926098Z",
+    "source": "wrangler",
+    "author_id": "1251ed40ec34d302ef2ebd23321c8e47",
+    "author_email": "mandel59@gmail.com",
+    "has_preview": true
+  },
+  "annotations": {
+    "workers/alias": "babelstone-20261017",
+    "workers/message": "mojidata-provenance-8facdfb4",
+    "workers/triggered_by": "version_upload"
+  },
+  "resources": {
+    "script": {
+      "etag": "f903b1450d056933bff87b28cc09b5e5b29f8a10fd40184adea3d766ea8cfe69",
+      "handlers": [
+        "fetch"
+      ],
+      "named_handlers": [
+        {
+          "name": "BucketCachePurge",
+          "handlers": [
+            "class"
+          ]
+        },
+        {
+          "name": "DOQueueHandler",
+          "handlers": [
+            "class"
+          ]
+        },
+        {
+          "name": "DOShardedTagCache",
+          "handlers": [
+            "class"
+          ]
+        }
+      ],
+      "last_deployed_from": "wrangler"
+    },
+    "script_runtime": {
+      "assets": {
+        "serve_directly": true,
+        "raw_run_worker_first": false,
+        "base_path": "/"
+      },
+      "compatibility_date": "2026-05-01",
+      "compatibility_flags": [
+        "nodejs_compat",
+        "global_fetch_strictly_public"
+      ],
+      "usage_model": "standard"
+    },
+    "bindings": [
+      {
+        "name": "ASSETS",
+        "type": "assets"
+      },
+      {
+        "name": "BOT_DELAY_DISABLE",
+        "text": "1",
+        "type": "plain_text"
+      },
+      {
+        "bucket_name": "mojidata-glyph-font-assets",
+        "name": "GLYPH_FONT_ASSETS",
+        "type": "r2_bucket"
+      },
+      {
+        "name": "MOJIDATA_API_BASE_URL",
+        "text": "https://mojidata-api-d1.mandel59.workers.dev/",
+        "type": "plain_text"
+      },
+      {
+        "bucket_name": "mojidata-web-app-opennext-cache",
+        "name": "NEXT_INC_CACHE_R2_BUCKET",
+        "type": "r2_bucket"
+      },
+      {
+        "name": "NEXT_INC_CACHE_R2_PREFIX",
+        "text": "mojidata-web-app-r20261005-api310",
+        "type": "plain_text"
+      },
+      {
+        "environment": "production",
+        "name": "WORKER_SELF_REFERENCE",
+        "service": "mojidata-web-app",
+        "type": "service"
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-10-17T12:13:42.172Z",
+  "sourceCommit": "8facdfb484d37d15a4200ca6950617f2c26ffb76",
+  "rollbackWorkerVersion": "b26f13c3-3785-4ae4-a3e9-4a28aadaf68c",
+  "spaRelease": "r20261017-babelstone-provenance",
+  "buildId": "5RuDOIHlCSkHbR4LILUUO",
+  "validation": {
+    "typeCheck": "passed",
+    "lint": "passed",
+    "releaseAssetTests": "passed",
+    "localChromiumLicenseTest": "passed",
+    "openNextBuild": "passed",
+    "privateGlyphAssetGuards": "passed",
+    "buildOnlyLoopbackApiUrlInDeploymentJavaScript": false,
+    "databaseBytesUnchanged": true,
+    "remoteD1Requests": 0,
+    "previewStaticChecks": {
+      "passed": 17,
+      "failed": 0
+    },
+    "previewChromiumLicenseTest": "passed",
+    "productionStaticChecks": {
+      "passed": 17,
+      "failed": 0
+    },
+    "productionChromiumLicenseTest": "passed",
+    "remoteBrowserNetworking": "Playwright test processes used IPv4-only DNS lookups to avoid an unreachable local IPv6 path. Deployment code and network settings were unchanged."
+  },
+  "fingerprints": {
+    "package.json": "d761e5de1120eaecd819a1e194ccd8d2d174d308af95d82f3bab74c8aa7b50e5",
+    "package-lock.json": "740b619eda002003ab534161a957004d7e01936f3c33bbd206cc7067ee7384f8",
+    "wrangler.jsonc": "50bc35f489eda9486f1353d49285cae055e903a7d7e52c713e9db55972fe83a2"
+  },
+  "databaseHashes": {
+    "mojidata/dist/moji.db": "c8cd43031d6a48bde6b131f0fd0fb778301627846c4b65ff038937884c21ea6b",
+    "idsdb/idsfind.db": "3bd624ad11f27c59f1ff0bd894cc9eaa8b4aa8d86524a8be69d81ac98095a47d",
+    "idsdb-fts5/idsfind.db": "774204e4ec03bcd713fa744e882a8ad725067fe53cbb97e3bca913fecd825db3"
+  },
+  "workerVersion": "52631838-7415-4906-82c9-161ac59b19ba",
+  "preview": "https://babelstone-20261017-mojidata-web-app.mandel59.workers.dev",
+  "staticCacheEntriesPopulated": 10,
+  "deploymentId": "bdcb0380-36ac-410e-b16b-b50c5f76f5f0",
+  "productionUrl": "https://mojidata.ryusei.dev/",
+  "productionTrafficPercent": 100
+}

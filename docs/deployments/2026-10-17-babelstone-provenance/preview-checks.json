@@ -1,0 +1,117 @@
+{
+  "checkedAt": "2026-10-17T12:18:21.394Z",
+  "baseUrl": "https://babelstone-20261017-mojidata-web-app.mandel59.workers.dev",
+  "release": "r20261017-babelstone-provenance",
+  "checks": [
+    {
+      "path": "/ja-JP/license",
+      "status": 200,
+      "packagesAndContributors": true
+    },
+    {
+      "path": "/en-US/license",
+      "status": 200,
+      "packagesAndContributors": true
+    },
+    {
+      "path": "/assets/mojidata/licenses/babelstone-ids.txt",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/mojidata/licenses/babelstone-ids.txt.br",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/mojidata/licenses/babelstone-ids.txt.br",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/mojidata/licenses/babelstone-ids.txt.br",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/mojidata/licenses/babelstone-ids.txt.gz",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/mojidata/licenses/babelstone-ids.txt.gz",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/idsdb/licenses/babelstone-ids.txt",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsdb/licenses/babelstone-ids.txt.br",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/idsdb/licenses/babelstone-ids.txt.br",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsdb/licenses/babelstone-ids.txt.br",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/idsdb/licenses/babelstone-ids.txt.gz",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsdb/licenses/babelstone-ids.txt.gz",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/idsdb-fts5/licenses/babelstone-ids.txt",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsdb-fts5/licenses/babelstone-ids.txt.br",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/idsdb-fts5/licenses/babelstone-ids.txt.br",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsdb-fts5/licenses/babelstone-ids.txt.br",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/idsdb-fts5/licenses/babelstone-ids.txt.gz",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsdb-fts5/licenses/babelstone-ids.txt.gz",
+      "decodedSha256": "9a06ba3d08893f98f3ab231225c923718a136f50ed0a4258b6013161647b54f8"
+    },
+    {
+      "path": "/assets/moji.db",
+      "method": "HEAD",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/moji.db.br",
+      "rawRangeStatus": 206,
+      "rawByteLength": 102735872
+    },
+    {
+      "path": "/assets/idsfind.db",
+      "method": "HEAD",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsfind.db.br",
+      "rawRangeStatus": 206,
+      "rawByteLength": 31506432
+    },
+    {
+      "path": "/assets/idsfind-fts5.db",
+      "method": "HEAD",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/idsfind-fts5.db.br",
+      "rawRangeStatus": 206,
+      "rawByteLength": 31440896
+    },
+    {
+      "path": "/assets/sqlite3.wasm",
+      "method": "HEAD",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/sqlite3.wasm.br",
+      "rawRangeStatus": 206,
+      "rawByteLength": 868907
+    },
+    {
+      "path": "/assets/sql-wasm.wasm",
+      "method": "HEAD",
+      "status": 200,
+      "finalUrl": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/assets/sql-wasm.wasm.br",
+      "rawRangeStatus": 206,
+      "rawByteLength": 658410
+    },
+    {
+      "url": "https://pub-71ea5f978f41419c8fbd653a44326929.r2.dev/releases/r20261017-babelstone-provenance/manifest.json",
+      "sha256": "eca07c8953e9f66b4ce9ce02a73073f2dd2a8e8d845d6c39f23d7fbf04819ea0",
+      "status": 200
+    }
+  ],
+  "remoteD1Requests": 0
+}

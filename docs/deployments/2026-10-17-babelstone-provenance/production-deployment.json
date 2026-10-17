@@ -1,0 +1,17 @@
+{
+  "id": "bdcb0380-36ac-410e-b16b-b50c5f76f5f0",
+  "source": "wrangler",
+  "strategy": "percentage",
+  "author_email": "mandel59@gmail.com",
+  "annotations": {
+    "workers/message": "Deploy verified Mojidata provenance upgrade from 8facdfb4",
+    "workers/triggered_by": "deployment"
+  },
+  "versions": [
+    {
+      "version_id": "52631838-7415-4906-82c9-161ac59b19ba",
+      "percentage": 100
+    }
+  ],
+  "created_on": "2026-10-17T12:22:07.676945Z"
+}
