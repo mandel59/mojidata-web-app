@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.operatorGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
