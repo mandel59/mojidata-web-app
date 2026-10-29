@@ -16,6 +16,7 @@ import dividerStyles from './SectionDivider.module.css'
 import surfaceStyles from './Surface.module.css'
 import styles from './SearchFormPanel.module.css'
 import textStyles from './Text.module.css'
+import IdsOperatorPicker from './IdsOperatorPicker'
 
 export interface IdsFinderProps {
   lang: Language
@@ -31,7 +32,6 @@ export default function IdsFinder(props: IdsFinderProps) {
   const [ids, setIds] = useState<string[]>(initialIds)
   const [whole, setWhole] = useState<string>(initialWhole)
   const [query, setQuery] = useState<string>(initialQuery)
-  const [showHelp, setShowHelp] = useState(false)
   const buildExampleHref = (paramsUpdater: (params: URLSearchParams) => void) => {
     const params = new URLSearchParams(searchParams.toString())
     params.delete('ids')
@@ -111,30 +111,9 @@ export default function IdsFinder(props: IdsFinderProps) {
                 </Link>
               </div>
             </div>
-            <div className={styles.helpTrigger}>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowHelp(true)}
-              >
-                {getText('list-of-ids-operators.summary', lang)}
-              </Button>
+            <div>
+              <IdsOperatorPicker lang={lang} />
             </div>
-            <Modal
-              open={showHelp}
-              onClose={() => setShowHelp(false)}
-              title={getText('list-of-ids-operators.summary', lang)}
-            >
-              <dl>
-                <dt>{getText('ids-unary-operators.dt', lang)}</dt>
-                <dd>〾↔↷</dd>
-                <dt>{getText('ids-binary-operators.dt', lang)}</dt>
-                <dd>⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻</dd>
-                <dt>{getText('ids-ternary-operators.dt', lang)}</dt>
-                <dd>⿲⿳</dd>
-              </dl>
-            </Modal>
             <div key="ids" className={styles.section}>
               <label className={styles.label}>
                 {getText('ids-multiple-sequences-can-be-entered.label', lang)}

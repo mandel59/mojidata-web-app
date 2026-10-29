@@ -102,6 +102,40 @@ export const translationEnUs: Translation = {
   'ids-unary-operators.dt': 'IDS Unary Operators',
   'ids-binary-operators.dt': 'IDS Binary Operators',
   'ids-ternary-operators.dt': 'IDS Ternary Operators',
+  'ids-operator-picker': 'IDS Operator Easy Input',
+  'ids-operator-picker.show.button': 'Show IDS Operator Easy Input',
+  'ids-operator-picker.hide.button': 'Hide IDS Operator Easy Input',
+  'ids-operator.left-to-right':
+    'Ideographic description character left to right',
+  'ids-operator.above-to-below':
+    'Ideographic description character above to below',
+  'ids-operator.left-to-middle-and-right':
+    'Ideographic description character left to middle and right',
+  'ids-operator.above-to-middle-and-below':
+    'Ideographic description character above to middle and below',
+  'ids-operator.full-surround':
+    'Ideographic description character full surround',
+  'ids-operator.surround-from-above':
+    'Ideographic description character surround from above',
+  'ids-operator.surround-from-below':
+    'Ideographic description character surround from below',
+  'ids-operator.surround-from-left':
+    'Ideographic description character surround from left',
+  'ids-operator.surround-from-upper-left':
+    'Ideographic description character surround from upper left',
+  'ids-operator.surround-from-upper-right':
+    'Ideographic description character surround from upper right',
+  'ids-operator.surround-from-lower-left':
+    'Ideographic description character surround from lower left',
+  'ids-operator.overlaid': 'Ideographic description character overlaid',
+  'ids-operator.surround-from-right':
+    'Ideographic description character surround from right',
+  'ids-operator.surround-from-lower-right':
+    'Ideographic description character surround from lower right',
+  'ids-operator.horizontal-reflection':
+    'Ideographic description character horizontal reflection',
+  'ids-operator.rotation': 'Ideographic description character rotation',
+  'ids-operator.subtraction': 'Ideographic description character subtraction',
   'summary.unicode.dt': 'Unicode',
   'summary.rs-index.dt': 'RS Index',
   'summary.total-strokes.dt': 'Total Strokes',

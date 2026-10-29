@@ -16,6 +16,7 @@ import surfaceStyles from './Surface.module.css'
 import styles from './SearchFormPanel.module.css'
 import tableStyles from './DataTable.module.css'
 import textStyles from './Text.module.css'
+import IdsOperatorPicker from './IdsOperatorPicker'
 
 export interface MojidataSearchFormProps {
   lang: Language
@@ -28,6 +29,7 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
   const initialQuery = searchParams.get('query') ?? ''
   const [query, setQuery] = useState<string>(initialQuery)
   const [showHelp, setShowHelp] = useState(false)
+  const [showIdsOperatorPicker, setShowIdsOperatorPicker] = useState(false)
   const [helpTab, setHelpTab] = useState<
     | 'ids'
     | 'reading'
@@ -107,6 +109,15 @@ export default function MojidataSearchForm(props: MojidataSearchFormProps) {
               >
                 {getText('usage.summary', lang)}
               </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowIdsOperatorPicker(!showIdsOperatorPicker)}
+              >
+                {getText(showIdsOperatorPicker ? 'ids-operator-picker.hide.button' : 'ids-operator-picker.show.button', lang)}
+              </Button>
+              {showIdsOperatorPicker && <IdsOperatorPicker lang={lang} showCaption={false} />}
             </div>
             <Modal
               open={showHelp}
