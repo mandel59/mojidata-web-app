@@ -34,6 +34,11 @@ export function AboutJaJp() {
       <p>
         Mojidata Web
         Appを使うには、以下のオープンソースフォントがインストールされている必要があります。
+        導入方法は
+        <ConditionalLink href="https://github.com/mandel59/mojidata-web-app/blob/main/docs/fonts.md">
+          フォントのインストール手順
+        </ConditionalLink>
+        を参照してください。
       </p>
       <ul>
         <li>

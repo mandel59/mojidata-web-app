@@ -34,6 +34,11 @@ export function AboutEnUs() {
       <hr />
       <p>
         The Mojidata Web App requires the following open-source fonts installed:
+        see the{' '}
+        <ConditionalLink href="https://github.com/mandel59/mojidata-web-app/blob/main/docs/fonts.md">
+          font installation guide
+        </ConditionalLink>{' '}
+        for setup steps.
       </p>
       <ul>
         <li>
