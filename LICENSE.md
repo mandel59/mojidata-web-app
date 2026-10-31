@@ -4,7 +4,7 @@ The source code of Mojidata Web App is available under the MIT license.
 
 ## Mojidata Web App License
 
-Copyright (c) 2023-2024 Ryusei Yamaguchi
+Copyright (c) 2023-2026 Ryusei Yamaguchi and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
